@@ -1,0 +1,21 @@
+
+
+.profiles{
+    padding-top:10%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+}
+
+.andrew{
+    padding:5%;
+}
+.benson{
+    padding:5%;
+}
+.tim{
+    padding:5%;
+}

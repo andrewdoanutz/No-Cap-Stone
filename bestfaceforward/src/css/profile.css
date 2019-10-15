@@ -1,0 +1,30 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+
+.info{
+    text-align: left;
+    font: 1em "Raleway", sans-serif; 
+    background:#fffdf9;
+    padding: 1%;
+    border:solid;
+    border-color: #b6e3ff;
+    border-width: 0px;
+    border-radius: 1%;
+    width:100%
+
+}
+.category{
+    text-decoration: underline;
+    font-weight: bold;
+}
+.image{
+    max-width: 250px;
+    max-height: 250px;
+    border:solid;
+    border-color: #b6e3ff;
+    border-width: 2px;
+    border-radius: 1%;
+}
+.cont{
+    max-width: 255px;
+}
