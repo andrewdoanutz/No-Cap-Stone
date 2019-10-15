@@ -1,0 +1,52 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Raleway");
+
+.navbar {
+  z-index: 10;
+  width: 100%;
+  background: #fffdf9;
+  height: 7%;
+}
+
+nav .navbar {
+  margin: 0;
+  
+}
+.navbar-brand {
+  font: 1.4em "Raleway", sans-serif;
+  letter-spacing: 1.5px;
+  color: #333;
+  text-transform: uppercase;
+  
+}
+.navbar-brand:hover {
+  cursor: pointer;
+  color: #01579B !important;
+}
+
+.collapse a {
+  text-transform: uppercase;
+  font: 1.1em "Raleway", sans-serif;
+  color: #333;
+}
+.collapse a:hover {
+  cursor: pointer;
+  color: #01579B !important;
+}
+
+.navImage{
+  float: left;
+  padding-bottom: 10px;
+  padding-right:5px;
+  height: 35px;
+  width: 30px;
+  background-color:  transparent;
+  transform: scale(1.2);
+  z-index: 0;
+}
+  
+
+.brandbox{
+  z-index: 10;
+  width:500px;
+}

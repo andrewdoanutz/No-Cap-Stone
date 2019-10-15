@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { BrowserRouter, Route} from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import NavBar from './components/navbar';
+import Login from './components/login.js';
+import About from './components/aboutus'
+import RTSA from './components/RTSA'
+import Video from './components/video'
+import S2TP from './components/S2TP'
+import S2TRT from './components/S2TRT'
+import Display from './components/display'
+import './css/App.css';
+
+class App extends Component {
+  
+  render() {
+    return (
+      <div>
+      <BrowserRouter>
+        <div>
+          <NavBar/>
+          <Route exact path="/RTSA" component={RTSA} />
+          <Route exact path="/video" component={Video} />
+          <Route exact path="/S2TP" component={S2TP} />
+          <Route exact path="/S2TRT" component={S2TRT} />
+          <Route exact path="/display" component={Display} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/login" component={Login} />
+        </div>
+      </BrowserRouter>
+       </div>
+    );
+  }
 }
 
 export default App;
