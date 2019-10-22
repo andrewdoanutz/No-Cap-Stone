@@ -13,7 +13,7 @@ export default class NavBar extends React.Component {
         >
           <div className="container">
             <div className="navbar-header">
-              <NavLink to="/" className="navbar-brand">
+              <NavLink to="/login" className="navbar-brand">
                 <img className="navImage" src={bro1}/>
                 <div className="brandbox">
                 <strong>
@@ -42,21 +42,6 @@ export default class NavBar extends React.Component {
                 </li>
                 <li>
                   <NavLink to="/about">About Us</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/RTSA">RTSA</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/video">Video</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/S2TP">S2TP</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/S2TRT">S2TRT</NavLink>
-                </li>
-                <li>
-                  <NavLink to="/display">Display</NavLink>
                 </li>
               </ul>
             </div>
