@@ -4,10 +4,10 @@ export default class MeetingForm extends Component {
 
     //save state - track meeting name
     constructor(props){
-        super(props);
-        this.state = {
-            meeting: ""
-        };
+      super(props);
+      this.state = {
+          meeting: ""
+      };
     }
     onChange = e =>{
         let{name, value} = e.target;
@@ -16,6 +16,7 @@ export default class MeetingForm extends Component {
     onSubmit =e =>{
       e.preventDefault();
       console.log("Submit", this.state.meeting);
+      this.props.selectMeeting(this.state.meeting);
       this.setState({meeting:""});
     };
 
@@ -28,7 +29,7 @@ export default class MeetingForm extends Component {
                     <input
                         placeholder="Meeting Name"
                         name = "meeting"
-                        value = {this.state.meeting} // grab state
+                        defaultValue = {this.state.meeting} // grab state
                     />
                     <input type="submit" value="Join Meeting" />
                 </form>
