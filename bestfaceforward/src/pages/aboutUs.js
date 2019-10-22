@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Profile from './profile'
+import Profile from '../components/profile'
 
 
 import "../css/about.css";
