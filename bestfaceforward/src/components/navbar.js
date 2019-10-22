@@ -21,8 +21,8 @@ export default class NavBar extends React.Component {
                 </strong>
                 </div>
               </NavLink>
-              
-                
+
+
               <button
                 type="button"
                 className="navbar-toggle collapsed"

@@ -5,7 +5,7 @@ const Video = () => {
   return (
     <div className="app">
       <header>
-        <h1>Video Chat</h1>
+        <h1>Meeting</h1>
       </header>
       <main>
         <VideoChat />
