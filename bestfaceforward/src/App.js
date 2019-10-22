@@ -10,6 +10,7 @@ import S2TP from './components/S2TP'
 import S2TRT from './components/S2TRT'
 import Display from './components/display'
 import './css/App.css';
+import AgoraRTC from 'agora-rtc-sdk'
 
 class App extends Component {
 
