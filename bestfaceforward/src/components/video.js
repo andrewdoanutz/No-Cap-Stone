@@ -1,39 +1,17 @@
 import React, { Component } from 'react'
+import VideoChat from './VideoChat';
 
-import MeetingForm from './MeetingForm'
-import Call from './Call'
-
-class Video extends Component {
-
-  //add a state for meeting name and method
-  constructor(props){
-    super(props);
-    this.state = {
-      meeting: ''
-    }
-  }
-
-  selectMeeting = meeting => {
-    this.setState({meeting});
-  };
-
-  render() {
-    return (
-      <div>
-        <div> TEST </div>
-        <div> TEST </div>
-        <div> TEST </div>
-        <div> TEST </div>
-        <div> TEST </div>
-        <div> TEST </div>
-        <div className="Video">
-          <MeetingForm selectMeeting={this.selectMeeting}/>
-          <Call meeting = {this.state.meeting}/>
-        </div>
-      </div>
-
-    );
-  }
-}
+const Video = () => {
+  return (
+    <div className="app">
+      <header>
+        <h1>Video Chat</h1>
+      </header>
+      <main>
+        <VideoChat />
+      </main>
+    </div>
+  );
+};
 
 export default Video;
