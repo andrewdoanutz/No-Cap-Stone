@@ -22,13 +22,10 @@
   color: #01579B !important;
 }
 
-.links{
-  padding-left:65%
-}
 
 .link {
   text-transform: uppercase;
-  font: 1.3em "Raleway", sans-serif;
+  font: 1.6em "Raleway", sans-serif;
   color: #333;
 }
 .link:hover {
