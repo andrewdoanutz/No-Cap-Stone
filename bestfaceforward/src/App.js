@@ -8,6 +8,7 @@ import Dash from './pages/dashboard'
 import MakeAcct from './pages/makeAcct'
 import VidCall from './pages/videoCall'
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
 
 class App extends Component {
