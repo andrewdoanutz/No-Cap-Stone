@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AgoraRTC from 'agora-rtc-sdk';
 
 //create a client
-let client = AgoraRTC.createClient({ mode: "live", codec: "h264" });
+var client = AgoraRTC.createClient({ mode: "live", codec: "h264" });
 
 //random number generation for user ID
 const USER_ID = Math.floor(Math.random() * 1000001);
@@ -69,10 +69,10 @@ export default class Call extends Component {
     client.on("stream-added", me.onStreamAdded);
     client.on("stream-subscribed", me.onRemoteClientAdded);
 
-    client.on("stream-removed", me.onStreamRemoved);
+    //client.on("stream-removed", me.onStreamRemoved);
 
-    client.on("peer-leave", me.onPeerLeave);
-  };
+    //client.on("peer-leave", me.onPeerLeave);
+   };
 
   onStreamAdded = evt => {
     let me = this;
@@ -128,38 +128,6 @@ export default class Call extends Component {
     );
   };
 
-  onStreamRemoved = evt => {
-    let me = this;
-    let stream = evt.stream;
-    if (stream) {
-      let streamId = stream.getId();
-      let { remoteStreams } = me.state;
-
-      stream.stop();
-      delete remoteStreams[streamId];
-
-      me.setState({ remoteStreams });
-
-      console.log("Remote stream is removed " + stream.getId());
-    }
-  };
-
-  onPeerLeave = evt => {
-    let me = this;
-    let stream = evt.stream;
-    if (stream) {
-      let streamId = stream.getId();
-      let { remoteStreams } = me.state;
-
-      stream.stop();
-      delete remoteStreams[streamId];
-
-      me.setState({ remoteStreams });
-
-      console.log("Remote stream is removed " + stream.getId());
-    }
-  };
-
   render() {
     return (
       <div>
@@ -171,7 +139,7 @@ export default class Call extends Component {
             <div
               key={streamId}
               id={`agora_remote ${streamId}`}
-              style={{ width: "400px", height: "400px" }}
+              style={{ width: "600px", height: "600px" }}
             />
           );
         })}

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "agora-rtc-sdk": "^2.9.0",
+    "express": "^4.17.1",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-embed-gist": "^1.0.7",
