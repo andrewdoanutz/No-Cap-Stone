@@ -2,23 +2,16 @@ import React, { Component } from 'react'
 import SpeechRecognition from 'react-speech-recognition'
 
 var ts = ""
+var translatedPhrase = ""
 class S2TRT extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      transcript: "",
-      resetTranscript: "",
-      browserSupportsSpeechRecognition: false
-    };
-  }
 
  translate(){
   console.log(`guccidog`)
-  ts = "Adjon is a human dog"
-  var googleTranslate = require('google-translate')('AIzaSyB8yZoHinIGXbAXAo92QpQib10k93xgz_Y');
+  var googleTranslate = require('google-translate')('');
   console.log(ts)
   googleTranslate.translate(ts, 'ru', function(err, translation) {
-    console.log(translation);
+    console.log(translation.translatedText);
+    translatedPhrase = translation.translatedText;
     // =>  { translatedText: 'Hallo', originalText: 'Hello', detectedSourceLanguage: 'en' }
   });
  }
@@ -49,6 +42,7 @@ class S2TRT extends Component {
         </div>
         <div>
         <button onClick={this.translate}>Translate</button>
+        <span>{translatedPhrase}</span>
         </div>
       </div>
     )
