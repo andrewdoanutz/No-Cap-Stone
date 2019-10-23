@@ -26,7 +26,35 @@ export default class RTSA extends Component {
 
 
   render() {
-    const analysis = quickstart();
+    const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
+    const { IamAuthenticator } = require('ibm-watson/auth');
+
+    const toneAnalyzer = new ToneAnalyzerV3({
+      version: '2017-09-21',
+      authenticator: new IamAuthenticator({
+        apikey: 'M0o5HbUt2oLKXBvYA2hpNeioDKY9AhLxkydJIt98vYhm',
+      }),
+      url: 'https://gateway.watsonplatform.net/tone-analyzer/api',
+    });
+
+    const text = 'Team, I know that times are tough! Product '
+      + 'sales have been disappointing for the past three '
+      + 'quarters. We have a competitive product, but we '
+      + 'need to do a better job of selling it!';
+
+    const toneParams = {
+      toneInput: { 'text': text },
+      contentType: 'application/json',
+    };
+
+    toneAnalyzer.tone(toneParams)
+      .then(toneAnalysis => {
+        console.log(JSON.stringify(toneAnalysis, null, 2));
+      })
+      .catch(err => {
+        console.log('error:', err);
+      });
+
     return (
 
       <div>
@@ -42,12 +70,28 @@ export default class RTSA extends Component {
         <div>RTSA</div>
         <div>RTSA</div>
         <div>RTSA</div>
-        //<div>analysis</div>
+        <div>{this.getSentiment()}</div>
 
       </div>
     )
   }
 }
+
+
+
+//WATSON tone analyzer API
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -61,37 +105,37 @@ export default class RTSA extends Component {
 
 
 
-
-function quickstart() {
-  // Imports the Google Cloud client library
-  const language = require('@google-cloud/language');
-
-  // Instantiates a client
-  const client = new language.LanguageServiceClient();
-
-  // The text to analyze
-  const text = 'Hello, world!';
-
-  const document = {
-    content: text,
-    type: 'PLAIN_TEXT',
-  };
-
-  // Detects the sentiment of the text
-  client.analyzeSentiment({document: document})
-   .then(results =>{
-     const sentiment = results[0].documentSentiment;
-
-
-
-  console.log(`Text: ${text}`);
-  console.log(`Sentiment score: ${sentiment.score}`);
-  console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
-   })
-   .catch(err=>{
-     console.error('ERROR',err);
-   })
-}
+//GOGOGLE CLOUD
+// function quickstart() {
+//   // Imports the Google Cloud client library
+//   const language = require('@google-cloud/language');
+//
+//   // Instantiates a client
+//   const client = new language.LanguageServiceClient();
+//
+//   // The text to analyze
+//   const text = 'Hello, world!';
+//
+//   const document = {
+//     content: text,
+//     type: 'PLAIN_TEXT',
+//   };
+//
+//   // Detects the sentiment of the text
+//   client.analyzeSentiment({document: document})
+//    .then(results =>{
+//      const sentiment = results[0].documentSentiment;
+//
+//
+//
+//   console.log(`Text: ${text}`);
+//   console.log(`Sentiment score: ${sentiment.score}`);
+//   console.log(`Sentiment magnitude: ${sentiment.magnitude}`);
+//    })
+//    .catch(err=>{
+//      console.error('ERROR',err);
+//    })
+// }
 
 //   const {Storage} = require('@google-cloud/storage');
 //
