@@ -1,12 +1,14 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import bro1 from "../images/icon.png";
-import "../css/navbar.css";
+import {Navbar, Nav} from 'react-bootstrap';
+
+import "../css/navbar.css"
 
 export default class NavBar extends React.Component {
   render() {
     return (
       <div>
+<<<<<<< HEAD
         <div
           className="navbar default-default navbar-fixed-top"
           role="navigation"
@@ -62,6 +64,26 @@ export default class NavBar extends React.Component {
             </div>
           </div>
         </div>
+=======
+        <Navbar variant="light" expand="xl" fixed="top" className="navbar">
+          <Navbar.Brand href="/login">
+            <img
+              alt=""
+              src={bro1}
+              width="50"
+              height="50"
+              className="navImage"
+            />
+            <Navbar.Text className="navbarTitle">BestFaceForward</Navbar.Text>
+          </Navbar.Brand>
+          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+            <Nav>
+              <Nav.Link href="/login" className="link">Login</Nav.Link>
+              <Nav.Link href="/about" className="link">About Us</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+>>>>>>> dev
       </div>
     );
   }

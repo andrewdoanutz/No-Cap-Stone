@@ -1,23 +1,33 @@
-.homebox{
+.homeBox{
     padding-top:10%;
     text-align: center;
     
    
 }
-
-.homehead{
+.homeHead{
     font: 2.5em "Raleway", sans-serif;
     letter-spacing: 1.5px;
     color: #333;
     text-transform: uppercase;
     font-weight: bold;
+    padding-bottom: 5%;
 }
-.hometext{
-    font-size: 18px;
+.formText{
+    font-size: 1.3em "Raleway", sans-serif;
     color: #333;
     text-align: center;
     padding-top: 1%;
-    padding-left:15%;
-    padding-right:15%;
-    padding-bottom: 3%;
+}
+.formField{
+    padding-left:38%;
+    padding-right:38%;
+}
+
+.formButton{
+    padding-top:2%;
+
+}
+
+.makeAcct{
+    font-size: 1.3em "Raleway", sans-serif;
 }

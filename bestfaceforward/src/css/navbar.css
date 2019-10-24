@@ -6,40 +6,37 @@
   width: 100%;
   background: #fffdf9;
   height: 7%;
+  margin: 0;
 }
 
-nav .navbar {
-  margin: 0;
-  
-}
-.navbar-brand {
-  font: 1.4em "Raleway", sans-serif;
+.navbarTitle{
+  font: 1.7em "Raleway", sans-serif;
   letter-spacing: 1.5px;
   color: #333;
   text-transform: uppercase;
-  
+  margin: 0;
 }
-.navbar-brand:hover {
+
+.navbarTitle:hover {
   cursor: pointer;
   color: #01579B !important;
 }
 
-.collapse a {
+
+.link {
   text-transform: uppercase;
-  font: 1.1em "Raleway", sans-serif;
+  font: 1.6em "Raleway", sans-serif;
   color: #333;
 }
-.collapse a:hover {
+.link:hover {
   cursor: pointer;
   color: #01579B !important;
 }
 
 .navImage{
   float: left;
-  padding-bottom: 10px;
-  padding-right:5px;
-  height: 35px;
-  width: 30px;
+  padding-bottom: 2%;
+  padding-right: 3%;
   background-color:  transparent;
   transform: scale(1.2);
   z-index: 0;
