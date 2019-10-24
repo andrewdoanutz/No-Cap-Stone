@@ -4,7 +4,11 @@ export default class Dashboard extends Component {
   render() {
     return (
       <div>
-        
+        <div>Dashboard</div>
+        <div>Dashboard</div>
+        <div>Dashboard</div>
+        <div>Dashboard</div>
+        <div>Dashboard</div>
       </div>
     )
   }
