@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import VideoChat from './VideoChat';
 
-const Video = () => {
+const VideoComponent = () => {
   return (
     <div className="app">
       <header>
@@ -14,4 +14,4 @@ const Video = () => {
   );
 };
 
-export default Video;
+export default VideoComponent;
