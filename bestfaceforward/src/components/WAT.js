@@ -1,7 +1,11 @@
+import React, { Component } from 'react';
 
-exports.main = function(){
-  const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
-  const { IamAuthenticator } = require('ibm-watson/auth');
+
+function watson (){
+
+  var tone;
+  const ToneAnalyzerV3= require('ibm-watson/tone-analyzer/v3');
+  const  {IamAuthenticator}  = require('ibm-watson/auth');
 
   const toneAnalyzer = new ToneAnalyzerV3({
     version: '2017-09-21',
@@ -16,31 +20,31 @@ exports.main = function(){
     + 'quarters. We have a competitive product, but we '
     + 'need to do a better job of selling it!';
 
-
-console.log("text: ", text);
-
   const toneParams = {
     toneInput: { 'text': text },
-    contentType: 'text/plain',
-    sentences: false,
+    contentType: 'application/json',
   };
-
-
-
-  global.tone = "Tone";
-
-
-
   toneAnalyzer.tone(toneParams)
     .then(toneAnalysis => {
-      console.log(JSON.stringify(toneAnalysis, null, 2));
+     return(JSON.stringify(toneAnalysis, null, 2));
     })
     .catch(err => {
       console.log('error:', err);
     });
 
-
-//  console.log(global.tone);
-//  console.log("hello");
-//  return 0;
 }
+
+const WAT = () =>{
+
+
+
+  return(
+    <div>
+    <h2> {watson()}</h2>
+
+    </div>
+  );
+
+}
+
+export default WAT
