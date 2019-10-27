@@ -1,7 +1,14 @@
 import React, { Component } from 'react'
 import NewWindow from 'react-new-window'
-import '../css/login.css';
+
+
 import VideoComponent from '../components/VideoComponent.js'
+
+import '../css/login.css';
+
+
+
+
 
 export default class VideoCall extends Component {
     render() {
