@@ -13,8 +13,8 @@ export default class NavBar extends React.Component {
             <img
               alt=""
               src={bro1}
-              width="50"
-              height="50"
+              width="35"
+              height="35"
               className="navImage"
             />
             <Navbar.Text className="navbarTitle">BestFaceForward</Navbar.Text>
