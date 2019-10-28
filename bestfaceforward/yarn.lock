@@ -7892,6 +7892,11 @@ react-is@^16.8.1:
   version "16.10.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.10.2.tgz#984120fd4d16800e9a738208ab1fba422d23b5ab"
 
+react-native-watson@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/react-native-watson/-/react-native-watson-1.6.2.tgz#036a23e72e14709d861209ff38c6a9ca34462061"
+  integrity sha1-A2oj5y4UcJ2GEgn/OMapyjRGIGE=
+
 react-router-dom@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.3.1.tgz#4c2619fc24c4fa87c9fd18f4fb4a43fe63fbd5c6"
