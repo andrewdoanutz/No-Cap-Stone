@@ -7,7 +7,6 @@ import '../css/login.css';
 export default class Login extends Component {
     
     constructor() {
-        /* 1. Initialize Ref */
         super()
         this.username = React.createRef();
         this.password = React.createRef(); 

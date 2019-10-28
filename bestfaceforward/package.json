@@ -23,6 +23,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
     "react-typist": "^2.0.5",
+    "ibm-watson": "^5.1.0",
     "twilio-video": "^1.19.2",
     "typescript": "^3.3.3333"
   },

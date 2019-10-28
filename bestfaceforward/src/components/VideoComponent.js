@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import SpeechRecognition from 'react-speech-recognition'
 import VideoChat from './VideoChat';
+import WAT from './watson';
 
 import '../css/VideoComponent.css';
 
@@ -26,7 +27,7 @@ class VideoComponent extends Component {
     }
     ts = transcript
     return (
-      <div className="app">
+      <div>
         <header>
           <h1>Meeting</h1>
         </header>
@@ -38,6 +39,7 @@ class VideoComponent extends Component {
         <button onClick={this.translate}>Translate Transcript</button>
         <span className="subtitles">{translatedPhrase}</span>
         </div>
+        <WAT text={transcript}/>
         <main>
           <VideoChat />
         </main>
