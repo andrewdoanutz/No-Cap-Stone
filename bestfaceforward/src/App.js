@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route} from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import NavBar from './components/navbar';
 import Login from './pages/login';
@@ -12,7 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
 
 class App extends Component {
-  
+
   render() {
     return (
       <div>
