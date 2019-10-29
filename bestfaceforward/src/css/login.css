@@ -1,8 +1,6 @@
 .homeBox{
     padding-top:10%;
     text-align: center;
-    
-   
 }
 .homeHead{
     font: 2.5em "Raleway", sans-serif;
@@ -12,8 +10,17 @@
     font-weight: bold;
     padding-bottom: 5%;
 }
+.makeAcct{
+    padding-top:7%;
+    font: 1.3em "Raleway", sans-serif;
+}
+.errorMessage{
+    font: 1.8em "Raleway", sans-serif;
+    color: red;
+    font-weight: bold;
+}
 .formText{
-    font-size: 1.3em "Raleway", sans-serif;
+    font: 1.3em "Raleway", sans-serif;
     color: #333;
     text-align: center;
     padding-top: 1%;
@@ -28,6 +35,8 @@
 
 }
 
-.makeAcct{
-    font-size: 1.3em "Raleway", sans-serif;
+.hideMessage { 
+    opacity: 0%;
+    font: 1.8em "Raleway", sans-serif;
+    font-weight: bold;
 }
