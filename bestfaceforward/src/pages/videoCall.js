@@ -1,6 +1,13 @@
 import React, { Component } from 'react'
 import NewWindow from 'react-new-window'
+
+
+import VideoComponent from '../components/VideoComponent.js'
+
 import '../css/login.css';
+
+
+
 
 
 export default class VideoCall extends Component {
@@ -9,9 +16,9 @@ export default class VideoCall extends Component {
         <div>
             <div className="homeBox">
                 <NewWindow>
-                    <h1>Hi 👋</h1>
+                    <VideoComponent />
                 </NewWindow>
-                <div className="homeHead">Your video call should have started</div>
+                <div className="homeHead">Your video call is starting</div>
             </div>
         </div>
         )
