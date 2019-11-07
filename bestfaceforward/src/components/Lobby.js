@@ -1,4 +1,5 @@
 import React from 'react';
+import {Row, Container, Col, Form, Button} from 'react-bootstrap';
 
 const Lobby = ({
   username,
@@ -8,7 +9,7 @@ const Lobby = ({
   handleSubmit
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
       <h2>Enter a Room ID:</h2>
       <div>
         <label htmlFor="name">Name:</label>
@@ -32,8 +33,8 @@ const Lobby = ({
         />
       </div>
 
-      <button type="submit">Submit</button>
-    </form>
+      <Button type="submit">Submit</Button>
+    </Form>
   );
 };
 

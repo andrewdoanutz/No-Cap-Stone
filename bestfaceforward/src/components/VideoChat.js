@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import Lobby from './Lobby';
 import Room from './Room';
-import Popout from 'react-popout'
+import NewWindow from 'react-new-window'
+import VideoComponent from './VideoComponent'
 
 const VideoChat = () => {
   const [username, setUsername] = useState('');
@@ -41,7 +42,11 @@ const VideoChat = () => {
   let render;
   if (token) {
     render = (
-      <Room roomName={roomName} token={token} handleLogout={handleLogout} />
+      <NewWindow>
+        <VideoComponent/>
+        <Room roomName={roomName} token={token} handleLogout={handleLogout} />
+      </NewWindow>
+
     );
   } else {
     render = (
