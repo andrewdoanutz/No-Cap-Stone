@@ -17,14 +17,14 @@ class Database extends Component{
       region: "us-west-1",
       //endpoint: "http://localhost:8001",
       endpoint: "https://dynamodb.us-west-1.amazonaws.com",
-      //get from google drive
-      // accessKeyId :
-      // secretAccessKey:
+      // get from google drive
+      // accessKeyId : ,
+      // secretAccessKey: 
     });
     this.dynamodb = new AWS.DynamoDB();
     this.docClient = new AWS.DynamoDB.DocumentClient();
     this.table = 'Users'
-  }
+    }
 
 
   render(){
@@ -35,15 +35,20 @@ class Database extends Component{
         <div> database has been rendered</div>
         <div> database has been rendered</div>
         <div> database has been rendered</div>
-        <button onClick={this.queryUser("rg")}></button>
+        <button onClick={this.createTable()}>make table</button>
+        <button onClick={this.addUser()}>add</button>
+        <button onClick={this.queryUser()}>query</button>
+        <button onClick={this.updateUser()}>update</button>
+        <button onClick={this.queryUser()}>query</button>
+        <button onClick={this.deleteUser()}>add</button>
       </div>
     )
   }
 
 
-  createTable(){
+  createTable(table = this.table){
     var params = {
-      TableName : this.table,
+      TableName : table,
       KeySchema: [
         //only put keys in here
         //Keytype Hash because they can be uniquely identified by username
@@ -63,20 +68,14 @@ class Database extends Component{
     this.dynamodb.createTable(params, function(err, data) {
       if (err) {
           console.error("Unable to create table. Error JSON:", JSON.stringify(err, null, 2));
-          return(
-            <div> failed to create Users </div>
-          )
       } else {
           console.log("Created table. Table description JSON:", JSON.stringify(data, null, 2));
-          return(
-            <div> created table Users </div>
-          )
       }
     });
   }
 
   //can change the hardcoded variables
-  addUser(username, password, firstName, lastName, email){
+  addUser(username = "test", password = "test", firstName = "test", lastName = "test", email = "test"){
     //change this part to recieve input
   //  var company = "UCSB";
     var isInterviewer = true;
@@ -111,7 +110,7 @@ class Database extends Component{
     });
   }
 
-  deleteUser(username){
+  deleteUser(username = "test"){
     var table = this.table;
     var params = {
         TableName:table,
@@ -124,38 +123,56 @@ class Database extends Component{
       this.docClient.delete(params, function(err, data) {
           if (err) {
               console.error("Unable to delete item. Error JSON:", JSON.stringify(err, null, 2));
-              return(0);
           } else {
               console.log("DeleteItem succeeded:", JSON.stringify(data, null, 2));
-              return(1);
           }
       });
     }
 
-    queryUser(username){
-      var params = {
-          TableName:this.table,
-          KeyConditionExpression: "username = :uname ",
+  queryUser(username = "test"){
+    var params = {
+        TableName:this.table,
+        KeyConditionExpression: "username = :uname ",
 
-          ExpressionAttributeValues:{
-            ":uname": username
+        ExpressionAttributeValues:{
+          ":uname": username
+        }
+      };
+
+      console.log("Attempting to query user...");
+      this.docClient.query(params, function(err, data) {
+          if (err) {
+              console.error("Unable to query item. Error JSON:", JSON.stringify(err, null, 2));
+              return(0);
+          } else {
+              console.log("QueryItem succeeded:", JSON.stringify(data, null, 2));
+              return(1);
           }
-        };
-
-        console.log("Attempting to query user...");
-        this.docClient.query(params, function(err, data) {
-            if (err) {
-                console.error("Unable to query item. Error JSON:", JSON.stringify(err, null, 2));
-                return(0);
-            } else {
-                console.log("QueryItem succeeded:", JSON.stringify(data, null, 2));
-                return(1);
-            }
-        });
-
+      });
     }
-
-
+  updateUser(username = "test", email = "hello"){
+    var params = {
+      TableName:this.table,
+      Key:{
+        "username": username,
+      },
+      KeyConditionExpression: "username = :uname ",
+      UpdateExpression: "set info.username = :uname, info.email = :newEmail",
+      ExpressionAttributeValues:{
+        ":uname": username,
+        ":newEmail": email
+      }
+    };
+  
+    console.log("Updating the item...");
+    this.docClient.update(params, function(err, data) {
+        if (err) {
+            console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+        } else {
+            console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+        }
+    });
+  }
 //end components
 }
 
