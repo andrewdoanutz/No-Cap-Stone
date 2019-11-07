@@ -18,8 +18,8 @@ class Database extends Component{
       //endpoint: "http://localhost:8001",
       endpoint: "https://dynamodb.us-west-1.amazonaws.com",
       //get from google drive
-      //accessKeyId : 
-    //  secretAccessKey:
+      // accessKeyId :
+      // secretAccessKey: 
     });
     this.dynamodb = new AWS.DynamoDB();
     this.docClient = new AWS.DynamoDB.DocumentClient();
@@ -35,7 +35,7 @@ class Database extends Component{
         <div> database has been rendered</div>
         <div> database has been rendered</div>
         <div> database has been rendered</div>
-        <button onClick={this.deleteUser("ryang")}></button>
+        <button onClick={this.queryUser("rg")}></button>
       </div>
     )
   }
@@ -120,8 +120,7 @@ class Database extends Component{
         }
       };
 
-
-      console.log("Attempting a conditional delete...");
+      console.log("Attempting to delete...");
       this.docClient.delete(params, function(err, data) {
           if (err) {
               console.error("Unable to delete item. Error JSON:", JSON.stringify(err, null, 2));
@@ -133,6 +132,31 @@ class Database extends Component{
       });
     }
 
+    queryUser(username){
+      var params = {
+          TableName:this.table,
+          KeyConditionExpression: "username = :uname ",
+
+          ExpressionAttributeValues:{
+            ":uname": username
+          }
+        };
+
+        console.log("Attempting to query user...");
+        this.docClient.query(params, function(err, data) {
+            if (err) {
+                console.error("Unable to query item. Error JSON:", JSON.stringify(err, null, 2));
+                return(0);
+            } else {
+                console.log("QueryItem succeeded:", JSON.stringify(data, null, 2));
+                return(1);
+            }
+        });
+
+    }
+
+
+//end components
 }
 
 
