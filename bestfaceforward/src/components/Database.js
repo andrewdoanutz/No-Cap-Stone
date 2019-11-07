@@ -11,6 +11,7 @@ class Database extends Component{
   render(){
     return(
       <div>
+      
         <div> database has been rendered</div>
         <div> database has been rendered</div>
         <div> database has been rendered</div>
