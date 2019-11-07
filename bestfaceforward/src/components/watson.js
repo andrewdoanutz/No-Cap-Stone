@@ -11,7 +11,7 @@ class WAT extends Component{
     this.results=""
   }
 
-  watson (){
+  Watson (){
     console.log("analyzing...")
     const ToneAnalyzerV3= require('ibm-watson/tone-analyzer/v3');
     const  {IamAuthenticator}  = require('ibm-watson/auth');
