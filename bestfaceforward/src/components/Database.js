@@ -19,7 +19,7 @@ class Database extends Component{
       endpoint: "https://dynamodb.us-west-1.amazonaws.com",
       //get from google drive
       // accessKeyId :
-      // secretAccessKey: 
+      // secretAccessKey:
     });
     this.dynamodb = new AWS.DynamoDB();
     this.docClient = new AWS.DynamoDB.DocumentClient();
@@ -48,12 +48,12 @@ class Database extends Component{
         //only put keys in here
         //Keytype Hash because they can be uniquely identified by username
         {AttributeName: "username", KeyType: "HASH"},
-        {AttributeName: "password", KeyType: "RANGE"},
+        //{AttributeName: "password", KeyType: "RANGE"},
       ],
       AttributeDefinitions: [
         //AttributeType S - string N- Number B- binary
         {AttributeName: "username", AttributeType: "S"},
-        {AttributeName: "password", AttributeType: "S"},
+      //  {AttributeName: "password", AttributeType: "S"},
       ],
       ProvisionedThroughput: {
           ReadCapacityUnits: 10,
