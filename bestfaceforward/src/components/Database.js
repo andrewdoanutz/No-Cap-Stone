@@ -11,8 +11,8 @@
       //endpoint: "http://localhost:8001",
       endpoint: "https://dynamodb.us-west-1.amazonaws.com",
       // get from google drive
-      // accessKeyId : 
-      // secretAccessKey: 
+     // accessKeyId : , 
+      //secretAccessKey: 
     });
     let dynamodb = new AWS.DynamoDB();
     let docClient = new AWS.DynamoDB.DocumentClient();
@@ -77,8 +77,10 @@
         docClient.put(params, function(err, data) {
             if (err) {
                 console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+                return 0;
             } else {
                 console.log("Added item:", JSON.stringify(data, null, 2));
+                return 1;
             }
         });
       },
