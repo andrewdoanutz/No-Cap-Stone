@@ -3,7 +3,7 @@ import {Form, Button, Col} from 'react-bootstrap'
 
 
 import '../css/login.css';
-
+let Database = require('../components/Database')
 export default class Login extends Component {
     
     constructor() {
@@ -19,6 +19,15 @@ export default class Login extends Component {
         showError:false
     }
     UPLoginPressed(){
+      /*  if(Database.queryUser() !== 1){                       Change this part when we get the DB to return a JSON so we can parse it.
+            this.errorMessage="Wrong Username or Password"
+            this.setState({
+                showError:true
+            })
+        } else {
+            this.props.history.push('/dashboard')
+        }
+        */
         if(this.username.current.value!=="test" || this.password.current.value!=="test"){
             this.errorMessage="Wrong Username or Password"
             this.setState({
