@@ -47,7 +47,7 @@ class WAT extends Component{
     return(
       <div>
         <div>
-            <button onClick={this.watson.bind(this)}>Analyze Transcript</button>
+            <button onClick={this.Watson.bind(this)}>Analyze Transcript</button>
             <div>{this.results}</div>
         </div>
 
