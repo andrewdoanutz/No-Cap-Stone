@@ -45,7 +45,6 @@ const VideoChat = () => {
     render = (
       <div>
         <NewWindow url={this}>
-
           <VideoComponent/>
           <Room roomName={roomName} token={token} handleLogout={handleLogout} />
         </NewWindow>
