@@ -12,25 +12,29 @@ const Lobby = ({
     <Form onSubmit={handleSubmit}>
       <h2>Enter a Room ID:</h2>
       <div>
-        <label htmlFor="name">Name:</label>
-        <input
+        <Form.Label className="formText" htmlFor="name">Name:</Form.Label>
+        <div className="formField">
+        <Form.Control
           type="text"
           id="field"
           value={username}
           onChange={handleUsernameChange}
           required
         />
+        </div>
       </div>
 
       <div>
-        <label htmlFor="room">Room ID:</label>
-        <input
+        <Form.Label className="formText" htmlFor="room">Room ID:</Form.Label>
+        <div className="formField">
+        <Form.Control
           type="text"
           id="room"
           value={roomName}
           onChange={handleRoomNameChange}
           required
         />
+      </div>
       </div>
 
       <Button type="submit">Submit</Button>
