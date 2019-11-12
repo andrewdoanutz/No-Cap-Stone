@@ -11,7 +11,7 @@ const Lobby = ({
   return (
     <Form onSubmit={handleSubmit}>
       <div className = "pb-2">
-        <Form.Label className="formText" htmlFor="name">Name:</Form.Label>
+        <Form.Label className="formText" htmlFor="name">Name</Form.Label>
         <div className="formField">
         <Form.Control
           type="text"
@@ -25,7 +25,7 @@ const Lobby = ({
       </div>
 
       <div>
-        <Form.Label className="formText" htmlFor="room">Room ID:</Form.Label>
+        <Form.Label className="formText" htmlFor="room">Room ID</Form.Label>
         <div className="formField">
         <Form.Control
           type="text"
