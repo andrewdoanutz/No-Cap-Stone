@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Form, Button, Col} from 'react-bootstrap'
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 let Database = require('../components/Database')
 
@@ -15,10 +16,17 @@ export default class MakeAcct extends Component {
         this.email = React.createRef();
         this.verifyPassword = React.createRef();
         this.errorMessage="dada"
-        
+        toast.configure({
+            autoClose: 3000,
+            draggable: true,
+            //etc you get the idea
+          });
     }
     state={
         showError:false
+    }
+    test(){
+        toast("Account successfully made");
     }
     CreateAccount(){
         if(this.password.current.value !== this.verifyPassword.current.value){
@@ -32,16 +40,9 @@ export default class MakeAcct extends Component {
             console.log(this.password.current.value);
             console.log(this.verifyPassword.current.value);
             Database.addUser(this.username.current.value,this.password.current.value,this.firstName.current.value,this.lastName.current.value,this.email.current.value);
+            toast("Account successfully made");
             this.props.history.push('/login')
         }
-       /* if(Database.addUser() !== 1){
-            this.errorMessage="Unable to create account"
-            this.setState({
-                showError:true
-            })
-        } else {
-            this.props.history.push('/dashboard')
-        }*/
     }
 
     render() {
@@ -49,6 +50,7 @@ export default class MakeAcct extends Component {
             <div>
                 <div className="homeBox">
                     <div className="homeHead">Create Account</div>
+                    <button onClick = {this.test}></button>
                     <Form>
                          <Form.Row>
                             <Form.Group controlId="formBasicFirstName" as={Col}>
@@ -81,7 +83,7 @@ export default class MakeAcct extends Component {
                             <Form.Group controlId="formBasicEmail" as={Col}>
                                 <Form.Label className="formText">Email</Form.Label>
                                 <div className="formField">
-                                    <Form.Control type="Email" placeholder="Enter username" ref={this.email}/>
+                                    <Form.Control type="Email" placeholder="Enter email" ref={this.email}/>
                                 </div>
                             </Form.Group>
                         </Form.Row>

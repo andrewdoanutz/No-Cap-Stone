@@ -19,15 +19,6 @@ export default class Login extends Component {
         showError:false
     }
     UPLoginPressed(){
-      /*  if(Database.queryUser() !== 1){                       Change this part when we get the DB to return a JSON so we can parse it.
-            this.errorMessage="Wrong Username or Password"
-            this.setState({
-                showError:true
-            })
-        } else {
-            this.props.history.push('/dashboard')
-        }
-        */
         if(Database.verifyUser(this.username.current.value,this.password.current.value)){
             this.errorMessage="Wrong Username or Password"
             this.setState({
