@@ -43,10 +43,10 @@ const VideoChat = () => {
   let render;
   if (token) {
     render = (
-      <Popout>
+      <NewWindow>
         <VideoComponent/>
         <Room roomName={roomName} token={token} handleLogout={handleLogout} />
-      </Popout>
+      </NewWindow>
 
     );
   } else {
