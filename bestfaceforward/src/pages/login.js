@@ -1,5 +1,5 @@
 import React, { Component, useState, useCallback } from 'react';
-import {Form, Button, Col} from 'react-bootstrap'
+import {Form, Button, Col, Row} from 'react-bootstrap'
 import VideoChat from '../components/VideoChat.js'
 
 
@@ -49,51 +49,34 @@ export default class Login extends Component {
       <div>
         <div className="homeBox">
           <div className="homeHead">Login</div>
-          <Form>
-
-            <Form.Group controlId="formBasicEmail" as={Col}>
-              <Form.Label className="formText">Username</Form.Label>
-              <div className="formField">
-                <Form.Control type="username" placeholder="Enter username" ref={this.username}/>
-              </div>
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword" as={Col}>
-              <Form.Label className="formText">Password</Form.Label>
-              <div className="formField">
-                <Form.Control type="password" placeholder="Password" ref={this.password}/>
-              </div>
-            </Form.Group>
-            <Form.Group controlId="formBasicUPLogin" as={Col}>
-              <div className="formButton">
-                <Button variant="primary" type="button" onClick={this.UPLoginPressed.bind(this)}>
-                  Submit
-                </Button>
-              </div>
-            </Form.Group>
-
-
-            {/* <Form.Group controlId="formBasicID" as={Col}>
-              <Form.Label className="formText">Meeting ID</Form.Label>
-              <div className="formField">
-                <Form.Control type="mID" placeholder="Meeting ID" ref={this.meetingID}/>
-              </div>
-            </Form.Group>
-            <Form.Group controlId="formBasicName" as={Col}>
-              <Form.Label className="formText">Screen Name</Form.Label>
-              <div className="formField">
-                <Form.Control type="name" placeholder="Screen Name" ref={this.screenName}/>
-              </div>
-            </Form.Group>
-            <Form.Group controlId="formBasicKNLogin" as={Col}>
-              <div className="formButton">
-                <Button variant="primary" type="button" onClick={this.KNLoginPressed.bind(this)}>
-                  Submit
-                </Button>
-              </div>
-            </Form.Group> */}
-          </Form>
-
-          <VideoChat/>
+          <Row>
+          <Col>
+            <Form>
+              <Form.Group controlId="formBasicEmail" as={Col}>
+                <Form.Label className="formText">Username</Form.Label>
+                <div className="formField">
+                  <Form.Control type="username" placeholder="Enter username" ref={this.username}/>
+                </div>
+              </Form.Group>
+              <Form.Group controlId="formBasicPassword" as={Col}>
+                <Form.Label className="formText">Password</Form.Label>
+                <div className="formField">
+                  <Form.Control type="password" placeholder="Password" ref={this.password}/>
+                </div>
+              </Form.Group>
+              <Form.Group controlId="formBasicUPLogin" as={Col}>
+                <div className="formButton">
+                  <Button variant="primary" type="button" onClick={this.UPLoginPressed.bind(this)}>
+                    Submit
+                  </Button>
+                </div>
+              </Form.Group>
+            </Form>
+          </Col>
+          <Col>
+            <VideoChat/>
+          </Col>
+          </Row>
 
           <div className={this.state.showError ? 'errorMessage' : 'hideMessage'}>{this.errorMessage}</div>
           <div className="makeAcct">

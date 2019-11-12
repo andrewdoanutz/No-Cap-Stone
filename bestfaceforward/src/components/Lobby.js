@@ -10,13 +10,13 @@ const Lobby = ({
 }) => {
   return (
     <Form onSubmit={handleSubmit}>
-      <h2>Enter a Room ID:</h2>
-      <div>
+      <div className = "pb-2">
         <Form.Label className="formText" htmlFor="name">Name:</Form.Label>
         <div className="formField">
         <Form.Control
           type="text"
           id="field"
+          placeholder= "Enter your name"
           value={username}
           onChange={handleUsernameChange}
           required
@@ -30,14 +30,16 @@ const Lobby = ({
         <Form.Control
           type="text"
           id="room"
+          placeholder="Enter Room ID"
           value={roomName}
           onChange={handleRoomNameChange}
           required
         />
       </div>
       </div>
-
-      <Button type="submit">Submit</Button>
+      <div className = "formButton">
+        <Button type="submit">Submit</Button>
+      </div>
     </Form>
   );
 };
