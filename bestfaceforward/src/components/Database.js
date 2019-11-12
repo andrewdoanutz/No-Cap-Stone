@@ -11,8 +11,8 @@
       //endpoint: "http://localhost:8001",
       endpoint: "https://dynamodb.us-west-1.amazonaws.com",
       // get from google drive
-      accessKeyId : "AKIAQZG3TD2OCWPZMR3J" , 
-      secretAccessKey: "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"
+     // accessKeyId : , 
+      //secretAccessKey:
     });
     let dynamodb = new AWS.DynamoDB();
     let docClient = new AWS.DynamoDB.DocumentClient();
