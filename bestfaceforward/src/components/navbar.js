@@ -21,7 +21,6 @@ export default class NavBar extends React.Component {
           </Navbar.Brand>
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Nav>
-              <Nav.Link href="/timer" className="link">Timer</Nav.Link>
               <Nav.Link href="/login" className="link">Login</Nav.Link>
               <Nav.Link href="/about" className="link">About Us</Nav.Link>
             </Nav>
