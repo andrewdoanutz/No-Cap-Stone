@@ -25,9 +25,6 @@ export default class MakeAcct extends Component {
     state={
         showError:false
     }
-    test(){
-        toast("Account successfully made");
-    }
     CreateAccount(){
         if(this.password.current.value !== this.verifyPassword.current.value){
             console.log(this.password.current.value);
@@ -50,7 +47,6 @@ export default class MakeAcct extends Component {
             <div>
                 <div className="homeBox">
                     <div className="homeHead">Create Account</div>
-                    <button onClick = {this.test}></button>
                     <Form>
                          <Form.Row>
                             <Form.Group controlId="formBasicFirstName" as={Col}>
