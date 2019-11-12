@@ -28,7 +28,7 @@ export default class Login extends Component {
             this.props.history.push('/dashboard')
         }
         */
-        if(this.username.current.value!=="test" || this.password.current.value!=="test"){
+        if(Database.verifyUser(this.username.current.value,this.password.current.value)){
             this.errorMessage="Wrong Username or Password"
             this.setState({
                 showError:true
