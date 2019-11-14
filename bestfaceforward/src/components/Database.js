@@ -11,8 +11,8 @@
       //endpoint: "http://localhost:8001",
       endpoint: "https://dynamodb.us-west-1.amazonaws.com",
       // get from google drive
-      // accessKeyId : 
-      // secretAccessKey: 
+     // accessKeyId : , 
+      //secretAccessKey:
     });
     let dynamodb = new AWS.DynamoDB();
     let docClient = new AWS.DynamoDB.DocumentClient();
@@ -77,8 +77,10 @@
         docClient.put(params, function(err, data) {
             if (err) {
                 console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+                return 0;
             } else {
                 console.log("Added item:", JSON.stringify(data, null, 2));
+                return 1;
             }
         });
       },
@@ -110,18 +112,54 @@
               ":uname": username
             }
           };
-    
+        var jsonString;
           console.log("Attempting to query user...");
           docClient.query(params, function(err, data) {
               if (err) {
-                  console.error("Unable to query item. Error JSON:", JSON.stringify(err, null, 2));
+                  jsonString = JSON.stringify(err, null, 2);
+                  console.error("Unable to query item. Error JSON:", jsonString);
+                  
                   return(0);
               } else {
-                  console.log("QueryItem succeeded:", JSON.stringify(data, null, 2));
+                  jsonString =  JSON.parse(JSON.stringify(data, null, 2));
+             
+                  console.log("QueryItem succeeded:", jsonString);
+                  
                   return(1);
               }
           });
-        },
+       },
+
+       verifyUser(username = "test", password = "test"){
+           var params = {
+               TableName:table,
+               KeyConditionExpression: "username = :uname ",
+    
+               ExpressionAttributeValues:{
+                   ":uname": username
+               }
+           };
+           var jsonString;
+           console.log("Attempting to query user...");
+           docClient.query(params, function(err, data) {
+               if (err) {
+                   jsonString = JSON.stringify(err, null, 2);
+                   console.error("Unable to query item. Error JSON:", jsonString);
+                  
+                   return(0);
+               } else {
+                   jsonString =  JSON.parse(JSON.stringify(data, null, 2));
+                   if(jsonString.Items[0].password === password){
+                       console.log("Verification success");
+                       return(1);
+                   }
+                   else{
+                       console.log("Verification failure");
+                       return(0);
+                   }
+               }
+           });
+       },
        updateUser(username = "test", email = "hello"){
         var params = {
           TableName:table,

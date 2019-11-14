@@ -3,7 +3,7 @@ import {Form, Button, Col} from 'react-bootstrap'
 
 
 import '../css/login.css';
-
+let Database = require('../components/Database')
 export default class Login extends Component {
     
     constructor() {
@@ -19,7 +19,7 @@ export default class Login extends Component {
         showError:false
     }
     UPLoginPressed(){
-        if(this.username.current.value!=="test" || this.password.current.value!=="test"){
+        if(Database.verifyUser(this.username.current.value,this.password.current.value)){
             this.errorMessage="Wrong Username or Password"
             this.setState({
                 showError:true
