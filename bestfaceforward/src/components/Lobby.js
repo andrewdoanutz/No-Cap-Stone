@@ -1,4 +1,5 @@
 import React from 'react';
+import {Row, Container, Col, Form, Button} from 'react-bootstrap';
 
 const Lobby = ({
   username,
@@ -8,32 +9,38 @@ const Lobby = ({
   handleSubmit
 }) => {
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Enter a Room ID:</h2>
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
+    <Form onSubmit={handleSubmit}>
+      <div className = "pb-2">
+        <Form.Label className="formText" htmlFor="name">Name</Form.Label>
+        <div className="formField">
+        <Form.Control
           type="text"
           id="field"
+          placeholder= "Enter your name"
           value={username}
           onChange={handleUsernameChange}
           required
         />
+        </div>
       </div>
 
       <div>
-        <label htmlFor="room">Room ID:</label>
-        <input
+        <Form.Label className="formText" htmlFor="room">Room ID</Form.Label>
+        <div className="formField">
+        <Form.Control
           type="text"
           id="room"
+          placeholder="Enter Room ID"
           value={roomName}
           onChange={handleRoomNameChange}
           required
         />
       </div>
-
-      <button type="submit">Submit</button>
-    </form>
+      </div>
+      <div className = "formButton">
+        <Button type="submit">Submit</Button>
+      </div>
+    </Form>
   );
 };
 
