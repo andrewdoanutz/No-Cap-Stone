@@ -9,6 +9,7 @@ import Dash from './pages/dashboard'
 import MakeAcct from './pages/makeAcct'
 import VidCall from './pages/videoCall'
 import Timer from './pages/timer'
+import DBTest from './pages/DBTest'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
@@ -27,6 +28,7 @@ class App extends Component {
           <Route exact path="/makeacct" component={MakeAcct} />
           <Route exact path="/videocall" component={VidCall} />
           <Route exact path="/timer" component={Timer} />
+          <Route exact path="/dbtest" component={DBTest} />
         </div>
       </BrowserRouter>
        </div>
