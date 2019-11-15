@@ -40,9 +40,6 @@ class VideoComponent extends Component {
         <span className="subtitles">{translatedPhrase}</span>
         </div>
         <WAT text={transcript}/>
-        <main>
-          <VideoChat />
-        </main>
       </div>
     )
   }
