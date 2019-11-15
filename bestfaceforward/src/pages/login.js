@@ -4,7 +4,7 @@ import VideoChat from '../components/VideoChat.js'
 
 
 import '../css/login.css';
-
+let Database = require('../components/Database')
 export default class Login extends Component {
 
   constructor() {
