@@ -3,7 +3,6 @@ import Lobby from './Lobby';
 import Room from './Room';
 import NewWindow from 'react-new-window'
 import VideoComponent from './VideoComponent'
-import Popout from 'react-popout'
 
 const VideoChat = () => {
   const [username, setUsername] = useState('');

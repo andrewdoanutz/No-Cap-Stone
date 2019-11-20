@@ -1,5 +1,5 @@
 import React from 'react';
-import {Row, Container, Col, Form, Button} from 'react-bootstrap';
+import { Form, Button} from 'react-bootstrap';
 
 const Lobby = ({
   username,
