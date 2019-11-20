@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import SpeechRecognition from 'react-speech-recognition'
-import VideoChat from './VideoChat';
 import WAT from './watson';
 
 import '../css/VideoComponent.css';

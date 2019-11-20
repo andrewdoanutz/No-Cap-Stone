@@ -1,10 +1,11 @@
-import React, { Component, useState, useCallback } from 'react';
+import React, { Component } from 'react';
 import {Form, Button, Col, Row} from 'react-bootstrap'
 import VideoChat from '../components/VideoChat.js'
-
+import Cookies from 'universal-cookie';
 
 import '../css/login.css';
-let Database = require('../components/Database')
+let cookies = new Cookies();
+
 export default class Login extends Component {
 
   constructor() {
@@ -26,6 +27,7 @@ export default class Login extends Component {
         showError:true
       })
     } else {
+      cookies.set('login', 'testUserName', { path: '/' });
       this.props.history.push('/dashboard')
     }
   }
