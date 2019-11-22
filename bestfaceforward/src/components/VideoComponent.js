@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import SpeechRecognition from 'react-speech-recognition'
 import WAT from './watson';
-
+import ScreenShot from './Screenshot'
 import '../css/VideoComponent.css';
 
 var ts = ""
 var translatedPhrase = ""
 
 class VideoComponent extends Component {
+  
   translate(){
     console.log(`translating...`)
     var googleTranslate = require('google-translate')('AIzaSyCsY_IQPqIt6SAvAymb5CAC0q_qNRMAAj8');
@@ -30,6 +31,7 @@ class VideoComponent extends Component {
         <header>
           <h1>Meeting</h1>
         </header>
+        <ScreenShot/>
         <div>
           <button onClick={resetTranscript}>Reset Transcript</button>
           <span className="subtitles">{transcript}</span>

@@ -18,6 +18,7 @@
     "react-dom": "^16.8.3",
     "react-embed-gist": "^1.0.7",
     "react-gist": "^1.2.1",
+    "react-html5-camera-photo": "^1.5.2",
     "react-native": "^0.61.2",
     "react-native-cli": "^2.0.1",
     "react-new-window": "^0.1.2",

@@ -42,12 +42,12 @@ const Room = ({ roomName, token, handleLogout }) => {
   const remoteParticipants = participants.map(participant => (
     <Participant key={participant.sid} participant={participant} />
   ));
-
   return (
     <div>
       <Container className = "room">
         <Row>
           <Col>
+            
             <h2>Room: {roomName}</h2>
             <button onClick={handleLogout}>Log out</button>
             <div className="local-participant">
