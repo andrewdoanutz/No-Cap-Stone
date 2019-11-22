@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Button} from 'react-bootstrap';
 //sentiment analysis
 //To  disable CORS policy in chrome:
   // kill all instances of chrome
@@ -11,7 +12,7 @@ class WAT extends Component{
     this.results=""
   }
 
-  watson (){
+  Watson (){
     console.log("analyzing...")
     const ToneAnalyzerV3= require('ibm-watson/tone-analyzer/v3');
     const  {IamAuthenticator}  = require('ibm-watson/auth');
@@ -44,10 +45,11 @@ class WAT extends Component{
   }
   render(){
 
+
     return(
       <div>
         <div>
-            <button onClick={this.watson.bind(this)}>Analyze Transcript</button>
+            <Button onClick={this.Watson.bind(this)}>Analyze Transcript</Button>
             <div>{this.results}</div>
         </div>
 
