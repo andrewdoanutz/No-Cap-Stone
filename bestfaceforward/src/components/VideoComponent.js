@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import SpeechRecognition from 'react-speech-recognition'
 import WAT from './watson';
+import {Button} from 'react-bootstrap';
 
 import '../css/VideoComponent.css';
 
@@ -31,11 +32,11 @@ class VideoComponent extends Component {
           <h1>Meeting</h1>
         </header>
         <div>
-          <button onClick={resetTranscript}>Reset Transcript</button>
+          <Button onClick={resetTranscript}>Reset Transcript</Button>
           <span className="subtitles">{transcript}</span>
         </div>
         <div>
-        <button onClick={this.translate}>Translate Transcript</button>
+        <Button onClick={this.translate}>Translate Transcript</Button>
         <span className="subtitles">{translatedPhrase}</span>
         </div>
         <WAT text={transcript}/>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Button} from 'react-bootstrap';
 //sentiment analysis
 //To  disable CORS policy in chrome:
   // kill all instances of chrome
@@ -48,7 +49,7 @@ class WAT extends Component{
     return(
       <div>
         <div>
-            <button onClick={this.Watson.bind(this)}>Analyze Transcript</button>
+            <Button onClick={this.Watson.bind(this)}>Analyze Transcript</Button>
             <div>{this.results}</div>
         </div>
 
