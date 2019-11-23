@@ -53,7 +53,7 @@ const Room = ({ roomName, token, handleLogout }) => {
             <h2>Room: {roomName}</h2>
             <Button onClick={handleLogout}>Log out</Button>
             <Button onClick={ ()=> {
-                if(blur==false){
+                if(blur===false){
                   setBlur(true)
                 } else {
                   setBlur(false)
@@ -62,7 +62,7 @@ const Room = ({ roomName, token, handleLogout }) => {
             }>Blur</Button>
             <div className="local-participant">
               {room ? (
-                <div className={blur==true ? 'mask' : ''}>
+                <div className={blur===true ? 'mask' : ''}>
                   <Participant
                     key={room.localParticipant.sid}
                     participant={room.localParticipant}
