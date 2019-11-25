@@ -3,6 +3,7 @@ import Lobby from './Lobby';
 import Room from './Room';
 import NewWindow from 'react-new-window'
 import VideoComponent from './VideoComponent'
+import {Row, Col} from 'react-bootstrap';
 
 const VideoChat = () => {
   const [username, setUsername] = useState('');
@@ -44,8 +45,15 @@ const VideoChat = () => {
     render = (
       <div>
         <NewWindow url={this}>
-          <VideoComponent/>
-          <Room roomName={roomName} token={token} handleLogout={handleLogout} />
+          <Col>
+            <header className = "mb-2">
+              <h1 className = "text-center">Meeting</h1>
+            </header>
+          </Col>
+          <Col>
+            <Room roomName={roomName} token={token} handleLogout={handleLogout} />
+            <VideoComponent/>
+          </Col>
         </NewWindow>
       </div>
 
