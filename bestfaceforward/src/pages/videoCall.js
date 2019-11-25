@@ -13,7 +13,6 @@ export default class VideoCall extends Component {
     render() {
         return (
             <div className="homebox">
-                <div className="homeHead">Login</div>
                 <Row>
                     <Col>
                         <VideoChat/>
