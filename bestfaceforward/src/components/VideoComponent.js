@@ -28,16 +28,13 @@ class VideoComponent extends Component {
     ts = transcript
     return (
       <div>
-        <header>
-          <h1>Meeting</h1>
-        </header>
         <div>
-          <Button onClick={resetTranscript}>Reset Transcript</Button>
+          <Button className ="mb-2" onClick={resetTranscript}>Reset Transcript</Button>
           <span className="subtitles">{transcript}</span>
         </div>
         <div>
-        <Button onClick={this.translate}>Translate Transcript</Button>
-        <span className="subtitles">{translatedPhrase}</span>
+          <Button className ="mb-2" onClick={this.translate}>Translate Transcript</Button>
+          <span className="subtitles">{translatedPhrase}</span>
         </div>
         <WAT text={transcript}/>
       </div>
