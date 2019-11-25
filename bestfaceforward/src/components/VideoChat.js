@@ -44,12 +44,12 @@ const VideoChat = () => {
     render = (
       <div>
         <Row>
-          <Col className = "pb-3">
-            <header>
-              <h1 className = "text-center">Meeting</h1>
-            </header>
-          </Col>
           <Col>
+            <div className = "py-3">
+              <header>
+                <h1 className = "text-center">Meeting</h1>
+              </header>
+            </div>
             <Room roomName={roomName} token={token} handleLogout={handleLogout} />
             <VideoComponent/>
           </Col>
