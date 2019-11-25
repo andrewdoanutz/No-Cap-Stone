@@ -51,9 +51,9 @@ const Room = ({ roomName, token, handleLogout }) => {
         <Row>
           <Col>
             <h2>Room: {roomName}</h2>
-            <Button onClick={handleLogout}>Log out</Button>
-            <Button onClick={ ()=> {
-                if(blur===false){
+            <Button className = "mb-3" onClick={handleLogout}>Log out</Button>
+            <Button className = "ml-3 mb-3" onClick={ ()=> {
+                if(blur==false){
                   setBlur(true)
                 } else {
                   setBlur(false)
@@ -74,7 +74,7 @@ const Room = ({ roomName, token, handleLogout }) => {
             </div>
           </Col>
           <Col>
-            <h3>Other Participants</h3>
+            <h3 className = "mb-6">Other Participants</h3>
             <div className="remote-participants">{remoteParticipants}</div>
           </Col>
         </Row>
