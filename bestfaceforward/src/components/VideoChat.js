@@ -45,8 +45,8 @@ const VideoChat = () => {
     render = (
       <div>
         <NewWindow url={this}>
-          <Col>
-            <header className = "mb-2">
+          <Col className = "pb-3">
+            <header>
               <h1 className = "text-center">Meeting</h1>
             </header>
           </Col>
