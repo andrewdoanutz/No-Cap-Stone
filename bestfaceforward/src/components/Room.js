@@ -74,7 +74,7 @@ const Room = ({ roomName, token, handleLogout }) => {
             </div>
           </Col>
           <Col>
-            <h3>Other Participants</h3>
+            <h3 className = "mb-6">Other Participants</h3>
             <div className="remote-participants">{remoteParticipants}</div>
           </Col>
         </Row>
