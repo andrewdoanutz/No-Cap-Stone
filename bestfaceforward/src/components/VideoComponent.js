@@ -13,7 +13,7 @@ class VideoComponent extends Component {
     console.log(`translating...`)
     var googleTranslate = require('google-translate')('AIzaSyCsY_IQPqIt6SAvAymb5CAC0q_qNRMAAj8');
     console.log(ts)
-    googleTranslate.translate(ts, 'ru', function(err, translation) {
+    googleTranslate.translate(ts, 'es', function(err, translation) {
       console.log(translation.translatedText);
       translatedPhrase = translation.translatedText;
       // =>  { translatedText: 'Hallo', originalText: 'Hello', detectedSourceLanguage: 'en' }
