@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {Button} from 'react-bootstrap';
+import {Button, Row, Col} from 'react-bootstrap';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
 //sentiment analysis
 //To  disable CORS policy in chrome:
   // kill all instances of chrome
@@ -9,7 +10,7 @@ import {Button} from 'react-bootstrap';
 class WAT extends Component{
   constructor(){
     super()
-    this.results=""
+    this.results=[]
   }
 
   Watson (){
@@ -35,14 +36,16 @@ class WAT extends Component{
 
     toneAnalyzer.tone(toneParams)
       .then(toneAnalysis => {
-       console.log(JSON.stringify(toneAnalysis, null, 2));
-       this.results=JSON.stringify(toneAnalysis.result.document_tone.tones, null, 2)
+       console.log(toneAnalysis.result.document_tone.tones);
+       this.results=toneAnalysis.result.document_tone.tones;
       })
       .catch(err => {
         console.log('error:', err);
       })
 
   }
+
+
   render(){
 
 
@@ -50,7 +53,15 @@ class WAT extends Component{
       <div>
         <div>
             <Button onClick={this.Watson.bind(this)}>Analyze Transcript</Button>
-            <div>{this.results}</div>
+            <div class = "centered">
+              <BarChart width={730} height={300} data={this.results}>
+                <XAxis dataKey="tone_name" />
+                <YAxis/>
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="score" fill="#8884d8" />
+              </BarChart>
+            </div>
         </div>
 
       </div>
