@@ -7,16 +7,16 @@
     let AWS = require("aws-sdk");
     //used for local development
     AWS.config.update({
-      region: "us-west-1",
+      region: "us-east-2",
       //endpoint: "http://localhost:8001",
-      endpoint: "https://dynamodb.us-west-1.amazonaws.com",
+      endpoint: "https://dynamodb.us-east-2.amazonaws.com",
       // get from google drive
-     // accessKeyId : , 
-      //secretAccessKey:
+       //accessKeyId :, 
+       //secretAccessKey: 
     });
     let dynamodb = new AWS.DynamoDB();
     let docClient = new AWS.DynamoDB.DocumentClient();
-    let table = "Users"
+    let table = "users"
     
     module.exports = {
        createTable(tble = table){

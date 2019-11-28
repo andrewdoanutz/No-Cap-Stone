@@ -11,7 +11,7 @@ const subscriptionKey = 'e1eb00afb764433798f77f15b7ba3848';
 const uriBase = 'https://westus.api.cognitive.microsoft.com/face/v1.0/detect';
 
 const imageUrl =
-    'https://upload.wikimedia.org/wikipedia/commons/3/37/Dagestani_man_and_woman.jpg';
+    'https://nocapstone.s3.us-east-2.amazonaws.com/1.jpg';
 
 
 // Request parameters.
