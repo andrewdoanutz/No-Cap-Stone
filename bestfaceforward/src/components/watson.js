@@ -53,7 +53,7 @@ class WAT extends Component{
       <div>
         <div>
             <Button onClick={this.Watson.bind(this)}>Analyze Transcript</Button>
-            <div class = "centered">
+            <div className = "centered">
               <BarChart width={730} height={300} data={this.results}>
                 <XAxis dataKey="tone_name" />
                 <YAxis/>
