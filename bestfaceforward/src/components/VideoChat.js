@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import Lobby from './Lobby';
 import Room from './Room';
-import NewWindow from 'react-new-window'
 import VideoComponent from './VideoComponent'
+import {Row, Col} from 'react-bootstrap';
 
 const VideoChat = () => {
   const [username, setUsername] = useState('');
@@ -43,10 +43,17 @@ const VideoChat = () => {
   if (token) {
     render = (
       <div>
-        <NewWindow url={this}>
-          <VideoComponent/>
-          <Room roomName={roomName} token={token} handleLogout={handleLogout} />
-        </NewWindow>
+        <Row>
+          <Col>
+            <div className = "py-3">
+              <header>
+                <h1 className = "text-center">Meeting</h1>
+              </header>
+            </div>
+            <Room roomName={roomName} token={token} handleLogout={handleLogout} />
+            <VideoComponent/>
+          </Col>
+        </Row>
       </div>
 
     );
