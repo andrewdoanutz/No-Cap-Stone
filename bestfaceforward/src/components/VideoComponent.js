@@ -13,7 +13,7 @@ class VideoComponent extends Component {
     console.log(`translating...`)
     var googleTranslate = require('google-translate')('AIzaSyCsY_IQPqIt6SAvAymb5CAC0q_qNRMAAj8');
     console.log(ts)
-    googleTranslate.translate(ts, 'ru', function(err, translation) {
+    googleTranslate.translate(ts, 'es', function(err, translation) {
       console.log(translation.translatedText);
       translatedPhrase = translation.translatedText;
       // =>  { translatedText: 'Hallo', originalText: 'Hello', detectedSourceLanguage: 'en' }
@@ -28,16 +28,13 @@ class VideoComponent extends Component {
     ts = transcript
     return (
       <div>
-        <header>
-          <h1>Meeting</h1>
-        </header>
         <div>
-          <Button onClick={resetTranscript}>Reset Transcript</Button>
+          <Button className ="mb-2" onClick={resetTranscript}>Reset Transcript</Button>
           <span className="subtitles">{transcript}</span>
         </div>
         <div>
-        <Button onClick={this.translate}>Translate Transcript</Button>
-        <span className="subtitles">{translatedPhrase}</span>
+          <Button className ="mb-2" onClick={this.translate}>Translate Transcript</Button>
+          <span className="subtitles">{translatedPhrase}</span>
         </div>
         <WAT text={transcript}/>
       </div>

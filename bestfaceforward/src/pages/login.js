@@ -75,9 +75,6 @@ export default class Login extends Component {
               </Form.Group>
             </Form>
           </Col>
-          <Col>
-            <VideoChat/>
-          </Col>
           </Row>
 
           <div className={this.state.showError ? 'errorMessage' : 'hideMessage'}>{this.errorMessage}</div>
