@@ -10,7 +10,7 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} fro
 class WAT extends Component{
   constructor(){
     super()
-    this.results=[]
+    this.results=""
   }
 
   Watson (){
