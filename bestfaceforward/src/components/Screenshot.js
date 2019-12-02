@@ -26,15 +26,15 @@ class Screenshot extends Component {
       //endpoint: "http://localhost:8001",
       endpoint: "https://s3.us-east-2.amazonaws.com",
       // get from google drive
-       //accessKeyId : , 
-       //secretAccessKey: 
+       accessKeyId : "AKIAIYGEHA7KHYDK7MMQ", 
+       secretAccessKey: "Yz8bnUJ8SSn+aQ/HEJrWXp3ImMaNQhPLb1OWkD22" 
     });
     const type = dataUri.split(';')[0].split('/')[1];
     const base64Data = new Buffer.from(dataUri.replace(/^data:image\/\w+;base64,/, ""), 'base64');
 
     // Getting the file type, ie: jpeg, png or gif
     
-    const userId = 1;
+    const userId = 2;
     const s3 = new AWS.S3();
     const params = {
       Bucket: 'nocapstone',
@@ -52,7 +52,7 @@ class Screenshot extends Component {
     console.log(`File uploaded successfully. ${data.Location}`);
     });
     this.callBackendAPI()
-    .then(res => this.setState({ fsRes: res.express }))
+    .then(res => this.setState({ fsRes: res.response }))
     .catch(err => console.log(err));
     
   }
@@ -74,7 +74,7 @@ class Screenshot extends Component {
       <div className="Screenshot">
         {
           (this.state.dataUri)
-            ? <ImagePreview dataUri={this.state.dataUri} />
+            ?  <span className="subtitles">{this.state.fsRes}</span>
             : <Camera onTakePhotoAnimationDone = {this.onTakePhotoAnimationDone} />
         }
       </div>

@@ -66,7 +66,7 @@ app.post('/voice/token', (req, res) => {
 app.get('/analysis/face',(req,res)=>{
 
 
-      const request = require('request');
+      req = require('request');
       
       // Replace <Subscription Key> with your valid subscription key.
       const subscriptionKey = 'e1eb00afb764433798f77f15b7ba3848';
@@ -77,7 +77,7 @@ app.get('/analysis/face',(req,res)=>{
       const uriBase = 'https://westus.api.cognitive.microsoft.com/face/v1.0/detect';
       
       const imageUrl =
-          'https://nocapstone.s3.us-east-2.amazonaws.com/1.jpg';
+          'https://nocapstone.s3.us-east-2.amazonaws.com/2.jpg';
       
       
       // Request parameters.
@@ -98,7 +98,7 @@ app.get('/analysis/face',(req,res)=>{
           }
       };
       
-      request.post(options, (error, response, body) => {
+      req.post(options, (error, response, body) => {
         if (error) {
           console.log('Error: ', error);
           return;
@@ -106,7 +106,7 @@ app.get('/analysis/face',(req,res)=>{
         let jsonResponse = JSON.stringify(JSON.parse(body), null, '  ');
         console.log('JSON Response\n');
         console.log(jsonResponse);
-        res.send(jsonResponse);
+        res.send({response:jsonResponse});
       });
 });
 
