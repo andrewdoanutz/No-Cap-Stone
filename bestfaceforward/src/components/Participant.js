@@ -61,11 +61,11 @@ const Participant = ({ participant }) => {
     <div className="participant">
       <h3>{participant.identity}</h3>
         <video ref={videoRef} autoPlay muted />
-      <audio ref={audioRef} autoPlay={true} muted={false} />
+      <audio ref={audioRef} autoPlay={false} muted={true} />
     </div>
   );
-   
-  
+
+
 };
 
 export default Participant;
