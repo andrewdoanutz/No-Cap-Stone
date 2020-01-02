@@ -53,7 +53,7 @@ const Room = ({ roomName, token, handleLogout }) => {
             <h2>Room: {roomName}</h2>
             <Button className = "mb-2" onClick={handleLogout}>Log out</Button>
             <Button className = "ml-3 mb-2" onClick={ ()=> {
-                if(blur==false){
+                if(blur===false){
                   setBlur(true)
                 } else {
                   setBlur(false)
