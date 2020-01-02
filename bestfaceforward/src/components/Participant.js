@@ -14,6 +14,7 @@ const Participant = ({ participant }) => {
     setVHeight(vid.videoWidth);
     setVWidth(vid.videoHeight);
     console.log("video dimensions ",vHeight,vWidth);
+    
   })
 
   useEffect(() => {
