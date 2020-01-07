@@ -19,7 +19,7 @@ const VideoChat = () => {
 
   const handleSubmit = useCallback(
     async event => {
-      event.preventDefault();
+      event.preventDefault(); //prevents reloading of the browser
       const data = await fetch('/video/token', {
         method: 'POST',
         body: JSON.stringify({
