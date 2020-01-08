@@ -50,19 +50,23 @@ const sendTokenResponse = (token, res) => {
   );
 };
 
+//Api/transcript takes care of sending in the transcript and sending out analysis
 app.get('/api/transcript', (req,res) => {
   //console.log(res.data)
-  console.log(req.data)
-  res.set('Content-Type', 'application/json');
-  res.send("HELLO")
+  console.log(req.body)
+  const transcript= req.body.transcript;
+  analyzeText(transcript, res);
 
 })
 
 app.post('/api/transcript', (req, res) => {
   console.log("Transcript")
-  console.log(req.data)
-  res.set('Content-Type', 'application/json');
-  res.send(req.data)
+  console.log(req.body)
+  const transcript= req.body.transcript;
+  
+  analyzeText(transcript, res);
+  //res.set('Content-Type', 'application/json');
+  //res.send(req.data)
 })
 
 
