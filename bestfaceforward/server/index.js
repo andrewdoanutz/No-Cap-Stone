@@ -14,12 +14,6 @@ const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 const { IamAuthenticator } = require('ibm-watson/auth');
 
 
-
-const text = 'Team, I know that times are tough! Product '
-  + 'sales have been disappointing for the past three '
-  + 'quarters. We have a competitive product, but we '
-  + 'need to do a better job of selling it!';
-
 const analyzeText = (text, res) => {
   const toneAnalyzer = new ToneAnalyzerV3({
     version: '2019-02-22',
@@ -34,9 +28,13 @@ const analyzeText = (text, res) => {
     contentType: 'application/json',
   };
 
+
+
   toneAnalyzer.tone(toneParams)
     .then(toneAnalysis => {
       console.log(JSON.stringify(toneAnalysis, null, 2));
+      res.set('Content-Type', 'application/json');
+      res.send(JSON.stringify({toneAnalysis}))
     })
     .catch(err => {
       console.log('error:', err);
@@ -52,16 +50,22 @@ const sendTokenResponse = (token, res) => {
   );
 };
 
-app.post('/api/transcript', (req, res) => {
-  console.log("Transcript")
-  console.log(req)
-  //console.log(res)
+app.get('/api/transcript', (req,res) => {
+  //console.log(res.data)
+  console.log(req.data)
+  res.set('Content-Type', 'application/json');
+  res.send("HELLO")
+
 })
 
-app.get('/api/transcript', (req,res) => {
-  console.log(res)
-  console.log(req)
+app.post('/api/transcript', (req, res) => {
+  console.log("Transcript")
+  console.log(req.data)
+  res.set('Content-Type', 'application/json');
+  res.send(req.data)
 })
+
+
 
 app.get('/api/greeting', (req, res) => {
   const name = req.query.name || 'World';
