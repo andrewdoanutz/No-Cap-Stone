@@ -26,8 +26,8 @@ class Screenshot extends Component {
       //endpoint: "http://localhost:8001",
       endpoint: "https://s3.us-east-2.amazonaws.com",
       // get from google drive
-       accessKeyId : "AKIAIYGEHA7KHYDK7MMQ", 
-       secretAccessKey: "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" 
+       accessKeyId : "", 
+       secretAccessKey: "" 
     });
     const type = dataUri.split(';')[0].split('/')[1];
     const base64Data = new Buffer.from(dataUri.replace(/^data:image\/\w+;base64,/, ""), 'base64');
