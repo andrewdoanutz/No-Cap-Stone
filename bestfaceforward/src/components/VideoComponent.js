@@ -14,6 +14,7 @@ class VideoComponent extends Component {
   constructor(props){
     super(props)
     this.analysis=null
+    this.state = {isClicked: false}
   }
 
   translate(){
@@ -29,6 +30,7 @@ class VideoComponent extends Component {
   analyzeText = (ev) => {
 
     ev.preventDefault()
+    this.setState ({isClicked:true})
     axios.post('http://localhost:3001/api/transcript', {transcript: ts})
    .then(res => {
 
@@ -57,15 +59,19 @@ class VideoComponent extends Component {
         <div>
           <Button onClick={this.analyzeText}>Analyze Transcript</Button>
         </div>
-        <div className = "centered">
-          <BarChart width={730} height={300} data={this.analysis}>
-            <XAxis dataKey="tone_name" />
-            <YAxis/>
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="score" fill="#8884d8" />
-          </BarChart>
-        </div>
+        {this.state.isClicked ?
+          <div className = "centered">
+            <BarChart width={730} height={300} data={this.analysis}>
+              <XAxis dataKey="tone_name" />
+              <YAxis/>
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="score" fill="#8884d8" />
+            </BarChart>
+          </div> :
+           null
+        }
+
 
       </div>
     )
