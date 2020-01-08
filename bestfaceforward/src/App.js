@@ -29,6 +29,7 @@ class App extends Component {
           <Route exact path="/videocall" component={VidCall} />
           <Route exact path="/timer" component={Timer} />
           <Route exact path="/dbtest" component={DBTest} />
+          <Route exact path="/api/transcript"/>
         </div>
       </BrowserRouter>
        </div>

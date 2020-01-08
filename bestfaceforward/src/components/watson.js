@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Button, Row, Col} from 'react-bootstrap';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
+import axios from 'axios';
 //sentiment analysis
 //To  disable CORS policy in chrome:
   // kill all instances of chrome
@@ -38,6 +39,12 @@ class WAT extends Component{
       .then(toneAnalysis => {
        console.log(toneAnalysis.result.document_tone.tones);
        this.results=toneAnalysis.result.document_tone.tones;
+       var transcript = this.results;
+       axios.post('http://localhost:3001/api/transcript', transcript, { headers: { 'Content-Type': 'application/json', } })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
       })
       .catch(err => {
         console.log('error:', err);
