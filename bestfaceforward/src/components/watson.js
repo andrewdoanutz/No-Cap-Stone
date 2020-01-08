@@ -39,8 +39,7 @@ class WAT extends Component{
       .then(toneAnalysis => {
        console.log(toneAnalysis.result.document_tone.tones);
        this.results=toneAnalysis.result.document_tone.tones;
-       var transcript = this.results;
-       
+
       })
       .catch(err => {
         console.log('error:', err);
