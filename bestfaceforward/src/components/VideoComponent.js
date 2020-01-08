@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import SpeechRecognition from 'react-speech-recognition'
-import WAT from './watson';
 import {Button} from 'react-bootstrap';
 import axios from 'axios'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
