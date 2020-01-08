@@ -24,13 +24,13 @@ class VideoComponent extends Component {
     googleTranslate.translate(ts, 'es', function(err, translation) {
       console.log(translation.translatedText);
       translatedPhrase = translation.translatedText;
-      // =>  { translatedText: 'Hallo', originalText: 'Hello', detectedSourceLanguage: 'en' }
     });
   }
   analyzeText = (ev) => {
-
     ev.preventDefault()
     this.setState ({isClicked:true})
+
+    //Post call to backend
     axios.post('http://localhost:3001/api/transcript', {transcript: ts})
    .then(res => {
 
@@ -71,8 +71,6 @@ class VideoComponent extends Component {
           </div> :
            null
         }
-
-
       </div>
     )
   }
