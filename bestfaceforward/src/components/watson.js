@@ -40,11 +40,7 @@ class WAT extends Component{
        console.log(toneAnalysis.result.document_tone.tones);
        this.results=toneAnalysis.result.document_tone.tones;
        var transcript = this.results;
-       axios.post('http://localhost:3001/api/transcript', transcript, { headers: { 'Content-Type': 'application/json', } })
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
+       
       })
       .catch(err => {
         console.log('error:', err);
