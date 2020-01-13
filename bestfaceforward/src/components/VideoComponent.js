@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import SpeechRecognition from 'react-speech-recognition'
 import WAT from './watson';
+import ScreenShot from './Screenshot'
 import {Button} from 'react-bootstrap';
 
 import '../css/VideoComponent.css';
@@ -28,6 +29,7 @@ class VideoComponent extends Component {
     ts = transcript
     return (
       <div>
+        <Screenshot/>
         <div>
           <Button className ="mb-2" onClick={resetTranscript}>Reset Transcript</Button>
           <span className="subtitles">{transcript}</span>
