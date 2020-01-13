@@ -28,3 +28,27 @@
 .filter-list {
   list-style: none;
 }
+
+/* body {
+    background: #222222;
+  }
+  #container {
+    position: relative;
+    width: 450px;
+    margin: 0 auto;
+  }
+  img {
+    height: 300px;
+  }
+  #overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    color: rgba(130, 130, 130, 0.5);
+    font-size: 50px;
+    text-align: center;
+    line-height: 100px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  } */
