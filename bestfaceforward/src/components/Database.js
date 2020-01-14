@@ -10,8 +10,8 @@
       //endpoint: "http://localhost:8001", //used for local dev
       endpoint: "https://dynamodb.us-west-1.amazonaws.com",
       // get from google drive
-    accessKeyId : ,
-    secretAccessKey: 
+      accessKeyId : ",
+      secretAccessKey: 
     });
     let dynamodb = new AWS.DynamoDB();
     let docClient = new AWS.DynamoDB.DocumentClient();
@@ -76,40 +76,40 @@
       },
 
       //can change the hardcoded variables
-       addUser(username = "test", password = "test", firstName = "test", lastName = "test", email = "test"){
+      addUser(username = "test", password = "test", firstName = "test", lastName = "test", email = "test"){
         //change this part to recieve input
-      //  var company = "UCSB";
+        //  var company = "UCSB";
         var isInterviewer = true;
         var isRecruiter = false;
         var meetings = [];
 
         var params = {
-            TableName:table,
-            Item:{
-                "username": username,
-                "password": password,
-                "info":{
-                    "firstname": firstName,
-                    "lastname": lastName,
-                  //  "company": company,
-                    "email": email,
-                    "interviewer": isInterviewer,
-                    "recruit": isRecruiter
-                },
-                "meetings": meetings
+          TableName:table,
+          Item:{
+            "username": username,
+            "password": password,
+            "info":{
+              "firstname": firstName,
+              "lastname": lastName,
+              //  "company": company,
+              "email": email,
+              "interviewer": isInterviewer,
+              "recruit": isRecruiter
+            },
+            "meetings": meetings
 
-            }
+          }
         };
 
         console.log("Adding a new item...");
         docClient.put(params, function(err, data) {
-            if (err) {
-                console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
-                return 0;
-            } else {
-                console.log("Added item:", JSON.stringify(data, null, 2));
-                return 1;
-            }
+          if (err) {
+            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+            return 0;
+          } else {
+            console.log("Added item:", JSON.stringify(data, null, 2));
+            return 1;
+          }
         });
       },
 
@@ -190,77 +190,114 @@
        },
 
        updateUser(username = "test", email = "hello"){
+         var params = {
+           TableName:table,
+           Key:{
+             "username": username,
+           },
+           KeyConditionExpression: "username = :uname ",
+           UpdateExpression: "set info.username = :uname, info.email = :newEmail",
+           ExpressionAttributeValues:{
+             ":uname": username,
+             ":newEmail": email
+           }
+         };
+
+         console.log("Updating the item...");
+         docClient.update(params, function(err, data) {
+           if (err) {
+             console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
+           } else {
+             console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
+           }
+         });
+       },
+
+      addMeetingUser(username, meetingID){
         var params = {
           TableName:table,
           Key:{
             "username": username,
           },
           KeyConditionExpression: "username = :uname ",
-          UpdateExpression: "set info.username = :uname, info.email = :newEmail",
+          UpdateExpression: "set  meetings = list_append(meetings, :vals)",
           ExpressionAttributeValues:{
-            ":uname": username,
-            ":newEmail": email
+            ":vals": [meetingID]
           }
         };
 
-        console.log("Updating the item...");
+        console.log("appending meeting...");
         docClient.update(params, function(err, data) {
-            if (err) {
-                console.error("Unable to update item. Error JSON:", JSON.stringify(err, null, 2));
-            } else {
-                console.log("UpdateItem succeeded:", JSON.stringify(data, null, 2));
-            }
+          if (err) {
+            console.error("Unable to append meeting. Error JSON:", JSON.stringify(err, null, 2));
+          } else {
+            console.log("appended meeting succeeded:", JSON.stringify(data, null, 2));
+          }
         });
       },
 
-       addMeetingUser(username, meetingID){
-       var params = {
-         TableName:table,
-         Key:{
-           "username": username,
-         },
-         KeyConditionExpression: "username = :uname ",
-         UpdateExpression: "set  meetings = list_append(meetings, :vals)",
-         ExpressionAttributeValues:{
-           ":vals": [meetingID]
-         }
-       };
+      addMeeting(id, interviewer, interviewee){
+        var params = {
+          TableName:table2,
+          Item:{
+            "id": id,
+            "interviewer": interviewer,
+            "interviewee": interviewee
+          }
+        };
 
-       console.log("appending meeting...");
-       docClient.update(params, function(err, data) {
-           if (err) {
-               console.error("Unable to append meeting. Error JSON:", JSON.stringify(err, null, 2));
-           } else {
-               console.log("appended meeting succeeded:", JSON.stringify(data, null, 2));
-           }
-       });
-     },
+        console.log("Adding a new meeting...");
+        docClient.put(params, function(err, data) {
+          if (err) {
+            console.error("Unable to add meeting. Error JSON:", JSON.stringify(err, null, 2));
+            return 0;
+          } else {
+            console.log("Added meeting:", JSON.stringify(data, null, 2));
+            return 1;
+          }
+        });
+        this.addMeetingUser(interviewer,id);
+        this.addMeetingUser(interviewee,id);
+        return Promise.resolve('a');
 
-     addMeeting(meetingID, interviewer, interviewee){
+      },
+
+
+     getNewMeetingID(){
+       let help;
        var params = {
          TableName:table2,
-         Item:{
-           "id": meetingID,
-           "interviewer": interviewer,
-           "interviewee": interviewee
-         }
+         Limit: 1,
+         reverse:true,
        };
+       var jsonString;
 
-       console.log("Adding a new meeting...");
-       docClient.put(params, function(err, data) {
+       docClient.scan(params, function(err, data){
          if (err) {
-           console.error("Unable to add meeting. Error JSON:", JSON.stringify(err, null, 2));
-           return 0;
+           jsonString = JSON.stringify(err, null, 2);
+           console.error("Unable to get next meetingID. Error JSON:", jsonString);
+
+           return(0);
          } else {
-           console.log("Added meeting:", JSON.stringify(data, null, 2));
-           return 1;
+           jsonString =  JSON.parse(JSON.stringify(data, null, 2));
+           help = parseInt(jsonString.LastEvaluatedKey.id)+1
+           console.log("got max meeting id:", help, typeof help);
+
          }
        });
-       this.addMeetingUser(interviewer,meetingID);
-       this.addMeetingUser(interviewee,meetingID);
+       // setTimeout(function(){
+       //   console.log("got max meeting id2:", help, typeof help);
+       //   return(help);
+       // },100);
+
      },
 
+
+
 //return all meeting items that have the username as interviewer or interviewee
+
+
+
      queryMeetings(username){
        var output;
        var params = {
@@ -312,8 +349,4 @@
            // console.log("output:",output);
            // return output;
      }
-
-
-
-
     };
