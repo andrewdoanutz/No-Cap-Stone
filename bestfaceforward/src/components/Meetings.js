@@ -11,7 +11,7 @@ import
  import VideoComponent from './VideoComponent'
 
 
- const Meetings = () => {
+ const Meetings = ({username}) => {
    const [token, setToken] = useState(null);
 
 
@@ -21,7 +21,7 @@ import
        const data = await fetch('/video/token', {
          method: 'POST',
          body: JSON.stringify({
-           identity: "ryan",
+           identity: username,
            room: "1"
          }),
          headers: {
