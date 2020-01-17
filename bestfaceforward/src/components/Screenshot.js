@@ -74,7 +74,7 @@ class Screenshot extends Component {
         {
           (this.state.dataUri)
             ?  <span className="subtitles">{this.state.fsRes}</span>
-            : <Camera onTakePhotoAnimationDone = {this.onTakePhotoAnimationDone} />
+            : <span className="subtitles">{this.state.fsRes}</span>
         }
       </div>
       
