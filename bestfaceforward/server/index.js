@@ -4,11 +4,13 @@ const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const axios = require('axios')
 const { chatToken, videoToken, voiceToken } = require('./tokens');
+const cors = require('cors');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pino);
+app.use(cors());
 
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 const { IamAuthenticator } = require('ibm-watson/auth');
@@ -63,7 +65,7 @@ app.post('/api/transcript', (req, res) => {
   console.log("Transcript")
   console.log(req.body)
   const transcript= req.body.transcript;
-  
+
   analyzeText(transcript, res);
   //res.set('Content-Type', 'application/json');
   //res.send(req.data)
