@@ -31,7 +31,10 @@
     "recharts": "^1.8.5",
     "twilio-video": "^1.19.2",
     "typescript": "^3.3.3333",
-    "universal-cookie": "^4.0.2"
+    "universal-cookie": "^4.0.2",
+    "vcap_services": "^0.7.1",
+    "watson-developer-cloud": "^4.0.1",
+    "watson-speech": "^0.37.2"
   },
   "scripts": {
     "start": "react-scripts start",

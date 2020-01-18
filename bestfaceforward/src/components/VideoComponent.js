@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import SpeechRecognition from 'react-speech-recognition'
+//import SpeechRecognition from 'react-speech-recognition'
 import {Button} from 'react-bootstrap';
 import axios from 'axios'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
-
+import recognizeMic from 'watson-speech/speech-to-text/recognize-microphone';
 import '../css/VideoComponent.css';
 
 var ts = ""
@@ -13,7 +13,41 @@ class VideoComponent extends Component {
   constructor(props){
     super(props)
     this.analysis=null
-    this.state = {isClicked: false}
+    this.state = {isClicked: false, ts: ""}
+  }
+  textToSpeech(){
+    axios.post('http://localhost:3001/api/speech-to-text/token')
+    .then((response) =>{
+        console.log(response);
+        //return response.text();
+    }).then((token) => {
+
+      console.log(token)
+      var stream = recognizeMic({
+          token: token,
+          objectMode: true, // send objects instead of text
+          extractResults: true, // convert {results: [{alternatives:[...]}], result_index: 0} to {alternatives: [...], index: 0}
+          format: false // optional - performs basic formatting on the results such as capitals an periods
+      });
+
+      /**
+       * Prints the users speech to the console
+       * and assigns the text to the state.
+       */
+      stream.on('data',(data) => {
+        this.setState({
+          ts: data.alternatives[0].transcript
+        })
+
+        // console.log(data.alternatives[0].transcript)
+      });
+      stream.on('error', function(err) {
+          console.log(err);
+      });
+      document.querySelector('#stop').onclick = stream.stop.bind(stream);
+    }).catch(function(error) {
+        console.log(error);
+    });
   }
 
   translate(){
@@ -40,16 +74,13 @@ class VideoComponent extends Component {
   }
 
   render(){
-    const { transcript, resetTranscript, browserSupportsSpeechRecognition } = this.props
-    if (!browserSupportsSpeechRecognition) {
-      return null
-    }
-    ts = transcript
+
+    //ts = transcript
     return (
       <div>
         <div>
-          <Button className ="mb-2" onClick={resetTranscript}>Reset Transcript</Button>
-          <span className="subtitles">{transcript}</span>
+          <Button className ="mb-2" onClick={this.textToSpeech}>Start Transcript</Button>
+          <span className="subtitles">{this.state.ts}</span>
         </div>
         <div>
           <Button className ="mb-2" onClick={this.translate}>Translate Transcript</Button>
@@ -75,4 +106,4 @@ class VideoComponent extends Component {
   }
 }
 
-export default SpeechRecognition(VideoComponent)
+export default VideoComponent;
