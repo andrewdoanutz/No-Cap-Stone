@@ -13,31 +13,32 @@ app.use(bodyParser.json());
 app.use(pino);
 app.use(cors());
 
+//const watson = require('watson-developer-cloud');
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 const SpeechToTextV1 = require('ibm-watson/speech-to-text/v1');
 const AuthorizationV1 = require('watson-developer-cloud/authorization/v1');
 const { IamAuthenticator } = require('ibm-watson/auth');
 
 // on bluemix, enable rate-limiting and force https
-if (process.env.VCAP_SERVICES) {
-  // enable rate-limiting
-  const RateLimit = require('express-rate-limit');
-  app.enable('trust proxy'); // required to work properly behind Bluemix's reverse proxy
-
-  const limiter = new RateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-    delayMs: 0 // disable delaying - full speed until the max limit is reached
-  });
-
-  //  apply to /api/*
-  app.use('/api/', limiter);
-
-  // force https - microphone access requires https in Chrome and possibly other browsers
-  // (*.mybluemix.net domains all have built-in https support)
-  const secure = require('express-secure-only');
-  app.use(secure());
-}
+// if (process.env.VCAP_SERVICES) {
+//   // enable rate-limiting
+//   const RateLimit = require('express-rate-limit');
+//   app.enable('trust proxy'); // required to work properly behind Bluemix's reverse proxy
+//
+//   const limiter = new RateLimit({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 100, // limit each IP to 100 requests per windowMs
+//     delayMs: 0 // disable delaying - full speed until the max limit is reached
+//   });
+//
+//   //  apply to /api/*
+//   app.use('/api/', limiter);
+//
+//   // force https - microphone access requires https in Chrome and possibly other browsers
+//   // (*.mybluemix.net domains all have built-in https support)
+//   const secure = require('express-secure-only');
+//   app.use(secure());
+// }
 
 // const speechToText = new SpeechToTextV1({
 //   authenticator: new IamAuthenticator({
@@ -45,6 +46,28 @@ if (process.env.VCAP_SERVICES) {
 //   }),
 //   url: 'https://api.us-east.speech-to-text.watson.cloud.ibm.com',
 // });
+
+var authorization = new AuthorizationV1(
+  Object.assign(
+    {
+      apikey: '16z3Ok_HxaBtLL2TKSsvquFxqVeiPUudpdkTY1TECdgr',
+      url: 'https://api.us-east.speech-to-text.watson.cloud.ibm.com'
+    },
+    vcapServices.getCredentials('speech_to_text') // pulls credentials from environment in bluemix, otherwise returns {}
+  )
+);
+
+//const authorization = new AuthorizationV1(speechToText.getCredentials());
+
+ app.get('/api/speech-to-text/token', (req, res, next) => {
+   authorization.getToken((err, token) => {
+     if (err) {
+       next(err);
+     } else {
+       res.send(token);
+     }
+   });
+ });
 
 
 
@@ -104,25 +127,25 @@ app.post('/api/transcript', (req, res) => {
 })
 
 //Speech to text
-var sttAuthService = new AuthorizationV1(
-  Object.assign(
-    {
-      apikey: '16z3Ok_HxaBtLL2TKSsvquFxqVeiPUudpdkTY1TECdgr',
-      url: 'https://api.us-east.speech-to-text.watson.cloud.ibm.com'
-    },
-    vcapServices.getCredentials('speech_to_text') // pulls credentials from environment in bluemix, otherwise returns {}
-  )
-);
-app.use('/api/speech-to-text/token', (req, res) => {
-  sttAuthService.getToken(function(err, token) {
-    if (err) {
-      console.log('Error retrieving token: ', err);
-      res.status(500).send('Error retrieving token');
-      return;
-    }
-    res.send(token.token || token);
-  });
-});
+// var sttAuthService = new AuthorizationV1(
+//   Object.assign(
+//     {
+//       apikey: '16z3Ok_HxaBtLL2TKSsvquFxqVeiPUudpdkTY1TECdgr',
+//       url: 'https://api.us-east.speech-to-text.watson.cloud.ibm.com'
+//     },
+//     vcapServices.getCredentials('speech_to_text') // pulls credentials from environment in bluemix, otherwise returns {}
+//   )
+// );
+// app.use('/api/speech-to-text/token', (req, res) => {
+//   sttAuthService.getToken(function(err, token) {
+//     if (err) {
+//       console.log('Error retrieving token: ', err);
+//       res.status(500).send('Error retrieving token');
+//       return;
+//     }
+//     res.send(token.token || token);
+//   });
+// });
 
 // app.listen('/api/speech-to-text/token', function() {
 //   console.log(process.env.SPEECH_TO_TEXT_IAM_APIKEY)
