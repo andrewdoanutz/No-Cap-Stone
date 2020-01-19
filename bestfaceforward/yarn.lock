@@ -1128,6 +1128,15 @@
     is-html "^2.0.0"
     protobufjs "^6.8.8"
 
+"@google-cloud/vision@^1.8.0":
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/vision/-/vision-1.8.0.tgz#a92924cfd149631d9d6a249961cb18089eace926"
+  integrity sha512-MNWogL5xI8VJEJIdIFbQKjLarNkeezi5RcnHRZPXOh+D0Dp3EBavWtDGm6FtdXWG5iqZ3vjIIRyM24QAV7G3wA==
+  dependencies:
+    "@google-cloud/promisify" "^1.0.0"
+    google-gax "^1.7.5"
+    is "^3.2.1"
+
 "@grpc/grpc-js@0.6.9":
   version "0.6.9"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.6.9.tgz#49e0b32b92b822df294cc576df169cc6112063b4"
