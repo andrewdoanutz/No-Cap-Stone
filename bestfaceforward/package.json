@@ -6,6 +6,7 @@
     "@google-cloud/speech": "^3.3.1",
     "@google-cloud/storage": "^4.0.0",
     "@google-cloud/translate": "^4.2.1",
+    "@google-cloud/vision": "^1.8.0",
     "aws-sdk": "^2.566.0",
     "bootstrap": "^4.3.1",
     "express": "^4.17.1",

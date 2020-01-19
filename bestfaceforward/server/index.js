@@ -5,6 +5,10 @@ const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const { chatToken, videoToken, voiceToken } = require('./tokens');
 var NodeWebcam = require("node-webcam");
+const vision = require('@google-cloud/vision');
+const client = new vision.ImageAnnotatorClient();
+
+
 var opts = {
     //Picture related
     width: 1920,
@@ -36,8 +40,10 @@ var opts = {
 //Creates webcam instance
  
 var Webcam = NodeWebcam.create( opts );
-
-var end = NodeWebcam.capture( "test_picture", opts, function( err, data ) {
+const now = new Date();
+const time = now.getTime();
+console.log(time);
+var end = NodeWebcam.capture(String(time), opts, function( err, data ) {
   let AWS = require("aws-sdk");
   //used for local development
   AWS.config.update({
@@ -49,7 +55,7 @@ var end = NodeWebcam.capture( "test_picture", opts, function( err, data ) {
      secretAccessKey: "" 
   });
   //console.log(data);
-    const img = './test_picture.jpg';
+    const img = './' + String(time) + '.jpg';
     const userId = 10;
     const s3 = new AWS.S3();
     const params = {
@@ -59,11 +65,64 @@ var end = NodeWebcam.capture( "test_picture", opts, function( err, data ) {
       ACL: 'public-read',
   };
 
-  s3.putObject(params, function(err, data2) {
+  s3.upload(params, function(err, data2) {
     if (err) {
         throw err;
     }
     console.log(`File uploaded successfully. ${data2.Location}`);
+    const request = {
+      image: {source: {imageUri:data2.Location}},
+      features: [
+        {
+          "maxResults": 50,
+          "type": "LANDMARK_DETECTION"
+        },
+        {
+          "maxResults": 50,
+          "type": "FACE_DETECTION"
+        },
+        {
+          "maxResults": 50,
+          "type": "OBJECT_LOCALIZATION"
+        },
+        {
+          "maxResults": 50,
+          "type": "LOGO_DETECTION"
+        },
+        {
+          "maxResults": 50,
+          "type": "LABEL_DETECTION"
+        },
+        {
+          "maxResults": 50,
+          "type": "DOCUMENT_TEXT_DETECTION"
+        },
+        {
+          "maxResults": 50,
+          "type": "SAFE_SEARCH_DETECTION"
+        },
+        {
+          "maxResults": 50,
+          "type": "IMAGE_PROPERTIES"
+        },
+        {
+          "maxResults": 50,
+          "type": "CROP_HINTS"
+        },
+        {
+          "maxResults": 50,
+          "type": "WEB_DETECTION"
+        }
+      ],
+    };
+    client
+      .annotateImage(request)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.error(err);
+      });
     });
 });
 
