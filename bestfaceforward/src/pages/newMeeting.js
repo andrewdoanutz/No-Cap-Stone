@@ -2,12 +2,16 @@ import React, { useState, useCallback } from 'react';
 import {Button, Modal} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form'
 import Database from '../components/Database'
+var Matabase2 = require('../components/Matabase2')
+
+// var Database = require ('../components/Database');
 
 ////
-export default function newMeeting(){
+function newMeeting({lid}){
   const [show, setShow] = useState(false);
   const [interviewee, setInterviewee] = useState('')
   const [email, setEmail]= useState('')
+  const [meetingID, setMeetingID] = useState('')
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -17,8 +21,11 @@ export default function newMeeting(){
   const handleChangeEmail = useCallback(event =>{
     setEmail(event.target.value);
   }, []);
-  const createNewMeeting = useCallback(event =>{
-    Database.addMeeting("77",interviewee,"Adjon");
+  const createNewMeeting = useCallback(
+    async event =>{
+      Matabase2.addMeeting(interviewee,"Adjon").then((result) =>{
+        console.log("result of adding meeting:",result);
+      });
     handleClose();
   }, [] );
 
@@ -60,4 +67,8 @@ export default function newMeeting(){
       </Modal>
     </>
   );
+}
+
+module.exports = {
+  newMeeting
 }
