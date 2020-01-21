@@ -9,8 +9,10 @@ import
  import Room from './../components/Room';
  import VideoComponent from './../components/VideoComponent'
  import Meetings from './../components/Meetings'
- import NewMeeting from './newMeeting'
+ //import NewMeeting from './newMeeting'
  import Database from '../components/Database'
+ import Training from './training'
+ const NewMeeting  = require('./newMeeting')
 
 
 
@@ -20,28 +22,59 @@ let cookies = new Cookies();
 
 
 export default class Dashboard extends Component {
-  state= {
-    newMeetingID :0
-  }
+
 
   constructor(){
     super();
+    this.state= {
+      newMeetingID : 1
+    }
+    var promise = new Promise ((resolve,reject) => {
+      // let newMeetingID = '';
+      Database.getNewMeetingID()
+      .then(id => this.setState({newMeetingID:id}),
+      resolve(this.state.newMeetingID)
+      // console.log("returned value:", id)
+    )
+      .catch(err => console.log(err))
+      // if(this.state.newMeetingID!=1){
+      //   resolve(this.state.newMeetingID);
+      // }
+      // else{
+      //   reject(Error("promise rejected"))
+      // }
+    });
+    promise.then(result=>{
+      console.log("result:",result)
+      this.setState({newMeetingID:result})
+    },  function(error) {
+      console.log("promise returned error:", error)
+    });
   }
 
+  // componenetWillMount(){
+  //
+  // }
+
   render() {
-  //console.log("here",Database.getNewMeetingID());
+    console.log("here",this.state.newMeetingID);
     console.log("Cookies",cookies.get('login'));
       return (
-          <div className="homebox">
-              <Row>
-                  <Col>
-                      <Meetings username={cookies.get('login')}/>
-                  </Col>
-              </Row>
-              <Row>
-                 <NewMeeting/>
-              </Row>
-          </div>
+        <div className="homebox">
+          <Row>
+            <Col>
+              <Meetings username={cookies.get('login')}/>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <NewMeeting lid = {this.state.newMeetingID}/>
+            </Col>
+          </Row>
+          <Row>
+            <Col> <Button/></Col>
+          </Row>
+        </div>
       )
   }
 }
