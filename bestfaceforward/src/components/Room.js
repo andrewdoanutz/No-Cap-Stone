@@ -3,7 +3,7 @@ import Video from 'twilio-video';
 import Participant from './Participant';
 import {Row, Container, Col,Button} from 'react-bootstrap';
 import '../css/Room.css';
-
+import bro from "../images/mask.png"
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
@@ -53,7 +53,7 @@ const Room = ({ roomName, token, handleLogout }) => {
             <h2>Room: {roomName}</h2>
             <Button className = "mb-2" onClick={handleLogout}>Log out</Button>
             <Button className = "ml-3 mb-2" onClick={ ()=> {
-                if(blur==false){
+                if(blur===false){
                   setBlur(true)
                 } else {
                   setBlur(false)
@@ -62,7 +62,8 @@ const Room = ({ roomName, token, handleLogout }) => {
             }>Blur</Button>
             <div className="local-participant">
               {room ? (
-                <div className={blur===true ? 'mask' : ''}>
+                <div className="container">
+                  <img src={bro} className={blur===true ? 'mask' : 'empty'}/>
                   <Participant
                     key={room.localParticipant.sid}
                     participant={room.localParticipant}
