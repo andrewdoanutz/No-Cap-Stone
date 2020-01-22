@@ -38,12 +38,15 @@ var opts = {
  
  
 //Creates webcam instance
- 
-var Webcam = NodeWebcam.create( opts );
-const now = new Date();
-const time = now.getTime();
-console.log(time);
-var end = NodeWebcam.capture(String(time), opts, function( err, data ) {
+app.get('/analysis/face',(req,res)=>{
+  req = require('request');
+  var Webcam = NodeWebcam.create( opts );
+  const now = new Date();
+  const time = now.getTime();
+  console.log(time);
+  var link = ""
+  var end = NodeWebcam.capture(String(time), opts, function( err, data ) {
+  //console.log(data);
   let AWS = require("aws-sdk");
   //used for local development
   AWS.config.update({
@@ -60,73 +63,70 @@ var end = NodeWebcam.capture(String(time), opts, function( err, data ) {
     const s3 = new AWS.S3();
     const params = {
       Bucket: 'nocapstone',
-      Key: `${userId}.jpg`, // type is not required
+      Key: `${time}.jpg`, // type is not required
       Body: fs.createReadStream(img),
       ACL: 'public-read',
-  };
-
-  s3.upload(params, function(err, data2) {
-    if (err) {
-        throw err;
-    }
-    console.log(`File uploaded successfully. ${data2.Location}`);
-    const request = {
-      image: {source: {imageUri:data2.Location}},
-      features: [
-        {
-          "maxResults": 50,
-          "type": "LANDMARK_DETECTION"
-        },
-        {
-          "maxResults": 50,
-          "type": "FACE_DETECTION"
-        },
-        {
-          "maxResults": 50,
-          "type": "OBJECT_LOCALIZATION"
-        },
-        {
-          "maxResults": 50,
-          "type": "LOGO_DETECTION"
-        },
-        {
-          "maxResults": 50,
-          "type": "LABEL_DETECTION"
-        },
-        {
-          "maxResults": 50,
-          "type": "DOCUMENT_TEXT_DETECTION"
-        },
-        {
-          "maxResults": 50,
-          "type": "SAFE_SEARCH_DETECTION"
-        },
-        {
-          "maxResults": 50,
-          "type": "IMAGE_PROPERTIES"
-        },
-        {
-          "maxResults": 50,
-          "type": "CROP_HINTS"
-        },
-        {
-          "maxResults": 50,
-          "type": "WEB_DETECTION"
-        }
-      ],
     };
-    client
-      .annotateImage(request)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.error(err);
+
+    s3.upload(params, function(err, data2) {
+      if (err) {
+          throw err;
+      }
+      console.log(`File uploaded successfully. ${data2.Location}`);
+      const request = {
+        "image": {source: {"imageUri":data2.Location}},
+        "features": [
+          {
+              "type": "FACE_DETECTION"
+          },
+          {
+              "type": "LABEL_DETECTION"
+          }/*,
+          {
+              "type": "SAFE_SEARCH_DETECTION"
+          },
+          {
+              "type": "WEB_DETECTION"
+          },
+          {
+              "type": "CROP_HINTS"
+          },
+          {
+              "type": "IMAGE_PROPERTIES"
+          },
+          {
+              "type": "DOCUMENT_TEXT_DETECTION"
+          },
+          {
+              "type": "TEXT_DETECTION"
+          },
+          {
+              "type": "LOGO_DETECTION"
+          },
+          {
+              "type": "LANDMARK_DETECTION"
+          },
+          {
+              "type": "TYPE_UNSPECIFIED"
+          }*/
+          // Other detection types here...
+      ]
+      };
+      client
+        .annotateImage(request)
+        .then(response => {
+          let jR = JSON.stringify(response, null, '  ')
+          console.log(jR); 
+          res.send({response:jsonResponse});
+        })
+        .catch(err => {
+          console.error(err);
+        });
       });
-    });
+  });
+
 });
 
-console.log(end);
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
