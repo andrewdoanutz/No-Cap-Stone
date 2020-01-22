@@ -3,7 +3,7 @@ import Video from 'twilio-video';
 import Participant from './Participant';
 import {Row, Container, Col,Button} from 'react-bootstrap';
 import '../css/Room.css';
-import bro from "/Users/andrew/No-Cap-Stone/bestfaceforward/src/images/mask.png"
+import bro from "../images/mask.png"
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
