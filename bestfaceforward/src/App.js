@@ -10,6 +10,7 @@ import MakeAcct from './pages/makeAcct'
 import VidCall from './pages/videoCall'
 import Timer from './pages/timer'
 import DBTest from './pages/DBTest'
+import Practice from './pages/practice'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
@@ -30,6 +31,7 @@ class App extends Component {
           <Route exact path="/timer" component={Timer} />
           <Route exact path="/dbtest" component={DBTest} />
           <Route exact path="/api/transcript"/>
+          <Route exact path="/practice" component={Practice}/>
         </div>
       </BrowserRouter>
        </div>
