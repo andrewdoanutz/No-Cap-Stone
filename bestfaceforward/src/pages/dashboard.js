@@ -72,7 +72,7 @@ export default class Dashboard extends Component {
           </Row>
           <Row>
             <Col>
-              <NewMeeting />
+              <NewMeeting uname = {cookies.get('login')}/>
             </Col>
           </Row>
           <Row>

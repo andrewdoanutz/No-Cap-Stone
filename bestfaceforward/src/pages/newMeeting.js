@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form'
 import Database from '../components/Database'
 
 
-export default function newMeeting(){
+const newMeeting = ({uname}) =>{
   // this.state= {
   //     interviewee : 0
   //   }
@@ -18,26 +18,27 @@ export default function newMeeting(){
   const handleChangeInterviewee = useCallback(event =>{
     setInterviewee(event.target.value);
     // this.setState({interviewee:event.target.value})
-    console.log("interviewe:", interviewee)
-    console.log("setinterviewe:", setInterviewee)
+    // console.log("interviewe:", interviewee)
+    // console.log("setinterviewe:", setInterviewee)
   }, []);
   const handleChangeEmail = useCallback(event =>{
     setEmail(event.target.value);
   }, []);
-  const createNewMeeting = useCallback(event =>{
-    // async event =>{
+  const createNewMeeting = useCallback(
+    async event =>{
     //   Matabase2.addMeeting(interviewee,"Adjon").then((result) =>{
     //     console.log("result of adding meeting:",result);
-    //   });
+    event.preventDefault()
     var id = (Math.floor(Math.random()* (10000000 - 1) + 1)).toString()
     //console.log("username:", uname)
     console.log("Meeting ID: ", id)
     console.log("Email: ", email)
-    // console.log("interviewe:", this.state.interviewee)
-    Database.addMeet(id, interviewee, "x");
+    console.log("interviewe:", interviewee)
+    console.log("interviewer:", uname)
+    Database.addMeet(id, uname, interviewee);
 
     handleClose();
-  }, [] );
+  }, [email, interviewee] );
 
   return (
     <>
@@ -78,3 +79,5 @@ export default function newMeeting(){
     </>
   );
 }
+
+export default newMeeting;
