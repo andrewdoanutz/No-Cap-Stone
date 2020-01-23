@@ -4,8 +4,18 @@ import React, { useState, useEffect, useRef } from 'react';
 const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
+  const [vHeight, setVHeight] = useState(0);
+  const [vWidth, setVWidth] = useState(0);
   const videoRef = useRef();
   const audioRef = useRef();
+
+  useEffect(() => {
+    var vid = document.getElementById("participant");
+    setVHeight(vid.videoWidth);
+    setVWidth(vid.videoHeight);
+    console.log("video dimensions ",vHeight,vWidth);
+    
+  })
 
   useEffect(() => {
     console.log(participant);
@@ -60,12 +70,12 @@ const Participant = ({ participant }) => {
   return (
     <div className="participant">
       <h3>{participant.identity}</h3>
-        <video ref={videoRef} autoPlay muted />
-      <audio ref={audioRef} autoPlay={true} muted={false} />
+        <video id = "participant" ref={videoRef} autoPlay muted />
+      <audio ref={audioRef} autoPlay={false} muted={true} />
     </div>
   );
-   
-  
+
+
 };
 
 export default Participant;
