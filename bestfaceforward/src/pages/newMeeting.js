@@ -2,12 +2,12 @@ import React, { useState, useCallback } from 'react';
 import {Button, Modal} from 'react-bootstrap';
 import Form from 'react-bootstrap/Form'
 import Database from '../components/Database'
-var Matabase2 = require('../components/Matabase2')
 
-// var Database = require ('../components/Database');
 
-////
-function newMeeting({lid}){
+export default function newMeeting(){
+  // this.state= {
+  //     interviewee : 0
+  //   }
   const [show, setShow] = useState(false);
   const [interviewee, setInterviewee] = useState('')
   const [email, setEmail]= useState('')
@@ -17,15 +17,25 @@ function newMeeting({lid}){
   const handleShow = () => setShow(true);
   const handleChangeInterviewee = useCallback(event =>{
     setInterviewee(event.target.value);
+    // this.setState({interviewee:event.target.value})
+    console.log("interviewe:", interviewee)
+    console.log("setinterviewe:", setInterviewee)
   }, []);
   const handleChangeEmail = useCallback(event =>{
     setEmail(event.target.value);
   }, []);
-  const createNewMeeting = useCallback(
-    async event =>{
-      Matabase2.addMeeting(interviewee,"Adjon").then((result) =>{
-        console.log("result of adding meeting:",result);
-      });
+  const createNewMeeting = useCallback(event =>{
+    // async event =>{
+    //   Matabase2.addMeeting(interviewee,"Adjon").then((result) =>{
+    //     console.log("result of adding meeting:",result);
+    //   });
+    var id = (Math.floor(Math.random()* (10000000 - 1) + 1)).toString()
+    //console.log("username:", uname)
+    console.log("Meeting ID: ", id)
+    console.log("Email: ", email)
+    // console.log("interviewe:", this.state.interviewee)
+    Database.addMeet(id, interviewee, "x");
+
     handleClose();
   }, [] );
 
@@ -67,8 +77,4 @@ function newMeeting({lid}){
       </Modal>
     </>
   );
-}
-
-module.exports = {
-  newMeeting
 }
