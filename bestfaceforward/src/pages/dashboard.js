@@ -9,10 +9,9 @@ import
  import Room from './../components/Room';
  import VideoComponent from './../components/VideoComponent'
  import Meetings from './../components/Meetings'
- //import NewMeeting from './newMeeting'
- import Database from '../components/Database'
  import Training from './training'
- const NewMeeting  = require('./newMeeting')
+ import Database from '../components/Database'
+ import NewMeeting from './newMeeting'
 
 
 
@@ -26,38 +25,43 @@ export default class Dashboard extends Component {
 
   constructor(){
     super();
-    this.state= {
-      newMeetingID : 1
-    }
-    var promise = new Promise ((resolve,reject) => {
-      // let newMeetingID = '';
-      Database.getNewMeetingID()
-      .then(id => this.setState({newMeetingID:id}),
-      resolve(this.state.newMeetingID)
-      // console.log("returned value:", id)
-    )
-      .catch(err => console.log(err))
-      // if(this.state.newMeetingID!=1){
-      //   resolve(this.state.newMeetingID);
-      // }
-      // else{
-      //   reject(Error("promise rejected"))
-      // }
-    });
-    promise.then(result=>{
-      console.log("result:",result)
-      this.setState({newMeetingID:result})
-    },  function(error) {
-      console.log("promise returned error:", error)
-    });
-  }
+}
+    ///BELOW IS ATTEMPT TO GENERATE NEW MEETING ID USING PROMISES
+    ///AND FUNCTION DATABASE.getNewMeetingID
+    ///PLEASE KEEP FOR REFERENCE
 
-  // componenetWillMount(){
-  //
+  //   this.state= {
+  //     newMeetingID : 1
+  //   }
+  //   var promise = new Promise ((resolve,reject) => {
+  //     // let newMeetingID = '';
+  //     Database.getNewMeetingID()
+  //     .then(id => this.setState({newMeetingID:id}),
+  //     resolve(this.state.newMeetingID)
+  //     // console.log("returned value:", id)
+  //   )
+  //     .catch(err => console.log(err))
+  //     // if(this.state.newMeetingID!=1){
+  //     //   resolve(this.state.newMeetingID);
+  //     // }
+  //     // else{
+  //     //   reject(Error("promise rejected"))
+  //     // }
+  //   });
+  //   promise.then(result=>{
+  //     console.log("result:",result)
+  //     this.setState({newMeetingID:result})
+  //   },  function(error) {
+  //     console.log("promise returned error:", error)
+  //   });
   // }
+  //
+  // // componenetWillMount(){
+  // //
+  // // }
 
   render() {
-    console.log("here",this.state.newMeetingID);
+    // console.log("here",this.state.newMeetingID);
     console.log("Cookies",cookies.get('login'));
       return (
         <div className="homebox">
@@ -68,7 +72,7 @@ export default class Dashboard extends Component {
           </Row>
           <Row>
             <Col>
-              <NewMeeting lid = {this.state.newMeetingID}/>
+              <NewMeeting />
             </Col>
           </Row>
           <Row>
