@@ -37,6 +37,7 @@ class Report extends Component {
     }
   }
 
+  //get number of occurances in an array of a specific value
   getOccurrence = (array, value) => {
     var count = 0;
     array.forEach((v) => (v === value && count++));
@@ -49,12 +50,12 @@ class Report extends Component {
     var txt = this.state.txt.toLowerCase()
     var words = txt.split(" ")
     var wordArray = Object.values(words)
-    //console.log(this.getOccurrence(wordArray, "um"))
+
     this.setState({filler: this.getOccurrence(wordArray, 'um')})
 
 
 
-    //Post call to backend
+    //Post call to backend for analysis of transcript
     axios.post('http://localhost:3001/api/transcript', {transcript: this.state.txt})
    .then(res => {
 
@@ -65,8 +66,38 @@ class Report extends Component {
      //     tone.score
      //   }
      // }
+     console.log(res.data.toneAnalysis.result.document_tone.tones)
+     var tones = res.data.toneAnalysis.result.document_tone.tones
+     var finalTone = [ {tone_name: 'Anger', score: 0.1},
+                 {
+                   tone_name: 'Fear', score: 0.1
+                 },
+                 {
+                   tone_name: 'Joy', score: 0.1
+                 },
+                 {
+                   tone_name: 'Sadness', score: 0.1
+                 },
+                 {
+                   tone_name: 'Analytical', score: 0.1
+                 },
+                 {
+                   tone_name: 'Confident', score: 0.1
+                 },
+                 {
+                   tone_name: 'Tentative', score: 0.1
+                 }
+               ]
+     for (var i of tones){
+       for (var a of finalTone){
+         if (a.tone_name == i.tone_name){
+           a.score = i.score
+         }
+       }
+     }
+     console.log(finalTone)
      this.setState({
-       analysis: res.data.toneAnalysis.result.document_tone.tones
+       analysis: finalTone
      })
      //console.log(res.data.toneAnalysis.result);
      //console.log(this.state.analysis)
@@ -107,7 +138,7 @@ class Report extends Component {
             </Card>
           </Col>
         </Row>
-      <div>{this.state.txt}</div>
+        <div>{this.state.txt}</div>
 
       </div>
     );
