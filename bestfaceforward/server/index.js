@@ -35,97 +35,6 @@ var opts = {
     verbose: false
  
 };
- 
- 
-//Creates webcam instance
-app.get('/analysis/face',(req,res)=>{
-  req = require('request');
-  var Webcam = NodeWebcam.create( opts );
-  const now = new Date();
-  const time = now.getTime();
-  console.log(time);
-  var link = ""
-  var end = NodeWebcam.capture(String(time), opts, function( err, data ) {
-  //console.log(data);
-  let AWS = require("aws-sdk");
-  //used for local development
-  AWS.config.update({
-    region: "us-east-2",
-    //endpoint: "http://localhost:8001",
-    endpoint: "https://s3.us-east-2.amazonaws.com",
-    // get from google drive
-     accessKeyId : "", 
-     secretAccessKey: "" 
-  });
-  //console.log(data);
-    const img = './' + String(time) + '.jpg';
-    const userId = 10;
-    const s3 = new AWS.S3();
-    const params = {
-      Bucket: 'nocapstone',
-      Key: `${time}.jpg`, // type is not required
-      Body: fs.createReadStream(img),
-      ACL: 'public-read',
-    };
-
-    s3.upload(params, function(err, data2) {
-      if (err) {
-          throw err;
-      }
-      console.log(`File uploaded successfully. ${data2.Location}`);
-      const request = {
-        "image": {source: {"imageUri":data2.Location}},
-        "features": [
-          {
-              "type": "FACE_DETECTION"
-          },
-          {
-              "type": "LABEL_DETECTION"
-          }/*,
-          {
-              "type": "SAFE_SEARCH_DETECTION"
-          },
-          {
-              "type": "WEB_DETECTION"
-          },
-          {
-              "type": "CROP_HINTS"
-          },
-          {
-              "type": "IMAGE_PROPERTIES"
-          },
-          {
-              "type": "DOCUMENT_TEXT_DETECTION"
-          },
-          {
-              "type": "TEXT_DETECTION"
-          },
-          {
-              "type": "LOGO_DETECTION"
-          },
-          {
-              "type": "LANDMARK_DETECTION"
-          },
-          {
-              "type": "TYPE_UNSPECIFIED"
-          }*/
-          // Other detection types here...
-      ]
-      };
-      client
-        .annotateImage(request)
-        .then(response => {
-          let jR = JSON.stringify(response, null, '  ')
-          console.log(jR); 
-          res.send({response:jsonResponse});
-        })
-        .catch(err => {
-          console.error(err);
-        });
-      });
-  });
-
-});
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -184,6 +93,36 @@ app.post('/voice/token', (req, res) => {
   const token = voiceToken(identity, config);
   sendTokenResponse(token, res);
 });
+ 
+  
+app.post('/face/analysis',(req,res) => {
+  console.log("hi'");
+  console.log(req.body.x);
+  var link = "https://nocapstone.s3.us-east-2.amazonaws.com/" + req.body.x + ".jpg";
+  console.log(link);
+  const request = {
+    "image": {source: {"imageUri":link}},
+    "features": [
+      {
+          "type": "FACE_DETECTION"
+      },
+      {
+          "type": "LABEL_DETECTION"
+      }
+  ]
+  };
+  client
+    .annotateImage(request)
+    .then(response => {
+      let jR = JSON.stringify(response, null, '  ')
+      console.log(jR); 
+      res.send({response:jsonResponse});
+    })
+    .catch(err => {
+      console.error(err);
+    });
+})
+
 
 app.listen(3001, () =>
   console.log('Express server is running on localhost:3001')
