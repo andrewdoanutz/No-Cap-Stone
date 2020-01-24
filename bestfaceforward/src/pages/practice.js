@@ -11,6 +11,13 @@ const videoConstraints = {
   };
   
 export default class Practice extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            question: "",
+            ind:-1
+        }
+      }
     randomQuestion(ind){
         const min = 1;
         const max = 33;
@@ -21,10 +28,16 @@ export default class Practice extends Component {
         rand=Math.round(rand)
         console.log(rand)
         console.log(questions[rand])
-        return questions[rand]
+        this.setState({
+            question:questions[rand],
+            ind:rand
+        })
     }
   render() {
-    let question=this.randomQuestion(-1)
+      let buttonText="Next Question"
+      if(this.state.question===""){
+        buttonText="Start Questions"
+      }
     return (
       <div>
           <div className="homeBox">
@@ -35,8 +48,8 @@ export default class Practice extends Component {
                 width={500}
                 videoConstraints={videoConstraints}
                 />
-            <Button onClick={this.randomQuestion}>Next Question</Button>
-            <div>{question}</div>
+            <Button onClick={this.randomQuestion.bind(this)}>{buttonText}</Button>
+            <div>{this.state.question}</div>
         </div>
       </div>
     )
