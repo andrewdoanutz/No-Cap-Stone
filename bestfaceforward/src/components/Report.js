@@ -32,13 +32,27 @@ class Report extends Component {
                   {
                     tone_name: 'Tentative', score: 0
                   }
-                ]
+                ],
+      filler: 0
     }
+  }
+
+  getOccurrence = (array, value) => {
+    var count = 0;
+    array.forEach((v) => (v === value && count++));
+    return count;
   }
 
   analyzeText = (ev) => {
     ev.preventDefault()
-    //this.setState ({isClicked:true})
+
+    var txt = this.state.txt.toLowerCase()
+    var words = txt.split(" ")
+    var wordArray = Object.values(words)
+    //console.log(this.getOccurrence(wordArray, "um"))
+    this.setState({filler: this.getOccurrence(wordArray, 'um')})
+
+
 
     //Post call to backend
     axios.post('http://localhost:3001/api/transcript', {transcript: this.state.txt})
@@ -54,8 +68,8 @@ class Report extends Component {
      this.setState({
        analysis: res.data.toneAnalysis.result.document_tone.tones
      })
-     console.log(res.data.toneAnalysis.result);
-     console.log(this.state.analysis)
+     //console.log(res.data.toneAnalysis.result);
+     //console.log(this.state.analysis)
    })
   }
 
@@ -68,8 +82,8 @@ class Report extends Component {
         <Button onClick={this.analyzeText}>Analyze</Button>
         <Row>
           <Col sm={6}>
-            <Card bg="dark" text="white" >
-              <Card.Header as="h5">Tone Analysis</Card.Header>
+            <Card>
+              <Card.Header as="h3">Tone Analysis</Card.Header>
               <Card.Body>
                 <Card.Text>
                   <RadarChart cx={300} cy={250} outerRadius={150} width={500} height={500} data={this.state.analysis}>
@@ -82,7 +96,18 @@ class Report extends Component {
               </Card.Body>
             </Card>
           </Col>
+          <Col sm={2}>
+            <Card>
+              <Card.Header as="h3">Filler Count</Card.Header>
+              <Card.Body>
+                <Card.Text as="h4">
+                  <div>Numer of Filler Words: {this.state.filler}</div>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
         </Row>
+      <div>{this.state.txt}</div>
 
       </div>
     );
