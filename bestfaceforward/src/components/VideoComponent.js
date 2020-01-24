@@ -81,24 +81,29 @@ class VideoComponent extends Component {
             }
             link = data.Location;
             console.log(`File uploaded successfully. ${data.Location}`);
-            
+            const response = fetch('/face/analysis',{method: 'POST',headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body:JSON.stringify({"x":time})
+            });
             });
             
         }
-        this.callBackendAPI(prevTime);
+       // this.callBackendAPI(time);
         prevTime = time;
         this.img.src = URL.createObjectURL(blob);
         console.log(this.img);
         this.img.onload = () => { URL.revokeObjectURL(this.src); } 
         
       })
-  
+      
     
   }
    
-  async callBackendAPI(data){
+  callBackendAPI(data){
     console.log(data);
-    const response = await fetch('/face/analysis',{method: 'POST',headers: {
+    const response = fetch('/face/analysis',{method: 'POST',headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
