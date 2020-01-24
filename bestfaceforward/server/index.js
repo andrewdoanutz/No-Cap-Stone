@@ -5,6 +5,8 @@ const pino = require('express-pino-logger')();
 const axios = require('axios')
 const { chatToken, videoToken, voiceToken } = require('./tokens');
 const cors = require('cors');
+const dotenv = require('dotenv')
+dotenv.config();
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -17,7 +19,13 @@ const { IamAuthenticator } = require('ibm-watson/auth');
 
 
 const analyzeText = (text, res) => {
-  
+  const toneAnalyzer = new ToneAnalyzerV3({
+    version: '2019-02-22',
+    authenticator: new IamAuthenticator({
+      apikey: process.env.TONEAPI,
+    }),
+    url: 'https://gateway.watsonplatform.net/tone-analyzer/api',
+  });
 
   const toneParams = {
     toneInput: { 'text': text },
