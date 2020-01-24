@@ -17,13 +17,7 @@ const { IamAuthenticator } = require('ibm-watson/auth');
 
 
 const analyzeText = (text, res) => {
-  const toneAnalyzer = new ToneAnalyzerV3({
-    version: '2019-02-22',
-    authenticator: new IamAuthenticator({
-      apikey: '16z3Ok_HxaBtLL2TKSsvquFxqVeiPUudpdkTY1TECdgr',
-    }),
-    url: 'https://gateway.watsonplatform.net/tone-analyzer/api',
-  });
+  
 
   const toneParams = {
     toneInput: { 'text': text },
