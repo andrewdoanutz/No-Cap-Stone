@@ -30,6 +30,7 @@
     "react-typist": "^2.0.5",
     "react-webcam": "^4.1.1",
     "recharts": "^1.8.5",
+    "speak-tts": "^2.0.8",
     "twilio-video": "^1.19.2",
     "typescript": "^3.3.3333",
     "universal-cookie": "^4.0.2"
