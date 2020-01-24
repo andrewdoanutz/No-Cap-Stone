@@ -16,7 +16,6 @@ app.use(cors());
 //const watson = require('watson-developer-cloud');
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 const SpeechToTextV1 = require('ibm-watson/speech-to-text/v1');
-const AuthorizationV1 = require('watson-developer-cloud/authorization/v1');
 const { IamAuthenticator } = require('ibm-watson/auth');
 
 // on bluemix, enable rate-limiting and force https
@@ -47,27 +46,38 @@ const { IamAuthenticator } = require('ibm-watson/auth');
 //   url: 'https://api.us-east.speech-to-text.watson.cloud.ibm.com',
 // });
 
-var authorization = new AuthorizationV1(
-  Object.assign(
-    {
-      apikey: '16z3Ok_HxaBtLL2TKSsvquFxqVeiPUudpdkTY1TECdgr',
-      url: 'https://api.us-east.speech-to-text.watson.cloud.ibm.com'
-    },
-    vcapServices.getCredentials('speech_to_text') // pulls credentials from environment in bluemix, otherwise returns {}
-  )
-);
+// const speechToText = new SpeechToTextV1({
+  const authenticator = new IamAuthenticator({
+    apikey: 'IpD1HRzSUtOkxpaD4obmumEPxX4slxMOiQ5XW_e7UBvB',
+  })
+  //url: 'https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/df35c374-f20e-45f4-9367-085995980113',
+// });
+
 
 //const authorization = new AuthorizationV1(speechToText.getCredentials());
 
- app.get('/api/speech-to-text/token', (req, res, next) => {
-   authorization.getToken((err, token) => {
-     if (err) {
-       next(err);
-     } else {
-       res.send(token);
-     }
-   });
+ app.get('/api/speech-to-text/token', async (req, res, next) => {
+   try {
+    const accessToken = await authenticator.getToken();
+    res.json({
+      accessToken,
+      serviceUrl,
+    });
+    } catch (err) {
+      next(err);
+    }
  });
+
+ // app.post('/api/speech-to-text/token', (req, res, next) => {
+ //   authenticator.getToken((err, token) => {
+ //     if (err) {
+ //       next(err);
+ //     } else {
+ //       res.set('Content-Type', 'application/json');
+ //       res.send(token);
+ //     }
+ //   });
+ // });
 
 
 
