@@ -16,7 +16,7 @@ class VideoComponent extends Component {
     this.state = {isClicked: false, ts: ""}
   }
   textToSpeech(){
-    axios.post('http://localhost:3001/api/speech-to-text/token')
+    axios.fetch('http://localhost:3001/api/speech-to-text/token')
     .then((response) =>{
         console.log(response);
         //return response.text();
