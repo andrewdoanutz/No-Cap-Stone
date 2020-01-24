@@ -10,6 +10,14 @@ const videoConstraints = {
     facingMode: "user"
   };
   
+const speech = new Speech()
+speech.init().then((data) => {
+    // The "data" object contains the list of available voices and the voice synthesis params
+    console.log("Speech is ready, voices are available", data)
+}).catch(e => {
+    console.error("An error occured while initializing : ", e)
+})
+
 export default class Practice extends Component {
     constructor(props){
         super(props)
@@ -18,11 +26,11 @@ export default class Practice extends Component {
             ind:-1
         }
       }
-    randomQuestion(ind){
+    randomQuestion(){
         const min = 1;
         const max = 33;
         let rand = min + Math.random() * (max - min);
-        while(rand===1){
+        while(Math.round(rand)===this.state.ind){
             rand = min + Math.random() * (max - min);
         }
         rand=Math.round(rand)
@@ -31,6 +39,10 @@ export default class Practice extends Component {
         this.setState({
             question:questions[rand],
             ind:rand
+        }, () => {
+            speech.speak({
+                text: this.state.question,
+            })
         })
     }
   render() {
