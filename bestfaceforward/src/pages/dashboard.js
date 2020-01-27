@@ -6,7 +6,7 @@ import
   Card, {CardImg, CardText, CardBody,
   CardTitle, CardSubtitle}
  from 'react-bootstrap/Card';
- import { Container, Row, Col } from 'reactstrap';
+ import { Container, Row, Col } from 'react-bootstrap';
  import Room from './../components/Room';
  import VideoComponent from './../components/VideoComponent'
  import Meetings from './../components/Meetings'
