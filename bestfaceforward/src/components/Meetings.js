@@ -6,7 +6,7 @@ import
   Card, {CardImg, CardText, CardBody,
   CardTitle, CardSubtitle}
  from 'react-bootstrap/Card';
- import { Container, Row, Col } from 'reactstrap';
+ import { Container, Row, Col } from 'react-bootstrap';
  import Room from './Room';
  import VideoComponent from './VideoComponent'
 import "../css/cards.css";
@@ -152,7 +152,7 @@ import speachAnalysis2 from "../images/speachAnalysis2.png"
                className="resume"
              />
            </Col>
-           
+
            <Col className="cards"><Card style={{ width: '40rem' , height: '20rem'}}>
              <Card.Body>
                <Card.Title>Adjon's Post interview Analysis</Card.Title>
