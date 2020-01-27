@@ -5,7 +5,8 @@ const pino = require('express-pino-logger')();
 const axios = require('axios')
 const { chatToken, videoToken, voiceToken } = require('./tokens');
 const cors = require('cors');
-const dotenv = require('dotenv')
+const vcapServices = require('vcap_services');
+const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
@@ -14,10 +15,33 @@ app.use(bodyParser.json());
 app.use(pino);
 app.use(cors());
 
+//const watson = require('watson-developer-cloud');
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
-const { IamAuthenticator } = require('ibm-watson/auth');
+const SpeechToTextV1 = require('ibm-watson/speech-to-text/v1');
+const { IamAuthenticator, IamTokenManager } = require('ibm-watson/auth');
+
+//Speech to Text
+const serviceUrl = process.env.SPEECHURL;
+// const speechToText = new SpeechToTextV1({
+const tokenManager = new IamTokenManager({
+  apikey: process.env.SPEECHAPI || '<iam_apikey>'
+});
+
+app.get('/api/v1/credentials', async (req, res, next) => {
+ try {
+  const accessToken = await tokenManager.getToken();
+  res.json({
+    accessToken,
+    serviceUrl,
+  });
+  } catch (err) {
+    next(err);
+  }
+});
 
 
+
+//Tone Analyzer
 const analyzeText = (text, res) => {
   const toneAnalyzer = new ToneAnalyzerV3({
     version: '2019-02-22',
@@ -69,10 +93,7 @@ app.post('/api/transcript', (req, res) => {
   const transcript= req.body.transcript;
 
   analyzeText(transcript, res);
-  //res.set('Content-Type', 'application/json');
-  //res.send(req.data)
 })
-
 
 
 app.get('/api/greeting', (req, res) => {
