@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import {Button} from 'react-bootstrap';
 import axios from 'axios'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
-import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
+import recognizeMic from 'watson-speech/speech-to-text/recognize-microphone';
 import '../css/VideoComponent.css';
 
 var ts = ""
@@ -21,6 +21,23 @@ class VideoComponent extends Component {
       error: null,
       url: null
     }
+
+  }
+
+  fetchToken() {
+    return fetch('/api/v1/credentials').then((res) => {
+      if (res.status !== 200) {
+        throw new Error('Error retrieving auth token');
+      }
+      console.log(res)
+      return res.text();
+    }).then((token) => {
+      var jsonToken = JSON.parse(token)
+
+      this.setState({token: jsonToken.accessToken})
+
+      console.log(this.state.token)
+    }).catch(this.handleError);
   }
 
   componentDidMount(){
@@ -48,7 +65,7 @@ class VideoComponent extends Component {
    }
 
    this.setState({ text: null, listening: false });
- }
+  }
 
   onClickListener = () => {
     if (this.state.listening) {
@@ -58,13 +75,12 @@ class VideoComponent extends Component {
 
     this.setState({ listening: !this.state.listening });
 
-    const stream = recognizeMicrophone({
-      token: this.state.token,
+    const stream = recognizeMic({
+      token:this.state.token,
       access_token: this.state.token,
       smart_formatting: true,
       format: true, // adds capitals, periods, and a few other things (client-side)
-      objectMode: true,
-      url: this.state.url
+      objectMode: true
     });
 
     this.stream = stream;
@@ -78,19 +94,7 @@ class VideoComponent extends Component {
     stream.on('error', (data) => this.stopListening());
   }
 
-  fetchToken() {
-    return fetch('/api/v1/credentials').then((res) => {
-      if (res.status !== 200) {
-        throw new Error('Error retrieving auth token');
-      }
-      console.log(res)
-      return res.text();
-    }).then((token) => {
-      var jsonToken = JSON.parse(token)
-      console.log(jsonToken.accessToken)
-      this.setState({token: jsonToken.accessToken})
-    }).catch(this.handleError);
-  }
+
 
 
   translate(){
@@ -108,6 +112,7 @@ class VideoComponent extends Component {
     //ts = transcript
     return (
       <div>
+
         <div>
           <Button className ="mb-2" onClick={this.translate}>Translate Transcript</Button>
           <span className="subtitles">{translatedPhrase}</span>
@@ -116,6 +121,7 @@ class VideoComponent extends Component {
           <Button color="primary" onClick={this.onClickListener}>
             {this.state.listening ? 'Stop' : 'Start'} Listening
           </Button>
+          <div value={this.state.text}> </div>
         </div>
         {this.state.isClicked ?
           <div className = "centered">
