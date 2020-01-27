@@ -6,6 +6,8 @@ const axios = require('axios')
 const { chatToken, videoToken, voiceToken } = require('./tokens');
 const cors = require('cors');
 const vcapServices = require('vcap_services');
+const dotenv = require('dotenv');
+dotenv.config();
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,7 +18,7 @@ app.use(cors());
 //const watson = require('watson-developer-cloud');
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 const SpeechToTextV1 = require('ibm-watson/speech-to-text/v1');
-const { IamAuthenticator } = require('ibm-watson/auth');
+const { IamAuthenticator, IamTokenManager } = require('ibm-watson/auth');
 
 // on bluemix, enable rate-limiting and force https
 // if (process.env.VCAP_SERVICES) {
@@ -46,19 +48,22 @@ const { IamAuthenticator } = require('ibm-watson/auth');
 //   url: 'https://api.us-east.speech-to-text.watson.cloud.ibm.com',
 // });
 
+const serviceUrl = process.env.SPEECHURL;
 // const speechToText = new SpeechToTextV1({
-  const authenticator = new IamAuthenticator({
-    apikey: 'IpD1HRzSUtOkxpaD4obmumEPxX4slxMOiQ5XW_e7UBvB',
-  })
-  //url: 'https://api.us-south.speech-to-text.watson.cloud.ibm.com/instances/df35c374-f20e-45f4-9367-085995980113',
+  const tokenManager = new IamTokenManager({
+    apikey: process.env.SPEECHAPI || '<iam_apikey>'
+  });
+//   url: process.env.SPEECHURL,
+//   disableSslVerification: true,
 // });
+
 
 
 //const authorization = new AuthorizationV1(speechToText.getCredentials());
 
- app.get('/api/speech-to-text/token', async (req, res, next) => {
+ app.get('/api/v1/credentials', async (req, res, next) => {
    try {
-    const accessToken = await authenticator.getToken();
+    const accessToken = await tokenManager.getToken();
     res.json({
       accessToken,
       serviceUrl,
@@ -67,6 +72,20 @@ const { IamAuthenticator } = require('ibm-watson/auth');
       next(err);
     }
  });
+
+ app.post('/api/v1/credentials', async (req, res, next) => {
+   try {
+    const accessToken = await tokenManager.getToken();
+    res.json({
+      accessToken,
+      serviceUrl,
+    });
+    } catch (err) {
+      next(err);
+    }
+ });
+
+
 
  // app.post('/api/speech-to-text/token', (req, res, next) => {
  //   authenticator.getToken((err, token) => {
