@@ -7,13 +7,14 @@ import '../css/VideoComponent.css';
 import Camera from 'react-camera'
 var ts = ""
 var translatedPhrase = ""
-var isMount = false;
+var isReady = false;
 var prevTime = 10;
 class VideoComponent extends Component { 
   
   constructor(props){
     super(props);
     this.takePicture = this.takePicture.bind(this);
+    this.callBackendAPI = this.callBackendAPI.bind(this);
   }
   componentDidUpdate(){
     this.takePicture();  
@@ -80,35 +81,47 @@ class VideoComponent extends Component {
                 throw err;
             }
             link = data.Location;
+            
             console.log(`File uploaded successfully. ${data.Location}`);
-            const response = fetch('/face/analysis',{method: 'POST',headers: {
+           // this.callBackendAPI();
+            /*rez = fetch('/face/analysis',{method: 'POST',headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
             body:JSON.stringify({"x":time})
             });
+            console.log(rez);
+            console.log("gay");
+*/
             });
             
+            
         }
-       // this.callBackendAPI(time);
         prevTime = time;
+       // 
+        
+        //this.callBackendAPI();
+        //isReady = false;
         this.img.src = URL.createObjectURL(blob);
         console.log(this.img);
         this.img.onload = () => { URL.revokeObjectURL(this.src); } 
+        console.log("end");
         
-      })
+      }).then(this.callBackendAPI())
       
     
   }
    
-  callBackendAPI(data){
-    console.log(data);
-    const response = fetch('/face/analysis',{method: 'POST',headers: {
+  async callBackendAPI(){
+    console.log();
+    const response = await fetch('/face/analysis',{method: 'POST',headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body:JSON.stringify({"x":data})
+    body:JSON.stringify({"x":prevTime})
     });
+    const json = await response.json();
+    console.log(json.response);
   };
 
 
