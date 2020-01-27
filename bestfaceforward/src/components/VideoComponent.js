@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import {Button} from 'react-bootstrap';
 import axios from 'axios'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
-import recognizeMic from 'watson-speech/speech-to-text/recognize-microphone';
+import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
+
 import '../css/VideoComponent.css';
 
 var ts = ""
@@ -12,16 +13,21 @@ var translatedPhrase = ""
 class VideoComponent extends Component {
   constructor(props){
     super(props)
-    this.analysis=null
     this.state = {
-      isClicked: false,
       text: "",
       token: null,
       listening: false,
       error: null,
-      url: null
+      serviceUrl: null
     }
 
+
+  }
+
+
+
+  componentDidMount(){
+    this.fetchToken()
   }
 
   fetchToken() {
@@ -33,15 +39,12 @@ class VideoComponent extends Component {
       return res.text();
     }).then((token) => {
       var jsonToken = JSON.parse(token)
-
-      this.setState({token: jsonToken.accessToken})
+      console.log(jsonToken)
+      this.setState({token: jsonToken.accessToken, serviceUrl: jsonToken.serviceUrl})
 
       console.log(this.state.token)
+      console.log(this.state.serviceUrl)
     }).catch(this.handleError);
-  }
-
-  componentDidMount(){
-    this.fetchToken()
   }
 
   handleError = (err, extra) => {
@@ -64,7 +67,18 @@ class VideoComponent extends Component {
      this.stream.stop();
    }
 
-   this.setState({ text: null, listening: false });
+   this.setState({ text: "", listening: false });
+  }
+
+  updateTranscript(transcript) {
+    this.setState((state) => {
+      if (transcript!=null){
+        return {text: state.text.concat(transcript)}
+      } else {
+        return {text: state.text.concat("")}
+      }
+
+    });
   }
 
   onClickListener = () => {
@@ -75,21 +89,30 @@ class VideoComponent extends Component {
 
     this.setState({ listening: !this.state.listening });
 
-    const stream = recognizeMic({
-      token:this.state.token,
-      access_token: this.state.token,
+    const stream = recognizeMicrophone({
+      accessToken: this.state.token,
       smart_formatting: true,
       format: true, // adds capitals, periods, and a few other things (client-side)
-      objectMode: true
+      objectMode: true,
+      interim_results: false,
+      url: this.state.serviceUrl
     });
 
     this.stream = stream;
 
     stream.on('data', (data) => {
       const { results } = data;
-
-      if (results.length) this.setState({ text: results[0].alternatives[0].transcript });
+      var transcript = results[0].alternatives[0].transcript
+      console.log(transcript)
+      if (results.length) this.updateTranscript(transcript)
     });
+
+    stream.recognizeStream.on('end', () => {
+      if (this.state.error) {
+        console.log("test")
+      }
+    });
+
 
     stream.on('error', (data) => this.stopListening());
   }
@@ -121,20 +144,11 @@ class VideoComponent extends Component {
           <Button color="primary" onClick={this.onClickListener}>
             {this.state.listening ? 'Stop' : 'Start'} Listening
           </Button>
-          <div value={this.state.text}> </div>
+
         </div>
-        {this.state.isClicked ?
-          <div className = "centered">
-            <BarChart width={730} height={300} data={this.analysis}>
-              <XAxis dataKey="tone_name" />
-              <YAxis/>
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="score" fill="#8884d8" />
-            </BarChart>
-          </div> :
-           null
-        }
+        <div>
+          <p> {this.state.text} </p>
+        </div>
       </div>
     )
   }
