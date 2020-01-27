@@ -11,7 +11,9 @@ const videoConstraints = {
   };
   
 const speech = new Speech()
-speech.init().then((data) => {
+speech.init({
+    voice:'Google UK English Female',
+    }).then((data) => {
     // The "data" object contains the list of available voices and the voice synthesis params
     console.log("Speech is ready, voices are available", data)
 }).catch(e => {
@@ -23,27 +25,40 @@ export default class Practice extends Component {
         super(props)
         this.state = {
             question: "",
-            ind:-1
+            inds:[]
         }
       }
     randomQuestion(){
         const min = 1;
         const max = 33;
         let rand = min + Math.random() * (max - min);
-        while(Math.round(rand)===this.state.ind){
-            rand = min + Math.random() * (max - min);
-        }
-        rand=Math.round(rand)
-        console.log(rand)
-        console.log(questions[rand])
-        this.setState({
-            question:questions[rand],
-            ind:rand
-        }, () => {
-            speech.speak({
-                text: this.state.question,
+        if(this.state.inds.length===max){
+            this.setState({
+                question: "There are no questions left."
+            }, () => {
+                speech.speak({
+                    text: "There are no questions left.",
+                })
             })
-        })
+            console.log("There are no questions left.")
+            
+        } else {
+            while(this.state.inds.includes(Math.round(rand))){
+                rand = min + Math.random() * (max - min);
+            }
+            rand=Math.round(rand)
+            this.setState({
+                question:questions[rand],
+                inds: this.state.inds.concat([rand])
+            }, () => {
+                console.log(this.state.inds)
+                console.log(rand)
+                speech.speak({
+                    text: this.state.question,
+                })
+            })
+        }
+        
     }
   render() {
       let buttonText="Next Question"
