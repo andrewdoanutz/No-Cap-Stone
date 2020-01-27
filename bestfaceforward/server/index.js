@@ -116,7 +116,7 @@ app.post('/face/analysis',(req,res) => {
     .then(response => {
       let jR = JSON.stringify(response, null, '  ')
       console.log(jR); 
-      res.send({response:jsonResponse});
+      res.send({response:jR});
     })
     .catch(err => {
       console.error(err);
