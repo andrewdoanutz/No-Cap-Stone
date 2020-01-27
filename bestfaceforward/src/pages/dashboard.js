@@ -10,7 +10,7 @@ import
  import Room from './../components/Room';
  import VideoComponent from './../components/VideoComponent'
  import Meetings from './../components/Meetings'
- import Training from './training'
+
  import Database from '../components/Database'
  import NewMeeting from './newMeeting'
 import "../css/login.css";
@@ -26,6 +26,9 @@ export default class Dashboard extends Component {
 
   constructor(){
     super();
+    this.state = {
+      previewToken : false
+    }
 }
     ///BELOW IS ATTEMPT TO GENERATE NEW MEETING ID USING PROMISES
     ///AND FUNCTION DATABASE.getNewMeetingID
@@ -72,13 +75,13 @@ export default class Dashboard extends Component {
             </Col>
           </Row>
           <Row>
-            <Col>
+            <Col className="padding">
+              <div>
               <NewMeeting uname = {cookies.get('login')}/>
+              </div>
             </Col>
           </Row>
-          <Row>
-            <Col> <Button/></Col>
-          </Row>
+
         </div>
       )
   }
