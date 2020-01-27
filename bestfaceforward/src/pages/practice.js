@@ -4,6 +4,8 @@ import Webcam from "react-webcam";
 import Speech from 'speak-tts'
 import questions from '../questions.json'
 
+import "../css/about.css";
+
 const videoConstraints = {
     width: 1920,
     height: 1080,
@@ -25,7 +27,8 @@ export default class Practice extends Component {
         super(props)
         this.state = {
             question: "",
-            inds:[]
+            inds:[],
+            videos:[]
         }
       }
     randomQuestion(){
@@ -53,32 +56,49 @@ export default class Practice extends Component {
             }, () => {
                 console.log(this.state.inds)
                 console.log(rand)
-                speech.speak({
-                    text: this.state.question,
-                })
+                if(this.state.inds.length!==4){
+                    speech.speak({
+                        text: this.state.question,
+                    })
+                }
             })
         }
         
     }
-  render() {
-      let buttonText="Next Question"
-      if(this.state.question===""){
-        buttonText="Start Questions"
-      }
-    return (
-      <div>
-          <div className="homeBox">
-                <Webcam
-                audio={false}
-                height={300}
-                screenshotFormat="image/jpeg"
-                width={500}
-                videoConstraints={videoConstraints}
-                />
-            <Button onClick={this.randomQuestion.bind(this)}>{buttonText}</Button>
-            <div>{this.state.question}</div>
-        </div>
-      </div>
-    )
-  }
+    generateReport(){
+        return(
+            <div className="homeBox">
+                <div className="homeHead">Interview Practice Report</div>
+            </div>
+        )
+    }
+    render() {
+        let buttonText="Next Question"
+        if(this.state.question===""){
+            buttonText="Start Questions"
+        } else if(this.state.inds.length===3){
+            buttonText="Generate Report"
+        }
+        if(this.state.inds.length===4){
+            return(
+                this.generateReport()
+            )
+        } else {
+            return (
+                <div>
+                    <div className="homeBox">
+                        <Webcam
+                        audio={false}
+                        height={300}
+                        screenshotFormat="image/jpeg"
+                        width={500}
+                        videoConstraints={videoConstraints}
+                        />
+                    <Button onClick={this.randomQuestion.bind(this)}>{buttonText}</Button>
+                    <div>{this.state.question}</div>
+                </div>
+                </div>
+            )
+        }
+    }
 }
