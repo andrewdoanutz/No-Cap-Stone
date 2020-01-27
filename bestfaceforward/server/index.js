@@ -46,7 +46,7 @@ const analyzeText = (text, res) => {
   const toneAnalyzer = new ToneAnalyzerV3({
     version: '2019-02-22',
     authenticator: new IamAuthenticator({
-      apikey: '16z3Ok_HxaBtLL2TKSsvquFxqVeiPUudpdkTY1TECdgr',
+      apikey: process.env.TONEAPI,
     }),
     url: 'https://gateway.watsonplatform.net/tone-analyzer/api',
   });

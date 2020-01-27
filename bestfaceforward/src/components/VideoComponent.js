@@ -1,3 +1,7 @@
+//To  disable CORS policy in chrome:
+  // kill all instances of chrome
+  //run on command line: "open -a Google\ Chrome --args --disable-web-security --user-data-dir"
+
 import React, { Component } from 'react'
 //import SpeechRecognition from 'react-speech-recognition'
 import {Button} from 'react-bootstrap';
