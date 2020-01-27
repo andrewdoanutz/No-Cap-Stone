@@ -73,7 +73,7 @@ class VideoComponent extends Component {
   updateTranscript(transcript) {
     this.setState((state) => {
       if (transcript!=null){
-        return {text: state.text.concat(transcript)}
+        return {text: (transcript)}
       } else {
         return {text: state.text.concat("")}
       }
