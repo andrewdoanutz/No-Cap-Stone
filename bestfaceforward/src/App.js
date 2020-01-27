@@ -30,6 +30,7 @@ class App extends Component {
           <Route exact path="/timer" component={Timer} />
           <Route exact path="/dbtest" component={DBTest} />
           <Route exact path="/api/transcript"/>
+          <Route exact path="/api/v1/credentials"/>
         </div>
       </BrowserRouter>
        </div>
