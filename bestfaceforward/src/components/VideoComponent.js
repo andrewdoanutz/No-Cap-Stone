@@ -179,7 +179,6 @@ class VideoComponent extends Component {
     const {token, formattedMessages} = this.state;
     const messages = this.getFinalAndLatestInterimResult();
     console.log(messages);
-    //ts = transcript
     return (
       <div>
 
@@ -193,9 +192,9 @@ class VideoComponent extends Component {
           </Button>
 
         </div>
-        <div>
+        <h1>
           {<Transcript messages={messages} />}
-        </div>
+        </h1>
       </div>
     )
   }
