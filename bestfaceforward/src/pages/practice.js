@@ -89,7 +89,7 @@ export default class Practice extends Component {
         if(this.state.inds.length===4){
             buttonText="Generate Report"
         } else if(this.state.inds.length===3){
-            buttonText="Last Question"
+            buttonText="End Questions"
         } else if(this.state.question===""){
             buttonText="Start Questions"
         } 
@@ -110,6 +110,7 @@ export default class Practice extends Component {
                 render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
                     <div>
                     <div className="homeBox">
+                        <h1>{status}</h1>
                         <Webcam
                         audio={false}
                         height={300}
@@ -125,12 +126,15 @@ export default class Practice extends Component {
                         })
                     } else {
                         stopRecording()
-                        this.setState({
-                            videos: this.state.videos.concat([mediaBlobUrl])
-                        }, () => {
-                            console.log(this.state.videos)
-                        })
-                        startRecording()
+                        setTimeout(()=>{
+                            this.setState({
+                                videos: this.state.videos.concat([mediaBlobUrl])
+                            }, () => {
+                                console.log(this.state.videos)
+                                startRecording()
+                            })
+                        },500)
+                        
                     }
                     this.randomQuestion()
                     }}>{buttonText}</Button>
