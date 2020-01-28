@@ -77,9 +77,10 @@ export default class Practice extends Component {
     }
     generateReport(){
         return(
-            <div className="homeBox">
-                <div className="homeHead">Interview Practice Report</div>
-                {this.state.videos}
+            <div>
+                {this.state.videos.map((url, index) => (
+                    <video key={index} src={url}/>
+                ))}
             </div>
         )
     }
@@ -92,10 +93,14 @@ export default class Practice extends Component {
         } else if(this.state.question===""){
             buttonText="Start Questions"
         } 
-        
+
         if(this.state.inds.length===5){
             return(
-                this.generateReport()
+                <div className="homeBox">
+                <div className="homeHead">Interview Practice Report</div>
+                {this.generateReport()}
+            </div>
+                
             )
             
         } else {
