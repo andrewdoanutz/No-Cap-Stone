@@ -18,6 +18,46 @@ const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 const { IamAuthenticator } = require('ibm-watson/auth');
 
 
+
+const getSubjects = (text, res) => {
+  const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
+  const { IamAuthenticator } = require('ibm-watson/auth');
+
+  const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
+    version: '2019-07-12',
+    authenticator: new IamAuthenticator({
+      apikey: process.env.SUBJECTSAPI,
+    }),
+    url: 'https://gateway.watsonplatform.net/natural-language-understanding/api',
+  });
+
+  const analyzeParams = {
+    'url': 'www.ibm.com',
+    'features': {
+      'entities': {
+        'emotion': true,
+        'sentiment': true,
+        'limit': 2,
+      },
+      'keywords': {
+        'emotion': true,
+        'sentiment': true,
+        'limit': 2,
+      },
+    },
+  };
+
+  naturalLanguageUnderstanding.analyze(analyzeParams)
+  .then(analysisResults => {
+    console.log(JSON.stringify(analysisResults, null, 2));
+  })
+  .catch(err => {
+    console.log('error:', err);
+  });
+}
+
+
+
 const analyzeText = (text, res) => {
   const toneAnalyzer = new ToneAnalyzerV3({
     version: '2019-02-22',
@@ -54,6 +94,21 @@ const sendTokenResponse = (token, res) => {
   );
 };
 
+app.get('/api/subjects', (req,res) => {
+  //console.log(res.data)
+  console.log("body of subjects get", req.body)
+  const transcript= req.body.transcript;
+  getSubjects(transcript, res);
+
+})
+
+app.post('/api/subjects', (req, res) => {
+  console.log("Transcript during getSubjects post")
+  console.log("Body of req in getSubjects",req.body)
+  const transcript= req.body.transcript;
+  getSubjects(transcript, res);
+})
+
 //Api/transcript takes care of sending in the transcript and sending out analysis
 app.get('/api/transcript', (req,res) => {
   //console.log(res.data)
@@ -62,6 +117,7 @@ app.get('/api/transcript', (req,res) => {
   analyzeText(transcript, res);
 
 })
+
 
 app.post('/api/transcript', (req, res) => {
   console.log("Transcript")
