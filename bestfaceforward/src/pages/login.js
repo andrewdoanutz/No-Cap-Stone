@@ -27,7 +27,7 @@ export default class Login extends Component {
         showError:true
       })
     } else {
-      cookies.set('login', 'testUserName', { path: '/' });
+      cookies.set('login', this.username.current.value, { path: '/' });
       this.props.history.push('/dashboard')
     }
   }
