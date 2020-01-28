@@ -8,7 +8,7 @@ import {Button} from 'react-bootstrap';
 import axios from 'axios'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
-
+import Transcript from './Transcript';
 import '../css/VideoComponent.css';
 
 var ts = ""
@@ -22,8 +22,13 @@ class VideoComponent extends Component {
       token: null,
       listening: false,
       error: null,
-      serviceUrl: null
+      serviceUrl: null,
+      formattedMessages: []
     }
+    this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
+    this.getFinalResults = this.getFinalResults.bind(this);
+    this.getCurrentInterimResult = this.getCurrentInterimResult.bind(this);
+    this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
 
 
   }
@@ -77,12 +82,44 @@ class VideoComponent extends Component {
   updateTranscript(transcript) {
     this.setState((state) => {
       if (transcript!=null){
-        return {text: (transcript)}
-      } else {
-        return {text: state.text.concat("")}
+        return {formattedMessages: state.formattedMessages.concat(transcript)}
       }
 
     });
+  }
+
+  handleFormattedMessage(msg) {
+
+    const { formattedMessages } = this.state;
+    console.log(formattedMessages)
+    this.setState({ formattedMessages: formattedMessages.concat(msg) });
+  }
+
+  getFinalResults() {
+   return this.state.formattedMessages.filter(r => r.results
+     && r.results.length && r.results[0].final);
+  }
+
+  getCurrentInterimResult() {
+
+    if (this.state.formattedmessages != []){
+      const r = this.state.formattedMessages[this.state.formattedMessages.length - 1];
+      if (!r || !r.results || !r.results.length || r.results[0].final) {
+        return null;
+      }
+      return r;
+    }
+
+
+  }
+
+  getFinalAndLatestInterimResult() {
+    const final = this.getFinalResults();
+    const interim = this.getCurrentInterimResult();
+    if (interim) {
+      final.push(interim);
+    }
+    return final;
   }
 
   onClickListener = () => {
@@ -104,12 +141,14 @@ class VideoComponent extends Component {
 
     this.stream = stream;
 
-    stream.on('data', (data) => {
-      const { results } = data;
-      var transcript = results[0].alternatives[0].transcript
-      console.log(transcript)
-      if (results.length) this.updateTranscript(transcript)
-    });
+    // stream.on('data', (data) => {
+    //   const { results } = data;
+    //   var transcript = results[0].alternatives[0].transcript
+    //   console.log(transcript)
+    //   if (results.length) this.updateTranscript(transcript)
+    // });
+
+    stream.on('data', this.handleFormattedMessage);
 
     stream.recognizeStream.on('end', () => {
       if (this.state.error) {
@@ -134,8 +173,12 @@ class VideoComponent extends Component {
     });
   }
 
-  render(){
 
+
+  render(){
+    const {token, formattedMessages} = this.state;
+    const messages = this.getFinalAndLatestInterimResult();
+    console.log(messages);
     //ts = transcript
     return (
       <div>
@@ -151,7 +194,7 @@ class VideoComponent extends Component {
 
         </div>
         <div>
-          <p> {this.state.text} </p>
+          {<Transcript messages={messages} />}
         </div>
       </div>
     )
