@@ -1,0 +1,28 @@
+.cards{
+
+    text-align: center;
+    padding-left:55%;
+    padding-right:50%;
+    padding-top: 3%;
+}
+
+
+.cards2{
+
+    text-align: center;
+    padding-left:20%;
+    padding-right:50%;
+    padding-top: 3%;
+    transform: scale(10);
+}
+
+.resume{
+  float: left;
+  padding-top: 9%;
+  padding-bottom: 2%;
+  padding-left: 5%;
+  padding-right: 3%;
+  background-color:  transparent;
+  transform: scale(1.5);
+  z-index: 0;
+}
