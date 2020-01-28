@@ -16,7 +16,7 @@ class Report extends Component {
     super(props);
 
     this.state = {
-      txt: "Hello I hate my life but I also love going on walks. I wonder what is for lunch today? Um I don't know really. Um yea that works. Yes um yea. I LOVE YOU. Haha.",
+      txt: "When Working on my um group project, a team member um was not carrying their own weight. They weren't completing assingments or showing up to meetings. To solve the problem we were direct with them in a positive wayy and tried to work with them in person",
       analysis: [
                   {
                     tone_name: 'Anger', score: 0
@@ -40,7 +40,10 @@ class Report extends Component {
                     tone_name: 'Tentative', score: 0
                   }
                 ],
-      filler: 0
+      filler: 0,
+      keywords: [{keyword: '1', score: 0.1},
+                  {keyword: '2', score: 0.1},
+                  {keyword: '3', score: 0.1}]
     }
   }
 
@@ -57,6 +60,26 @@ class Report extends Component {
     axios.post('http://localhost:3001/api/subjects', {transcript: this.state.txt})
    .then(res => {
      console.log("Response: ",res)
+     var keywords = res.data.analysisResults.result.keywords
+     var finalKeywords = [ {keyword: '1', score: 0.1},
+                 {keyword: '2', score: 0.1},
+                 {keyword: '3', score: 0.1}
+               ]
+     var concepts = res.data.analysisResults.result.concepts
+     var finalConcepts = [ {concept: '1', score: 0.1},
+                 {concept: '2', score: 0.1},
+                 {concept: '3', score: 0.1}
+               ]
+    var current = 0
+     for (var i of keywords){
+       finalKeywords[current].keyword = i.text
+       finalKeywords[current].score = i.relevance
+       current+=1
+     }
+     console.log(finalKeywords)
+     this.setState({
+       keywords: finalKeywords
+     })
    })
   }
 
@@ -154,7 +177,25 @@ class Report extends Component {
               </Card.Body>
             </Card>
           </Col>
-        </Row>
+          <Col>
+            <BarChart
+              width={500}
+              height={300}
+              data={this.state.keywords}
+              margin={{
+                top: 5, right: 30, left: 20, bottom: 5,
+              }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="keyword" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="score" fill="#8884d8" />
+              </BarChart>
+            </Col>
+          </Row>
+
         <div>{this.state.txt}</div>
 
       </div>
