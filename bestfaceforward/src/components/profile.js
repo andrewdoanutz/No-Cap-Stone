@@ -6,13 +6,13 @@ const Profile=(props)=>{
 
     return (
       <div className="cont">
-     
+
         <img className="image"
           id="profileImage"
           src={props.image}
           alt="profileimage"
         />
-        
+
         <div className="info">
           <div className="category">Name: </div> <div >{props.name}</div><div/>
           <div className="category">Year/Major: </div> <div >{props.yearMajor}</div><div/>
@@ -20,7 +20,7 @@ const Profile=(props)=>{
         </div>
       </div>
     );
-  
+
 }
 
 export default Profile;
