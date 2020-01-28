@@ -133,7 +133,7 @@ export default class Practice extends Component {
                                 console.log(this.state.videos)
                                 startRecording()
                             })
-                        },500)
+                        },1000)
                         
                     }
                     this.randomQuestion()
