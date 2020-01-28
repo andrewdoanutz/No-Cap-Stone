@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Form, Button, Col, Row} from 'react-bootstrap'
+import {Form, Button, Col, Row, Card, Container} from 'react-bootstrap'
 import VideoChat from '../components/VideoChat.js'
 import Cookies from 'universal-cookie';
 
@@ -51,31 +51,39 @@ export default class Login extends Component {
       <div>
         <div className="homeBox">
           <div className="homeHead">Login</div>
-          <Row>
-          <Col>
-            <Form>
-              <Form.Group controlId="formBasicEmail" as={Col}>
-                <Form.Label className="formText">Username</Form.Label>
-                <div className="formField">
-                  <Form.Control type="username" placeholder="Enter username" ref={this.username}/>
-                </div>
-              </Form.Group>
-              <Form.Group controlId="formBasicPassword" as={Col}>
-                <Form.Label className="formText">Password</Form.Label>
-                <div className="formField">
-                  <Form.Control type="password" placeholder="Password" ref={this.password}/>
-                </div>
-              </Form.Group>
-              <Form.Group controlId="formBasicUPLogin" as={Col}>
-                <div className="formButton">
-                  <Button variant="primary" type="button" onClick={this.UPLoginPressed.bind(this)}>
-                    Submit
-                  </Button>
-                </div>
-              </Form.Group>
-            </Form>
-          </Col>
-          </Row>
+          <Container>
+            <Row className="justify-content-center">
+            <Col sm={6}>
+              <Card>
+                <Card.Body>
+                  <Form>
+                    <Form.Group controlId="formBasicEmail" as={Col}>
+                      <Form.Label className="formText">Username</Form.Label>
+                      <div className="formField">
+                        <Form.Control type="username" placeholder="Enter username" ref={this.username}/>
+                      </div>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicPassword" as={Col}>
+                      <Form.Label className="formText">Password</Form.Label>
+                      <div className="formField">
+                        <Form.Control type="password" placeholder="Password" ref={this.password}/>
+                      </div>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicUPLogin" as={Col}>
+                      <div className="formButton">
+                        <Button size="lg" variant="primary" type="button" onClick={this.UPLoginPressed.bind(this)}>
+                          Submit
+                        </Button>
+                      </div>
+                    </Form.Group>
+                  </Form>
+                </Card.Body>
+              </Card>
+
+            </Col>
+            </Row>
+          </Container>
+
 
           <div className={this.state.showError ? 'errorMessage' : 'hideMessage'}>{this.errorMessage}</div>
           <div className="makeAcct">
