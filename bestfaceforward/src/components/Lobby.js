@@ -14,9 +14,9 @@ const Lobby = ({
         <div className="homeHead">Video</div>
         <Container>
           <Row className="justify-content-center">
-          <Col sm={6}>
-            <Card>
-              <Card.Body>
+            <Col sm={6}>
+              <Card>
+                <Card.Body>
                   <Form onSubmit={handleSubmit}>
                     <div className = "pb-2 center-text">
                       <div className="formField">
@@ -53,14 +53,14 @@ const Lobby = ({
                       <Button size="lg" type="submit">Submit</Button>
                     </div>
                   </Form>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
-  </Container>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
       </div>
     </div>
-);
+  );
 };
 
 export default Lobby;
