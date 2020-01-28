@@ -52,18 +52,26 @@ export default class Practice extends Component {
                 rand = min + Math.random() * (max - min);
             }
             rand=Math.round(rand)
-            this.setState({
-                question:questions[rand],
-                inds: this.state.inds.concat([rand])
-            }, () => {
-                console.log(this.state.inds)
-                console.log(rand)
-                if(this.state.inds.length!==4){
-                    speech.speak({
-                        text: this.state.question,
-                    })
-                }
-            })
+            if(this.state.inds.length<3){
+                this.setState({
+                    question:questions[rand],
+                    inds: this.state.inds.concat([rand])
+                }, () => {
+                    console.log(this.state.inds)
+                    console.log(rand)
+                        speech.speak({
+                            text: this.state.question,
+                        })
+                })
+            } else {
+                this.setState({
+                    question:"",
+                    inds: this.state.inds.concat([rand])
+                }, () => {
+                    console.log(this.state.inds)
+                    console.log(rand)
+                })
+            }
         }
         
     }
@@ -71,20 +79,25 @@ export default class Practice extends Component {
         return(
             <div className="homeBox">
                 <div className="homeHead">Interview Practice Report</div>
+                {this.state.videos}
             </div>
         )
     }
     render() {
         let buttonText="Next Question"
-        if(this.state.question===""){
-            buttonText="Start Questions"
-        } else if(this.state.inds.length===3){
-            buttonText="Generate Report"
-        }
         if(this.state.inds.length===4){
+            buttonText="Generate Report"
+        } else if(this.state.inds.length===3){
+            buttonText="Last Question"
+        } else if(this.state.question===""){
+            buttonText="Start Questions"
+        } 
+        
+        if(this.state.inds.length===5){
             return(
                 this.generateReport()
             )
+            
         } else {
             return (
                 <ReactMediaRecorder
@@ -100,7 +113,6 @@ export default class Practice extends Component {
                         videoConstraints={videoConstraints}
                         />
                     <Button onClick={()=> {
-                    this.randomQuestion()
                     if(this.state.recording===false){
                         startRecording()
                         this.setState({
@@ -115,6 +127,7 @@ export default class Practice extends Component {
                         })
                         startRecording()
                     }
+                    this.randomQuestion()
                     }}>{buttonText}</Button>
                     <div>{this.state.question}</div>
                 </div>
