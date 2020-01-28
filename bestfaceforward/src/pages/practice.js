@@ -3,6 +3,7 @@ import {Form, Button, Col, Row} from 'react-bootstrap'
 import Webcam from "react-webcam";
 import Speech from 'speak-tts'
 import questions from '../questions.json'
+import { ReactMediaRecorder } from "react-media-recorder";
 
 import "../css/about.css";
 
@@ -28,7 +29,8 @@ export default class Practice extends Component {
         this.state = {
             question: "",
             inds:[],
-            videos:[]
+            videos:[],
+            recording: false
         }
       }
     randomQuestion(){
@@ -85,7 +87,10 @@ export default class Practice extends Component {
             )
         } else {
             return (
-                <div>
+                <ReactMediaRecorder
+                video
+                render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
+                    <div>
                     <div className="homeBox">
                         <Webcam
                         audio={false}
@@ -94,10 +99,28 @@ export default class Practice extends Component {
                         width={500}
                         videoConstraints={videoConstraints}
                         />
-                    <Button onClick={this.randomQuestion.bind(this)}>{buttonText}</Button>
+                    <Button onClick={()=> {
+                    this.randomQuestion()
+                    if(this.state.recording===false){
+                        startRecording()
+                        this.setState({
+                            recording: true
+                        })
+                    } else {
+                        stopRecording()
+                        this.setState({
+                            videos: this.state.videos.concat([mediaBlobUrl])
+                        }, () => {
+                            console.log(this.state.videos)
+                        })
+                        startRecording()
+                    }
+                    }}>{buttonText}</Button>
                     <div>{this.state.question}</div>
                 </div>
                 </div>
+                )}
+                />
             )
         }
     }
