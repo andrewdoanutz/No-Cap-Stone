@@ -54,24 +54,34 @@ const getSubjects = (text, res) => {
   });
 
   const analyzeParams = {
-    'url': 'www.ibm.com',
+    'text': text,
     'features': {
-      'entities': {
-        'emotion': true,
-        'sentiment': true,
-        'limit': 2,
+      // 'categories':{
+      //   // 'limit' : 3,
+      //   'explanation' : true
+      // },
+      'concepts' : {
+        'limit' : 3
       },
+
+      // 'entities': {
+      //   'emotion': true,
+      //   'sentiment': true,
+      //   'limit': 2,
+      // },
       'keywords': {
-        'emotion': true,
-        'sentiment': true,
-        'limit': 2,
-      },
-    },
+        // 'emotion': true,
+        // 'sentiment': true,
+        'limit': 3
+      }
+    }
   };
 
   naturalLanguageUnderstanding.analyze(analyzeParams)
   .then(analysisResults => {
     console.log(JSON.stringify(analysisResults, null, 2));
+    res.set('Content-Type', 'application/json');
+    res.send(JSON.stringify({analysisResults}))
   })
   .catch(err => {
     console.log('error:', err);
@@ -121,15 +131,15 @@ const sendTokenResponse = (token, res) => {
 
 app.get('/api/subjects', (req,res) => {
   //console.log(res.data)
-  console.log("body of subjects get", req.body)
+  console.log("body of subjects get:", req.body)
   const transcript= req.body.transcript;
   getSubjects(transcript, res);
 
 })
 
 app.post('/api/subjects', (req, res) => {
-  console.log("Transcript during getSubjects post")
-  console.log("Body of req in getSubjects",req.body)
+  console.log("Transcript during getSubjects post:")
+  console.log("Body of req in getSubjects:",req.body)
   const transcript= req.body.transcript;
   getSubjects(transcript, res);
 })
