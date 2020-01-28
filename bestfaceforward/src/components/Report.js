@@ -1,3 +1,10 @@
+// TODO: Analyze audio for speed/clarity/pacing on recrded mp4 file and display here
+
+//TODO: analyze transcript in "txt" variable for filler words/ no-no words/ ramblng
+
+//index.js
+
+
 import React, { Component } from 'react';
 import axios from 'axios'
 import {Button, Card, Row, Col} from 'react-bootstrap';
@@ -42,6 +49,15 @@ class Report extends Component {
     var count = 0;
     array.forEach((v) => (v === value && count++));
     return count;
+  }
+
+  getSubjects = (ev) => {
+    ev.preventDefault()
+    var txt = this.state.txt.toLowerCase()
+    axios.post('http://localhost:3001/api/subjects', {transcript: this.state.txt})
+   .then(res => {
+     console.log("Response: ",res)
+   })
   }
 
   analyzeText = (ev) => {
@@ -111,6 +127,7 @@ class Report extends Component {
     return(
       <div>
         <Button onClick={this.analyzeText}>Analyze</Button>
+        <Button onClick={this.getSubjects}>Get Subjects</Button>
         <Row>
           <Col sm={6}>
             <Card>
