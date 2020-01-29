@@ -7,7 +7,6 @@ import '../css/VideoComponent.css';
 import Camera from 'react-camera'
 var ts = ""
 var translatedPhrase = ""
-var isReady = false;
 var prevTime = 10;
 class VideoComponent extends Component { 
   
@@ -15,10 +14,26 @@ class VideoComponent extends Component {
     super(props);
     this.takePicture = this.takePicture.bind(this);
     this.callBackendAPI = this.callBackendAPI.bind(this);
+    this.state = {date: new Date()};
   }
-  componentDidUpdate(){
-    this.takePicture();  
+  componentDidMount() {
+    this.timerID = setInterval(
+      () => this.tick(),
+      5000
+    );
   }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+    this.takePicture();
+  }
+
   translate(){
     console.log(`translating...`)
     var googleTranslate = require('google-translate')('AIzaSyCsY_IQPqIt6SAvAymb5CAC0q_qNRMAAj8');
@@ -32,14 +47,7 @@ class VideoComponent extends Component {
    }
   takePicture(){
     console.log("say cheese");
-   /* const response = await fetch('/analysis/face');
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
-    console.log(body);
-    return body;*/
+   
     const now = new Date();
     const time = now.getTime();
     var link = "";
@@ -64,7 +72,7 @@ class VideoComponent extends Component {
       
           // Getting the file type, ie: jpeg, png or gif
           
-          const userId = 2;
+          
           const s3 = new AWS.S3();
           const params = {
             Bucket: 'nocapstone',
@@ -83,16 +91,7 @@ class VideoComponent extends Component {
             link = data.Location;
             
             console.log(`File uploaded successfully. ${data.Location}`);
-           // this.callBackendAPI();
-            /*rez = fetch('/face/analysis',{method: 'POST',headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body:JSON.stringify({"x":time})
-            });
-            console.log(rez);
-            console.log("gay");
-*/
+           
             });
             
             
@@ -134,7 +133,7 @@ class VideoComponent extends Component {
     ts = transcript
     return (
       <div>
-        <div style={style.container}>
+        <div style={{visibility:'hidden'}}>
         <Camera
           style={style.preview}
           ref={(cam) => {
