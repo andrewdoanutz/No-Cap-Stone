@@ -63,7 +63,7 @@ import speachAnalysis2 from "../images/speachAnalysis2.png"
 
    var names = ['Adjon', 'Bik', 'Andrew', 'Tim'];
    var namesList = names.map(function(name){
-     return <Col><Card style={{ width: '18rem' }}>
+     return <Col><Card>
        <Card.Body>
          <Card.Title>{name}</Card.Title>
          <Card.Text>
