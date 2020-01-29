@@ -3,11 +3,12 @@
   //run on command line: "open -a Google\ Chrome --args --disable-web-security --user-data-dir"
 
 import React, { Component } from 'react'
-import SpeechRecognition from 'react-speech-recognition'
+//import SpeechRecognition from 'react-speech-recognition'
 import {Button} from 'react-bootstrap';
 import axios from 'axios'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
-
+import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
+import Transcript from './Transcript';
 import '../css/VideoComponent.css';
 
 var ts = ""
@@ -16,9 +17,151 @@ var translatedPhrase = ""
 class VideoComponent extends Component {
   constructor(props){
     super(props)
-    this.analysis=null
-    this.state = {isClicked: false}
+    this.state = {
+      text: "",
+      token: null,
+      listening: false,
+      error: null,
+      serviceUrl: null,
+      formattedMessages: []
+    }
+    this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
+    this.getFinalResults = this.getFinalResults.bind(this);
+    this.getCurrentInterimResult = this.getCurrentInterimResult.bind(this);
+    this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
+
+
   }
+
+
+
+  componentDidMount(){
+    this.fetchToken()
+  }
+
+  fetchToken() {
+    return fetch('/api/v1/credentials').then((res) => {
+      if (res.status !== 200) {
+        throw new Error('Error retrieving auth token');
+      }
+      console.log(res)
+      return res.text();
+    }).then((token) => {
+      var jsonToken = JSON.parse(token)
+      console.log(jsonToken)
+      this.setState({token: jsonToken.accessToken, serviceUrl: jsonToken.serviceUrl})
+
+      console.log(this.state.token)
+      console.log(this.state.serviceUrl)
+    }).catch(this.handleError);
+  }
+
+  handleError = (err, extra) => {
+    console.error(err, extra);
+    if (err.name === 'UNRECOGNIZED_FORMAT') {
+      err = 'Unable to determine content type from file name or header; mp3, wav, flac, ogg, opus, and webm are supported. Please choose a different file.';
+    } else if (err.name === 'NotSupportedError' && this.state.audioSource === 'mic') {
+      err = 'This browser does not support microphone input.';
+    } else if (err.message === '(\'UpsamplingNotAllowed\', 8000, 16000)') {
+      err = 'Please select a narrowband voice model to transcribe 8KHz audio files.';
+    } else if (err.message === 'Invalid constraint') {
+      // iPod Touch does this on iOS 11 - there is a microphone, but Safari claims there isn't
+      err = 'Unable to access microphone';
+    }
+    this.setState({ error: err.message || err });
+  }
+
+  stopListening = () => {
+   if (this.stream) {
+     this.stream.stop();
+   }
+
+   this.setState({ text: "", listening: false });
+  }
+
+  updateTranscript(transcript) {
+    this.setState((state) => {
+      if (transcript!=null){
+        return {formattedMessages: state.formattedMessages.concat(transcript)}
+      }
+
+    });
+  }
+
+  handleFormattedMessage(msg) {
+
+    const { formattedMessages } = this.state;
+    console.log(formattedMessages)
+    this.setState({ formattedMessages: formattedMessages.concat(msg) });
+  }
+
+  getFinalResults() {
+   return this.state.formattedMessages.filter(r => r.results
+     && r.results.length && r.results[0].final);
+  }
+
+  getCurrentInterimResult() {
+
+    if (this.state.formattedmessages != []){
+      const r = this.state.formattedMessages[this.state.formattedMessages.length - 1];
+      if (!r || !r.results || !r.results.length || r.results[0].final) {
+        return null;
+      }
+      return r;
+    }
+
+
+  }
+
+  getFinalAndLatestInterimResult() {
+    const final = this.getFinalResults();
+    const interim = this.getCurrentInterimResult();
+    if (interim) {
+      final.push(interim);
+    }
+    return final;
+  }
+
+  onClickListener = () => {
+    if (this.state.listening) {
+      this.stopListening();
+      return;
+    }
+
+    this.setState({ listening: !this.state.listening });
+
+    const stream = recognizeMicrophone({
+      accessToken: this.state.token,
+      smart_formatting: true,
+      format: true, // adds capitals, periods, and a few other things (client-side)
+      objectMode: true,
+      interim_results: false,
+      url: this.state.serviceUrl
+    });
+
+    this.stream = stream;
+
+    // stream.on('data', (data) => {
+    //   const { results } = data;
+    //   var transcript = results[0].alternatives[0].transcript
+    //   console.log(transcript)
+    //   if (results.length) this.updateTranscript(transcript)
+    // });
+
+    stream.on('data', this.handleFormattedMessage);
+
+    stream.recognizeStream.on('end', () => {
+      if (this.state.error) {
+        console.log("test")
+      }
+    });
+
+
+    stream.on('error', (data) => this.stopListening());
+  }
+
+
+
 
   translate(){
     console.log(`translating...`)
@@ -29,54 +172,32 @@ class VideoComponent extends Component {
       translatedPhrase = translation.translatedText;
     });
   }
-  analyzeText = (ev) => {
-    ev.preventDefault()
-    this.setState ({isClicked:true})
 
-    //Post call to backend
-    axios.post('http://localhost:3001/api/transcript', {transcript: ts})
-   .then(res => {
 
-     //Gets analysis from backend
-     this.analysis = res.data.toneAnalysis.result.document_tone.tones;
-     console.log(res.data.toneAnalysis.result.document_tone.tones);
-   })
-  }
 
   render(){
-    const { transcript, resetTranscript, browserSupportsSpeechRecognition } = this.props
-    if (!browserSupportsSpeechRecognition) {
-      return null
-    }
-    ts = transcript
+    const {token, formattedMessages} = this.state;
+    const messages = this.getFinalAndLatestInterimResult();
+    console.log(messages);
     return (
       <div>
-        <div>
-          <Button className ="mb-2" onClick={resetTranscript}>Reset Transcript</Button>
-          <span className="subtitles">{transcript}</span>
-        </div>
+
         <div>
           <Button className ="mb-2" onClick={this.translate}>Translate Transcript</Button>
           <span className="subtitles">{translatedPhrase}</span>
         </div>
         <div>
-          <Button onClick={this.analyzeText}>Analyze Transcript</Button>
+          <Button color="primary" onClick={this.onClickListener}>
+            {this.state.listening ? 'Stop' : 'Start'} Listening
+          </Button>
+
         </div>
-        {this.state.isClicked ?
-          <div className = "centered">
-            <BarChart width={730} height={300} data={this.analysis}>
-              <XAxis dataKey="tone_name" />
-              <YAxis/>
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="score" fill="#8884d8" />
-            </BarChart>
-          </div> :
-           null
-        }
+        <h1>
+          {<Transcript messages={messages} />}
+        </h1>
       </div>
     )
   }
 }
 
-export default SpeechRecognition(VideoComponent)
+export default VideoComponent;
