@@ -75,15 +75,20 @@ export default class Practice extends Component {
         }
         
     }
+
     generateReport(){
+        if(this.state.videos.length>3){
+            this.state.videos.shift()
+        }
         return(
             <div>
                 {this.state.videos.map((url, index) => (
-                    <video key={index} src={url}/>
+                    <video key={index} src={url} controls/>
                 ))}
             </div>
         )
     }
+
     render() {
         let buttonText="Next Question"
         if(this.state.inds.length===4){
@@ -133,7 +138,7 @@ export default class Practice extends Component {
                                 console.log(this.state.videos)
                                 startRecording()
                             })
-                        },1000)
+                        },500)
                         
                     }
                     this.randomQuestion()
