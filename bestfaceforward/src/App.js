@@ -11,6 +11,7 @@ import VidCall from './pages/videoCall'
 import Timer from './pages/timer'
 import DBTest from './pages/DBTest'
 import Practice from './pages/practice'
+import Report from './components/Report'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
@@ -30,6 +31,7 @@ class App extends Component {
           <Route exact path="/videocall" component={VidCall} />
           <Route exact path="/timer" component={Timer} />
           <Route exact path="/dbtest" component={DBTest} />
+          <Route exact path="/report" component={Report} />
           <Route exact path="/api/transcript"/>
           <Route exact path="/practice" component={Practice}/>
         </div>
