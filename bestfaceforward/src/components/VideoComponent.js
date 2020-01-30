@@ -5,10 +5,11 @@
 import React, { Component } from 'react'
 //import SpeechRecognition from 'react-speech-recognition'
 import {Button} from 'react-bootstrap';
-import axios from 'axios'
+import axios from 'axios';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from './Transcript';
+import TimingView from './Timing';
 import '../css/VideoComponent.css';
 
 var ts = ""
@@ -135,8 +136,13 @@ class VideoComponent extends Component {
       smart_formatting: true,
       format: true, // adds capitals, periods, and a few other things (client-side)
       objectMode: true,
-      interim_results: false,
-      url: this.state.serviceUrl
+      interim_results: true,
+      timestamps: true,
+      word_alternatives_threshold: 0.01,
+      speaker_labels: false,
+      resultsBySpeaker: false,
+      speakerlessInterim: false,
+      url: this.state.serviceUrl,
     });
 
     this.stream = stream;
@@ -178,7 +184,7 @@ class VideoComponent extends Component {
   render(){
     const {token, formattedMessages} = this.state;
     const messages = this.getFinalAndLatestInterimResult();
-    console.log(messages);
+
     return (
       <div>
 
@@ -190,11 +196,19 @@ class VideoComponent extends Component {
           <Button color="primary" onClick={this.onClickListener}>
             {this.state.listening ? 'Stop' : 'Start'} Listening
           </Button>
-
         </div>
-        <h1>
-          {<Transcript messages={messages} />}
-        </h1>
+        <div>
+          <h1>
+            <Transcript messages={messages} />
+          </h1>
+        </div>
+        <div>
+          <h1>
+            <TimingView messages={messages} />
+          </h1>
+        </div>
+
+
       </div>
     )
   }
