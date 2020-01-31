@@ -1,7 +1,3 @@
-//To  disable CORS policy in chrome:
-  // kill all instances of chrome
-  //run on command line: "open -a Google\ Chrome --args --disable-web-security --user-data-dir"
-
 import React, { Component } from 'react'
 //import SpeechRecognition from 'react-speech-recognition'
 import {Button} from 'react-bootstrap';
@@ -34,12 +30,12 @@ class VideoComponent extends Component {
 
   }
 
-
-
+  //fetch Token on page load
   componentDidMount(){
     this.fetchToken()
   }
 
+  //post call in order to grab ibm watson api token
   fetchToken() {
     return fetch('/api/v1/credentials').then((res) => {
       if (res.status !== 200) {
@@ -57,6 +53,7 @@ class VideoComponent extends Component {
     }).catch(this.handleError);
   }
 
+  //handle error
   handleError = (err, extra) => {
     console.error(err, extra);
     if (err.name === 'UNRECOGNIZED_FORMAT') {
@@ -72,6 +69,7 @@ class VideoComponent extends Component {
     this.setState({ error: err.message || err });
   }
 
+  //stop listening to microphone
   stopListening = () => {
    if (this.stream) {
      this.stream.stop();
@@ -80,6 +78,7 @@ class VideoComponent extends Component {
    this.setState({ text: "", listening: false });
   }
 
+  //update state of transcript
   updateTranscript(transcript) {
     this.setState((state) => {
       if (transcript!=null){
@@ -89,20 +88,21 @@ class VideoComponent extends Component {
     });
   }
 
+  //handle Message to be formatted into transcript
   handleFormattedMessage(msg) {
-
     const { formattedMessages } = this.state;
     console.log(formattedMessages)
     this.setState({ formattedMessages: formattedMessages.concat(msg) });
   }
 
+  //grab end of sentence result (adds . ? or ! at end )
   getFinalResults() {
    return this.state.formattedMessages.filter(r => r.results
      && r.results.length && r.results[0].final);
   }
 
+  //grab Intermin Results
   getCurrentInterimResult() {
-
     if (this.state.formattedmessages != []){
       const r = this.state.formattedMessages[this.state.formattedMessages.length - 1];
       if (!r || !r.results || !r.results.length || r.results[0].final) {
@@ -111,9 +111,10 @@ class VideoComponent extends Component {
       return r;
     }
 
-
   }
 
+  //Get final and interim in order to show an updating Transcript
+  //this will be our message for the end
   getFinalAndLatestInterimResult() {
     const final = this.getFinalResults();
     const interim = this.getCurrentInterimResult();
@@ -123,15 +124,18 @@ class VideoComponent extends Component {
     return final;
   }
 
+  //bind this function to a button
   onClickListener = () => {
     if (this.state.listening) {
       this.stopListening();
       return;
     }
-
+    //switch state of listening
     this.setState({ listening: !this.state.listening });
 
+    //create an audio stream to nodeJS
     const stream = recognizeMicrophone({
+      model:'en-US_BroadbandModel',
       accessToken: this.state.token,
       smart_formatting: true,
       format: true, // adds capitals, periods, and a few other things (client-side)
