@@ -3,7 +3,7 @@ body{
   padding-top: 50px;
 }
 .scroll {
-    max-height: 300px;
+    max-height: 80vh;
     overflow-y: auto;
 }
 .centered {

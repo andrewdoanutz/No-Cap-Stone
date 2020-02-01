@@ -72,7 +72,7 @@ export default class Dashboard extends Component {
         <div className="homebox">
           <Row>
             <Col xs={3}>
-              <Card>
+              <Card className = "shadow">
                 <Card.Body>
                   <UserDash/>
                 </Card.Body>
@@ -80,8 +80,8 @@ export default class Dashboard extends Component {
 
             </Col>
             <Col xs={9}>
-              <Card>
-                <Card.Body>
+              <Card  className = "shadow">
+                <Card.Body >
                   Calendar Here
                 </Card.Body>
               </Card>
