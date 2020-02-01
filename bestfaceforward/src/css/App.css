@@ -2,6 +2,10 @@ body{
   background-color: #FFFFFF;
   padding-top: 50px;
 }
+.scroll {
+    max-height: 300px;
+    overflow-y: auto;
+}
 .centered {
   display: flex;
   justify-content: center;

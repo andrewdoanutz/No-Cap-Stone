@@ -6,13 +6,14 @@ import
   Card, {CardImg, CardText, CardBody,
   CardTitle, CardSubtitle}
  from 'react-bootstrap/Card';
- import { Container, Row, Col } from 'react-bootstrap';
- import Room from './../components/Room';
- import VideoComponent from './../components/VideoComponent'
- import Meetings from './../components/Meetings'
-
- import Database from '../components/Database'
- import NewMeeting from './newMeeting'
+import { Container, Row, Col } from 'react-bootstrap';
+import Room from './../components/Room';
+import VideoComponent from './../components/VideoComponent'
+import Meetings from './../components/Meetings'
+import Userlist from './../components/Userlist'
+import UserDash from './../components/UserDash'
+import Database from '../components/Database'
+import NewMeeting from './newMeeting'
 import "../css/login.css";
 
 
@@ -29,7 +30,7 @@ export default class Dashboard extends Component {
     this.state = {
       previewToken : false
     }
-}
+  }
     ///BELOW IS ATTEMPT TO GENERATE NEW MEETING ID USING PROMISES
     ///AND FUNCTION DATABASE.getNewMeetingID
     ///PLEASE KEEP FOR REFERENCE
@@ -70,8 +71,20 @@ export default class Dashboard extends Component {
       return (
         <div className="homebox">
           <Row>
-            <Col>
-              <Meetings username={cookies.get('login')}/>
+            <Col xs={3}>
+              <Card>
+                <Card.Body>
+                  <UserDash/>
+                </Card.Body>
+              </Card>
+
+            </Col>
+            <Col xs={9}>
+              <Card>
+                <Card.Body>
+                  Calendar Here
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
           <Row>
