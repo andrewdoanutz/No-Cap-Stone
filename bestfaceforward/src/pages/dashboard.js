@@ -82,7 +82,7 @@ export default class Dashboard extends Component {
             <Col xs={8} style={{marginTop: "10px"}}>
               <Card  className = "shadow">
                 <Card.Body >
-                  Calendar Here
+                  <h2> Calendar or Information Here </h2>
                 </Card.Body>
               </Card>
             </Col>

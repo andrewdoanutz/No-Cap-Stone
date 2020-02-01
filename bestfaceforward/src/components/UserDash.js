@@ -6,7 +6,7 @@ var namesList = names.map(function(name){
   return <Col> <h3>Wed, Jan 13 </h3>
     <Card  className = "shadow" style={{marginBottom: "10%"}}>
     <Card.Body>
-      <Card.Title>{name}</Card.Title>
+      <Card.Title><h4>{name}</h4></Card.Title>
       <Card.Text>
         Some Info Here
       </Card.Text>
