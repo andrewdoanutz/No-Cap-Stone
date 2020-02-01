@@ -71,7 +71,7 @@ export default class Dashboard extends Component {
       return (
         <div className="homebox">
           <Row>
-            <Col xs={3}>
+            <Col xs={3} style={{marginLeft: "10px", marginTop: "10px"}}>
               <Card className = "shadow">
                 <Card.Body>
                   <Userdash/>
@@ -79,7 +79,7 @@ export default class Dashboard extends Component {
               </Card>
 
             </Col>
-            <Col xs={9}>
+            <Col xs={8} style={{marginTop: "10px"}}>
               <Card  className = "shadow">
                 <Card.Body >
                   Calendar Here
@@ -90,7 +90,7 @@ export default class Dashboard extends Component {
           <Row>
             <Col className="padding">
               <div>
-              <NewMeeting uname = {cookies.get('login')}/>
+                <NewMeeting uname = {cookies.get('login')}/>
               </div>
             </Col>
           </Row>

@@ -41,7 +41,7 @@ const newMeeting = ({uname}) =>{
 
   return (
     <>
-    <Button variant="primary" onClick={handleShow}>
+    <Button size="lg" variant="primary" onClick={handleShow}>
       Create New Meeting
     </Button>
 

@@ -3,11 +3,12 @@ import {Container, Col, Row, Button, Card} from 'react-bootstrap'
 
 var names = ['Adjon', 'Bik', 'Andrew', 'Tim', 'Ryan', 'Jon Snow'];
 var namesList = names.map(function(name){
-  return <Col><Card  className = "shadow" style={{marginBottom: "10%"}}>
+  return <Col> <h3>Wed, Jan 13 </h3>
+    <Card  className = "shadow" style={{marginBottom: "10%"}}>
     <Card.Body>
       <Card.Title>{name}</Card.Title>
       <Card.Text>
-        Date/Time Here
+        Some Info Here
       </Card.Text>
       <Row>
         <Col>
