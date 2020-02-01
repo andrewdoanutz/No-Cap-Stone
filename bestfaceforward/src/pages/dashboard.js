@@ -11,7 +11,7 @@ import Room from './../components/Room';
 import VideoComponent from './../components/VideoComponent'
 import Meetings from './../components/Meetings'
 import Userlist from './../components/Userlist'
-import UserDash from './../components/UserDash'
+import Userdash from './../components/Userdash'
 import Database from '../components/Database'
 import NewMeeting from './newMeeting'
 import "../css/login.css";
@@ -74,7 +74,7 @@ export default class Dashboard extends Component {
             <Col xs={3}>
               <Card className = "shadow">
                 <Card.Body>
-                  <UserDash/>
+                  <Userdash/>
                 </Card.Body>
               </Card>
 
