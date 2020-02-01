@@ -8,7 +8,7 @@ var namesList = names.map(function(name){
     <Card.Body>
       <Card.Title><h4>{name}</h4></Card.Title>
       <Card.Text>
-        Some Info Here
+        Meeting ID: A5YZ
       </Card.Text>
       <Row>
         <Col>
