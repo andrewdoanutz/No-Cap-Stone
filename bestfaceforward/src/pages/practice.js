@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Form, Button, Col, Row} from 'react-bootstrap'
+import {Button} from 'react-bootstrap'
 import Webcam from "react-webcam";
 import Speech from 'speak-tts'
 import questions from '../questions.json'
@@ -7,7 +7,7 @@ import { ReactMediaRecorder } from "react-media-recorder";
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from '../components/Transcript';
 
-import "../css/about.css";
+import "../css/practice.css";
 
 const videoConstraints = {
     width: 1920,
@@ -90,7 +90,6 @@ export default class Practice extends Component {
     
        this.setState({ 
            text: "", 
-           transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
            listening: false,
            formattedMessages: []
         });
@@ -209,7 +208,9 @@ export default class Practice extends Component {
     generateReport(){
         if(this.state.videos.length>3){
             this.state.videos.shift()
-            this.state.transcripts.pop()
+        }
+        if(this.state.transcripts.length>3){
+            this.state.videos.pop()
         }
         return(
             <div>
@@ -269,6 +270,7 @@ export default class Practice extends Component {
                         this.onClickListener()
                         setTimeout(()=>{
                             this.setState({
+                                transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
                                 videos: this.state.videos.concat([mediaBlobUrl])
                             }, () => {
                                 console.log(this.state.videos)
