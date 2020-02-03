@@ -4,6 +4,8 @@ import Webcam from "react-webcam";
 import Speech from 'speak-tts'
 import questions from '../questions.json'
 import { ReactMediaRecorder } from "react-media-recorder";
+import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
+import Transcript from '../components/Transcript';
 
 import "../css/about.css";
 
@@ -30,9 +32,137 @@ export default class Practice extends Component {
             question: "",
             inds:[],
             videos:[],
-            recording: false
+            recording: false,
+            transcripts:[],
+            text: "",
+            token: null,
+            listening: false,
+            error: null,
+            serviceUrl: null,
+            formattedMessages: []
         }
+        this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
+        this.getFinalResults = this.getFinalResults.bind(this);
+        this.getCurrentInterimResult = this.getCurrentInterimResult.bind(this);
+        this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
       }
+      //speech stuff
+      componentDidMount(){
+        this.fetchToken()
+      }
+    
+      fetchToken() {
+        return fetch('/api/v1/credentials').then((res) => {
+          if (res.status !== 200) {
+            throw new Error('Error retrieving auth token');
+          }
+          console.log(res)
+          return res.text();
+        }).then((token) => {
+          var jsonToken = JSON.parse(token)
+          console.log(jsonToken)
+          this.setState({token: jsonToken.accessToken, serviceUrl: jsonToken.serviceUrl})
+    
+          console.log(this.state.token)
+          console.log(this.state.serviceUrl)
+        }).catch(this.handleError);
+      }
+    
+      handleError = (err, extra) => {
+        console.error(err, extra);
+        if (err.name === 'UNRECOGNIZED_FORMAT') {
+          err = 'Unable to determine content type from file name or header; mp3, wav, flac, ogg, opus, and webm are supported. Please choose a different file.';
+        } else if (err.name === 'NotSupportedError' && this.state.audioSource === 'mic') {
+          err = 'This browser does not support microphone input.';
+        } else if (err.message === '(\'UpsamplingNotAllowed\', 8000, 16000)') {
+          err = 'Please select a narrowband voice model to transcribe 8KHz audio files.';
+        } else if (err.message === 'Invalid constraint') {
+          // iPod Touch does this on iOS 11 - there is a microphone, but Safari claims there isn't
+          err = 'Unable to access microphone';
+        }
+        this.setState({ error: err.message || err });
+      }
+    
+      stopListening = () => {
+       if (this.stream) {
+         this.stream.stop();
+       }
+    
+       this.setState({ 
+           text: "", 
+           transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
+           listening: false,
+           formattedMessages: []
+        });
+      }
+    
+    
+      handleFormattedMessage(msg) {
+    
+        const { formattedMessages } = this.state;
+        console.log(formattedMessages)
+        this.setState({ formattedMessages: formattedMessages.concat(msg) });
+      }
+    
+      getFinalResults() {
+       return this.state.formattedMessages.filter(r => r.results
+         && r.results.length && r.results[0].final);
+      }
+    
+      getCurrentInterimResult() {
+    
+        if (this.state.formattedmessages != []){
+          const r = this.state.formattedMessages[this.state.formattedMessages.length - 1];
+          if (!r || !r.results || !r.results.length || r.results[0].final) {
+            return null;
+          }
+          return r;
+        }
+    
+    
+      }
+    
+      getFinalAndLatestInterimResult() {
+        const final = this.getFinalResults();
+        const interim = this.getCurrentInterimResult();
+        if (interim) {
+          final.push(interim);
+        }
+        return final;
+      }
+    
+      onClickListener = () => {
+        if (this.state.listening) {
+          this.stopListening();
+          return;
+        }
+    
+        this.setState({ listening: !this.state.listening });
+    
+        const stream = recognizeMicrophone({
+          accessToken: this.state.token,
+          smart_formatting: true,
+          format: true, // adds capitals, periods, and a few other things (client-side)
+          objectMode: true,
+          interim_results: false,
+          url: this.state.serviceUrl
+        });
+    
+        this.stream = stream;
+    
+    
+        stream.on('data', this.handleFormattedMessage);
+    
+        stream.recognizeStream.on('end', () => {
+          if (this.state.error) {
+            console.log("test")
+          }
+        });
+    
+    
+        stream.on('error', (data) => this.stopListening());
+      }
+      //practice stuff
     randomQuestion(){
         const min = 1;
         const max = 33;
@@ -79,11 +209,15 @@ export default class Practice extends Component {
     generateReport(){
         if(this.state.videos.length>3){
             this.state.videos.shift()
+            this.state.transcripts.pop()
         }
         return(
             <div>
-                {this.state.videos.map((url, index) => (
-                    <video key={index} src={url} controls/>
+                {this.state.videos.map((url,index) => (
+                    <video key={'v'+index} src={url} controls/>
+                ))}
+                {this.state.transcripts.map((text,index) => (
+                    <div>{<Transcript key={'t'+index} messages={text}/>}</div>
                 ))}
             </div>
         )
@@ -126,17 +260,20 @@ export default class Practice extends Component {
                     <Button onClick={()=> {
                     if(this.state.recording===false){
                         startRecording()
+                        this.onClickListener()
                         this.setState({
                             recording: true
                         })
                     } else {
                         stopRecording()
+                        this.onClickListener()
                         setTimeout(()=>{
                             this.setState({
                                 videos: this.state.videos.concat([mediaBlobUrl])
                             }, () => {
                                 console.log(this.state.videos)
                                 startRecording()
+                                this.onClickListener()
                             })
                         },500)
                         
