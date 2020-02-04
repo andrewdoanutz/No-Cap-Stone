@@ -14,6 +14,7 @@ import Userlist from './../components/Userlist'
 import Userdash from './../components/Userdash'
 import Database from '../components/Database'
 import NewMeeting from './newMeeting'
+import CalendarView from '../components/Calendar'
 import "../css/login.css";
 
 
@@ -82,7 +83,7 @@ export default class Dashboard extends Component {
             <Col xs={8} style={{marginTop: "10px"}}>
               <Card  className = "shadow">
                 <Card.Body >
-                  <h2> Calendar or Information Here </h2>
+                  <h4> <CalendarView/> </h4>
                 </Card.Body>
               </Card>
             </Col>
