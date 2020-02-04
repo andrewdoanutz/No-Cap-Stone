@@ -9,15 +9,15 @@ var candidateList = names.map(function(candidate){
   return <Col> <h3> {candidate.date} </h3>
     <Card  className = "shadow" style={{marginBottom: "10%"}}>
     <Card.Body>
-      <Card.Title><h4>{candidate.name}</h4></Card.Title>
-      <Card.Text>
-        Meeting ID: {candidate.id}
-      </Card.Text>
       <Row>
         <Col>
-          <Button size="lg" variant="primary">Join Meeting</Button>
+          <Card.Title><h4>{candidate.name}</h4></Card.Title>
+          <Card.Text>
+            Meeting ID: {candidate.id}
+          </Card.Text>
+          <Button size="lg" variant="info">Join Meeting</Button>
         </Col>
-        <Col>
+        <Col className="my-auto">
           <Button variant = "primary"><h5> View Candidate </h5><FontAwesomeIcon icon={faArrowRight} size='2x'/></Button>
         </Col>
 
