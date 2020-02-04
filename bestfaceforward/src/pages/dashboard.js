@@ -15,6 +15,7 @@ import Userdash from './../components/Userdash'
 import Database from '../components/Database'
 import NewMeeting from './newMeeting'
 import CalendarView from '../components/Calendar'
+import Info from '../components/Info'
 import "../css/login.css";
 
 
@@ -24,47 +25,19 @@ let cookies = new Cookies();
 
 
 export default class Dashboard extends Component {
-
-
   constructor(){
     super();
     this.state = {
-      previewToken : false
+      previewToken : false,
+      clicked: false,
+      name: ""
     }
   }
-    ///BELOW IS ATTEMPT TO GENERATE NEW MEETING ID USING PROMISES
-    ///AND FUNCTION DATABASE.getNewMeetingID
-    ///PLEASE KEEP FOR REFERENCE
 
-  //   this.state= {
-  //     newMeetingID : 1
-  //   }
-  //   var promise = new Promise ((resolve,reject) => {
-  //     // let newMeetingID = '';
-  //     Database.getNewMeetingID()
-  //     .then(id => this.setState({newMeetingID:id}),
-  //     resolve(this.state.newMeetingID)
-  //     // console.log("returned value:", id)
-  //   )
-  //     .catch(err => console.log(err))
-  //     // if(this.state.newMeetingID!=1){
-  //     //   resolve(this.state.newMeetingID);
-  //     // }
-  //     // else{
-  //     //   reject(Error("promise rejected"))
-  //     // }
-  //   });
-  //   promise.then(result=>{
-  //     console.log("result:",result)
-  //     this.setState({newMeetingID:result})
-  //   },  function(error) {
-  //     console.log("promise returned error:", error)
-  //   });
-  // }
-  //
-  // // componenetWillMount(){
-  // //
-  // // }
+  callbackFunction = (childData) => {
+      this.setState({name: childData})
+  }
+
 
   render() {
     // console.log("here",this.state.newMeetingID);
@@ -75,7 +48,8 @@ export default class Dashboard extends Component {
             <Col xs={3} style={{marginLeft: "10px", marginTop: "10px"}}>
               <Card className = "shadow">
                 <Card.Body>
-                  <Userdash/>
+                  {this.state.clicked}
+                  <Userdash onSelect = {this.callbackFunction}/>
                 </Card.Body>
               </Card>
 
