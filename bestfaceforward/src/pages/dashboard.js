@@ -31,13 +31,13 @@ export default class Dashboard extends Component {
       previewToken : false,
       clicked: false,
       name: "",
-      meetingID: ""
+      id: ""
     }
   }
 
   callbackFunction = (childData) => {
       this.setState({name: childData.name})
-      this.setState({meetingID: childData.id})
+      this.setState({id: childData.id})
   }
 
 
@@ -51,7 +51,7 @@ export default class Dashboard extends Component {
               <Card className = "shadow">
                 <Card.Body>
                   {this.state.name}
-                  {this.state.meetingID}
+                  {this.state.id}
                   <Userdash parentCallback = {this.callbackFunction}/>
                 </Card.Body>
               </Card>
@@ -60,7 +60,7 @@ export default class Dashboard extends Component {
             <Col xs={8} style={{marginTop: "10px"}}>
               <Card  className = "shadow">
                 <Card.Body >
-                  <h4> <CalendarView/> </h4>
+                  <h4> <Info name = {this.state.name} id = {this.state.id}/> </h4>
                 </Card.Body>
               </Card>
             </Col>
