@@ -15,11 +15,12 @@ export default class CalendarView extends React.Component {
         defaultView="dayGridMonth"
         themeSystem="standard"
         fixedWeekCount = {false}
-        contentHeight = {600}
+        contentHeight = {500}
         weekends={false}
         events={[
-            { title: 'Adjon', date: '2020-02-05' },
-            { title: 'Bik Nandy', date: '2020-02-03' }
+            { title: 'Adjon Tahiraj', date: '2020-02-03' },
+            { title: 'Bik Nandy', date: '2020-02-05' },
+            {title: 'Tim Chang', date: '2020-02-19'}
           ]}
         plugins={[ dayGridPlugin]}
       />
