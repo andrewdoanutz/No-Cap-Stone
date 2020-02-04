@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import {Button, Card, Row, Col} from 'react-bootstrap';
-import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
+import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 
 
 class Report extends Component {
@@ -16,7 +16,18 @@ class Report extends Component {
     super(props);
 
     this.state = {
-      txt: "When Working on my um group project, a team member um was not carrying their own weight. They weren't completing assingments or showing up to meetings. To solve the problem we were direct with them in a positive wayy and tried to work with them in person",
+      txtJson:[
+        {
+        0: "first text, something about being upset often and nonconfident in team performance"
+      },
+      {
+        1: "second text, Happy when things work out and I hope for the best for our team"
+      },
+      {
+        2: "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions"
+      }
+    ],
+      txt: "When Working on my group project, a team member was not carrying their own weight. They weren't completing assingments or showing up to meetings. To solve the problem we were direct with them in a positive wayy and tried to work with them in person",
       analysis: [
                   {
                     tone_name: 'Anger', score: 0
@@ -43,7 +54,10 @@ class Report extends Component {
       filler: 0,
       keywords: [{keyword: '1', score: 0.1},
                   {keyword: '2', score: 0.1},
-                  {keyword: '3', score: 0.1}]
+                  {keyword: '3', score: 0.1}],
+      concepts: [{concepts: '1', score: 1},
+                  {concepts: '2', score: 1},
+                  {concepts: '3', score: 1}],
     }
   }
 
@@ -66,9 +80,9 @@ class Report extends Component {
                  {keyword: '3', score: 0.1}
                ]
      var concepts = res.data.analysisResults.result.concepts
-     var finalConcepts = [ {concept: '1', score: 0.1},
-                 {concept: '2', score: 0.1},
-                 {concept: '3', score: 0.1}
+     var finalConcepts = [ {concept: '1', score: 1},
+                 {concept: '2', score: 1},
+                 {concept: '3', score: 1}
                ]
     var current = 0
      for (var i of keywords){
@@ -76,8 +90,16 @@ class Report extends Component {
        finalKeywords[current].score = i.relevance
        current+=1
      }
+     current = 0
+     for (var i of concepts){
+       finalConcepts[current].concept = i.text
+       finalConcepts[current].score = i.relevance * 10
+       current+=1
+     }
      console.log(finalKeywords)
+     console.log(finalConcepts)
      this.setState({
+       concepts:  finalConcepts,
        keywords: finalKeywords
      })
    })
@@ -193,6 +215,47 @@ class Report extends Component {
                 <Legend />
                 <Bar dataKey="score" fill="#8884d8" />
               </BarChart>
+            </Col>
+            <Col>
+              <ResponsiveContainer height={3 * 50 + 10} width="50%">
+                <BarChart
+                    data={this.state.concepts}
+                    margin={{top: 0, right: 40, left: 40, bottom: 20}}
+                    layout="vertical"
+                    barCategoryGap="20%"
+                    barGap={2}
+                    maxBarSize={10}
+                >
+                    <CartesianGrid
+                        horizontal={false}
+                        stroke='#a0a0a0'
+                        strokeWidth={0.5}
+                    />
+                    <XAxis
+                        type="number"
+                        axisLine={false}
+                        stroke='#a0a0a0'
+                        //domain={[5, 10]}
+                        //ticks={[ 7.5, 10]}
+                        strokeWidth={0.5}
+                    />
+                    <YAxis
+                        type="category"
+                        dataKey={this.state.concepts.concept}
+                        width={40}
+                    />
+                    <Bar
+                        dataKey="score"
+                        animationDuration={1000}
+                        label={{position: 'right', backgroundColor: '#fff'}}
+                        // shape={<Rectangle
+                        //     className={classes.rectangle}
+                        //     radius={[0, 10, 10, 0]}
+                        // />}
+                    >
+                    </Bar>
+                </BarChart>
+                </ResponsiveContainer>
             </Col>
           </Row>
 

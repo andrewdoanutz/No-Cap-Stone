@@ -71,7 +71,7 @@ const getSubjects = (text, res) => {
       // },
       'keywords': {
         // 'emotion': true,
-        // 'sentiment': true,
+        'sentiment': true,
         'limit': 3
       }
     }
