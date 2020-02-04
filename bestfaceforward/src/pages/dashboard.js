@@ -48,8 +48,8 @@ export default class Dashboard extends Component {
             <Col xs={3} style={{marginLeft: "10px", marginTop: "10px"}}>
               <Card className = "shadow">
                 <Card.Body>
-                  {this.state.clicked}
-                  <Userdash onSelect = {this.callbackFunction}/>
+                  {this.state.name}
+                  <Userdash parentCallback = {this.callbackFunction}/>
                 </Card.Body>
               </Card>
 
