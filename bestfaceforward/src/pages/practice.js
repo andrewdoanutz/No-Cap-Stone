@@ -6,6 +6,7 @@ import questions from '../questions.json'
 import { ReactMediaRecorder } from "react-media-recorder";
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from '../components/Transcript';
+import axios from 'axios'
 
 import "../css/practice.css";
 
@@ -45,6 +46,60 @@ export default class Practice extends Component {
         this.getFinalResults = this.getFinalResults.bind(this);
         this.getCurrentInterimResult = this.getCurrentInterimResult.bind(this);
         this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
+      }
+      //analysis stuff
+      getOccurrence = (array, value) => {
+        var count = 0;
+        array.forEach((v) => (v === value && count++));
+        return count;
+      }
+    
+      analyzeText = (text) => {
+        //Post call to backend for analysis of transcript
+        axios.post('http://localhost:3001/api/transcript', {transcript: text})
+       .then(res => {
+    
+         //Gets analysis from backend
+         // var tones = res.data.toneAnalysis.result.document_tone.tones
+         // for (var tone in analysis){
+         //   if (tone.hasOwnProperty(tone)){
+         //     tone.score
+         //   }
+         // }
+         console.log(res.data.toneAnalysis.result.document_tone.tones)
+         var tones = res.data.toneAnalysis.result.document_tone.tones
+         var finalTone = [ {tone_name: 'Anger', score: 0.1},
+                     {
+                       tone_name: 'Fear', score: 0.1
+                     },
+                     {
+                       tone_name: 'Joy', score: 0.1
+                     },
+                     {
+                       tone_name: 'Sadness', score: 0.1
+                     },
+                     {
+                       tone_name: 'Analytical', score: 0.1
+                     },
+                     {
+                       tone_name: 'Confident', score: 0.1
+                     },
+                     {
+                       tone_name: 'Tentative', score: 0.1
+                     }
+                   ]
+         for (var i of tones){
+           for (var a of finalTone){
+             if (a.tone_name == i.tone_name){
+               a.score = i.score
+             }
+           }
+         }
+         console.log(finalTone)
+         return finalTone
+         //console.log(res.data.toneAnalysis.result);
+         //console.log(this.state.analysis)
+       })
       }
       //speech stuff
       componentDidMount(){
@@ -144,7 +199,8 @@ export default class Practice extends Component {
           format: true, // adds capitals, periods, and a few other things (client-side)
           objectMode: true,
           interim_results: false,
-          url: this.state.serviceUrl
+          url: this.state.serviceUrl,
+          transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()])
         });
     
         this.stream = stream;
@@ -218,7 +274,10 @@ export default class Practice extends Component {
                     <video key={'v'+index} src={url} controls/>
                 ))}
                 {this.state.transcripts.map((text,index) => (
+                  <div>
                     <div>{<Transcript key={'t'+index} messages={text}/>}</div>
+                    <div key={'a'+index}>{this.analyzeText(text)}</div>
+                  </div>
                 ))}
             </div>
         )
@@ -270,7 +329,6 @@ export default class Practice extends Component {
                         this.onClickListener()
                         setTimeout(()=>{
                             this.setState({
-                                transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
                                 videos: this.state.videos.concat([mediaBlobUrl])
                             }, () => {
                                 console.log(this.state.videos)
