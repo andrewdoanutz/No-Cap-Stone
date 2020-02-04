@@ -16,7 +16,7 @@ const Info = (props) => {
       const data = await fetch('/video/token', {
         method: 'POST',
         body: JSON.stringify({
-          identity: props.name,
+          identity: "User",
           room: props.id
         }),
         headers: {
@@ -55,7 +55,8 @@ const Info = (props) => {
       <Container>
         <Row className = "pb-3">
           <Col>
-            <h1 className = "pb-3">{props.name}</h1>
+            <h1 className = "pb-1">{props.name}</h1>
+            <h5 className = "pb-3"> Meeting ID: {props.id} </h5>
             <Row className = "pb-3">
               <Col>
                 <Button size="lg" variant="primary" onClick={handleClick}>Join Meeting</Button>
@@ -76,7 +77,6 @@ const Info = (props) => {
             </Card>
           </Col>
         </Row>
-        {props.id}
       </Container>
     );
   }

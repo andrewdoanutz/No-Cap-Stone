@@ -21,7 +21,8 @@ export default class CalendarView extends React.Component {
             { title: 'Adjon Tahiraj', date: '2020-02-03T09:00:00' },
             { title: 'Bik Nandy', date: '2020-02-05T10:00:00' },
             {title: 'Tim Chang', date: '2020-02-19T13:00:00'},
-            {title: 'Andrew Doan', date: '2020-02-13T11:00:00'}
+            {title: 'Andrew Doan', date: '2020-02-13T11:00:00'},
+            {title: 'Ryan Gormley', date: '2020-02-28T09:00:00'}
           ]}
         plugins={[ dayGridPlugin]}
       />
