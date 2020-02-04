@@ -49,6 +49,8 @@ export default class Dashboard extends Component {
         <div className="homebox">
           <Row>
             <Col xs={3} style={{marginLeft: "10px", marginTop: "10px"}}>
+
+                  <NewMeeting uname = {cookies.get('login')}/>
               <Card className = "shadow">
                 <Card.Body>
                   <Userdash parentCallback = {this.callbackFunction} clicked = {this.state.isClicked}/>
@@ -62,13 +64,6 @@ export default class Dashboard extends Component {
                   <h4> {this.state.isClicked ? <Info name = {this.state.name} id = {this.state.id}/> : <CalendarView /> }</h4>
                 </Card.Body>
               </Card>
-            </Col>
-          </Row>
-          <Row>
-            <Col className="padding">
-              <div>
-                <NewMeeting uname = {cookies.get('login')}/>
-              </div>
             </Col>
           </Row>
 
