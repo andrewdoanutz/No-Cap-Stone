@@ -106,8 +106,9 @@ class VideoComponent extends Component {
         this.img.onload = () => { URL.revokeObjectURL(this.src); } 
         console.log("end");
         
-      }).then(this.callBackendAPI())
+      }).then(setTimeout(() => this.callBackendAPI(),1000))
       
+
     
   }
    
