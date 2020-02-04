@@ -1,10 +1,10 @@
 import React, { Component, useState, useCallback} from 'react';
-import {Container, Col, Row, Button, Card} from 'react-bootstrap'
+import {Container, Col, Row, Button, Card, ToggleButton} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 
-const Userdash = ({parentCallback}) => {
+const Userdash = (props) => {
   const [name, setName] = useState("");
   const [id, setID] = useState("");
 
@@ -31,10 +31,11 @@ const Userdash = ({parentCallback}) => {
                       <Card.Text>
                         Meeting ID: {candidate.id}
                       </Card.Text>
-                      <Button size="lg" variant="info">Join Meeting</Button>
                     </Col>
                     <Col className="my-auto">
-                      <Button variant = "primary" value = {true} onClick = {()=> {setName(candidate.name); setID(candidate.id); parentCallback({name: candidate.name, id: candidate.id})}}><h5> View Candidate </h5><FontAwesomeIcon icon={faArrowRight} size='2x'/></Button>
+                      <Button variant = "primary" value = {true} onClick = {()=> {setName(candidate.name);
+                        setID(candidate.id);
+                        props.parentCallback({name: candidate.name, id: candidate.id, isClicked: !props.clicked})}}><h5> View Candidate </h5><FontAwesomeIcon icon={faArrowRight} size='2x'/></Button>
                     </Col>
                   </Row>
                 </Card.Body>
