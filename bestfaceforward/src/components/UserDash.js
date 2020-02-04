@@ -6,6 +6,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 const Userdash = ({parentCallback}) => {
   const [name, setName] = useState("");
+  const [id, setID] = useState("");
 
 
   var names = [{name: 'Adjon Tahiraj', date: 'Mon, Feb 3 - 9:00am', id: 'A576W'},
@@ -33,7 +34,7 @@ const Userdash = ({parentCallback}) => {
                       <Button size="lg" variant="info">Join Meeting</Button>
                     </Col>
                     <Col className="my-auto">
-                      <Button variant = "primary" value = {true} onClick = {()=> {setName(candidate.name); parentCallback(candidate.name)}}><h5> View Candidate </h5><FontAwesomeIcon icon={faArrowRight} size='2x'/></Button>
+                      <Button variant = "primary" value = {true} onClick = {()=> {setName(candidate.name); setID(candidate.id); parentCallback({name: candidate.name, id: candidate.id})}}><h5> View Candidate </h5><FontAwesomeIcon icon={faArrowRight} size='2x'/></Button>
                     </Col>
                   </Row>
                 </Card.Body>

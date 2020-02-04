@@ -30,12 +30,14 @@ export default class Dashboard extends Component {
     this.state = {
       previewToken : false,
       clicked: false,
-      name: ""
+      name: "",
+      meetingID: ""
     }
   }
 
   callbackFunction = (childData) => {
-      this.setState({name: childData})
+      this.setState({name: childData.name})
+      this.setState({meetingID: childData.id})
   }
 
 
@@ -49,6 +51,7 @@ export default class Dashboard extends Component {
               <Card className = "shadow">
                 <Card.Body>
                   {this.state.name}
+                  {this.state.meetingID}
                   <Userdash parentCallback = {this.callbackFunction}/>
                 </Card.Body>
               </Card>
