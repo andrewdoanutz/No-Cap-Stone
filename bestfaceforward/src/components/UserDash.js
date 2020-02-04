@@ -12,7 +12,8 @@ const Userdash = (props) => {
   var names = [{name: 'Adjon Tahiraj', date: 'Mon, Feb 3 - 9:00am', id: 'A576W'},
               {name: 'Bik Nandy', date: 'Wed, Feb 5 - 10:00am', id: 'A87K2'},
               {name: 'Andrew Doan', date: 'Thurs, Feb 13- 11:00am', id: 'OV3KZ'},
-              {name: 'Tim Chang', date: 'Wed, Feb 19 - 1:00pm', id: '4TKLZ'}]
+              {name: 'Tim Chang', date: 'Wed, Feb 19 - 1:00pm', id: '4TKLZ'},
+              {name: 'Ryan Gormley', date: 'Fri, Feb 28 - 9:00am', id: '10ZIA'}]
 
 
 
