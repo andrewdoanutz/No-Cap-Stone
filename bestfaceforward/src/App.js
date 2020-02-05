@@ -11,6 +11,7 @@ import VidCall from './pages/videoCall'
 import Timer from './pages/timer'
 import DBTest from './pages/DBTest'
 import Report from './components/Report'
+import PostAnalysis from './pages/postAnalysis'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
@@ -31,6 +32,7 @@ class App extends Component {
           <Route exact path="/timer" component={Timer} />
           <Route exact path="/dbtest" component={DBTest} />
           <Route exact path="/report" component={Report} />
+          <Route exact path="/postAnalysis" component={PostAnalysis} />
           <Route exact path="/api/transcript"/>
         </div>
       </BrowserRouter>
