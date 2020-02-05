@@ -11,9 +11,10 @@ import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-micropho
 import Transcript from './Transcript';
 import '../css/VideoComponent.css';
 import Camera from 'react-camera'
+
+var prevTime = 10;
 var ts = ""
 var translatedPhrase = ""
-var prevTime = 10;
 
 class VideoComponent extends Component {
   constructor(props){
@@ -25,7 +26,7 @@ class VideoComponent extends Component {
       error: null,
       serviceUrl: null,
       formattedMessages: [],
-      date: new Date()
+      date:new Date()
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
@@ -177,7 +178,10 @@ class VideoComponent extends Component {
 
     stream.on('error', (data) => this.stopListening());
   }
-  
+
+
+
+
   translate(){
     console.log(`translating...`)
     var googleTranslate = require('google-translate')('AIzaSyCsY_IQPqIt6SAvAymb5CAC0q_qNRMAAj8');
@@ -185,8 +189,8 @@ class VideoComponent extends Component {
     googleTranslate.translate(ts, 'es', function(err, translation) {
       console.log(translation.translatedText);
       translatedPhrase = translation.translatedText;
-    });   
-   }
+    });
+  }
 
   takePicture(){
     console.log("say cheese");
@@ -207,8 +211,8 @@ class VideoComponent extends Component {
             //endpoint: "http://localhost:8001",
             endpoint: "https://s3.us-east-2.amazonaws.com",
             // get from google drive
-             accessKeyId : "", 
-             secretAccessKey: "" 
+             accessKeyId : "AKIAJN2JSBZ442ZEYG4A", 
+             secretAccessKey: "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" 
           });
           const type = dataUri.split(';')[0].split('/')[1];
           const base64Data = new Buffer.from(dataUri.replace(/^data:image\/\w+;base64,/, ""), 'base64');
@@ -268,8 +272,6 @@ class VideoComponent extends Component {
   };
 
 
-
-
   render(){
     const {token, formattedMessages} = this.state;
     const messages = this.getFinalAndLatestInterimResult();
@@ -293,10 +295,6 @@ class VideoComponent extends Component {
         />
       </div>
         <div>
-          <Button className ="mb-2" onClick={resetTranscript}>Reset Transcript</Button>
-          <span className="subtitles">{transcript}</span>
-        </div>
-        <div>
           <Button className ="mb-2" onClick={this.translate}>Translate Transcript</Button>
           <span className="subtitles">{translatedPhrase}</span>
         </div>
@@ -314,9 +312,8 @@ class VideoComponent extends Component {
   }
 }
 
-
 export default VideoComponent;
-const style = 
+const style = {
   preview: {
     position: 'relative',
   },
