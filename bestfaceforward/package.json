@@ -8,12 +8,15 @@
     "@google-cloud/translate": "^4.2.1",
     "@google-cloud/vision": "^1.8.0",
     "aws-sdk": "^2.566.0",
+    "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fswebcam": "^0.2.0",
     "google-auth-library": "^5.5.0",
     "google-translate": "^2.3.0",
-    "ibm-watson": "^5.1.0",
+    "ibm-watson": "^5.3.0",
     "jquery": "^3.4.1",
     "node-webcam": "^0.5.0",
     "react": "^16.8.3",
@@ -34,7 +37,9 @@
     "recharts": "^1.8.5",
     "twilio-video": "^1.19.2",
     "typescript": "^3.3.3333",
-    "universal-cookie": "^4.0.2"
+    "universal-cookie": "^4.0.2",
+    "vcap_services": "^0.7.1",
+    "watson-speech": "^0.37.2"
   },
   "scripts": {
     "start": "react-scripts start",
