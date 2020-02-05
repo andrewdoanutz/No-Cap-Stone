@@ -1,4 +1,3 @@
-
 const config = require('./config');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -8,9 +7,9 @@ const { chatToken, videoToken, voiceToken } = require('./tokens');
 const cors = require('cors');
 const vcapServices = require('vcap_services');
 const dotenv = require('dotenv');
-const fs = require('fs');
 const vision = require('@google-cloud/vision');
 const client = new vision.ImageAnnotatorClient();
+
 dotenv.config();
 
 const app = express();
@@ -18,34 +17,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pino);
 app.use(cors());
-
-var opts = {
-    //Picture related
-    width: 1920,
-    height: 1080,
-    quality: 100,
-    //Delay in seconds to take shot
-    //if the platform supports miliseconds
-    //use a float (0.1)
-    //Currently only on windows
-    delay: 0,
-    saveShots: true, 
-    // [jpeg, png] support varies
-    // Webcam.OutputTypes
-    output: "jpeg",
-    //Which camera to use
-    //Use Webcam.list() for results
-    //false for default device
-    device: false,
-    // [location, buffer, base64]
-    // Webcam.CallbackReturnTypes
-    callbackReturn: "base64",
-    //Logging
- 
-    verbose: false
- 
-};
-
 
 //const watson = require('watson-developer-cloud');
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
@@ -172,6 +143,7 @@ app.post('/voice/token', (req, res) => {
   sendTokenResponse(token, res);
 });
 
+
 app.post('/face/analysis',(req,res) => {
   console.log("hi'");
   console.log(req.body.x);
@@ -201,8 +173,6 @@ app.post('/face/analysis',(req,res) => {
 })
 
 
-
-
 const getWatson = () => {
   try {
     console.log(axios.get('/api/'));
@@ -214,4 +184,3 @@ const getWatson = () => {
 app.listen(3001, () =>
   console.log('Express server is running on localhost:3001')
 );
-
