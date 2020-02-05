@@ -17,17 +17,14 @@ class Report extends Component {
 
     this.state = {
       txtJson:[
-        {
-        0: "first text, something about being upset often and nonconfident in team performance"
-      },
-      {
-        1: "second text, Happy when things work out and I hope for the best for our team"
-      },
-      {
-        2: "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions"
-      }
-    ],
-      txt: "When Working on my group project, a team member was not carrying their own weight. They weren't completing assingments or showing up to meetings. To solve the problem we were direct with them in a positive wayy and tried to work with them in person",
+
+      "first text, something about being upset often and nonconfident in team performance",
+
+        "second text, Happy when things work out and I hope for the best for our team",
+
+        "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions"
+      ],
+      txt: this.props.questions,
       analysis: [
                   {
                     tone_name: 'Anger', score: 0
@@ -60,6 +57,8 @@ class Report extends Component {
                   {concepts: '3', score: 1}],
     }
   }
+
+
 
   //get number of occurances in an array of a specific value
   getOccurrence = (array, value) => {
@@ -169,10 +168,26 @@ class Report extends Component {
 
 
   render(){
+    var analysisList = (this.state.txtJson).map(function(text){
+       return <Row><Card style={{ width: '18rem' }}>
+         <Card.Body>
+            <Card.Title>{text}</Card.Title>
+            <Card.Text>
+
+            </Card.Text>
+          </Card.Body>
+        </Card></Row>;
+     })
+     /* <Col>
+     {analysisList}
+   </Col> */
     return(
       <div>
         <Button onClick={this.analyzeText}>Analyze</Button>
         <Button onClick={this.getSubjects}>Get Subjects</Button>
+        <Row>
+
+        </Row>
         <Row>
           <Col sm={6}>
             <Card>
