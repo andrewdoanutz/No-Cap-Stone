@@ -10,9 +10,10 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} fro
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from './Transcript';
 import '../css/VideoComponent.css';
-
+import Camera from 'react-camera'
 var ts = ""
 var translatedPhrase = ""
+var prevTime = 10;
 
 class VideoComponent extends Component {
   constructor(props){
@@ -23,13 +24,15 @@ class VideoComponent extends Component {
       listening: false,
       error: null,
       serviceUrl: null,
-      formattedMessages: []
+      formattedMessages: [],
+      date: new Date()
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
     this.getCurrentInterimResult = this.getCurrentInterimResult.bind(this);
     this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
-
+    this.takePicture = this.takePicture.bind(this);
+    this.callBackendAPI = this.callBackendAPI.bind(this);
 
   }
 
@@ -37,6 +40,21 @@ class VideoComponent extends Component {
 
   componentDidMount(){
     this.fetchToken()
+    this.timerID = setInterval(
+      () => this.tick(),
+      5000
+    );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date()
+    });
+    this.takePicture();
   }
 
   fetchToken() {
@@ -159,10 +177,7 @@ class VideoComponent extends Component {
 
     stream.on('error', (data) => this.stopListening());
   }
-
-
-
-
+  
   translate(){
     console.log(`translating...`)
     var googleTranslate = require('google-translate')('AIzaSyCsY_IQPqIt6SAvAymb5CAC0q_qNRMAAj8');
@@ -170,8 +185,88 @@ class VideoComponent extends Component {
     googleTranslate.translate(ts, 'es', function(err, translation) {
       console.log(translation.translatedText);
       translatedPhrase = translation.translatedText;
-    });
+    });   
+   }
+
+  takePicture(){
+    console.log("say cheese");
+   
+    const now = new Date();
+    const time = now.getTime();
+    var link = "";
+    this.camera.capture()
+      .then(blob => {
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function(){
+          var dataUri = reader.result;
+          let AWS = require("aws-sdk");
+          //used for local development
+          AWS.config.update({
+            region: "us-east-2",
+            //endpoint: "http://localhost:8001",
+            endpoint: "https://s3.us-east-2.amazonaws.com",
+            // get from google drive
+             accessKeyId : "", 
+             secretAccessKey: "" 
+          });
+          const type = dataUri.split(';')[0].split('/')[1];
+          const base64Data = new Buffer.from(dataUri.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+      
+          // Getting the file type, ie: jpeg, png or gif
+          
+          
+          const s3 = new AWS.S3();
+          const params = {
+            Bucket: 'nocapstone',
+            Key: `${time}.jpg`, // type is not required
+            Body: base64Data,
+            ACL: 'public-read',
+            ContentEncoding: 'base64', // required
+            ContentType: `image/${type}` // required. Notice the back ticks
+        };
+        console.log(base64Data);
+
+          s3.upload(params, function(err, data) {
+            if (err) {
+                throw err;
+            }
+            link = data.Location;
+            
+            console.log(`File uploaded successfully. ${data.Location}`);
+           
+            });
+            
+            
+        }
+        prevTime = time;
+       // 
+        
+        //this.callBackendAPI();
+        //isReady = false;
+        this.img.src = URL.createObjectURL(blob);
+        console.log(this.img);
+        this.img.onload = () => { URL.revokeObjectURL(this.src); } 
+        console.log("end");
+        
+      }).then(setTimeout(() => this.callBackendAPI(),1000))
+      
+
+    
   }
+   
+  async callBackendAPI(){
+    console.log();
+    const response = await fetch('/face/analysis',{method: 'POST',headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body:JSON.stringify({"x":prevTime})
+    });
+    const json = await response.json();
+    console.log(json.response);
+  };
+
 
 
 
@@ -181,7 +276,26 @@ class VideoComponent extends Component {
     console.log(messages);
     return (
       <div>
-
+        <div style={{visibility:'hidden'}}>
+        <Camera
+          style={style.preview}
+          ref={(cam) => {
+            this.camera = cam;
+          }}
+        >
+          
+        </Camera>
+        <img
+          style={style.captureImage}
+          ref={(img) => {
+            this.img = img;
+          }}
+        />
+      </div>
+        <div>
+          <Button className ="mb-2" onClick={resetTranscript}>Reset Transcript</Button>
+          <span className="subtitles">{transcript}</span>
+        </div>
         <div>
           <Button className ="mb-2" onClick={this.translate}>Translate Transcript</Button>
           <span className="subtitles">{translatedPhrase}</span>
@@ -200,4 +314,29 @@ class VideoComponent extends Component {
   }
 }
 
+
 export default VideoComponent;
+const style = 
+  preview: {
+    position: 'relative',
+  },
+  captureContainer: {
+    display: 'flex',
+    position: 'absolute',
+    justifyContent: 'center',
+    zIndex: 1,
+    bottom: 0,
+    width: '100%'
+  },
+  captureButton: {
+    backgroundColor: '#fff',
+    borderRadius: '50%',
+    height: 56,
+    width: 56,
+    color: '#000',
+    margin: 20
+  },
+  captureImage: {
+    width: '100%',
+  }
+};
