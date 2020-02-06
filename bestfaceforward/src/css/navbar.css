@@ -19,7 +19,7 @@
 
 .navbarTitle:hover {
   cursor: pointer;
-  color: #01579B !important;
+  color: orange !important;
 }
 
 
@@ -30,7 +30,7 @@
 }
 .link:hover {
   cursor: pointer;
-  color: #01579B !important;
+  color: orange !important;
 }
 
 .navImage{
