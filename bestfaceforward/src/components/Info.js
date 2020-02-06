@@ -5,6 +5,9 @@ import Room from './Room';
 import VideoComponent from './VideoComponent'
 import {BrowserRouter as Router, Link } from "react-router-dom";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faVideo } from '@fortawesome/free-solid-svg-icons'
+
 const Info = (props) => {
   const [token, setToken] = useState(null);
   const [previewToken, setPreviewToken] = useState(false);
@@ -65,7 +68,7 @@ const Info = (props) => {
                 </style>
 
                 <Button variant="flat" size="xxl">
-                  Join Meeting
+                  <FontAwesomeIcon icon={faVideo}/> &nbsp; Join Meeting
                 </Button>
               </>
           </Link>
