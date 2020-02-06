@@ -25,7 +25,6 @@ export default class NavBar extends React.Component {
               <Nav.Link href="/videoCall" className="link">Video</Nav.Link>
               <Nav.Link href="/postAnalysis" className="link">Analysis</Nav.Link>
               <Nav.Link href="/practice" className="link">Practice</Nav.Link>
-              <Nav.Link href="/report" className="link">Analysis</Nav.Link>
               <Nav.Link href="/about" className="link">About Us</Nav.Link>
             </Nav>
           </Navbar.Collapse>
