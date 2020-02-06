@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import {Button, Card, Row, Col} from 'react-bootstrap';
+import {Accordion, Card, Row, Col, Button} from 'react-bootstrap';
 import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Report from './../components/Report'
 
+import '../css/postAnalysis.css';
 
 class postAnalysis extends Component{
 
@@ -17,21 +18,35 @@ class postAnalysis extends Component{
 
           "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions"
       ],
+      candidateName:"John Doe",
       txt: "When Working on my group project, a team member was not carrying their own weight. They weren't completing assingments or showing up to meetings. To solve the problem we were direct with them in a positive wayy and tried to work with them in person",
     }
   }
 
 render(){
   return(
-    <div>
-    {this.state.transcript.map(function(text){
-      return <Row><Card>
-        <Card.Body>
-          <Report questions={text}/>
-        </Card.Body>
-      </Card></Row>;
-    })
-  }
+    <div className="homeBox">
+      <div className="homeHead">Post Analysis Report for {this.state.candidateName}</div>
+      <Accordion defaultActiveKey="0">
+      {this.state.transcript.map(function(text, index){
+        return (
+          <Card>
+            <Card.Header>
+              <Accordion.Toggle as={Button} variant="link" eventKey={index} className="accordionHeader">
+                Question {index+1}
+              </Accordion.Toggle>
+            </Card.Header>
+            <Accordion.Collapse eventKey={index}>
+              <Card.Body>
+                <Report questions={text}/>
+              </Card.Body>
+            </Accordion.Collapse>
+          </Card>
+         )
+        })
+      }
+      </Accordion>
+      
 </div>
 )
 }
