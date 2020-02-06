@@ -11,7 +11,6 @@ import VideoCall from './pages/videoCall'
 import Timer from './pages/timer'
 import DBTest from './pages/DBTest'
 import Practice from './pages/practice'
-import Report from './components/Report'
 import PostAnalysis from './pages/postAnalysis'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
