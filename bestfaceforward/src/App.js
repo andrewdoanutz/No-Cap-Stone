@@ -25,16 +25,15 @@ class App extends Component {
         <div>
           <NavBar/>
           <Route exact path="/about" component={About} />
-          <Route  path="/login" component={Login} />
-          <Route  path="/dashboard" component={Dash} />
-          <Route  path="/makeacct" component={MakeAcct} />
-          <Route  exact path="/videocall" component={VideoCall} />
-          <Route  path="/timer" component={Timer} />
-          <Route  path="/dbtest" component={DBTest} />
-          <Route  path="/report" component={Report} />
-          <Route  path="/postAnalysis" component={PostAnalysis} />
-          <Route  path="/api/transcript"/>
-          <Route  path="/practice" component={Practice}/>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/dashboard" component={Dash} />
+          <Route exact path="/makeacct" component={MakeAcct} />
+          <Route exact path="/videocall" component={VideoCall} />
+          <Route exact path="/timer" component={Timer} />
+          <Route exact path="/dbtest" component={DBTest} />
+          <Route exact path="/postAnalysis" component={PostAnalysis} />
+          <Route exact path="/api/transcript"/>
+          <Route exact path="/practice" component={Practice}/>
         </div>
       </BrowserRouter>
        </div>
