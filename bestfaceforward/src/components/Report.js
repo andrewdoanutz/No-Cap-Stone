@@ -1,7 +1,14 @@
+// TODO: Analyze audio for speed/clarity/pacing on recrded mp4 file and display here
+
+//TODO: analyze transcript in "txt" variable for filler words/ no-no words/ ramblng
+
+//index.js
+
+
 import React, { Component } from 'react';
 import axios from 'axios'
 import {Button, Card, Row, Col} from 'react-bootstrap';
-import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
+import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 
 
 class Report extends Component {
@@ -9,7 +16,15 @@ class Report extends Component {
     super(props);
 
     this.state = {
-      txt: "Hello I hate my life but I also love going on walks. I wonder what is for lunch today? Um I don't know really. Um yea that works. Yes um yea. I LOVE YOU. Haha.",
+      txtJson:[
+
+      "first text, something about being upset often and nonconfident in team performance",
+
+        "second text, Happy when things work out and I hope for the best for our team",
+
+        "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions"
+      ],
+      txt: this.props.questions,
       analysis: [
                   {
                     tone_name: 'Anger', score: 0
@@ -33,15 +48,60 @@ class Report extends Component {
                     tone_name: 'Tentative', score: 0
                   }
                 ],
-      filler: 0
+      filler: 0,
+      keywords: [{keyword: '1', score: 0.1},
+                  {keyword: '2', score: 0.1},
+                  {keyword: '3', score: 0.1}],
+      concepts: [{concepts: '1', score: 1},
+                  {concepts: '2', score: 1},
+                  {concepts: '3', score: 1}],
     }
   }
+
+
 
   //get number of occurances in an array of a specific value
   getOccurrence = (array, value) => {
     var count = 0;
     array.forEach((v) => (v === value && count++));
     return count;
+  }
+
+  getSubjects = (ev) => {
+    ev.preventDefault()
+    var txt = this.state.txt.toLowerCase()
+    axios.post('http://localhost:3001/api/subjects', {transcript: this.state.txt})
+   .then(res => {
+     console.log("Response: ",res)
+     var keywords = res.data.analysisResults.result.keywords
+     var finalKeywords = [ {keyword: '1', score: 0.1},
+                 {keyword: '2', score: 0.1},
+                 {keyword: '3', score: 0.1}
+               ]
+     var concepts = res.data.analysisResults.result.concepts
+     var finalConcepts = [ {concept: '1', score: 1},
+                 {concept: '2', score: 1},
+                 {concept: '3', score: 1}
+               ]
+    var current = 0
+     for (var i of keywords){
+       finalKeywords[current].keyword = i.text
+       finalKeywords[current].score = i.relevance
+       current+=1
+     }
+     current = 0
+     for (var i of concepts){
+       finalConcepts[current].concept = i.text
+       finalConcepts[current].score = i.relevance * 10
+       current+=1
+     }
+     console.log(finalKeywords)
+     console.log(finalConcepts)
+     this.setState({
+       concepts:  finalConcepts,
+       keywords: finalKeywords
+     })
+   })
   }
 
   analyzeText = (ev) => {
@@ -108,9 +168,26 @@ class Report extends Component {
 
 
   render(){
+    var analysisList = (this.state.txtJson).map(function(text){
+       return <Row><Card style={{ width: '18rem' }}>
+         <Card.Body>
+            <Card.Title>{text}</Card.Title>
+            <Card.Text>
+
+            </Card.Text>
+          </Card.Body>
+        </Card></Row>;
+     })
+     /* <Col>
+     {analysisList}
+   </Col> */
     return(
       <div>
         <Button onClick={this.analyzeText}>Analyze</Button>
+        <Button onClick={this.getSubjects}>Get Subjects</Button>
+        <Row>
+
+        </Row>
         <Row>
           <Col sm={6}>
             <Card>
@@ -137,7 +214,66 @@ class Report extends Component {
               </Card.Body>
             </Card>
           </Col>
-        </Row>
+          <Col>
+            <BarChart
+              width={500}
+              height={300}
+              data={this.state.keywords}
+              margin={{
+                top: 5, right: 30, left: 20, bottom: 5,
+              }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="keyword" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="score" fill="#8884d8" />
+              </BarChart>
+            </Col>
+            <Col>
+              <ResponsiveContainer height={3 * 50 + 10} width="50%">
+                <BarChart
+                    data={this.state.concepts}
+                    margin={{top: 0, right: 40, left: 40, bottom: 20}}
+                    layout="vertical"
+                    barCategoryGap="20%"
+                    barGap={2}
+                    maxBarSize={10}
+                >
+                    <CartesianGrid
+                        horizontal={false}
+                        stroke='#a0a0a0'
+                        strokeWidth={0.5}
+                    />
+                    <XAxis
+                        type="number"
+                        axisLine={false}
+                        stroke='#a0a0a0'
+                        //domain={[5, 10]}
+                        //ticks={[ 7.5, 10]}
+                        strokeWidth={0.5}
+                    />
+                    <YAxis
+                        type="category"
+                        dataKey={this.state.concepts.concept}
+                        width={40}
+                    />
+                    <Bar
+                        dataKey="score"
+                        animationDuration={1000}
+                        label={{position: 'right', backgroundColor: '#fff'}}
+                        // shape={<Rectangle
+                        //     className={classes.rectangle}
+                        //     radius={[0, 10, 10, 0]}
+                        // />}
+                    >
+                    </Bar>
+                </BarChart>
+                </ResponsiveContainer>
+            </Col>
+          </Row>
+
         <div>{this.state.txt}</div>
 
       </div>

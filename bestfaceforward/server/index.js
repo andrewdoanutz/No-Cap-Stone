@@ -1,3 +1,4 @@
+
 const config = require('./config');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -7,9 +8,6 @@ const { chatToken, videoToken, voiceToken } = require('./tokens');
 const cors = require('cors');
 const vcapServices = require('vcap_services');
 const dotenv = require('dotenv');
-const vision = require('@google-cloud/vision');
-const client = new vision.ImageAnnotatorClient();
-
 dotenv.config();
 
 const app = express();
@@ -41,6 +39,57 @@ app.get('/api/v1/credentials', async (req, res, next) => {
     next(err);
   }
 });
+
+
+
+const getSubjects = (text, res) => {
+  const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
+  const { IamAuthenticator } = require('ibm-watson/auth');
+
+  const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
+    version: '2019-07-12',
+    authenticator: new IamAuthenticator({
+      apikey: process.env.SUBJECTSAPI,
+    }),
+    url: 'https://gateway.watsonplatform.net/natural-language-understanding/api',
+  });
+
+  const analyzeParams = {
+    'text': text,
+    'features': {
+      // 'categories':{
+      //   // 'limit' : 3,
+      //   'explanation' : true
+      // },
+      'concepts' : {
+        'limit' : 3
+      },
+
+      // 'entities': {
+      //   'emotion': true,
+      //   'sentiment': true,
+      //   'limit': 2,
+      // },
+      'keywords': {
+        // 'emotion': true,
+        'sentiment': true,
+        'limit': 3
+      }
+    }
+  };
+
+  naturalLanguageUnderstanding.analyze(analyzeParams)
+  .then(analysisResults => {
+    console.log(JSON.stringify(analysisResults, null, 2));
+    res.set('Content-Type', 'application/json');
+    res.send(JSON.stringify({analysisResults}))
+  })
+  .catch(err => {
+    console.log('error:', err);
+  });
+}
+
+
 
 
 
@@ -81,6 +130,21 @@ const sendTokenResponse = (token, res) => {
   );
 };
 
+app.get('/api/subjects', (req,res) => {
+  //console.log(res.data)
+  console.log("body of subjects get:", req.body)
+  const transcript= req.body.transcript;
+  getSubjects(transcript, res);
+
+})
+
+app.post('/api/subjects', (req, res) => {
+  console.log("Transcript during getSubjects post:")
+  console.log("Body of req in getSubjects:",req.body)
+  const transcript= req.body.transcript;
+  getSubjects(transcript, res);
+})
+
 //Api/transcript takes care of sending in the transcript and sending out analysis
 app.get('/api/transcript', (req,res) => {
   //console.log(res.data)
@@ -89,6 +153,7 @@ app.get('/api/transcript', (req,res) => {
   analyzeText(transcript, res);
 
 })
+
 
 app.post('/api/transcript', (req, res) => {
   console.log("Transcript")
@@ -143,34 +208,6 @@ app.post('/voice/token', (req, res) => {
   sendTokenResponse(token, res);
 });
 
-
-app.post('/face/analysis',(req,res) => {
-  console.log("hi'");
-  console.log(req.body.x);
-  var link = "https://nocapstone.s3.us-east-2.amazonaws.com/" + req.body.x + ".jpg";
-  console.log(link);
-  const request = {
-    "image": {source: {"imageUri":link}},
-    "features": [
-      {
-          "type": "FACE_DETECTION"
-      },
-      {
-          "type": "LABEL_DETECTION"
-      }
-  ]
-  };
-  client
-    .annotateImage(request)
-    .then(response => {
-      let jR = JSON.stringify(response, null, '  ')
-      console.log(jR); 
-      res.send({response:jR});
-    })
-    .catch(err => {
-      console.error(err);
-    });
-})
 
 
 const getWatson = () => {
