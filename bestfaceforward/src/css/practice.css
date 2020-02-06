@@ -1,0 +1,13 @@
+.homeBox{
+    padding-top:5%;
+    text-align: center;
+    top:0
+}
+.homeHead{
+    font: 2.5em "Raleway", sans-serif;
+    letter-spacing: 1.5px;
+    color: #333;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-bottom: 5%;
+}

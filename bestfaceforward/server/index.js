@@ -1,3 +1,4 @@
+
 const config = require('./config');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -41,6 +42,57 @@ app.get('/api/v1/credentials', async (req, res, next) => {
 
 
 
+const getSubjects = (text, res) => {
+  const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
+  const { IamAuthenticator } = require('ibm-watson/auth');
+
+  const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
+    version: '2019-07-12',
+    authenticator: new IamAuthenticator({
+      apikey: process.env.SUBJECTSAPI,
+    }),
+    url: 'https://gateway.watsonplatform.net/natural-language-understanding/api',
+  });
+
+  const analyzeParams = {
+    'text': text,
+    'features': {
+      // 'categories':{
+      //   // 'limit' : 3,
+      //   'explanation' : true
+      // },
+      'concepts' : {
+        'limit' : 3
+      },
+
+      // 'entities': {
+      //   'emotion': true,
+      //   'sentiment': true,
+      //   'limit': 2,
+      // },
+      'keywords': {
+        // 'emotion': true,
+        'sentiment': true,
+        'limit': 3
+      }
+    }
+  };
+
+  naturalLanguageUnderstanding.analyze(analyzeParams)
+  .then(analysisResults => {
+    console.log(JSON.stringify(analysisResults, null, 2));
+    res.set('Content-Type', 'application/json');
+    res.send(JSON.stringify({analysisResults}))
+  })
+  .catch(err => {
+    console.log('error:', err);
+  });
+}
+
+
+
+
+
 //Tone Analyzer
 const analyzeText = (text, res) => {
   const toneAnalyzer = new ToneAnalyzerV3({
@@ -78,6 +130,21 @@ const sendTokenResponse = (token, res) => {
   );
 };
 
+app.get('/api/subjects', (req,res) => {
+  //console.log(res.data)
+  console.log("body of subjects get:", req.body)
+  const transcript= req.body.transcript;
+  getSubjects(transcript, res);
+
+})
+
+app.post('/api/subjects', (req, res) => {
+  console.log("Transcript during getSubjects post:")
+  console.log("Body of req in getSubjects:",req.body)
+  const transcript= req.body.transcript;
+  getSubjects(transcript, res);
+})
+
 //Api/transcript takes care of sending in the transcript and sending out analysis
 app.get('/api/transcript', (req,res) => {
   //console.log(res.data)
@@ -86,6 +153,7 @@ app.get('/api/transcript', (req,res) => {
   analyzeText(transcript, res);
 
 })
+
 
 app.post('/api/transcript', (req, res) => {
   console.log("Transcript")
