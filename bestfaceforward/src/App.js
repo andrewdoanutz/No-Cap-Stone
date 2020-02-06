@@ -10,6 +10,7 @@ import MakeAcct from './pages/makeAcct'
 import VidCall from './pages/videoCall'
 import Timer from './pages/timer'
 import DBTest from './pages/DBTest'
+import Practice from './pages/practice'
 import Report from './components/Report'
 import PostAnalysis from './pages/postAnalysis'
 
@@ -34,6 +35,7 @@ class App extends Component {
           <Route exact path="/report" component={Report} />
           <Route exact path="/postAnalysis" component={PostAnalysis} />
           <Route exact path="/api/transcript"/>
+          <Route exact path="/practice" component={Practice}/>
         </div>
       </BrowserRouter>
        </div>
