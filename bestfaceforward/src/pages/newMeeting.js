@@ -40,7 +40,7 @@ const newMeeting = ({uname}) =>{
   }, [email, interviewee] );
 
   return (
-    <>
+    <div className = "pb-2">
     <Button size="lg" variant="primary" onClick={handleShow}>
       Create New Meeting
     </Button>
@@ -75,7 +75,7 @@ const newMeeting = ({uname}) =>{
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 }
 

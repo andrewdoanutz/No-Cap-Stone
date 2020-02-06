@@ -49,8 +49,7 @@ export default class Dashboard extends Component {
         <div className="homebox">
           <Row>
             <Col xs={3} style={{marginLeft: "10px", marginTop: "10px"}}>
-
-                  <NewMeeting uname = {cookies.get('login')}/>
+              <NewMeeting uname = {cookies.get('login')}/>
               <Card className = "shadow">
                 <Card.Body>
                   <Userdash parentCallback = {this.callbackFunction} clicked = {this.state.isClicked}/>
