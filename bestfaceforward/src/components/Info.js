@@ -3,6 +3,7 @@ import {Container, Col, Row, Button, Card} from 'react-bootstrap'
 import exampleResume from "../images/exampleResume.png"
 import Room from './Room';
 import VideoComponent from './VideoComponent'
+import {BrowserRouter as Router, Link } from "react-router-dom";
 
 const Info = (props) => {
   const [token, setToken] = useState(null);
@@ -33,25 +34,7 @@ const Info = (props) => {
    setToken(null);
   }, []);
 
-  let render;
-  if(token){
-    render = (
-      <div>
-        <Row>
-          <Col>
-            <div className = "py-3">
-              <header>
-                <h1 className = "text-center">Meeting</h1>
-              </header>
-            </div>
-            <Room roomName={props.id} token={token} handleLogout={handleLogout} />
-            <VideoComponent/>
-          </Col>
-        </Row>
-      </div>
-    );
-  }else{
-    render = (
+  let render = (
       <Container>
         <Row className = "pb-3">
           <Col>
@@ -59,7 +42,19 @@ const Info = (props) => {
             <h5 className = "pb-3"> Meeting ID: {props.id} </h5>
             <Row className = "pb-3">
               <Col>
-                <Button size="lg" variant="primary" onClick={handleClick}>Join Meeting</Button>
+
+                  <Link to={{
+                    pathname: '/videocall',
+                    state: {id: props.id}
+
+                  }}>
+                      <Button size = "lg" variant = "primary">
+                            Join Meeting
+                      </Button>
+                  </Link>
+
+
+
               </Col>
             </Row>
             <Row>
@@ -79,7 +74,7 @@ const Info = (props) => {
         </Row>
       </Container>
     );
-  }
+
 
   return render;
 
