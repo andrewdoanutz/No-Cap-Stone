@@ -16,6 +16,7 @@ export default function Transcript(props) {
     );
   } catch (ex) {
     console.log(ex);
+    console.log("props",props)
     return <div>{ex.message}</div>;
   }
 }
