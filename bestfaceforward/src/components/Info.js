@@ -31,52 +31,69 @@ const Info = (props) => {
 
 
   const handleLogout = useCallback(event => {
-   setToken(null);
+    setToken(null);
   }, []);
 
   let render = (
-      <Container>
-        <Row className = "pb-3">
-          <Col>
-            <h1 className = "pb-1">{props.name}</h1>
-            <h5 className = "pb-3"> Meeting ID: {props.id} </h5>
-            <Row className = "pb-3">
-              <Col>
+    <Container>
+      <Row className = "pb-3">
+        <Col>
+          <h1 className = "pb-1">{props.name}</h1>
+          <h5 className = "pb-3"> Meeting ID: {props.id} </h5>
+          <Row className = "pb-3">
+            <Col>
 
-                  <Link to={{
-                    pathname: '/videocall',
-                    state: {id: props.id}
+              <Link to={{
+                pathname: '/videocall',
+                state: {id: props.id}
 
-                  }}>
-                      <Button size = "lg" variant = "primary">
-                            Join Meeting
-                      </Button>
-                  </Link>
+              }}>
+              <>
+                <style type="text/css">
+                {`
+                  .btn-flat {
+                    background-color: #007bff;
+                    color: white;
+                  }
 
+                  .btn-xxl {
+                    padding: 1rem 1.5rem;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                  }
+                  `}
+                </style>
 
-
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Button size="lg" variant="info">Post-Analysis Report</Button>
-              </Col>
-            </Row>
-          </Col>
-          <Col>
-            <Card className = "shadow">
-              <Card.Header>
-                Resume
-              </Card.Header>
-              <Card.Img variant="bottom" src={exampleResume} />
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    );
+                <Button variant="flat" size="xxl">
+                  Join Meeting
+                </Button>
+              </>
+          </Link>
 
 
-  return render;
+
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Button size="lg" variant="info">Post-Analysis Report</Button>
+        </Col>
+      </Row>
+    </Col>
+    <Col>
+      <Card className = "shadow">
+        <Card.Header>
+          Resume
+        </Card.Header>
+        <Card.Img variant="bottom" src={exampleResume} />
+      </Card>
+    </Col>
+  </Row>
+</Container>
+);
+
+
+return render;
 
 
 }
