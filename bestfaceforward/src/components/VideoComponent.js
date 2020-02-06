@@ -194,7 +194,7 @@ class VideoComponent extends Component {
 
   takePicture(){
     console.log("say cheese");
-   
+
     const now = new Date();
     const time = now.getTime();
     var link = "";
@@ -211,15 +211,15 @@ class VideoComponent extends Component {
             //endpoint: "http://localhost:8001",
             endpoint: "https://s3.us-east-2.amazonaws.com",
             // get from google drive
-             accessKeyId : "AKIAJN2JSBZ442ZEYG4A", 
-             secretAccessKey: "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" 
+             accessKeyId : "AKIAJN2JSBZ442ZEYG4A",
+             secretAccessKey: "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"
           });
           const type = dataUri.split(';')[0].split('/')[1];
           const base64Data = new Buffer.from(dataUri.replace(/^data:image\/\w+;base64,/, ""), 'base64');
-      
+
           // Getting the file type, ie: jpeg, png or gif
-          
-          
+
+
           const s3 = new AWS.S3();
           const params = {
             Bucket: 'nocapstone',
@@ -236,29 +236,29 @@ class VideoComponent extends Component {
                 throw err;
             }
             link = data.Location;
-            
+
             console.log(`File uploaded successfully. ${data.Location}`);
-           
+
             });
-            
-            
+
+
         }
         prevTime = time;
-       // 
-        
+       //
+
         //this.callBackendAPI();
         //isReady = false;
         this.img.src = URL.createObjectURL(blob);
         console.log(this.img);
-        this.img.onload = () => { URL.revokeObjectURL(this.src); } 
+        this.img.onload = () => { URL.revokeObjectURL(this.src); }
         console.log("end");
-        
-      }).then(setTimeout(() => this.callBackendAPI(),1000))
-      
 
-    
+      }).then(setTimeout(() => this.callBackendAPI(),1000))
+
+
+
   }
-   
+
   async callBackendAPI(){
     console.log();
     const response = await fetch('/face/analysis',{method: 'POST',headers: {
@@ -285,7 +285,7 @@ class VideoComponent extends Component {
             this.camera = cam;
           }}
         >
-          
+
         </Camera>
         <img
           style={style.captureImage}

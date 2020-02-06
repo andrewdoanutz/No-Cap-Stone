@@ -1,6 +1,10 @@
 body{
-  background-color: #edf7fc;
+  background-color: #FFFFFF;
   padding-top: 50px;
+}
+.scroll {
+    max-height: 80vh;
+    overflow-y: auto;
 }
 .centered {
   display: flex;
@@ -18,7 +22,6 @@ body{
   padding: 0 2em 2em;
 }
 .participant {
-  background: #121212;
   padding: 10px;
   border-radius: 6px;
   display: inline-block;
