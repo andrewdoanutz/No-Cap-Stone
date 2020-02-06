@@ -17,11 +17,11 @@ class Report extends Component {
     this.state = {
       txtJson:[
 
-      "first text, something about being upset often and nonconfident in team performance",
+      "first text, something about being upset often and nonconfident in team performance. team sucks and I really hate them and wish they were better",
 
-        "second text, Happy when things work out and I hope for the best for our team",
+        "second text, Happy when things work out and I hope for the best for our team. They are so awesome and I love them and we are the best team ever.",
 
-        "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions"
+        "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions. Very well under pressure."
       ],
       txt: this.props.questions,
       analysis: [
@@ -98,7 +98,7 @@ class Report extends Component {
      console.log(finalKeywords)
      console.log(finalConcepts)
      this.setState({
-       concepts:  finalConcepts,
+       concepts: finalConcepts,
        keywords: finalKeywords
      })
    })
@@ -162,7 +162,62 @@ class Report extends Component {
      //console.log(this.state.analysis)
    })
   }
-
+  getFeedback(){
+    var res=""
+    for (var a of this.state.analysis){
+      if (a.tone_name === 'Fear'){
+        if(a.score>=.8){
+          res+="Try to be more confident in what you are saying. Don't be scared of the interviewer. "
+        } else if(a.score>=.4){
+          res+="A little more confidence in what you are saying will help get your point across better. "
+        }
+      } else if (a.tone_name === 'Joy'){
+        if(a.score>=.8){
+          res+="You are coming across very happy. Keep it up! "
+        } else if(a.score>=.4){
+          res+="Try to speak a little joyfully when you are responding. "
+        } else {
+          res+="You should use more joyful vocabulary when responding. "
+        }
+      } else if (a.tone_name === 'Sadness'){
+        if(a.score>=.8){
+          res+="You should speak with happier words. "
+        } else if(a.score>=.4){
+          res+="Some of your words are coming across kind of sad. Use more happy vocabulary. "
+        }
+      } else if (a.tone_name === 'Analysis'){
+        if(a.score>=.8){
+          res+="Your response is very analytical. Try to speak more naturally. "
+        } else if(a.score>=.4){
+          res+="Your response is analytical and logical. Good job! "
+        } else {
+          res+="Try to be more analytical and logical in your response. "
+        }
+      } else if (a.tone_name === 'Confident'){
+        if(a.score>=.8){
+          res+="You are very confident in what you are saying. Good job! "
+        } else if(a.score>=.4){
+          res+="A little more confidence in what you are saying will help get your point across better. "
+        } else {
+          res+="Try being more confident in your response. "
+        }
+      } else if (a.tone_name === 'Tentative'){
+        if(a.score>=.8){
+          res+="You are very hesitant in what your are saying. Don't be scared of the interviewer. "
+        } else if(a.score>=.4){
+          res+="You are a little hesitant in what you are saying. "
+        }
+      } 
+    }
+    if(this.state.filler>6){
+      res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
+    } else if(this.state.filler>3) {
+      res+="You are using some filler words in your response. Try pausing between sentences instead of using ums and uhs. "
+    } else {
+      res+="You are barely using any filler words. Good job!. "
+    }
+    return res;
+  }
 
 
 
@@ -190,6 +245,14 @@ class Report extends Component {
                 <Card.Body>
                   <Card.Text>
                     {this.state.txt}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+              <Card style={{marginBottom: "10px"}}>
+                <Card.Header as="h3">Feedback for Candidate</Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                    {this.getFeedback()}
                   </Card.Text>
                 </Card.Body>
               </Card>
