@@ -8,7 +8,7 @@ export default class NavBar extends React.Component {
   render() {
     return (
       <div>
-        <Navbar variant="light" expand="xl" fixed="top" className="navbar">
+        <Navbar bg="dark" variant="dark" expand="xl" fixed="top" className="navbar navbar-static-top">
           <Navbar.Brand href="/login">
             <img
               alt=""
