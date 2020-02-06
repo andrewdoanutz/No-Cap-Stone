@@ -27,25 +27,29 @@ render(){
   return(
     <div className="homeBox">
       <div className="homeHead">Post Analysis Report for {this.state.candidateName}</div>
-      <Accordion defaultActiveKey="0">
-      {this.state.transcript.map(function(text, index){
-        return (
-          <Card>
-            <Card.Header>
-              <Accordion.Toggle as={Button} variant="link" eventKey={index} className="accordionHeader">
-                Question {index+1}
-              </Accordion.Toggle>
-            </Card.Header>
-            <Accordion.Collapse eventKey={index}>
-              <Card.Body>
-                <Report questions={text}/>
-              </Card.Body>
-            </Accordion.Collapse>
-          </Card>
-         )
-        })
-      }
-      </Accordion>
+      <Row>
+        <Col>
+          <Accordion defaultActiveKey="0">
+          {this.state.transcript.map(function(text, index){
+            return (
+              <Card>
+                <Card.Header>
+                  <Accordion.Toggle as={Button} variant="link" eventKey={index} className="accordionHeader">
+                    Question {index+1}
+                  </Accordion.Toggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey={index}>
+                  <Card.Body>
+                    <Report questions={text}/>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
+            )
+            })
+          }
+          </Accordion>
+        </Col>
+      </Row>
       
 </div>
 )

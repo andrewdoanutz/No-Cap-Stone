@@ -14,7 +14,6 @@ import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, B
 class Report extends Component {
   constructor(props){
     super(props);
-
     this.state = {
       txtJson:[
 
@@ -56,6 +55,8 @@ class Report extends Component {
                   {concepts: '2', score: 1},
                   {concepts: '3', score: 1}],
     }
+    this.analyzeText()
+    this.getSubjects()
   }
 
 
@@ -67,8 +68,7 @@ class Report extends Component {
     return count;
   }
 
-  getSubjects = (ev) => {
-    ev.preventDefault()
+  getSubjects = () => {
     var txt = this.state.txt.toLowerCase()
     axios.post('http://localhost:3001/api/subjects', {transcript: this.state.txt})
    .then(res => {
@@ -104,8 +104,7 @@ class Report extends Component {
    })
   }
 
-  analyzeText = (ev) => {
-    ev.preventDefault()
+  analyzeText = () => {
 
     var txt = this.state.txt.toLowerCase()
     var words = txt.split(" ")
@@ -183,98 +182,111 @@ class Report extends Component {
    </Col> */
     return(
       <div>
-        <Button onClick={this.analyzeText}>Analyze</Button>
-        <Button onClick={this.getSubjects}>Get Subjects</Button>
         <Row>
-
-        </Row>
-        <Row>
-          <Col sm={6}>
-            <Card>
-              <Card.Header as="h3">Tone Analysis</Card.Header>
-              <Card.Body>
-                <Card.Text>
-                  <RadarChart cx={300} cy={250} outerRadius={150} width={500} height={500} data={this.state.analysis}>
-                    <PolarGrid />
-                    <PolarAngleAxis dataKey="tone_name"/>
-                    <PolarRadiusAxis />
-                    <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                  </RadarChart>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={2}>
-            <Card>
-              <Card.Header as="h3">Filler Count</Card.Header>
-              <Card.Body>
-                <Card.Text as="h4">
-                  <div>Numer of Filler Words: {this.state.filler}</div>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <BarChart
-              width={500}
-              height={300}
-              data={this.state.keywords}
-              margin={{
-                top: 5, right: 30, left: 20, bottom: 5,
-              }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="keyword" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="score" fill="#8884d8" />
-              </BarChart>
+          {/* Left Column */}
+            <Col sm={6}>
+              <Card>
+                <Card.Header as="h3">Question Response</Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                    {this.state.txt}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+              <Card>
+                <Card.Header as="h3">Tone Analysis</Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                    <RadarChart cx={300} cy={250} outerRadius={150} width={500} height={500} data={this.state.analysis}>
+                      <PolarGrid />
+                      <PolarAngleAxis dataKey="tone_name"/>
+                      <PolarRadiusAxis />
+                      <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                    </RadarChart>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             </Col>
-            <Col>
-              <ResponsiveContainer height={3 * 50 + 10} width="50%">
-                <BarChart
-                    data={this.state.concepts}
-                    margin={{top: 0, right: 40, left: 40, bottom: 20}}
-                    layout="vertical"
-                    barCategoryGap="20%"
-                    barGap={2}
-                    maxBarSize={10}
-                >
-                    <CartesianGrid
-                        horizontal={false}
-                        stroke='#a0a0a0'
-                        strokeWidth={0.5}
-                    />
-                    <XAxis
-                        type="number"
-                        axisLine={false}
-                        stroke='#a0a0a0'
-                        //domain={[5, 10]}
-                        //ticks={[ 7.5, 10]}
-                        strokeWidth={0.5}
-                    />
-                    <YAxis
-                        type="category"
-                        dataKey={this.state.concepts.concept}
-                        width={40}
-                    />
-                    <Bar
-                        dataKey="score"
-                        animationDuration={1000}
-                        label={{position: 'right', backgroundColor: '#fff'}}
-                        // shape={<Rectangle
-                        //     className={classes.rectangle}
-                        //     radius={[0, 10, 10, 0]}
-                        // />}
+            {/* Right Column */}
+            <Col sm = {5}>
+            <Card>
+                <Card.Header as="h3">Keywords</Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                    <BarChart
+                    width={500}
+                    height={300}
+                    data={this.state.keywords}
+                    margin={{
+                      top: 5, right: 30, left: 20, bottom: 5,
+                    }}
                     >
-                    </Bar>
-                </BarChart>
-                </ResponsiveContainer>
-            </Col>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="keyword" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="score" fill="#8884d8" />
+                    </BarChart>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+              <Card>
+                <Card.Header as="h3">Concepts</Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                    <ResponsiveContainer height={3 * 50 + 10} width="50%">
+                    <BarChart
+                        data={this.state.concepts}
+                        margin={{top: 0, right: 40, left: 40, bottom: 20}}
+                        layout="vertical"
+                        barCategoryGap="20%"
+                        barGap={2}
+                        maxBarSize={10}
+                    >
+                        <CartesianGrid
+                            horizontal={false}
+                            stroke='#a0a0a0'
+                            strokeWidth={0.5}
+                        />
+                        <XAxis
+                            type="number"
+                            axisLine={false}
+                            stroke='#a0a0a0'
+                            //domain={[5, 10]}
+                            //ticks={[ 7.5, 10]}
+                            strokeWidth={0.5}
+                        />
+                        <YAxis
+                            type="category"
+                            dataKey={this.state.concepts.concept}
+                            width={40}
+                        />
+                        <Bar
+                            dataKey="score"
+                            animationDuration={1000}
+                            label={{position: 'right', backgroundColor: '#fff'}}
+                            // shape={<Rectangle
+                            //     className={classes.rectangle}
+                            //     radius={[0, 10, 10, 0]}
+                            // />}
+                        >
+                        </Bar>
+                    </BarChart>
+                    </ResponsiveContainer>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+              <Card>
+                  <Card.Header as="h3">Filler Count</Card.Header>
+                  <Card.Body>
+                    <Card.Text as="h4">
+                      <div>Numer of Filler Words: {this.state.filler}</div>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
           </Row>
-
-        <div>{this.state.txt}</div>
 
       </div>
     );
