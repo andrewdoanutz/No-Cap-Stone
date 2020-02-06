@@ -14,7 +14,7 @@ const Participant = ({ participant }) => {
     setVHeight(vid.videoWidth);
     setVWidth(vid.videoHeight);
     console.log("video dimensions ",vHeight,vWidth);
-    
+
   })
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const Participant = ({ participant }) => {
     }
   }, [audioTracks]);
   return (
-    <div className="participant">
+    <div className="participant bg-dark">
       <h3>{participant.identity}</h3>
         <video id = "participant" ref={videoRef} autoPlay muted />
       <audio ref={audioRef} autoPlay={false} muted={true} />
