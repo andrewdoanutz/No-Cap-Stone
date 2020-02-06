@@ -7,7 +7,7 @@ import Login from './pages/login';
 import About from './pages/aboutUs'
 import Dash from './pages/dashboard'
 import MakeAcct from './pages/makeAcct'
-import VidCall from './pages/videoCall'
+import VideoCall from './pages/videoCall'
 import Timer from './pages/timer'
 import DBTest from './pages/DBTest'
 import Practice from './pages/practice'
@@ -28,7 +28,7 @@ class App extends Component {
           <Route exact path="/login" component={Login} />
           <Route exact path="/dashboard" component={Dash} />
           <Route exact path="/makeacct" component={MakeAcct} />
-          <Route exact path="/videocall" component={VidCall} />
+          <Route exact path="/videocall" component={VideoCall} />
           <Route exact path="/timer" component={Timer} />
           <Route exact path="/dbtest" component={DBTest} />
           <Route exact path="/postAnalysis" component={PostAnalysis} />
