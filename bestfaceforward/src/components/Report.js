@@ -175,17 +175,23 @@ class Report extends Component {
         if(a.score>=.8){
           res+="You are coming across very happy. Keep it up! "
         } else if(a.score>=.4){
-          res+="Try to speak a little joyfully when you are responding. "
+          res+="Try to speak a little more joyfully when you are responding. "
         } else {
           res+="You should use more joyful vocabulary when responding. "
         }
+      } else if (a.tone_name === 'Anger'){
+        if(a.score>=.8){
+          res+="You are coming across very angery. Be less aggressive in your response. "
+        } else if(a.score>=.4){
+          res+="Try to speak a little less aggresively when you are responding. "
+        } 
       } else if (a.tone_name === 'Sadness'){
         if(a.score>=.8){
           res+="You should speak with happier words. "
         } else if(a.score>=.4){
           res+="Some of your words are coming across kind of sad. Use more happy vocabulary. "
         }
-      } else if (a.tone_name === 'Analysis'){
+      } else if (a.tone_name === 'Analytical'){
         if(a.score>=.8){
           res+="Your response is very analytical. Try to speak more naturally. "
         } else if(a.score>=.4){
