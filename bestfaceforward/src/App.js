@@ -12,6 +12,7 @@ import DBTest from './pages/DBTest'
 import Practice from './pages/practice'
 import PostAnalysis from './pages/postAnalysis'
 import Welcome from './pages/welcome'
+import Candidate from './pages/candidate'
 
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -37,6 +38,7 @@ class App extends Component {
           <Route exact path="/postAnalysis" component={PostAnalysis} />
           <Route exact path="/api/transcript"/>
           <Route exact path="/practice" component={Practice}/>
+          <Route exact path="/candidate" component={Candidate}/>
         </div>
       </BrowserRouter>
        </div>
