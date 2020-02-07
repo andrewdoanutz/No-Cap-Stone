@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css?family=Raleway");
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
 
 .navbar {
   z-index: 10;
@@ -10,7 +10,8 @@
 }
 
 .navbarTitle{
-  font: 1.7em "Raleway", sans-serif;
+  font: 1.7em "Roboto Mono", monospace;
+  font-weight: "bold";
   letter-spacing: 1.5px;
   color: white !important;
   text-transform: uppercase;
@@ -24,9 +25,10 @@
 
 
 .link {
-  text-transform: uppercase;
-  font: 1.6em "Raleway", sans-serif;
+  font: 1.7em "Roboto Mono", monospace;
+  font-weight: "bold";
   color: white !important;
+  margin-left: 1em;
 }
 .link:hover {
   cursor: pointer;

@@ -19,7 +19,7 @@ export default class NavBar extends React.Component {
             />
             <Navbar.Text className="navbarTitle">BestFaceForward</Navbar.Text>
           </Navbar.Brand>
-          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end px-2">
             <Nav>
               <Nav.Link href="/login" className="link">Login</Nav.Link>
               <Nav.Link href="/postAnalysis" className="link">Analysis</Nav.Link>
