@@ -1,5 +1,8 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Ubuntu&display=swap");
+
 body{
-  background-color: #F0F8FF;
+  font-family: "Ubuntu", sans-serif !important;
+  background-color: #F0F8FF !important;
   padding-top: 50px;
 }
 .scroll {
