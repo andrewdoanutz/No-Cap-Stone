@@ -15,10 +15,33 @@ const Welcome = () => {
         <Row>
           <Col>
             <h1 className = "homeHead">Are you a &nbsp;
-              <Button variant="primary" size="lg" onClick = {setCandidate}>
-                candidate
-              </Button>
+              <Link to={{
+                pathname: '/candidate'
+              }}>
+                <>
+                  <style type="text/css">
+                  {`
+                    .btn-flat {
+                      background-color: #007bff;
+                      color: white;
+                    }
+
+                    .btn-xxl {
+                      padding: 1rem 1.5rem;
+                      font-size: 1.5rem;
+                      font-weight: bold;
+                    }
+                    `}
+                  </style>
+
+                  <Button variant="flat" size="xxl" onClick = {setCandidate}>
+                    candidate
+                  </Button>
+                </>
+              </Link>
+
               &nbsp; or an &nbsp;
+
               <Link to={{
                 pathname: '/login'
               }}>

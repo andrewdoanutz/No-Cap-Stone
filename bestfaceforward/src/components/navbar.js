@@ -9,7 +9,7 @@ export default class NavBar extends React.Component {
     return (
       <div>
         <Navbar variant="dark" expand="xl" fixed="top" className="navbar navbar-static-top">
-          <Navbar.Brand href="/login">
+          <Navbar.Brand href="/">
             <img
               alt=""
               src={bro1}
