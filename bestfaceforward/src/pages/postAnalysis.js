@@ -4,8 +4,6 @@ import {Accordion, Card, Row, Col, Button} from 'react-bootstrap';
 import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Report from './../components/Report'
 
-import '../css/postAnalysis.css';
-
 class postAnalysis extends Component{
 
   constructor(props){
@@ -34,8 +32,8 @@ render(){
             return (
               <Card>
                 <Card.Header>
-                  <Accordion.Toggle as={Button} variant="link" eventKey={index} className="accordionHeader">
-                    Question {index+1}
+                  <Accordion.Toggle as={Button} variant="link" eventKey={index}>
+                    <h2> Question {index+1} </h2>
                   </Accordion.Toggle>
                 </Card.Header>
                 <Accordion.Collapse eventKey={index}>
@@ -50,7 +48,7 @@ render(){
           </Accordion>
         </Col>
       </Row>
-      
+
 </div>
 )
 }
