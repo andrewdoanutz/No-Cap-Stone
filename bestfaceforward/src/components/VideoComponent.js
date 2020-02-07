@@ -278,22 +278,21 @@ class VideoComponent extends Component {
     console.log(messages);
     return (
       <div>
-        <div style={{visibility:'hidden'}}>
-        <Camera
-          style={style.preview}
-          ref={(cam) => {
-            this.camera = cam;
-          }}
-        >
-
-        </Camera>
-        <img
-          style={style.captureImage}
-          ref={(img) => {
-            this.img = img;
-          }}
-        />
-      </div>
+        <div style={{display:'none'}}>
+          <Camera
+            style={style.preview}
+            ref={(cam) => {
+              this.camera = cam;
+            }}
+          >
+          </Camera>
+          <img
+            style={style.captureImage}
+            ref={(img) => {
+              this.img = img;
+            }}
+          />
+        </div>
         <div>
           <Button className ="mb-2" onClick={this.translate}>Translate Transcript</Button>
           <span className="subtitles">{translatedPhrase}</span>
