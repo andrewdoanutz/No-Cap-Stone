@@ -1,6 +1,7 @@
 import React, { Component, useState, useCallback } from 'react';
 import {Form, Button, Col, Row, Card, Container} from 'react-bootstrap'
-
+import {Link} from "react-router-dom";
+import Lobby from '../components/Lobby';
 import '../css/login.css';
 
 const Candidate = () => {
@@ -16,9 +17,13 @@ const Candidate = () => {
     setRoomName(event.target.value);
   }, []);
 
+  const handleLogout = useCallback(event => {
+    setToken(null);
+  }, []);
+
   const handleSubmit = useCallback(
     async event => {
-      event.preventDefault();
+      event.preventDefault()
       const data = await fetch('/video/token', {
         method: 'POST',
         body: JSON.stringify({
@@ -31,31 +36,51 @@ const Candidate = () => {
       }).then(res => res.json());
       setToken(data.token);
     },
-    [roomName, username]
+    []
   );
 
-  const handleLogout = useCallback(event => {
-    setToken(null);
-  }, []);
 
+  return(
+    <div>
+        <Row className = "vertical-center">
+          <Col className = "fill vertical-center horizontal-center">
+            <Link to={{
+              pathname: '/practice'
+            }}>
+              <>
+                <style type="text/css">
+                {`
+                  .btn-flat {
+                    background-color: #007bff;
+                    color: white;
+                  }
 
-    return(
-      <div>
-          <h1 className="homeHead">Welcome Message</h1>
-          <Container>
-            <Row>
-              <Col>
-                <div className = "right-border">
-                  Sup
-                </div>
-              </Col>
-              <Col>
+                  .btn-xxl {
+                    padding: 1rem 1.5rem;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                  }
+                  `}
+                </style>
 
-              </Col>
-            </Row>
-          </Container>
-      </div>
-    )
+                <Button variant="flat" size="xxl">
+                  Practice for the Interview
+                </Button>
+              </>
+            </Link>
+          </Col>
+          <Col className = "left-border">
+            <Lobby
+               username={username}
+               roomName={roomName}
+               handleUsernameChange={handleUsernameChange}
+               handleRoomNameChange={handleRoomNameChange}
+               handleSubmit={handleSubmit}
+             />
+          </Col>
+        </Row>
+    </div>
+  )
 
 }
 export default Candidate;
