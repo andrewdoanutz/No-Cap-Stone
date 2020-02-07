@@ -43,6 +43,25 @@ body{
   border-right: 2px solid #333;
 }
 
+.left-border {
+  border-left: 2px solid #333;
+}
+
+.fill {
+  height: 100%;
+}
+
+.horizontal-center {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+}
+
+.vertical-center {
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
 video {
   width: 100%;
   max-width: 600px;
