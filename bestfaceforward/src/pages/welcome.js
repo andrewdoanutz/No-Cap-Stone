@@ -11,10 +11,9 @@ const Welcome = () => {
   };
   return (
     <div className = "pb-2">
-      <Container>
-        <Row>
-          <Col>
-            <h1 className = "homeHead">Are you a &nbsp;
+        <Row style = {{height: "80vh"}}>
+          <Col className = "horizontal-center my-auto">
+            <h1>Are you a &nbsp;
               <Link to={{
                 pathname: '/candidate'
               }}>
@@ -28,7 +27,7 @@ const Welcome = () => {
 
                     .btn-xxl {
                       padding: 1rem 1.5rem;
-                      font-size: 1.5rem;
+                      font-size: 1.7rem;
                       font-weight: bold;
                     }
                     `}
@@ -55,7 +54,7 @@ const Welcome = () => {
 
                     .btn-xxl {
                       padding: 1rem 1.5rem;
-                      font-size: 1.5rem;
+                      font-size: 1.7rem;
                       font-weight: bold;
                     }
                     `}
@@ -70,7 +69,6 @@ const Welcome = () => {
             </h1>
           </Col>
         </Row>
-      </Container>
 
     </div>
   );

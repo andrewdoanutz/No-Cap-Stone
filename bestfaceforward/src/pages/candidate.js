@@ -42,8 +42,8 @@ const Candidate = () => {
 
   return(
     <div>
-        <Row className = "vertical-center">
-          <Col className = "fill vertical-center horizontal-center">
+        <Row className = "vertical-space">
+          <Col className = "fill vertical-space horizontal-center">
             <Link to={{
               pathname: '/practice'
             }}>
