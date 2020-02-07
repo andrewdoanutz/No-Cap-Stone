@@ -1,5 +1,6 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Ubuntu&display=swap");
+
 
 .navbar {
   z-index: 10;
@@ -10,7 +11,7 @@
 }
 
 .navbarTitle{
-  font: 1.7em "Roboto Mono", monospace;
+  font: 1.7em "Ubuntu", sans-serif;
   font-weight: "bold";
   letter-spacing: 1.5px;
   color: white !important;
@@ -25,7 +26,7 @@
 
 
 .link {
-  font: 1.7em "Roboto Mono", monospace;
+  font: 1.7em "Ubuntu", sans-serif;
   font-weight: "bold";
   color: white !important;
   margin-left: 1em;
