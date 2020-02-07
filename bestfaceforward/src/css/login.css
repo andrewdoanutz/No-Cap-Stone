@@ -3,21 +3,21 @@
     text-align: center;
 }
 .homeHead{
-    font: 2.5em "Roboto Mono", monospace;
+    font: 2.5em "Ubuntu", sans-serif;
     font-weight: bold;
     padding-bottom: 2%;
 }
 .makeAcct{
     padding-top:7%;
-    font: 1.3em "Roboto Mono", monospace;
+    font: 1.3em "Ubuntu", sans-serif;
 }
 .errorMessage{
-    font: 1.8em "Roboto Mono", monospace;
+    font: 1.8em "Ubuntu", sans-serif;
     color: red;
     font-weight: bold;
 }
 .formText{
-    font: 2em "Roboto Mono", monospace;
+    font: 2em "Ubuntu", sans-serif;
     color: #333;
     text-align: left;
     padding-top: 1%;
@@ -31,6 +31,6 @@
 
 .hideMessage {
     opacity: 0%;
-    font: 1.8em "Roboto Mono", monospace;
+    font: 1.8em "Ubuntu", sans-serif;
     font-weight: bold;
 }

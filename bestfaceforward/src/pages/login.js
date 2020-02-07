@@ -50,7 +50,7 @@ export default class Login extends Component {
     return(
       <div>
         <div className="homeBox">
-          <div className="homeHead">Login</div>
+          <h1 className="homeHead">Login</h1>
           <Container>
             <Row className="justify-content-center">
             <Col sm={6}>
