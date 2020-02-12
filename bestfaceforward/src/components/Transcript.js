@@ -9,6 +9,7 @@ export default function Transcript(props) {
     const results = props.messages.map(msg => msg.results.map((result, i) => (
       <span key={`result-${msg.result_index + i}`}>{result.alternatives[0].transcript}</span>
     ))).reduce((a, b) => a.concat(b), []); // the reduce() call flattens the array
+    //console.log("props",props)
     return (
       <div>
         {results}
