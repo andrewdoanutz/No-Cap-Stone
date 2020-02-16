@@ -26,9 +26,12 @@ const Participant = ({ participant }) => {
       if (track.kind === 'video') {
         setVideoTracks(videoTracks => [...videoTracks, track]);
       } else if (track.kind === 'audio'){
-        track.on('message', data => {
-          console.log(data);
-        });
+        if (localStorage.getItem("candidate")){
+          track.on('message', data => {
+            console.log(data);
+          });
+        }
+
       }
       else {
         setAudioTracks(audioTracks => [...audioTracks, track]);
