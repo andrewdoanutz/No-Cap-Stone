@@ -47,34 +47,7 @@ module.exports = {
       });
       },
 
-
-      writeTranscript(username = "ryan", question = "Great day"){
-    var params = {
-      TableName:table,
-      Key:{
-        "username": username,
-      },
-      KeyConditionExpression: "username = :uname ",
-      UpdateExpression: "set info = :uname, questions = list_append(questions, :question)",
-      
-      ExpressionAttributeValues:{
-          ":uname": username,
-          ":question": [question]
-        }
-      };
-
-      docClient.update(params, function(err, data) {
-          if (err) {
-              console.error("Unable to updateQuestion. Error JSON:", JSON.stringify(err, null, 2));
-              return 0;
-          } else {
-              console.log("UpdatedQuestion item:", JSON.stringify(data, null, 2));
-              return 1;
-          }
-      });
-      },
-
-      writeTranscriptPractice(username, transcript){
+      writeTranscript(username, transcript){
         var params = {
           TableName:table,
           Key:{

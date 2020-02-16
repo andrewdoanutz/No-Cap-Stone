@@ -147,13 +147,13 @@ app.post('/db/toneAnalysis', (req,res) =>{
 app.get('/db/writeTranscript', (req,res) =>{
   console.log("Transcript being passed into DB:", req.body)
   const toneAnalysis = req.body.question;
-  database.writeTranscriptPractice()
+  database.writeTranscript()
 })
 
 app.post('/db/writeTranscript', (req,res) =>{
   console.log("Transcript written:", req.body["q"],req.body["u"])
   const toneAnalysis = req.body.question;
-  database.writeTranscriptPractice(req.body["u"], req.body["q"])
+  database.writeTranscript(req.body["u"], req.body["q"])
   //database.writeQuestions()
 })
 

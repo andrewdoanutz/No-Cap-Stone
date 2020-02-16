@@ -11,7 +11,7 @@ export default class DBTest extends Component{
     axios.post('http://localhost:3001/db/toneAnalysis')
   }
 
-  writeQuestions = () => {
+  writeTranscript = () => {
     axios.post('http://localhost:3001/db/writeTranscript' , {q:"jingles",u:"practice"})
   }
 
@@ -31,7 +31,7 @@ export default class DBTest extends Component{
    // Database.queryUser()
    // Database.deleteUser()
    this.writeAnalysis()
-   this.writeQuestions()
+   this.writeTranscript()
    this.resetPractice()
     return(
       <div>
