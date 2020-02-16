@@ -21,8 +21,10 @@ const Room = ({ roomName, token, handleLogout }) => {
     };
 
     const dataTrack = new Video.LocalDataTrack();
-    console.log(dataTrack)
-    dataTrack.send("Hello");
+
+    if (localStorage.getItem('candidate') == 0){
+      dataTrack.send("Hello");
+    }
 
     Video.connect(token, {
       name: roomName,
