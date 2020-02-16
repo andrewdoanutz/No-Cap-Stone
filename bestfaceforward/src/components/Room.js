@@ -20,12 +20,13 @@ const Room = ({ roomName, token, handleLogout }) => {
       );
     };
 
-    // const dataTrack = new Video.LocalDataTrack();
-    // console.log(dataTrack)
-    // dataTrack.send("Hello");
+    const dataTrack = new Video.LocalDataTrack();
+    console.log(dataTrack)
+    dataTrack.send("Hello");
 
     Video.connect(token, {
-      name: roomName
+      name: roomName,
+      track: [dataTrack]
     }).then(room => {
       setRoom(room);
       room.on('participantConnected', participantConnected);
