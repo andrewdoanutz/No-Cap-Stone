@@ -191,9 +191,10 @@ export default class Practice extends Component {
                 }, () => {
                     console.log(this.state.inds)
                     console.log(rand)
-                        speech.speak({
-                            text: this.state.question,
-                        })
+                    speech.speak({
+                        text: this.state.question,
+                    })
+                    axios.post('http://localhost:3001/db/writeQuestion' , {q:this.state.question,u:"practice"})
                 })
             } else {
                 this.setState({

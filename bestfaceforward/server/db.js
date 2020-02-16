@@ -46,7 +46,6 @@ module.exports = {
           }
       });
       },
-
       writeTranscript(username, transcript){
         var params = {
           TableName:table,
@@ -64,14 +63,39 @@ module.exports = {
     
           docClient.update(params, function(err, data) {
               if (err) {
-                  console.error("Unable to updateQuestion. Error JSON:", JSON.stringify(err, null, 2));
+                  console.error("Unable to updateTranscript. Error JSON:", JSON.stringify(err, null, 2));
                   return 0;
               } else {
-                  console.log("UpdatedQuestion item:", JSON.stringify(data, null, 2));
+                  console.log("UpdatedTranscript item:", JSON.stringify(data, null, 2));
                   return 1;
               }
           });
           },
+        writeQuestion(username, question){
+          var params = {
+            TableName:table,
+            Key:{
+              "username": username,
+            },
+            KeyConditionExpression: "username = :uname ",
+            UpdateExpression: "set info = :uname, questions = list_append(questions, :question)",
+            
+            ExpressionAttributeValues:{
+                ":uname": username,
+                ":question": [question]
+              }
+            };
+      
+            docClient.update(params, function(err, data) {
+                if (err) {
+                    console.error("Unable to updateQuestion. Error JSON:", JSON.stringify(err, null, 2));
+                    return 0;
+                } else {
+                    console.log("UpdatedQuestion item:", JSON.stringify(data, null, 2));
+                    return 1;
+                }
+            });
+            },
       resetPractice(){
         username = "practice";
         var params = {
@@ -80,11 +104,12 @@ module.exports = {
             "username": username,
           },
           KeyConditionExpression: "username = :uname ",
-          UpdateExpression: "set info = :uname, transcripts = :transcript",
+          UpdateExpression: "set info = :uname, transcripts = :transcript, questions = :question",
           
           ExpressionAttributeValues:{
               ":uname": username,
-              ":transcript": []
+              ":transcript": [],
+              ":question" : []
             }
           };
     
