@@ -8,6 +8,7 @@ const { chatToken, videoToken, voiceToken } = require('./tokens');
 const cors = require('cors');
 const vcapServices = require('vcap_services');
 const dotenv = require('dotenv');
+const database = require('./db')
 dotenv.config();
 
 const app = express();
@@ -129,6 +130,22 @@ const sendTokenResponse = (token, res) => {
     })
   );
 };
+
+///WRITING tone analysis to db
+app.get('/db/toneAnalysis', (req,res) =>{
+  console.log("Tone analysis being passed into DB:", req.body)
+  const toneAnalysis = req.body.analysis;
+  database.writeToneAnalysis()
+})
+
+app.post('/db/toneAnalysis', (req,res) =>{
+  console.log("ToneAnalysis written:", req.body)
+  const toneAnalysis = req.body.analysis;
+  database.writeToneAnalysis()
+})
+
+
+
 
 app.get('/api/subjects', (req,res) => {
   //console.log(res.data)

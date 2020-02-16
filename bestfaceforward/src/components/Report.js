@@ -154,7 +154,7 @@ class Report extends Component {
          }
        }
      }
-     console.log(finalTone)
+     console.log("FINALTONE:" ,finalTone)
      this.setState({
        analysis: finalTone
      })
@@ -207,7 +207,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           res+="You are a little hesitant in what you are saying. "
         }
-      } 
+      }
     }
     if(this.state.filler>6){
       res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
