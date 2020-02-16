@@ -46,6 +46,7 @@ module.exports = {
           }
       });
       },
+
       writeTranscript(username, transcript){
         var params = {
           TableName:table,
@@ -71,6 +72,7 @@ module.exports = {
               }
           });
           },
+
         writeQuestion(username, question){
           var params = {
             TableName:table,
@@ -96,6 +98,7 @@ module.exports = {
                 }
             });
             },
+
       resetPractice(){
         username = "practice";
         var params = {
@@ -122,6 +125,83 @@ module.exports = {
                   return 1;
               }
           });
+        },
+
+        readToneAnalysis(res, username){
+            var params = {
+                TableName:table,
+                KeyConditionExpression: "username = :uname ",
+                ExpressionAttributeValues:{
+                  ":uname": username
+                }
+              };
+            var jsonString;
+            docClient.query(params, function(err, data) {
+                if (err) {
+                    jsonString = JSON.stringify(err, null, 2);
+                    console.error("Unable to query item. Error JSON:", jsonString);
+
+                    return(0);
+                } else {
+                    jsonString =  JSON.parse(JSON.stringify(data, null, 2));
+
+                    console.log("QueryItem succeeded:", jsonString);
+                    res.set('Content-Type', 'application/json');
+                    res.send(jsonString.Items[0].analysis)
+
+                    return(1);
+                }
+            });
+
+          },
+
+          createNewMeeting(res, username, candidate, id, time, date){
+            var params = {
+              TableName: "Meetings",
+              Item:{
+                "id" : id,
+                "interviewer": username,
+                "candidate" : candidate,
+                "time" : time,
+                "date" : date
+              }
+            };
+            docClient.put(params, function(err, data) {
+                if (err) {
+                    console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+                    return 0;
+                } else {
+                    console.log("Added item:", JSON.stringify(data, null, 2));
+                    return 1;
+                }
+            });
+          },
+
+          getSubjects(res, meetingID){
+            var params = {
+              TableName:"Meetings",
+              KeyConditionExpression: "id = :meetingID",
+              ExpressionAttributeValues:{
+                ":meetingID": meetingID
+              }
+            };
+              var jsonString;
+              docClient.query(params, function(err, data) {
+                  if (err) {
+                      jsonString = JSON.stringify(err, null, 2);
+                      console.error("Unable getSubjects query. Error JSON:", jsonString);
+
+                      return(0);
+                  } else {
+                      jsonString =  JSON.parse(JSON.stringify(data, null, 2));
+                      console.log("getSubjects query succeeded:", jsonString);
+                      res.set('Content-Type', 'application/json');
+                      res.send(jsonString.Items[0].candidate)
+                      return(1);
+                  }
+              });
+            }
           }
 
-  };
+
+  
