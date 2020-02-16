@@ -19,6 +19,9 @@ export default class DBTest extends Component{
     axios.post('http://localhost:3001/db/resetPractice')
   }
 
+  writeQuestion = () => {
+    axios.post('http://localhost:3001/db/writeQuestion' , {q:"jingles",u:"practice"})
+  }
   
   
 
@@ -33,6 +36,7 @@ export default class DBTest extends Component{
    this.writeAnalysis()
    this.writeTranscript()
    this.resetPractice()
+   this.writeQuestion()
     return(
       <div>
         <div> TestArea </div>

@@ -154,8 +154,22 @@ app.post('/db/writeTranscript', (req,res) =>{
   console.log("Transcript written:", req.body["q"],req.body["u"])
   const toneAnalysis = req.body.question;
   database.writeTranscript(req.body["u"], req.body["q"])
-  //database.writeQuestions()
+  
 })
+
+app.get('/db/writeQuestion', (req,res) =>{
+  console.log("Question being passed into DB:", req.body)
+  const toneAnalysis = req.body.question;
+  database.writeQuestion()
+})
+
+app.post('/db/writeQuestion', (req,res) =>{
+  console.log("Question written:", req.body["q"],req.body["u"])
+  const toneAnalysis = req.body.question;
+  database.writeQuestion(req.body["u"], req.body["q"])
+  
+})
+
 
 app.post('/db/resetPractice', (req,res) =>{
   console.log("Reset Practice");
