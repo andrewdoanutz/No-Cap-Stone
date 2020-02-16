@@ -52,7 +52,7 @@ render(){
                 </Card.Header>
                 <Accordion.Collapse eventKey={index}>
                   <Card.Body>
-                    <Report questions={text} username={"ryan"}/>
+                    <Report questions={text} username={this.props.location.state.name}/>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
