@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react'
 //import SpeechRecognition from 'react-speech-recognition'
-import {Button} from 'react-bootstrap';
+import {Button,Card} from 'react-bootstrap';
 import axios from 'axios'
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from './Transcript';
@@ -351,7 +351,20 @@ class VideoComponent extends Component {
         <h1>
           {<Transcript messages={messages} />}
         </h1>
-        <div style={{background: `rgba(${ this.state.r }, ${ this.state.g }, ${ this.state.b }, ${ this.state.a })`}}>thehqhdsahdha</div>
+        <Card style={{width:"20%"}}>
+          <Card.Body>
+            <Card.Text>
+            <div style={{
+              display:"inline-block",
+              borderRadius: "50%",
+              padding:"5%",
+              backgroundColor: `rgba(${ this.state.r }, ${ this.state.g }, ${ this.state.b }, 1)`,
+              width:"5%",
+              height:"5%",}}>
+            </div>
+            </Card.Text>
+          </Card.Body>
+        </Card>
       </div>
     )
   }
