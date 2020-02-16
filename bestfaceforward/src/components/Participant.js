@@ -25,7 +25,12 @@ const Participant = ({ participant }) => {
     const trackSubscribed = track => {
       if (track.kind === 'video') {
         setVideoTracks(videoTracks => [...videoTracks, track]);
-      } else {
+      } else if (track.kind === 'audio'){
+        track.on('message', data => {
+          console.log(data);
+        });
+      }
+      else {
         setAudioTracks(audioTracks => [...audioTracks, track]);
       }
     };
