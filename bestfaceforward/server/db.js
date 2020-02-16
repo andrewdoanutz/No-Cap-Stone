@@ -17,7 +17,7 @@ let table = "Users"
 module.exports = {
 
 
-  writeToneAnalysis(username = "lewis", analysis = [{
+  writeToneAnalysis(username = "Bik Nandy", analysis = [{
       "score": 0.946222,
       "tone_id": "tentative",
       "tone_name": "Tentative"
