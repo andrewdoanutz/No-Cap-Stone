@@ -24,6 +24,7 @@ class Report extends Component {
         "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions. Very well under pressure."
       ],
       txt: this.props.questions,
+      username: this.props.username,
       analysis: [
                   {
                     tone_name: 'Anger', score: 0
@@ -111,11 +112,8 @@ class Report extends Component {
     var wordArray = Object.values(words)
 
     this.setState({filler: this.getOccurrence(wordArray, 'um')})
-
-
-
-    //Post call to backend for analysis of transcript
-    axios.post('http://localhost:3001/api/transcript', {transcript: this.state.txt})
+  //Post call to backend for analysis of transcript
+    axios.post('http://localhost:3001/db/readToneAnalysis', {username: this.state.username})
    .then(res => {
 
      //Gets analysis from backend
@@ -125,8 +123,10 @@ class Report extends Component {
      //     tone.score
      //   }
      // }
-     console.log(res.data.toneAnalysis.result.document_tone.tones)
-     var tones = res.data.toneAnalysis.result.document_tone.tones
+     // console.log(res.data.toneAnalysis.result.document_tone.tones)
+     // var tones = res.data.toneAnalysis.result.document_tone.tones
+     console.log("RES.DATA:", res.data)
+     var tones = res.data
      var finalTone = [ {tone_name: 'Anger', score: 0.1},
                  {
                    tone_name: 'Fear', score: 0.1
@@ -162,6 +162,8 @@ class Report extends Component {
      //console.log(this.state.analysis)
    })
   }
+
+
   getFeedback(){
     var res=""
     for (var a of this.state.analysis){
