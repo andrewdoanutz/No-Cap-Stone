@@ -83,7 +83,9 @@ const Info = (props) => {
           pathname: '/postAnalysis',
           state: {id: props.id, name: props.name}
         }}>
+          <>
           <Button size="lg" variant="info">Post-Analysis Report</Button>
+            </>
           </Link>
         </Col>
       </Row>
