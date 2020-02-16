@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Video from 'twilio-video';
+import Video, {LocalDataTrack} from 'twilio-video';
 import Participant from './Participant';
 import {Row, Container, Col,Button} from 'react-bootstrap';
 import '../css/Room.css';
@@ -19,6 +19,10 @@ const Room = ({ roomName, token, handleLogout }) => {
         prevParticipants.filter(p => p !== participant)
       );
     };
+
+    // const dataTrack = new Video.LocalDataTrack();
+    // console.log(dataTrack)
+    // dataTrack.send("Hello");
 
     Video.connect(token, {
       name: roomName
