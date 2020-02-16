@@ -16,13 +16,13 @@ let table = "Users"
 
 module.exports = {
 
-  writeToneAnalysis(username = "ryan", analysis = [
-        {
-          "score": 0.2,
-          "tone_id": "tentative",
-          "tone_name": "Tentative"
-        }
-      ]){
+
+  writeToneAnalysis(username = "Bik Nandy", analysis = [{
+      "score": 0.946222,
+      "tone_id": "tentative",
+      "tone_name": "Tentative"
+    }
+  ]){
     var params = {
       TableName:table,
       Key:{
@@ -54,13 +54,13 @@ module.exports = {
           },
           KeyConditionExpression: "username = :uname ",
           UpdateExpression: "set info = :uname, transcripts = list_append(transcripts, :transcript)",
-          
+
           ExpressionAttributeValues:{
               ":uname": username,
               ":transcript": [transcript]
             }
           };
-    
+
           docClient.update(params, function(err, data) {
               if (err) {
                   console.error("Unable to updateTranscript. Error JSON:", JSON.stringify(err, null, 2));
@@ -79,13 +79,13 @@ module.exports = {
             },
             KeyConditionExpression: "username = :uname ",
             UpdateExpression: "set info = :uname, questions = list_append(questions, :question)",
-            
+
             ExpressionAttributeValues:{
                 ":uname": username,
                 ":question": [question]
               }
             };
-      
+
             docClient.update(params, function(err, data) {
                 if (err) {
                     console.error("Unable to updateQuestion. Error JSON:", JSON.stringify(err, null, 2));
@@ -105,14 +105,14 @@ module.exports = {
           },
           KeyConditionExpression: "username = :uname ",
           UpdateExpression: "set info = :uname, transcripts = :transcript, questions = :question",
-          
+
           ExpressionAttributeValues:{
               ":uname": username,
               ":transcript": [],
               ":question" : []
             }
           };
-    
+
           docClient.update(params, function(err, data) {
               if (err) {
                   console.error("Unable to updateQuestion. Error JSON:", JSON.stringify(err, null, 2));
