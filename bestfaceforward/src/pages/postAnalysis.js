@@ -16,7 +16,7 @@ class postAnalysis extends Component{
 
           "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions"
       ],
-      candidateName:"John Doe",
+      candidateName:"Adjon Tahiraj",
       txt: "When Working on my group project, a team member was not carrying their own weight. They weren't completing assingments or showing up to meetings. To solve the problem we were direct with them in a positive wayy and tried to work with them in person",
     }
   }
