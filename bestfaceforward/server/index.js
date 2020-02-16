@@ -132,63 +132,41 @@ const sendTokenResponse = (token, res) => {
 };
 
 ///WRITING tone analysis to db
-app.get('/db/writeToneAnalysis', (req,res) =>{
+app.get('/db/toneAnalysis', (req,res) =>{
   console.log("Tone analysis being passed into DB:", req.body)
   const toneAnalysis = req.body.analysis;
   database.writeToneAnalysis()
 })
 
-app.post('/db/writeToneAnalysis', (req,res) =>{
+app.post('/db/toneAnalysis', (req,res) =>{
   console.log("ToneAnalysis written:", req.body)
   const toneAnalysis = req.body.analysis;
   database.writeToneAnalysis()
 })
 
-
-//READING tone analysis from db
-app.get('/db/readToneAnalysis', (req,res) =>{
-  console.log("Tone analysis recieved from DB:", req.body)
-  const username = req.body.username;
-  database.readToneAnalysis(res,username)
+app.get('/db/writeTranscript', (req,res) =>{
+  console.log("Transcript being passed into DB:", req.body)
+  const toneAnalysis = req.body.question;
+  database.writeTranscriptPractice()
 })
 
-app.post('/db/readToneAnalysis', (req,res) =>{
-  console.log("Tone analysis recieved from DB:", req.body)
-  const username = req.body.username;
-  database.readToneAnalysis(res,username)
+app.post('/db/writeTranscript', (req,res) =>{
+  console.log("Transcript written:", req.body["q"],req.body["u"])
+  const toneAnalysis = req.body.question;
+  database.writeTranscriptPractice(req.body["u"], req.body["q"])
+  //database.writeQuestions()
+})
+
+app.post('/db/resetPractice', (req,res) =>{
+  console.log("Reset Practice");
+  //const toneAnalysis = req.body.question;
+  
+  database.resetPractice(req.body["u"]);
+  //database.writeQuestions()
 })
 
 
-//CREATING new meeting
-app.get('/db/createNewMeeting', (req,res) =>{
-  const username = req.body.uname;
-  const candidate = req.body.interviewee;
-  const id = req.body.id;
-  console.log("IDDDDD", id)
-  const time = req.body.time
-  const date = req.body.date
-  database.createNewMeeting(res,username,candidate,id,time,date)
-})
 
-app.post('/db/createNewMeeting', (req,res) =>{
-  const username = req.body.uname;
-  const candidate = req.body.interviewee;
-  const id = req.body.id;
-  console.log("IDDDDD", id)
-  const time = req.body.time
-  const date = req.body.date
-  database.createNewMeeting(res,username,candidate,id,time,date)
-})
-
-app.get('/db/getCandidate', (req,res) =>{
-  const meetingID = req.body.meetingID
-  database.getSubjects(res, meetingID)
-})
-
-app.post('/db/getCandidate', (req,res) =>{
-  const meetingID = req.body.meetingID
-  database.getSubjects(res, meetingID)
-})
 
 
 app.get('/api/subjects', (req,res) => {
