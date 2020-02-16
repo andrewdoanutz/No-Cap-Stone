@@ -38,7 +38,7 @@ render(){
                 </Card.Header>
                 <Accordion.Collapse eventKey={index}>
                   <Card.Body>
-                    <Report questions={text}/>
+                    <Report questions={text} username={"ryan"}/>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
