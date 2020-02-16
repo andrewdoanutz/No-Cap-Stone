@@ -17,7 +17,7 @@ let table = "Users"
 module.exports = {
 
 
-  writeToneAnalysis(username = "ryan", analysis = [{
+  writeToneAnalysis(username = "lewis", analysis = [{
       "score": 0.946222,
       "tone_id": "tentative",
       "tone_name": "Tentative"
@@ -47,7 +47,7 @@ module.exports = {
     });
   },
 
-  readToneAnalysis(res, username = "ryan"){
+  readToneAnalysis(res, username){
     var params = {
         TableName:table,
         KeyConditionExpression: "username = :uname ",
@@ -73,7 +73,52 @@ module.exports = {
         }
     });
 
+  },
+
+  createNewMeeting(res, username, candidate, id, time, date){
+    var params = {
+      TableName: "Meetings",
+      Item:{
+        "id" : id,
+        "interviewer": username,
+        "candidate" : candidate,
+        "time" : time,
+        "date" : date
+      }
+    };
+    docClient.put(params, function(err, data) {
+        if (err) {
+            console.error("Unable to add item. Error JSON:", JSON.stringify(err, null, 2));
+            return 0;
+        } else {
+            console.log("Added item:", JSON.stringify(data, null, 2));
+            return 1;
+        }
+    });
+  },
+
+  getSubjects(res, meetingID){
+    var params = {
+      TableName:"Meetings",
+      KeyConditionExpression: "id = :meetingID",
+      ExpressionAttributeValues:{
+        ":meetingID": meetingID
+      }
+    };
+      var jsonString;
+      docClient.query(params, function(err, data) {
+          if (err) {
+              jsonString = JSON.stringify(err, null, 2);
+              console.error("Unable getSubjects query. Error JSON:", jsonString);
+
+              return(0);
+          } else {
+              jsonString =  JSON.parse(JSON.stringify(data, null, 2));
+              console.log("getSubjects query succeeded:", jsonString);
+              res.set('Content-Type', 'application/json');
+              res.send(jsonString.Items[0].candidate)
+              return(1);
+          }
+      });
+    }
   }
-
-
-  };

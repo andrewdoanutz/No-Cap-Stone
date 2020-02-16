@@ -148,16 +148,47 @@ app.post('/db/writeToneAnalysis', (req,res) =>{
 //READING tone analysis from db
 app.get('/db/readToneAnalysis', (req,res) =>{
   console.log("Tone analysis recieved from DB:", req.body)
-  const toneAnalysis = req.body.analysis;
-  database.readToneAnalysis(res)
+  const username = req.body.username;
+  database.readToneAnalysis(res,username)
 })
 
 app.post('/db/readToneAnalysis', (req,res) =>{
   console.log("Tone analysis recieved from DB:", req.body)
-  const toneAnalysis = req.body.analysis;
-  database.readToneAnalysis(res)
+  const username = req.body.username;
+  database.readToneAnalysis(res,username)
 })
 
+
+//CREATING new meeting
+app.get('/db/createNewMeeting', (req,res) =>{
+  const username = req.body.uname;
+  const candidate = req.body.interviewee;
+  const id = req.body.id;
+  console.log("IDDDDD", id)
+  const time = req.body.time
+  const date = req.body.date
+  database.createNewMeeting(res,username,candidate,id,time,date)
+})
+
+app.post('/db/createNewMeeting', (req,res) =>{
+  const username = req.body.uname;
+  const candidate = req.body.interviewee;
+  const id = req.body.id;
+  console.log("IDDDDD", id)
+  const time = req.body.time
+  const date = req.body.date
+  database.createNewMeeting(res,username,candidate,id,time,date)
+})
+
+app.get('/db/getCandidate', (req,res) =>{
+  const meetingID = req.body.meetingID
+  database.getSubjects(res, meetingID)
+})
+
+app.post('/db/getCandidate', (req,res) =>{
+  const meetingID = req.body.meetingID
+  database.getSubjects(res, meetingID)
+})
 
 
 app.get('/api/subjects', (req,res) => {

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import {Button, Modal, Form} from 'react-bootstrap';
 import Database from '../components/Database'
+import axios from 'axios'
 
 
 const newMeeting = ({uname}) =>{
@@ -34,8 +35,10 @@ const newMeeting = ({uname}) =>{
     console.log("Email: ", email)
     console.log("interviewe:", interviewee)
     console.log("interviewer:", uname)
-    Database.addMeet(id, uname, interviewee);
-
+    var time = "9am"
+    var date = "feb20"
+    //Database.addMeet(id, uname, interviewee);
+    axios.post('http://localhost:3001/db/createNewMeeting', {username: uname, interviewee: interviewee, id: id, time: time, date:date})
     handleClose();
   }, [email, interviewee] );
 

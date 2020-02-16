@@ -30,7 +30,7 @@ export default class DBTest extends Component{
    // Database.queryUser()
    // Database.deleteUser()
    //this.writeAnalysis()
-   this.readAnalysis()
+   //this.readAnalysis()
     return(
       <div>
         <div> TestArea </div>
