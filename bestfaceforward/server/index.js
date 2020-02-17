@@ -194,6 +194,31 @@ app.post('/db/readToneAnalysis', (req,res) =>{
   database.readToneAnalysis(res,username)
 })
 
+//READING transcript from db
+app.get('/db/readTranscript', (req,res) =>{
+  console.log("Transcript recieved from DB (get):", req.body)
+  const username = req.body.username;
+  database.readTranscript(res,username)
+})
+
+app.post('/db/readTranscript', (req,res) =>{
+  console.log("Transcript recieved from DB (post):", req.body)
+  const username = req.body.username;
+  database.readTranscript(res,username)
+})
+
+//READING questions from db
+app.get('/db/readQuestions', (req,res) =>{
+  console.log("Questions recieved from DB (get):", req.body)
+  const username = req.body.username;
+  database.readQuestions(res,username)
+})
+
+app.post('/db/readQuestions', (req,res) =>{
+  console.log("Questions recieved from DB (post):", req.body)
+  const username = req.body.username;
+  database.readQuestions(res,username)
+})
 
 //CREATING new meeting
 app.get('/db/createNewMeeting', (req,res) =>{
