@@ -4,7 +4,7 @@
 
 import React, { Component } from 'react'
 //import SpeechRecognition from 'react-speech-recognition'
-import {Button,Card} from 'react-bootstrap';
+import {Button,Card,Col,Row} from 'react-bootstrap';
 import axios from 'axios'
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from './Transcript';
@@ -28,7 +28,8 @@ class VideoComponent extends Component {
       date:new Date(),
       r:255,
       g:204,
-      b:102
+      b:102,
+      status: "neutral"
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
@@ -267,19 +268,22 @@ class VideoComponent extends Component {
               this.setState({
                 r:102,
                 g:255,
-                b:153
+                b:153,
+                status:"positive"
               })
             } else if (totalScore<0){
               this.setState({
                 r:255,
                 g:102,
-                b:102
+                b:102,
+                status:"negative"
               })
             } else {
               this.setState({
                 r:255,
                 g:204,
-                b:102
+                b:102,
+                status:"neutral"
               })
             }
           } catch(e){
@@ -354,14 +358,21 @@ class VideoComponent extends Component {
         <Card style={{width:"20%"}}>
           <Card.Body>
             <Card.Text>
-            <div style={{
-              display:"inline-block",
-              borderRadius: "50%",
-              padding:"5%",
-              backgroundColor: `rgba(${ this.state.r }, ${ this.state.g }, ${ this.state.b }, 1)`,
-              width:"5%",
-              height:"5%",}}>
-            </div>
+              <Row>
+                <Col>
+                  <div style={{
+                    display:"inline-block",
+                    borderRadius: "50%",
+                    padding:"5%",
+                    backgroundColor: `rgba(${ this.state.r }, ${ this.state.g }, ${ this.state.b }, 1)`,
+                    width:"5%",
+                    height:"5%",}}>
+                  </div>
+                </Col>
+                <Col>
+                  <div>{"You look "+this.state.status}</div>
+                </Col>
+              </Row>
             </Card.Text>
           </Card.Body>
         </Card>
