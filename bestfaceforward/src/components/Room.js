@@ -9,7 +9,7 @@ const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [blur, setBlur] = useState(false);
-
+  const dataTrack = new Video.LocalDataTrack();
   useEffect(() => {
     const participantConnected = participant => {
       setParticipants(prevParticipants => [...prevParticipants, participant]);
@@ -28,16 +28,17 @@ const Room = ({ roomName, token, handleLogout }) => {
       name: roomName
     }).then(room => {
       setRoom(room);
-      const dataTrack = new Video.LocalDataTrack();
-      console.log(dataTrack)
 
-      if (localStorage.getItem('candidate') == 0){
-        dataTrack.send("Hello");
-      }
+
+
+
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
       room.participants.forEach(participantConnected);
       room.localParticipant.publishTrack(dataTrack);
+
+
+      console.log(dataTrack)
     });
 
     return () => {
@@ -74,7 +75,7 @@ const Room = ({ roomName, token, handleLogout }) => {
             <div className="local-participant">
               {room ? (
                 <div className="container">
-                  <img src={bro} className={blur===true ? 'mask' : 'empty'}/>
+                  <Button className = "mb-2" onClick = {() => {dataTrack.send({stuff:0});}}>Next Question</Button>
                   <Participant
                     key={room.localParticipant.sid}
                     participant={room.localParticipant}
