@@ -31,7 +31,13 @@ export default class DBTest extends Component{
     axios.post('http://localhost:3001/db/readQuestions' , {username:"practice"})
   }
 
+  writeLiveScore = () => {
+    axios.post('http://localhost:3001/db/writeLiveScore',{u:"practice",s:"5"})
+  }
 
+  readLiveScore = () => {
+    axios.post('http://localhost:3001/db/readLiveScore' , {username:"practice"})
+  }
 
   render(){
    // Database.createTable()
@@ -47,6 +53,8 @@ export default class DBTest extends Component{
    this.writeQuestion()
    this.readTranscript()
    this.readQuestions()
+   this.writeLiveScore()
+   this.readLiveScore()
     return(
       <div>
         <div> TestArea </div>
