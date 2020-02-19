@@ -20,7 +20,6 @@ const Participant = ({ participant }) => {
     console.log(participant);
     setVideoTracks(Array.from(participant.videoTracks.values()));
     setAudioTracks(Array.from(participant.audioTracks.values()));
-    setDataTracks(Array.from(participant.audioTracks.values()));
 
     const trackSubscribed = track => {
       if (track.kind === 'video') {
