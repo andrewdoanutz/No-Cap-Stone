@@ -8,6 +8,7 @@ import {Button,Card,Col,Row} from 'react-bootstrap';
 import axios from 'axios'
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from './Transcript';
+import Timing from './Timing';
 import '../css/VideoComponent.css';
 import Camera from 'react-camera'
 
@@ -158,6 +159,9 @@ class VideoComponent extends Component {
       format: true, // adds capitals, periods, and a few other things (client-side)
       objectMode: true,
       interim_results: false,
+      word_alternatives_threshold: 0.01,
+      timestamps: true, // set timestamps for each word - automatically turned on by speaker_labels
+      // includes the speaker_labels in separate objects unless resultsBySpeaker is enabled
       url: this.state.serviceUrl
     });
 
@@ -354,6 +358,7 @@ class VideoComponent extends Component {
         </div>
         <h1>
           {<Transcript messages={messages} />}
+          {<Timing messages = {messages} />}
         </h1>
         <Card style={{width:"20%"}}>
           <Card.Body>
