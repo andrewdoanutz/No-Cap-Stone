@@ -4,6 +4,7 @@ import Participant from './Participant';
 import {Row, Container, Col,Button} from 'react-bootstrap';
 import '../css/Room.css';
 import bro from "../images/mask.png"
+
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
@@ -20,20 +21,23 @@ const Room = ({ roomName, token, handleLogout }) => {
       );
     };
 
-    const dataTrack = new Video.LocalDataTrack();
 
-    if (localStorage.getItem('candidate') == 0){
-      dataTrack.send("Hello");
-    }
+
 
     Video.connect(token, {
-      name: roomName,
-      track: [dataTrack]
+      name: roomName
     }).then(room => {
       setRoom(room);
+      const dataTrack = new Video.LocalDataTrack();
+      console.log(dataTrack)
+
+      if (localStorage.getItem('candidate') == 0){
+        dataTrack.send("Hello");
+      }
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
       room.participants.forEach(participantConnected);
+      room.localParticipant.publishTrack(dataTrack);
     });
 
     return () => {

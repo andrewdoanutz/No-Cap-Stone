@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 const Participant = ({ participant }) => {
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
+  const [dataTracks, setDataTracks] = useState([]);
   const [vHeight, setVHeight] = useState(0);
   const [vWidth, setVWidth] = useState(0);
   const videoRef = useRef();
@@ -13,24 +14,24 @@ const Participant = ({ participant }) => {
     var vid = document.getElementById("participant");
     setVHeight(vid.videoWidth);
     setVWidth(vid.videoHeight);
-    console.log("video dimensions ",vHeight,vWidth);
-
   })
 
   useEffect(() => {
     console.log(participant);
     setVideoTracks(Array.from(participant.videoTracks.values()));
     setAudioTracks(Array.from(participant.audioTracks.values()));
+    setDataTracks(Array.from(participant.audioTracks.values()));
 
     const trackSubscribed = track => {
       if (track.kind === 'video') {
         setVideoTracks(videoTracks => [...videoTracks, track]);
-      } else if (track.kind === 'audio'){
-        if (localStorage.getItem("candidate")){
+      } else if (track.kind === 'data'){
+        // if (localStorage.getItem("candidate")){
           track.on('message', data => {
+            console.log("TEST");
             console.log(data);
           });
-        }
+        // }
 
       }
       else {
