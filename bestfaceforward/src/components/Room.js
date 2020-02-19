@@ -9,7 +9,20 @@ const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [blur, setBlur] = useState(false);
+  const dataTrackPublished = {};
+
   const dataTrack = new Video.LocalDataTrack();
+
+  dataTrackPublished.promise = new Promise((resolve, reject) => {
+    dataTrackPublished.resolve = resolve;
+    dataTrackPublished.reject = reject;
+  });
+
+  const sendMessage = (message) => {
+    dataTrackPublished.promise.then(() => dataTrack.send(message));
+  }
+
+
   useEffect(() => {
     const participantConnected = participant => {
       setParticipants(prevParticipants => [...prevParticipants, participant]);
@@ -22,23 +35,27 @@ const Room = ({ roomName, token, handleLogout }) => {
     };
 
 
-
-
     Video.connect(token, {
       name: roomName
     }).then(room => {
       setRoom(room);
-
-
-
-
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
       room.participants.forEach(participantConnected);
       room.localParticipant.publishTrack(dataTrack);
 
+      room.localParticipant.on('trackPublished', publication => {
+        if (publication.track === dataTrack) {
+          dataTrackPublished.resolve();
+        }
+      });
 
-      console.log(dataTrack)
+      room.localParticipant.on('trackPublicationFailed', (error, track) => {
+        if (track === dataTrack) {
+          dataTrackPublished.reject(error);
+        }
+      });
+
     });
 
     return () => {
@@ -64,6 +81,7 @@ const Room = ({ roomName, token, handleLogout }) => {
           <Col>
             <h2>Room: {roomName}</h2>
             <Button className = "mb-2" onClick={handleLogout}>Log out</Button>
+            <Button className = "mb-2" onClick={sendMessage("Hello")}>Next Question</Button>
             <Button className = "ml-3 mb-2" onClick={ ()=> {
                 if(blur===false){
                   setBlur(true)
@@ -73,14 +91,15 @@ const Room = ({ roomName, token, handleLogout }) => {
               }
             }>Blur</Button>
             <div className="local-participant">
+
               {room ? (
                 <div className="container">
-                  <Button className = "mb-2" onClick = {() => {dataTrack.send({stuff:0});}}>Next Question</Button>
                   <Participant
                     key={room.localParticipant.sid}
                     participant={room.localParticipant}
                   />
                 </div>
+
               ) : (
                 ''
               )}
