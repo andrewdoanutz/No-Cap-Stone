@@ -22,16 +22,17 @@ const Participant = ({ participant }) => {
     setAudioTracks(Array.from(participant.audioTracks.values()));
 
     const trackSubscribed = track => {
-      if (track.kind === 'video') {
-        setVideoTracks(videoTracks => [...videoTracks, track]);
-      } else if (track.kind === 'data'){
+      if (track.kind === 'data'){
         // if (localStorage.getItem("candidate")){
           track.on('message', data => {
-            console.log("TEST");
+            console.log("TEST123");
             console.log(data);
           });
         // }
 
+      }
+      else if (track.kind === 'video') {
+        setVideoTracks(videoTracks => [...videoTracks, track]);
       }
       else {
         setAudioTracks(audioTracks => [...audioTracks, track]);
