@@ -98,6 +98,32 @@ module.exports = {
               }
           });
           },
+      
+        writeLiveScore(username, score){
+          var params = {
+            TableName:table,
+            Key:{
+              "username": username,
+            },
+            KeyConditionExpression: "username = :uname ",
+            UpdateExpression: "set info = :uname, liveAnalysisScore = :score",
+  
+            ExpressionAttributeValues:{
+                ":uname": username,
+                ":score": score
+              }
+            };
+  
+            docClient.update(params, function(err, data) {
+                if (err) {
+                    console.error("Unable to writeLiveScore. Error JSON:", JSON.stringify(err, null, 2));
+                    return 0;
+                } else {
+                    console.log("writeLiveScore item:", JSON.stringify(data, null, 2));
+                    return 1;
+                }
+            });
+            },
 
       resetPractice(){
         username = "practice";
@@ -175,6 +201,35 @@ module.exports = {
                 console.log("QueryItem succeeded:", jsonString);
                 res.set('Content-Type', 'application/json');
                 res.send(jsonString.Items[0].transcripts)
+
+                return(1);
+            }
+        });
+
+      },
+
+
+      readLiveScore(res, username){
+        var params = {
+            TableName:table,
+            KeyConditionExpression: "username = :uname ",
+            ExpressionAttributeValues:{
+              ":uname": username
+            }
+          };
+        var jsonString;
+        docClient.query(params, function(err, data) {
+            if (err) {
+                jsonString = JSON.stringify(err, null, 2);
+                console.error("Unable to query item. Error JSON:", jsonString);
+
+                return(0);
+            } else {
+                jsonString =  JSON.parse(JSON.stringify(data, null, 2));
+
+                console.log("QueryItem succeeded:", jsonString.Items[0].liveAnalysis);
+                res.set('Content-Type', 'application/json');
+                res.send(jsonString.Items[0].liveAnalysis)
 
                 return(1);
             }
