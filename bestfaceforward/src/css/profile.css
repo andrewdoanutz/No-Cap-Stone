@@ -1,9 +1,9 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css?family=Raleway");
+@import url("https://fonts.googleapis.com/css?family=Roboto Mono");
 
 .info{
     text-align: left;
-    font: 1em "Raleway", sans-serif; 
+    font: 1em "Roboto Mono", sans-serif; 
     background:#fffdf9;
     padding: 1%;
     border:solid;

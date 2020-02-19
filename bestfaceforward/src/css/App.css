@@ -1,5 +1,8 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Ubuntu&display=swap");
+
 body{
-  background-color: #FFFFFF;
+  font-family: "Ubuntu", sans-serif !important;
+  background-color: #F0F8FF !important;
   padding-top: 50px;
 }
 .scroll {
@@ -34,6 +37,29 @@ body{
   text-align: center;
   padding-bottom: 0.5em;
   color: #fff;
+}
+
+.right-border {
+  border-right: 2px solid #333;
+}
+
+.left-border {
+  border-left: 2px solid #333;
+}
+
+.fill {
+  height: 100%;
+}
+
+.horizontal-center {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+}
+
+.vertical-space {
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
 
 video {

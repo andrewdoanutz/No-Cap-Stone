@@ -14,15 +14,14 @@ import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, B
 class Report extends Component {
   constructor(props){
     super(props);
-
     this.state = {
       txtJson:[
 
-      "first text, something about being upset often and nonconfident in team performance",
+      "first text, something about being upset often and nonconfident in team performance. team sucks and I really hate them and wish they were better",
 
-        "second text, Happy when things work out and I hope for the best for our team",
+        "second text, Happy when things work out and I hope for the best for our team. They are so awesome and I love them and we are the best team ever.",
 
-        "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions"
+        "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions. Very well under pressure."
       ],
       txt: this.props.questions,
       analysis: [
@@ -56,6 +55,8 @@ class Report extends Component {
                   {concepts: '2', score: 1},
                   {concepts: '3', score: 1}],
     }
+    this.analyzeText()
+    this.getSubjects()
   }
 
 
@@ -67,8 +68,7 @@ class Report extends Component {
     return count;
   }
 
-  getSubjects = (ev) => {
-    ev.preventDefault()
+  getSubjects = () => {
     var txt = this.state.txt.toLowerCase()
     axios.post('http://localhost:3001/api/subjects', {transcript: this.state.txt})
    .then(res => {
@@ -98,14 +98,13 @@ class Report extends Component {
      console.log(finalKeywords)
      console.log(finalConcepts)
      this.setState({
-       concepts:  finalConcepts,
+       concepts: finalConcepts,
        keywords: finalKeywords
      })
    })
   }
 
-  analyzeText = (ev) => {
-    ev.preventDefault()
+  analyzeText = () => {
 
     var txt = this.state.txt.toLowerCase()
     var words = txt.split(" ")
@@ -163,7 +162,68 @@ class Report extends Component {
      //console.log(this.state.analysis)
    })
   }
-
+  getFeedback(){
+    var res=""
+    for (var a of this.state.analysis){
+      if (a.tone_name === 'Fear'){
+        if(a.score>=.8){
+          res+="Try to be more confident in what you are saying. Don't be scared of the interviewer. "
+        } else if(a.score>=.4){
+          res+="A little more confidence in what you are saying will help get your point across better. "
+        }
+      } else if (a.tone_name === 'Joy'){
+        if(a.score>=.8){
+          res+="You are coming across very happy. Keep it up! "
+        } else if(a.score>=.4){
+          res+="Try to speak a little more joyfully when you are responding. "
+        } else {
+          res+="You should use more joyful vocabulary when responding. "
+        }
+      } else if (a.tone_name === 'Anger'){
+        if(a.score>=.8){
+          res+="You are coming across very angery. Be less aggressive in your response. "
+        } else if(a.score>=.4){
+          res+="Try to speak a little less aggresively when you are responding. "
+        } 
+      } else if (a.tone_name === 'Sadness'){
+        if(a.score>=.8){
+          res+="You should speak with happier words. "
+        } else if(a.score>=.4){
+          res+="Some of your words are coming across kind of sad. Use more happy vocabulary. "
+        }
+      } else if (a.tone_name === 'Analytical'){
+        if(a.score>=.8){
+          res+="Your response is very analytical. Try to speak more naturally. "
+        } else if(a.score>=.4){
+          res+="Your response is analytical and logical. Good job! "
+        } else {
+          res+="Try to be more analytical and logical in your response. "
+        }
+      } else if (a.tone_name === 'Confident'){
+        if(a.score>=.8){
+          res+="You are very confident in what you are saying. Good job! "
+        } else if(a.score>=.4){
+          res+="A little more confidence in what you are saying will help get your point across better. "
+        } else {
+          res+="Try being more confident in your response. "
+        }
+      } else if (a.tone_name === 'Tentative'){
+        if(a.score>=.8){
+          res+="You are very hesitant in what your are saying. Don't be scared of the interviewer. "
+        } else if(a.score>=.4){
+          res+="You are a little hesitant in what you are saying. "
+        }
+      } 
+    }
+    if(this.state.filler>6){
+      res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
+    } else if(this.state.filler>3) {
+      res+="You are using some filler words in your response. Try pausing between sentences instead of using ums and uhs. "
+    } else {
+      res+="You are barely using any filler words. Good job!. "
+    }
+    return res;
+  }
 
 
 
@@ -183,98 +243,119 @@ class Report extends Component {
    </Col> */
     return(
       <div>
-        <Button onClick={this.analyzeText}>Analyze</Button>
-        <Button onClick={this.getSubjects}>Get Subjects</Button>
         <Row>
-
-        </Row>
-        <Row>
-          <Col sm={6}>
-            <Card>
-              <Card.Header as="h3">Tone Analysis</Card.Header>
-              <Card.Body>
-                <Card.Text>
-                  <RadarChart cx={300} cy={250} outerRadius={150} width={500} height={500} data={this.state.analysis}>
-                    <PolarGrid />
-                    <PolarAngleAxis dataKey="tone_name"/>
-                    <PolarRadiusAxis />
-                    <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                  </RadarChart>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col sm={2}>
-            <Card>
-              <Card.Header as="h3">Filler Count</Card.Header>
-              <Card.Body>
-                <Card.Text as="h4">
-                  <div>Numer of Filler Words: {this.state.filler}</div>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <BarChart
-              width={500}
-              height={300}
-              data={this.state.keywords}
-              margin={{
-                top: 5, right: 30, left: 20, bottom: 5,
-              }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="keyword" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="score" fill="#8884d8" />
-              </BarChart>
+          {/* Left Column */}
+            <Col sm={6}>
+              <Card style={{marginBottom: "10px"}}>
+                <Card.Header as="h3">Question Response</Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                    {this.state.txt}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+              <Card style={{marginBottom: "10px"}}>
+                <Card.Header as="h3">Feedback for Candidate</Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                    {this.getFeedback()}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+              <Card style={{marginBottom: "10px"}}>
+                <Card.Header as="h3">Tone Analysis</Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                    <RadarChart cx={300} cy={250} outerRadius={150} width={500} height={500} data={this.state.analysis}>
+                      <PolarGrid />
+                      <PolarAngleAxis dataKey="tone_name"/>
+                      <PolarRadiusAxis />
+                      <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                    </RadarChart>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             </Col>
-            <Col>
-              <ResponsiveContainer height={3 * 50 + 10} width="50%">
-                <BarChart
-                    data={this.state.concepts}
-                    margin={{top: 0, right: 40, left: 40, bottom: 20}}
-                    layout="vertical"
-                    barCategoryGap="20%"
-                    barGap={2}
-                    maxBarSize={10}
-                >
-                    <CartesianGrid
-                        horizontal={false}
-                        stroke='#a0a0a0'
-                        strokeWidth={0.5}
-                    />
-                    <XAxis
-                        type="number"
-                        axisLine={false}
-                        stroke='#a0a0a0'
-                        //domain={[5, 10]}
-                        //ticks={[ 7.5, 10]}
-                        strokeWidth={0.5}
-                    />
-                    <YAxis
-                        type="category"
-                        dataKey={this.state.concepts.concept}
-                        width={40}
-                    />
-                    <Bar
-                        dataKey="score"
-                        animationDuration={1000}
-                        label={{position: 'right', backgroundColor: '#fff'}}
-                        // shape={<Rectangle
-                        //     className={classes.rectangle}
-                        //     radius={[0, 10, 10, 0]}
-                        // />}
-                    >
-                    </Bar>
-                </BarChart>
-                </ResponsiveContainer>
-            </Col>
+            {/* Right Column */}
+            <Col sm = {5}>
+              <Card style={{marginBottom: "10px"}}>
+                  <Card.Header as="h3">Keywords</Card.Header>
+                  <Card.Body>
+                    <Card.Text>
+                      <BarChart
+                      width={500}
+                      height={300}
+                      data={this.state.keywords}
+                      margin={{
+                        top: 5, right: 30, left: 20, bottom: 5,
+                      }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="keyword" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="score" fill="#8884d8" />
+                      </BarChart>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+                <Card style={{marginBottom: "10px"}}>
+                  <Card.Header as="h3">Concepts</Card.Header>
+                  <Card.Body>
+                    <Card.Text>
+                      <ResponsiveContainer height={3 * 50 + 10} width="50%">
+                      <BarChart
+                          data={this.state.concepts}
+                          margin={{top: 0, right: 40, left: 40, bottom: 20}}
+                          layout="vertical"
+                          barCategoryGap="20%"
+                          barGap={2}
+                          maxBarSize={10}
+                      >
+                          <CartesianGrid
+                              horizontal={false}
+                              stroke='#a0a0a0'
+                              strokeWidth={0.5}
+                          />
+                          <XAxis
+                              type="number"
+                              axisLine={false}
+                              stroke='#a0a0a0'
+                              //domain={[5, 10]}
+                              //ticks={[ 7.5, 10]}
+                              strokeWidth={0.5}
+                          />
+                          <YAxis
+                              type="category"
+                              dataKey={this.state.concepts.concept}
+                              width={40}
+                          />
+                          <Bar
+                              dataKey="score"
+                              animationDuration={1000}
+                              label={{position: 'right', backgroundColor: '#fff'}}
+                              // shape={<Rectangle
+                              //     className={classes.rectangle}
+                              //     radius={[0, 10, 10, 0]}
+                              // />}
+                          >
+                          </Bar>
+                      </BarChart>
+                      </ResponsiveContainer>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+                <Card style={{marginBottom: "10px"}}>
+                    <Card.Header as="h3">Filler Count</Card.Header>
+                    <Card.Body>
+                      <Card.Text as="h4">
+                        <div>Numer of Filler Words: {this.state.filler}</div>
+                      </Card.Text>
+                    </Card.Body>
+                </Card>
+              </Col>
           </Row>
-
-        <div>{this.state.txt}</div>
 
       </div>
     );

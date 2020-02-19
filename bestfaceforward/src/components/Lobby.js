@@ -1,23 +1,18 @@
-import React from 'react';
+import React, {useC} from 'react';
 import { Form, Button, Col, Row, Card, Container} from 'react-bootstrap';
+import {Link} from "react-router-dom";
 
-const Lobby = ({
-  username,
-  handleUsernameChange,
-  roomName,
-  handleRoomNameChange,
-  handleSubmit
-}) => {
+const Lobby = (props) => {
   return (
     <div>
       <div className = "homeBox">
-        <div className="homeHead">Video</div>
+        <div className="homeHead">Join Meeting</div>
         <Container>
           <Row className="justify-content-center">
             <Col sm={6}>
-              <Card>
+              <Card border="primary" className = "shadow">
                 <Card.Body>
-                  <Form onSubmit={handleSubmit}>
+                  <Form onSubmit={props.handleSubmit}>
                     <div className = "pb-2 center-text">
                       <div className="formField">
                         <Form.Group as={Col}>
@@ -26,8 +21,8 @@ const Lobby = ({
                             type="text"
                             id="field"
                             placeholder= "Enter your name"
-                            value={username}
-                            onChange={handleUsernameChange}
+                            value={props.username}
+                            onChange={props.handleUsernameChange}
                             required
                           />
                         </Form.Group>
@@ -42,16 +37,21 @@ const Lobby = ({
                             type="text"
                             id="room"
                             placeholder="Enter Room ID"
-                            value={roomName}
-                            onChange={handleRoomNameChange}
+                            value={props.roomName}
+                            onChange={props.handleRoomNameChange}
                             required
                           />
                         </Form.Group>
                       </div>
                     </div>
-                    <div className = "formButton">
-                      <Button size="lg" type="submit">Submit</Button>
-                    </div>
+                    <Link to={{
+                      pathname: '/videocall',
+                      state: {name: props.username, id: props.roomName }
+                    }}>
+                      <Button  size="lg">
+                        Submit
+                      </Button>
+                    </Link>
                   </Form>
                 </Card.Body>
               </Card>
