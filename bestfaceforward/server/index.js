@@ -157,10 +157,17 @@ app.post('/db/writeTranscript', (req,res) =>{
 
 })
 
-app.get('/db/writeQuestion', (req,res) =>{
-  console.log("Question being passed into DB:", req.body)
+app.post('/db/writeLiveScore', (req,res) =>{
+  console.log("LiveScore written:", req.body["s"],req.body["u"])
   const toneAnalysis = req.body.question;
-  database.writeQuestion()
+  database.writeLiveScore(req.body["u"], req.body["s"])
+
+})
+
+app.get('/db/writeLiveScore', (req,res) =>{
+  console.log("LiveScore written:", req.body["s"],req.body["u"])
+  const toneAnalysis = req.body.question;
+  database.writeLiveScore(req.body["u"], req.body["s"])
 })
 
 app.post('/db/writeQuestion', (req,res) =>{
@@ -194,6 +201,44 @@ app.post('/db/readToneAnalysis', (req,res) =>{
   database.readToneAnalysis(res,username)
 })
 
+//READING transcript from db
+app.get('/db/readTranscript', (req,res) =>{
+  console.log("Transcript recieved from DB (get):", req.body)
+  const username = req.body.username;
+  database.readTranscript(res,username)
+})
+
+app.post('/db/readTranscript', (req,res) =>{
+  console.log("Transcript recieved from DB (post):", req.body)
+  const username = req.body.username;
+  database.readTranscript(res,username)
+})
+
+app.post('/db/readLiveScore', (req,res) =>{
+  console.log("LiveScore recieved from DB (post):", req.body)
+  const username = req.body.username;
+  database.readLiveScore(res,username)
+})
+
+app.post('/db/readLiveScore', (req,res) =>{
+  console.log("LiveScore recieved from DB (post):", req.body)
+  const username = req.body.username;
+  database.readLiveScore(res,username)
+})
+
+
+//READING questions from db
+app.get('/db/readQuestions', (req,res) =>{
+  console.log("Questions recieved from DB (get):", req.body)
+  const username = req.body.username;
+  database.readQuestions(res,username)
+})
+
+app.post('/db/readQuestions', (req,res) =>{
+  console.log("Questions recieved from DB (post):", req.body)
+  const username = req.body.username;
+  database.readQuestions(res,username)
+})
 
 //CREATING new meeting
 app.get('/db/createNewMeeting', (req,res) =>{

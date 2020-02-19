@@ -23,7 +23,21 @@ export default class DBTest extends Component{
     axios.post('http://localhost:3001/db/writeQuestion' , {q:"jingles",u:"practice"})
   }
 
+  readTranscript = () => {
+    axios.post('http://localhost:3001/db/readTranscript' , {username:"ryan"})
+  }
 
+  readQuestions = () => {
+    axios.post('http://localhost:3001/db/readQuestions' , {username:"practice"})
+  }
+
+  writeLiveScore = () => {
+    axios.post('http://localhost:3001/db/writeLiveScore',{u:"practice",s:"5"})
+  }
+
+  readLiveScore = () => {
+    axios.post('http://localhost:3001/db/readLiveScore' , {username:"practice"})
+  }
 
   render(){
    // Database.createTable()
@@ -37,6 +51,10 @@ export default class DBTest extends Component{
    this.writeTranscript()
    //this.resetPractice()
    this.writeQuestion()
+   this.readTranscript()
+   this.readQuestions()
+   this.writeLiveScore()
+   this.readLiveScore()
     return(
       <div>
         <div> TestArea </div>
