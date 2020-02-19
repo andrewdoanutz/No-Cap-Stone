@@ -50,11 +50,11 @@ export default class Login extends Component {
     return(
       <div>
         <div className="homeBox">
-          <div className="homeHead">Login</div>
+          <h1 className="homeHead">Login</h1>
           <Container>
             <Row className="justify-content-center">
             <Col sm={6}>
-              <Card>
+              <Card border = "primary" className = "shadow">
                 <Card.Body>
                   <Form>
                     <Form.Group controlId="formBasicEmail" as={Col}>

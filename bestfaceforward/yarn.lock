@@ -1457,10 +1457,12 @@
 "@twilio/sip.js@^0.7.7":
   version "0.7.7"
   resolved "https://registry.yarnpkg.com/@twilio/sip.js/-/sip.js-0.7.7.tgz#cff50f66f9b295d46f219737b72780c7d0e6df52"
+  integrity sha1-z/UPZvmyldRvIZc3tyeAx9Dm31I=
 
-"@twilio/webrtc@2.3.0":
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/@twilio/webrtc/-/webrtc-2.3.0.tgz#8e5e5824050fd098b80c1768116c15cba7ae6119"
+"@twilio/webrtc@2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@twilio/webrtc/-/webrtc-2.4.0.tgz#8757382ab49cc079c9c40ef507682cb082b25036"
+  integrity sha512-o7Tm+5j+FYZn9t25cYHwTS87WXMkfubMFvmXtfFfrtSEJhQhxXwn7kWKjxnew/VmNm6hAVZbCrepPfTvQTyDuA==
 
 "@types/async@^2.4.2":
   version "2.4.2"
@@ -2181,6 +2183,7 @@ async-each@^1.0.1:
 async-limiter@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
+  integrity sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==
 
 async@0.2.x, async@~0.2.10, async@~0.2.9:
   version "0.2.10"
@@ -5701,7 +5704,7 @@ hex-color-regex@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/hex-color-regex/-/hex-color-regex-1.1.0.tgz#4c06fccb4602fe2602b3c93df82d7e7dbf1a8a8e"
 
-history@^4.7.2, history@^4.9.0:
+history@^4.9.0:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/history/-/history-4.10.1.tgz#33371a65e3a83b267434e2b3f3b1b4c58aad4cf3"
   dependencies:
@@ -5729,7 +5732,7 @@ hoek@4.x.x:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.1.tgz#9634502aa12c445dd5a7c5734b572bb8738aacbb"
 
-hoist-non-react-statics@^2.3.1, hoist-non-react-statics@^2.5.0:
+hoist-non-react-statics@^2.3.1:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
 
@@ -10333,17 +10336,6 @@ react-resize-detector@^2.3.0:
     prop-types "^15.6.0"
     resize-observer-polyfill "^1.5.0"
 
-react-router-dom@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.3.1.tgz#4c2619fc24c4fa87c9fd18f4fb4a43fe63fbd5c6"
-  dependencies:
-    history "^4.7.2"
-    invariant "^2.2.4"
-    loose-envify "^1.3.1"
-    prop-types "^15.6.1"
-    react-router "^4.3.1"
-    warning "^4.0.1"
-
 react-router-dom@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-5.1.2.tgz#06701b834352f44d37fbb6311f870f84c76b9c18"
@@ -10357,7 +10349,7 @@ react-router-dom@^5.1.2:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-router@5.1.2:
+react-router@5.1.2, react-router@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/react-router/-/react-router-5.1.2.tgz#6ea51d789cb36a6be1ba5f7c0d48dd9e817d3418"
   integrity sha512-yjEuMFy1ONK246B+rsa0cUam5OeAQ8pyclRDgpxuSCrAlJ1qN9uZ5IgyKC7gQg0w8OM50NXHEegPh/ks9YuR2A==
@@ -10372,18 +10364,6 @@ react-router@5.1.2:
     react-is "^16.6.0"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
-
-react-router@^4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.3.1.tgz#aada4aef14c809cb2e686b05cee4742234506c4e"
-  dependencies:
-    history "^4.7.2"
-    hoist-non-react-statics "^2.5.0"
-    invariant "^2.2.4"
-    loose-envify "^1.3.1"
-    path-to-regexp "^1.7.0"
-    prop-types "^15.6.1"
-    warning "^4.0.1"
 
 react-scripts@2.1.5:
   version "2.1.5"
@@ -12119,11 +12099,12 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
 
 twilio-video@^1.19.2:
-  version "1.19.2"
-  resolved "https://registry.yarnpkg.com/twilio-video/-/twilio-video-1.19.2.tgz#ef3d66f6a44ce6675838742335a11fdce21797fb"
+  version "1.20.1"
+  resolved "https://registry.yarnpkg.com/twilio-video/-/twilio-video-1.20.1.tgz#160df40ca55f3d69b583c8080ce670b028fddd95"
+  integrity sha512-y79bvvB1jhSf6z0eAqGJewLUqpBd3SPEvJvFxpFWIkaMs9Z5vAffBoTf+uws2brGZnfE0aBZL4hVEaGfgdh7vg==
   dependencies:
     "@twilio/sip.js" "^0.7.7"
-    "@twilio/webrtc" "2.3.0"
+    "@twilio/webrtc" "2.4.0"
     ws "^3.3.1"
     xmlhttprequest "^1.8.0"
 
@@ -12222,6 +12203,7 @@ ultron@1.0.x:
 ultron@~1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.1.1.tgz#9fe1536a10a664a65266a1e3ccf85fd36302bc9c"
+  integrity sha512-UIEXBNeYmKptWH6z8ZnqTeS8fV74zG0/eRU9VGkpzz+LIJNs8W/zM/L+7ctCkRrgbNnnR0xxw4bKOr0cW0N0Og==
 
 uncontrollable@^6.0.0:
   version "6.2.3"
@@ -12994,6 +12976,7 @@ ws@^1.1.0, ws@^1.1.5:
 ws@^3.3.1:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/ws/-/ws-3.3.3.tgz#f1cf84fe2d5e901ebce94efaece785f187a228f2"
+  integrity sha512-nnWLa/NwZSt4KQJu51MYlCcSQ5g7INpOrOMt4XV8j4dqTXdmlUmSHQ8/oLC069ckre0fRsgfvsKwbTdtKLCDkA==
   dependencies:
     async-limiter "~1.0.0"
     safe-buffer "~5.1.0"
@@ -13062,6 +13045,7 @@ xmlhttprequest@1.4.2:
 xmlhttprequest@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/xmlhttprequest/-/xmlhttprequest-1.8.0.tgz#67fe075c5c24fef39f9d65f5f7b7fe75171968fc"
+  integrity sha1-Z/4HXFwk/vOfnWX197f+dRcZaPw=
 
 xpipe@^1.0.5:
   version "1.0.5"

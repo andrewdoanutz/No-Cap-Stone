@@ -5,16 +5,16 @@ const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const axios = require('axios')
 const { chatToken, videoToken, voiceToken } = require('./tokens');
-const cors = require('cors');
 const vcapServices = require('vcap_services');
 const dotenv = require('dotenv');
+const vision = require('@google-cloud/vision');
+const client = new vision.ImageAnnotatorClient();
 dotenv.config();
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pino);
-app.use(cors());
 
 //const watson = require('watson-developer-cloud');
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
@@ -89,7 +89,32 @@ const getSubjects = (text, res) => {
   });
 }
 
-
+app.post('/face/analysis',(req,res) => {
+  console.log("hi'");
+  console.log(req.body.x);
+  var link = "https://nocapstone.s3.us-east-2.amazonaws.com/" + req.body.x + ".jpg";
+  console.log(link);
+  const request = {
+    "image": {source: {"imageUri":link}},
+    "features": [
+      {
+          "type": "FACE_DETECTION"
+      },
+      {
+          "type": "LABEL_DETECTION"
+      }
+  ]
+  };
+  client
+    .annotateImage(request)
+    .then(response => {
+      let jR = JSON.stringify(response, null, '  ')
+      res.send({response:jR});
+    })
+    .catch(err => {
+      console.error(err);
+    });
+})
 
 
 
