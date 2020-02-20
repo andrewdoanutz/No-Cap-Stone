@@ -7,8 +7,8 @@ AWS.config.update({
   //endpoint: "http://localhost:8001",
   endpoint: "https://dynamodb.us-east-2.amazonaws.com",
   // get from google drive
- accessKeyId : process.env.AWS_ACCESS_KEY,
-secretAccessKey: process.env.AWS_SECRET_KEY
+  accessKeyId : process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY
 });
 let dynamodb = new AWS.DynamoDB();
 let docClient = new AWS.DynamoDB.DocumentClient();
@@ -98,7 +98,7 @@ module.exports = {
               }
           });
           },
-      
+
         writeLiveScore(username, score){
           var params = {
             TableName:table,
@@ -107,13 +107,13 @@ module.exports = {
             },
             KeyConditionExpression: "username = :uname ",
             UpdateExpression: "set info = :uname, liveAnalysisScore = :score",
-  
+
             ExpressionAttributeValues:{
                 ":uname": username,
                 ":score": score
               }
             };
-  
+
             docClient.update(params, function(err, data) {
                 if (err) {
                     console.error("Unable to writeLiveScore. Error JSON:", JSON.stringify(err, null, 2));
@@ -124,6 +124,36 @@ module.exports = {
                 }
             });
             },
+
+
+            readAudioAnalysis(res, username,index){
+              var params = {
+                TableName:table,
+                KeyConditionExpression: "username = :uname ",
+                ExpressionAttributeValues:{
+                  ":uname": username
+                }
+              };
+              var jsonString;
+              docClient.query(params, function(err, data) {
+                if (err) {
+                  jsonString = JSON.stringify(err, null, 2);
+                  console.error("Unable to query item. Error JSON:", jsonString);
+
+                  return(0);
+                } else {
+                  jsonString =  JSON.parse(JSON.stringify(data, null, 2));
+
+                  console.log("AUDIOANALYSIS QueryItem succeeded:", jsonString.Items[0].speed[index]);
+                  res.set('Content-Type', 'application/json');
+                  res.send(jsonString.Items[0].speed[index])
+
+                  return(1);
+                }
+              });
+            },
+
+
 
       resetPractice(){
         username = "practice";
@@ -152,6 +182,34 @@ module.exports = {
               }
           });
         },
+
+
+        writeAudioAnalysis(username, speed){
+          var params = {
+            TableName: table,
+            Key:{
+              "username": username,
+            },
+
+          KeyConditionExpression: "username = :uname ",
+          UpdateExpression: "set info = :uname, speed = list_append(speed, :speed)",
+          ExpressionAttributeValues:{
+            ":uname": username,
+            ":speed": [speed]
+          }
+          };
+          docClient.update(params, function(err, data) {
+            if (err) {
+              console.error("Unable to updateSpeed. Error JSON:", JSON.stringify(err, null, 2));
+              return 0;
+            } else {
+              console.log("UpdatedSpeed item:", JSON.stringify(data, null, 2));
+              return 1;
+            }
+          });
+        },
+
+
 
       readToneAnalysis(res, username){
           var params = {
@@ -312,6 +370,3 @@ module.exports = {
           });
         }
       }
-
-
-  
