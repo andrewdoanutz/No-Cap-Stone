@@ -59,7 +59,7 @@ const postAnalysis = (props) => {
                   </Card.Header>
                   <Accordion.Collapse eventKey={index}>
                     <Card.Body>
-                      <Report questions={text} username={props.location.state.name}/>
+                      <Report questions={text} username={props.location.state.name} index = {index}/>
                     </Card.Body>
                   </Accordion.Collapse>
                 </Card>

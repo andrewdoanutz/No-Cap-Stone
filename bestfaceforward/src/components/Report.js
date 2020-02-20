@@ -25,6 +25,8 @@ class Report extends Component {
       ],
       txt: this.props.questions,
       username: this.props.username,
+      index: this.props.index,
+      speed:"average",
       analysis: [
                   {
                     tone_name: 'Anger', score: 0
@@ -58,9 +60,19 @@ class Report extends Component {
     }
     this.analyzeText()
     this.getSubjects()
+    this.getSpeed()
   }
 
-
+getSpeed = () => {
+  var speed =this.state.speed
+  axios.post('http://localhost:3001/db/readAudioAnalysis', {username: this.state.username, index:this.state.index})
+  .then(res=> {
+    console.log("SPEED:", res)
+    this.setState({
+      speed: res.data
+    })
+  })
+}
 
   //get number of occurances in an array of a specific value
   getOccurrence = (array, value) => {
@@ -346,7 +358,15 @@ class Report extends Component {
                     <Card.Header as="h3">Filler Count</Card.Header>
                     <Card.Body>
                       <Card.Text as="h4">
-                        <div>Numer of Filler Words: {this.state.filler}</div>
+                        <div>Number of Filler Words: {this.state.filler}</div>
+                      </Card.Text>
+                    </Card.Body>
+                </Card>
+                <Card style={{marginBottom: "10px"}}>
+                    <Card.Header as="h3">Talking Speed</Card.Header>
+                    <Card.Body>
+                      <Card.Text as="h4">
+                        <div>During this question your speed was: {this.state.speed}</div>
                       </Card.Text>
                     </Card.Body>
                 </Card>
