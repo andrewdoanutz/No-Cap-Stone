@@ -23,6 +23,15 @@ export default class DBTest extends Component{
     axios.post('http://localhost:3001/db/writeQuestion' , {q:"jingles",u:"practice"})
   }
 
+//TODO: change input to array
+  writeAudioAnalysis = (props) => {
+    axios.post('http://localhost:3001/db/writeAudioAnalysis', {username: this.props.username, speed: "talking quickly"})
+  }
+
+  readAudioAnalysis = () => {
+    axios.post('http://localhost:3001/db/readAudioAnalysis', {username: "Bik Nandy", index:0})
+  }
+
 
 
   render(){
@@ -33,10 +42,14 @@ export default class DBTest extends Component{
   //  Database.updateUser()
    // Database.queryUser()
    // Database.deleteUser()
-   this.writeAnalysis()
-   this.writeTranscript()
+   //this.writeAnalysis()
+   //this.writeTranscript()
    //this.resetPractice()
-   this.writeQuestion()
+  // this.writeQuestion()
+  //this.writeAudioAnalysis("Ryan Gormley")
+  //axios.post('http://localhost:3001/db/writeAudioAnalysis', {username: "Ryan Gormley", speed: "talking quickly"})
+
+  this.readAudioAnalysis()
     return(
       <div>
         <div> TestArea </div>

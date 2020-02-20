@@ -226,6 +226,30 @@ app.post('/db/getCandidate', (req,res) =>{
   database.getSubjects(res, meetingID)
 })
 
+app.get('/db/writeAudioAnalysis', (req,res) => {
+  const speed = req.body.speed
+  database.writeAudioAnalysis(speed)
+})
+
+app.post('/db/writeAudioAnalysis', (req,res) => {
+  const speed = req.body.speed
+  const username = req.body.username
+  database.writeAudioAnalysis(username, speed)
+})
+
+app.get('/db/readAudioAnalysis', (req,res) => {
+  const username = req.body.username;
+  const index = req.body.index;
+  database.readAudioAnalysis(res,username,index)
+})
+
+app.post('/db/readAudioAnalysis', (req,res) => {
+  const username = req.body.username;
+  const index = req.body.index;
+  database.readAudioAnalysis(res,username,index)
+})
+
+
 
 app.get('/api/subjects', (req,res) => {
   //console.log(res.data)
