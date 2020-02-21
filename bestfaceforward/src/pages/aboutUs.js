@@ -1,24 +1,71 @@
 import React, { Component } from 'react'
 import Profile from '../components/profile'
 
-
-import "../css/about.css";
+import {Col,Row} from 'react-bootstrap';
 
 
 export default class About extends Component {
     render() {
         return (
-
-            <div className="profiles">
-                <div className="profile">
-                    <Profile image="https://i.ibb.co/Rv4NXCs/DOAN.png"
-                    name="Andrew Doan"
-                    yearMajor="UCSB 3rd Year Computer Engineer"
-                    linkedIn="https://www.linkedin.com/in/andrewadoan/"
-                />
+            <div>
+                <Row>
+                    <Col>
+                        <Row>
+                            <Profile 
+                            image="https://i.ibb.co/Rv4NXCs/DOAN.png"
+                            name="Andrew Doan"
+                            yearMajor="UCSB 4th Year Computer Engineer"
+                            linkedIn="https://www.linkedin.com/in/andrewadoan/"
+                            />
+                        </Row>
+                        <Row>
+                            <Profile image="https://i.ibb.co/Rv4NXCs/DOAN.png"
+                            name="Bik Nandy"
+                            yearMajor="UCSB 4th Year Computer Engineer"
+                            linkedIn="https://www.linkedin.com/in/andrewadoan/"
+                            right={true}
+                            />
+                        </Row>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <Row>
+                            <Profile image="https://i.ibb.co/Rv4NXCs/DOAN.png"
+                            name="Adjon Tahiraj"
+                            yearMajor="UCSB 4th Year Computer Engineer"
+                            linkedIn="https://www.linkedin.com/in/andrewadoan/"
+                            />
+                        </Row>
+                        <Row className="">
+                            <Profile image="https://i.ibb.co/Rv4NXCs/DOAN.png"
+                            name="Tim Chang"
+                            yearMajor="UCSB 4th Year Computer Engineer"
+                            linkedIn="https://www.linkedin.com/in/andrewadoan/"
+                            right={true}
+                            />
+                        </Row>
+                    </Col>
+                </Row>
+                <Col>
+                    <Row>
+                        <Profile image="https://i.ibb.co/Rv4NXCs/DOAN.png"
+                        name="Ryan Gormley"
+                        yearMajor="UCSB 4th Year Computer Science"
+                        linkedIn="https://www.linkedin.com/in/andrewadoan/"
+                        />
+                    </Row>
+                </Col>
             </div>
+        
+        
+                
+                
+               
+                
+               
 
-        </div>
+      
     )
 }
 }

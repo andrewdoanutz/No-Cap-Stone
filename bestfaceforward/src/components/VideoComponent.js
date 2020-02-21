@@ -5,7 +5,6 @@
 import React, { Component } from 'react'
 //import SpeechRecognition from 'react-speech-recognition'
 import {Button,Card,Col,Row} from 'react-bootstrap';
-import axios from 'axios'
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from './Transcript';
 import Timing from './Timing';
