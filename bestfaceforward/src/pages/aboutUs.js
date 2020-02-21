@@ -11,7 +11,7 @@ export default class About extends Component {
                 <Row style={{margin:"4%"}}>
                     <Col>
                         <Row>
-                            <Profile 
+                            <Profile
                             image="https://i.ibb.co/Rv4NXCs/DOAN.png"
                             name="Andrew Doan"
                             yearMajor="UCSB 4th Year Computer Engineer"
@@ -26,10 +26,10 @@ export default class About extends Component {
                             />
                         </Row>
                         <Row>
-                        <Profile image="https://i.ibb.co/Rv4NXCs/DOAN.png"
+                        <Profile image="https://i.ibb.co/VDcRY2p/IMG-3319.jpg"
                         name="Ryan Gormley"
                         yearMajor="UCSB 4th Year Computer Science"
-                        linkedIn="https://www.linkedin.com/in/andrewadoan/"
+                        linkedIn="https://www.linkedin.com/in/ryan-gormley-14485b155/"
                         />
                         </Row>
                     </Col>
