@@ -26,7 +26,7 @@ speech.init({
     console.error("An error occured while initializing : ", e)
 })
 
-axios.post('http://localhost:3001/db/resetPractice')
+// axios.post('http://localhost:3001/db/resetPractice')
 
 export default class Practice extends Component {
     constructor(props){
