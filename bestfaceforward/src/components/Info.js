@@ -12,6 +12,7 @@ const Info = (props) => {
   const [token, setToken] = useState(null);
   const [previewToken, setPreviewToken] = useState(false);
   const [postviewToken, setPostviewToken] = useState(false);
+  const [name, setName] = useState("test");
 
 
   const handleClick = useCallback(
@@ -20,7 +21,7 @@ const Info = (props) => {
       const data = await fetch('/video/token', {
         method: 'POST',
         body: JSON.stringify({
-          identity: "User",
+          identity: name,
           room: props.id
         }),
         headers: {
@@ -48,7 +49,7 @@ const Info = (props) => {
 
               <Link to={{
                 pathname: '/videocall',
-                state: {id: props.id}
+                state: {id: props.id, name: name}
 
               }}>
               <>

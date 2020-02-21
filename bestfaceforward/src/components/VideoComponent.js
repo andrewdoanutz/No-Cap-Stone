@@ -4,11 +4,10 @@
 
 import React, { Component } from 'react'
 //import SpeechRecognition from 'react-speech-recognition'
-import {Button} from 'react-bootstrap';
-import axios from 'axios'
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,} from 'recharts';
+import {Button,Card,Col,Row} from 'react-bootstrap';
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from './Transcript';
+import Timing from './Timing';
 import '../css/VideoComponent.css';
 import Camera from 'react-camera'
 
@@ -26,7 +25,11 @@ class VideoComponent extends Component {
       error: null,
       serviceUrl: null,
       formattedMessages: [],
-      date:new Date()
+      date:new Date(),
+      r:255,
+      g:204,
+      b:102,
+      status: "neutral"
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
@@ -155,6 +158,9 @@ class VideoComponent extends Component {
       format: true, // adds capitals, periods, and a few other things (client-side)
       objectMode: true,
       interim_results: false,
+      word_alternatives_threshold: 0.01,
+      timestamps: true, // set timestamps for each word - automatically turned on by speaker_labels
+      // includes the speaker_labels in separate objects unless resultsBySpeaker is enabled
       url: this.state.serviceUrl
     });
 
@@ -211,8 +217,8 @@ class VideoComponent extends Component {
             //endpoint: "http://localhost:8001",
             endpoint: "https://s3.us-east-2.amazonaws.com",
             // get from google drive
-             accessKeyId : "AKIAJN2JSBZ442ZEYG4A",
-             secretAccessKey: "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"
+             accessKeyId : "",
+             secretAccessKey: ""
           });
           const type = dataUri.split(';')[0].split('/')[1];
           const base64Data = new Buffer.from(dataUri.replace(/^data:image\/\w+;base64,/, ""), 'base64');
@@ -238,7 +244,6 @@ class VideoComponent extends Component {
             link = data.Location;
 
             console.log(`File uploaded successfully. ${data.Location}`);
-
             });
 
 
@@ -253,10 +258,57 @@ class VideoComponent extends Component {
         this.img.onload = () => { URL.revokeObjectURL(this.src); }
         console.log("end");
 
-      }).then(setTimeout(() => this.callBackendAPI(),1000))
-
-
-
+      }).then(setTimeout(() => {
+        this.callBackendAPI().then(results => {
+          try{
+            let resJSON=JSON.parse(results['response'])['0']['faceAnnotations']['0']
+            let joyScore=this.scoreVideoAnalysis(resJSON['joyLikelihood'])
+            let sorrowScore=this.scoreVideoAnalysis(resJSON['sorrowLikelihood'])
+            let angerScore=this.scoreVideoAnalysis(resJSON['angerLikelihood'])
+            let surpriseScore=this.scoreVideoAnalysis(resJSON['surpriseLikelihood'])
+            let totalScore=joyScore-sorrowScore-angerScore-surpriseScore
+            if(totalScore>0){
+              this.setState({
+                r:102,
+                g:255,
+                b:153,
+                status:"positive"
+              })
+            } else if (totalScore<0){
+              this.setState({
+                r:255,
+                g:102,
+                b:102,
+                status:"negative"
+              })
+            } else {
+              this.setState({
+                r:255,
+                g:204,
+                b:102,
+                status:"neutral"
+              })
+            }
+          } catch(e){
+            console.log("error changing indicator: ",e)
+          }   
+        })
+      }
+      ,1000))
+  }
+  scoreVideoAnalysis(score){
+    if(score==="VERY_UNLIKELY"){
+      return 0
+    } else if (score==="UNLIKELY"){
+      return 1
+    } else if (score==="LIKELY"){
+      return 2
+    } else if (score==="VERY_LIKELY"){
+      return 3
+    } else {
+      console.log("Error in scoring analysis:",score)
+      return -1
+    }
   }
 
   async callBackendAPI(){
@@ -268,7 +320,7 @@ class VideoComponent extends Component {
     body:JSON.stringify({"x":prevTime})
     });
     const json = await response.json();
-    console.log(json.response);
+    return json
   };
 
 
@@ -305,7 +357,29 @@ class VideoComponent extends Component {
         </div>
         <h1>
           {<Transcript messages={messages} />}
+          {<Timing messages = {messages} />}
         </h1>
+        <Card style={{width:"20%"}}>
+          <Card.Body>
+            <Card.Text>
+              <Row>
+                <Col>
+                  <div style={{
+                    display:"inline-block",
+                    borderRadius: "50%",
+                    padding:"5%",
+                    backgroundColor: `rgba(${ this.state.r }, ${ this.state.g }, ${ this.state.b }, 1)`,
+                    width:"5%",
+                    height:"5%",}}>
+                  </div>
+                </Col>
+                <Col>
+                  <div>{"You look "+this.state.status}</div>
+                </Col>
+              </Row>
+            </Card.Text>
+          </Card.Body>
+        </Card>
       </div>
     )
   }
