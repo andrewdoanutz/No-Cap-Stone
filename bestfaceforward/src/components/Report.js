@@ -85,8 +85,8 @@ class Report extends Component {
          }
        }
     }
-   conceptFeedback+="."
-   if(conceptFeedback==="Concepts you emphasized are: ."){
+   conceptFeedback+=". "
+   if(conceptFeedback==="Concepts you emphasized are: . "){
      conceptFeedback=""
    }
      this.setState({
@@ -243,7 +243,20 @@ class Report extends Component {
       return "You had a neutral look on your face. Try smiling a bit more!"
     }
   }
-
+  timestampAnalysis(){
+    let wpm=0
+    this.props.timestamps.forEach(pair=>{
+      wpm+=pair[1]-pair[0]
+    })
+    wpm=wpm*60/this.props.timestamps.length
+    let feedback="Your average words per minute was "+Math.round(wpm)+". "
+    if(wpm<130){
+      feedback+="Try speaking a little faster."
+    }if(wpm>170){
+      feedback+="Try speaking a little slower."
+    }
+    return feedback
+  }
 
   render(){
     if(this.props.overall){
@@ -273,7 +286,7 @@ class Report extends Component {
                         </RadarChart>
                       </Row>
                       <Row>
-                        <h4>{this.getFeedback()+this.state.concepts+this.state.keywords}</h4>
+                        <h4>{this.getFeedback()+this.state.concepts+this.state.keywords+this.timestampAnalysis()}</h4>
                       </Row>
                     </Card.Text>
                   </Card.Body>

@@ -72,7 +72,7 @@ const postAnalysis = (props) => {
                     </Card.Header>
                     <Accordion.Collapse eventKey={-1}>
                       <Card.Body>
-                        <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} username={"Adjon Tahiraj"}/>
+                        <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} timestamps={timestamps} username={"Adjon Tahiraj"}/>
                       </Card.Body>
                     </Accordion.Collapse>
                   </Card>
