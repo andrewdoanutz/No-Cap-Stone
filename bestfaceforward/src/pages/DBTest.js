@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 
-<<<<<<< HEAD
-=======
 
 import "../css/about.css";
 import axios from 'axios'
 
->>>>>>> dev
 let Database = require('../components/Database')
 export default class DBTest extends Component{
 
