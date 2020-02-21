@@ -24,6 +24,7 @@ class Report extends Component {
         "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions. Very well under pressure."
       ],
       txt: this.props.questions,
+      index: this.props.index,
       username: this.props.username,
       index: this.props.index,
       speed:"average",
@@ -58,6 +59,7 @@ class Report extends Component {
                   {concepts: '2', score: 1},
                   {concepts: '3', score: 1}],
     }
+    this.readTranscript()
     this.analyzeText()
     this.getSubjects()
     this.getSpeed()
@@ -79,6 +81,16 @@ getSpeed = () => {
     var count = 0;
     array.forEach((v) => (v === value && count++));
     return count;
+  }
+  
+  readTranscript = () => {
+    console.log("WTF")
+    axios.post('http://localhost:3001/db/readTranscript' , {username:this.state.username}).then(res=>{
+      this.setState({
+        txt: res.data[this.state.index]
+      })})
+    console.log("stopped") 
+    console.log(this.state.txt)
   }
 
   getSubjects = () => {

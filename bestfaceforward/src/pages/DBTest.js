@@ -37,7 +37,7 @@ export default class DBTest extends Component{
   }
 
   readQuestions = () => {
-    axios.post('http://localhost:3001/db/readQuestions' , {username:"practice"})
+    axios.post('http://localhost:3001/db/readQuestions' , {username:"practice"}).then(res=>{console.log("Response: ",res.data[0])})
   }
 
 
@@ -61,11 +61,19 @@ export default class DBTest extends Component{
    //this.writeAnalysis()
    //this.writeTranscript()
    //this.resetPractice()
+
+   //this.writeQuestion()
+   //this.readTranscript()
+  // this.readQuestions()
+  // this.writeLiveScore()
+  // this.readLiveScore()
+
   // this.writeQuestion()
   //this.writeAudioAnalysis("Ryan Gormley")
   //axios.post('http://localhost:3001/db/writeAudioAnalysis', {username: "Ryan Gormley", speed: "talking quickly"})
 
   //this.readAudioAnalysis()
+
     return(
       <div>
         <div> TestArea </div>
