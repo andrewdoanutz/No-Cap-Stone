@@ -26,11 +26,12 @@ speech.init({
     console.error("An error occured while initializing : ", e)
 })
 
-// axios.post('http://localhost:3001/db/resetPractice')
+
 
 export default class Practice extends Component {
     constructor(props){
         super(props)
+        // axios.post('http://localhost:3001/db/resetPractice')
         this.state = {
             question: "",
             inds:[],
@@ -42,7 +43,12 @@ export default class Practice extends Component {
             listening: false,
             error: null,
             serviceUrl: null,
-            formattedMessages: []
+            formattedMessages: [],
+            r:255,
+            g:204,
+            b:102,
+            status: "neutral",
+            videoScores:[]
         }
         this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
         this.getFinalResults = this.getFinalResults.bind(this);
@@ -59,15 +65,10 @@ export default class Practice extends Component {
           if (res.status !== 200) {
             throw new Error('Error retrieving auth token');
           }
-          console.log(res)
           return res.text();
         }).then((token) => {
           var jsonToken = JSON.parse(token)
-          console.log(jsonToken)
           this.setState({token: jsonToken.accessToken, serviceUrl: jsonToken.serviceUrl})
-
-          console.log(this.state.token)
-          console.log(this.state.serviceUrl)
         }).catch(this.handleError);
       }
 
@@ -102,7 +103,6 @@ export default class Practice extends Component {
       handleFormattedMessage(msg) {
 
         const { formattedMessages } = this.state;
-        console.log(formattedMessages)
         this.setState({ formattedMessages: formattedMessages.concat(msg) });
       }
 
@@ -157,7 +157,6 @@ export default class Practice extends Component {
 
         stream.recognizeStream.on('end', () => {
           if (this.state.error) {
-            console.log("test")
           }
         });
 
@@ -177,7 +176,6 @@ export default class Practice extends Component {
                     text: "There are no questions left.",
                 })
             })
-            console.log("There are no questions left.")
 
         } else {
             while(this.state.inds.includes(Math.round(rand))){
@@ -189,26 +187,28 @@ export default class Practice extends Component {
                     question:questions[rand],
                     inds: this.state.inds.concat([rand])
                 }, () => {
-                    console.log(this.state.inds)
-                    console.log(rand)
                     speech.speak({
                         text: this.state.question,
                     })
-                    axios.post('http://localhost:3001/db/writeQuestion' , {q:this.state.question,u:"practice"})
                 })
             } else {
                 this.setState({
                     question:"",
                     inds: this.state.inds.concat([rand])
                 }, () => {
-                    console.log(this.state.inds)
-                    console.log(rand)
                 })
             }
         }
 
     }
-
+    async storeData(){
+      let response = axios.post('http://localhost:3001/db/writeTranscript', {username: "practice",transcript:this.state.transcripts})
+      console.log(response)
+      response = axios.post('http://localhost:3001/db/writeVideos', {username: "practice",videos:this.state.videos})
+      console.log(response)
+      response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "practice"})
+      console.log(response)
+    };
     generateReport(){
         if(this.state.videos.length>3){
             this.state.videos.shift()
@@ -216,16 +216,26 @@ export default class Practice extends Component {
         if(this.state.transcripts.length>3){
             this.state.transcripts.pop()
         }
+        this.storeData().then(()=>{
+          console.log("stored")
+          
+        })
         return(
-            <div>
-                {this.state.videos.map((url,index) => (
-                    <video key={'v'+index} src={url} controls/>
-                ))}
-                {this.state.transcripts.map((text,index) => (
-                    <div>{<Transcript key={'t'+index} messages={text}/>}</div>
-                ))}
-            </div>
+          this.props.history.push({
+            pathname: "/postAnalysis",
+            state: { username: "practice" }
+           })
         )
+        // return(
+        //     <div>
+        //         {this.state.videos.map((url,index) => (
+        //             <video key={'v'+index} src={url} controls/>
+        //         ))}
+        //         {this.state.transcripts.map((text,index) => (
+        //             <div>{<Transcript key={'t'+index} messages={text}/>}</div>
+        //         ))}
+        //     </div>
+        // )
     }
 
     render() {
@@ -277,7 +287,6 @@ export default class Practice extends Component {
                                 transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
                                 videos: this.state.videos.concat([mediaBlobUrl])
                             }, () => {
-                                console.log(this.state.videos)
                                 startRecording()
                                 this.onClickListener()
                             })

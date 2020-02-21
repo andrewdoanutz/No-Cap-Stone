@@ -28,7 +28,8 @@ function useAsyncHook(name){
 
 
 const postAnalysis = (props) => {
-  const [transcript,loading,videoScores,videos,timestamps]=useAsyncHook("Adjon Tahiraj")
+  console.log(props)
+  const [transcript,loading,videoScores,videos,timestamps]=useAsyncHook(props.location.state.username)
 
   // constructor(props){
   //   super(props);
@@ -69,7 +70,7 @@ const postAnalysis = (props) => {
       const overallVideoScores = [].concat.apply([], videoScores);
         return(
           <div className="homeBox">
-            <div className="homeHead">Post Analysis Report for {"Adjon Tahiraj"}</div>
+            <div className="homeHead">Post Analysis Report for {props.location.state.username}</div>
             <Row>
               <Col>
                 <Accordion defaultActiveKey="0">
@@ -81,7 +82,7 @@ const postAnalysis = (props) => {
                     </Card.Header>
                     <Accordion.Collapse eventKey={-1}>
                       <Card.Body>
-                        <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} timestamps={timestamps} username={"Adjon Tahiraj"}/>
+                        <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} timestamps={timestamps} username={props.location.state.username}/>
                       </Card.Body>
                     </Accordion.Collapse>
                   </Card>
@@ -95,7 +96,7 @@ const postAnalysis = (props) => {
                         </Card.Header>
                         <Accordion.Collapse eventKey={index}>
                           <Card.Body>
-                            <Report responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={"Adjon Tahiraj"} index = {index}/>
+                            <Report responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={props.location.state.username} index = {index}/>
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
