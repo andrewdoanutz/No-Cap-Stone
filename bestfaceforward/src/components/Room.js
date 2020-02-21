@@ -9,21 +9,20 @@ const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [blur, setBlur] = useState(false);
+  const [count, setCount] = useState(0);
   const dataTrackPublished = {};
-
-  const dataTrack = new Video.LocalDataTrack();
 
   dataTrackPublished.promise = new Promise((resolve, reject) => {
     dataTrackPublished.resolve = resolve;
     dataTrackPublished.reject = reject;
   });
 
-  const sendMessage = (message) => {
-    dataTrackPublished.promise.then(() => dataTrack.send(message));
-  }
+  const dataTrack = new Video.LocalDataTrack();
+
 
 
   useEffect(() => {
+
     const participantConnected = participant => {
       setParticipants(prevParticipants => [...prevParticipants, participant]);
     };
@@ -42,21 +41,33 @@ const Room = ({ roomName, token, handleLogout }) => {
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
       room.participants.forEach(participantConnected);
-      room.localParticipant.publishTrack(dataTrack);
 
-      room.localParticipant.on('trackPublished', publication => {
-        if (publication.track === dataTrack) {
-          dataTrackPublished.resolve();
-        }
-      });
+      // if (localStorage.getItem("candidate") == 0){
+        room.localParticipant.publishTrack(dataTrack);
 
-      room.localParticipant.on('trackPublicationFailed', (error, track) => {
-        if (track === dataTrack) {
-          dataTrackPublished.reject(error);
-        }
-      });
+
+        room.localParticipant.on('trackPublished', publication => {
+          if (publication.track === dataTrack) {
+            dataTrackPublished.resolve();
+          }
+        });
+
+        room.localParticipant.on('trackPublicationFailed', (error, track) => {
+          if (track === dataTrack) {
+            dataTrackPublished.reject(error);
+          }
+        });
+      // }
+
+      dataTrackPublished.promise.then(() => dataTrack.send(count.toString()));
+
+
 
     });
+
+
+
+
 
     return () => {
       setRoom(currentRoom => {
@@ -74,14 +85,21 @@ const Room = ({ roomName, token, handleLogout }) => {
     <Participant key={participant.sid} participant={participant} />
   ));
 
+  const handleSend = () => {
+    setCount (count+1)
+
+
+  }
+
   return (
+
     <div>
       <Container className = "room">
         <Row>
           <Col>
             <h2>Room: {roomName}</h2>
             <Button className = "mb-2" onClick={handleLogout}>Log out</Button>
-            <Button className = "mb-2" onClick={sendMessage("Hello")}>Next Question</Button>
+            <Button className = "mb-2" onClick={handleSend}>Next Question</Button>
             <Button className = "ml-3 mb-2" onClick={ ()=> {
                 if(blur===false){
                   setBlur(true)

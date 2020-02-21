@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 
 const Participant = ({ participant }) => {
+  console.log(participant)
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
   const [dataTracks, setDataTracks] = useState([]);
@@ -17,12 +18,13 @@ const Participant = ({ participant }) => {
   })
 
   useEffect(() => {
-    console.log(participant);
     setVideoTracks(Array.from(participant.videoTracks.values()));
     setAudioTracks(Array.from(participant.audioTracks.values()));
+    setDataTracks(Array.from(participant.dataTracks.values()));
 
     const trackSubscribed = track => {
       if (track.kind === 'data'){
+        setDataTracks(dataTracks => [...dataTracks, track]);
         // if (localStorage.getItem("candidate")){
           track.on('message', data => {
             console.log("TEST123");
