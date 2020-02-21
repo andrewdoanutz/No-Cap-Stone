@@ -9,7 +9,6 @@ import axios from 'axios'
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from './Transcript';
 import Timing from './Timing';
-import '../css/VideoComponent.css';
 import Camera from 'react-camera'
 
 var prevTime = 10;
@@ -292,7 +291,7 @@ class VideoComponent extends Component {
             }
           } catch(e){
             console.log("error changing indicator: ",e)
-          }   
+          }
         })
       }
       ,1000))

@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import Profile from '../components/profile'
 
 
-import "../css/about.css";
-
 
 export default class About extends Component {
     render() {

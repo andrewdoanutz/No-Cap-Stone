@@ -16,7 +16,6 @@ import Database from '../components/Database'
 import NewMeeting from './newMeeting'
 import CalendarView from '../components/Calendar'
 import Info from '../components/Info'
-import "../css/login.css";
 
 
 let cookies = new Cookies();

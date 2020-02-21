@@ -2,7 +2,6 @@ import React, { Component, useState, useCallback } from 'react';
 import {Form, Button, Col, Row, Card, Container} from 'react-bootstrap'
 import {Link} from "react-router-dom";
 import Lobby from '../components/Lobby';
-import '../css/login.css';
 
 const Candidate = () => {
   const [username, setUsername] = useState('');
