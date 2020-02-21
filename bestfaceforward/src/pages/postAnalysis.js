@@ -7,21 +7,22 @@ import Report from './../components/Report'
 
 function useAsyncHook(name){
   const [transcript,setTranscript]=useState([])
+  const [loading,setLoading]=useState(true)
   useEffect(() => {
     async function getDBInfo(){
       const res = await axios.post('http://localhost:3001/db/readUserInfo', {username: name})
-        console.log(res)
-        setTranscript(res["data"]["Items"]["0"]["transcripts"])
+      setTranscript(res["data"]["Items"]["0"]["transcripts"])
+      setLoading(false)
     }
 
     getDBInfo(name)
   }, [name])
-  return [transcript]
+  return [transcript,loading]
 }
 
 
 const postAnalysis = (props) => {
-  const transcript=useAsyncHook("ryan")
+  const [transcript,loading]=useAsyncHook("Adjon Tahiraj")
   const videos=[]
   const timestamps=[]
 
@@ -42,15 +43,16 @@ const postAnalysis = (props) => {
   //   //this.getCandidate()
   // }
     
-    if(!transcript){
+    if(loading){
       return(
         <div className="homeBox">waiting</div>
       )
     } else {
+      console.log(transcript)
         return(
           <div className="homeBox">
-            <div className="homeHead">Post Analysis Report for {transcript}</div>
-            {/* <Row>
+            <div className="homeHead">Post Analysis Report for {"Adjon Tahiraj"}</div>
+            <Row>
               <Col>
                 <Accordion defaultActiveKey="0">
                   {transcript.map(function(text, index){
@@ -63,16 +65,16 @@ const postAnalysis = (props) => {
                         </Card.Header>
                         <Accordion.Collapse eventKey={index}>
                           <Card.Body>
-                            <Report questions={text} username={"ryan"} index = {index}/>
+                            <Report responses={text} username={"Adjon Tahiraj"} index = {index}/>
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
-                    )
-                  })
-                }
-              </Accordion>
-            </Col>
-          </Row> */}
+                      )
+                    })
+                  }
+                </Accordion>
+              </Col>
+            </Row>
 
         </div>
       )
