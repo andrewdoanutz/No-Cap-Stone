@@ -84,13 +84,10 @@ getSpeed = () => {
   }
   
   readTranscript = () => {
-    console.log("WTF")
     axios.post('http://localhost:3001/db/readTranscript' , {username:this.state.username}).then(res=>{
       this.setState({
         txt: res.data[this.state.index]
       })})
-    console.log("stopped") 
-    console.log(this.state.txt)
   }
 
   getSubjects = () => {
@@ -135,7 +132,7 @@ getSpeed = () => {
     var words = txt.split(" ")
     var wordArray = Object.values(words)
 
-    this.setState({filler: this.getOccurrence(wordArray, 'um')})
+    // this.setState({filler: this.getOccurrence(wordArray, 'um')})
   //Post call to backend for analysis of transcript
     axios.post('http://localhost:3001/db/readToneAnalysis', {username: this.state.username})
    .then(res => {
