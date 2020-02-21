@@ -8,23 +8,27 @@ import Report from './../components/Report'
 function useAsyncHook(name){
   const [transcript,setTranscript]=useState([])
   const [loading,setLoading]=useState(true)
+  const [videoScores,setVideoScores]=useState([])
+  const [videos,setVideos]=useState([])
+  const [timestamps,setTimestamps]=useState([])
   useEffect(() => {
     async function getDBInfo(){
       const res = await axios.post('http://localhost:3001/db/readUserInfo', {username: name})
       setTranscript(res["data"]["Items"]["0"]["transcripts"])
+      setVideoScores(res["data"]["Items"]["0"]["videoscores"])
+      setVideos(res["data"]["Items"]["0"]["videos"])
+      setTimestamps(res["data"]["Items"]["0"]["wordtimings"])
       setLoading(false)
     }
 
     getDBInfo(name)
   }, [name])
-  return [transcript,loading]
+  return [transcript,loading,videoScores,videos,timestamps]
 }
 
 
 const postAnalysis = (props) => {
-  const [transcript,loading]=useAsyncHook("Adjon Tahiraj")
-  const videos=[]
-  const timestamps=[]
+  const [transcript,loading,videoScores,videos,timestamps]=useAsyncHook("Adjon Tahiraj")
 
   // constructor(props){
   //   super(props);
@@ -48,13 +52,30 @@ const postAnalysis = (props) => {
         <div className="homeBox">waiting</div>
       )
     } else {
-      console.log(transcript)
+      let overallTranscript = ""
+      transcript.forEach(i=>{
+        overallTranscript+=i+" "
+      })
+      console.log(overallTranscript)
+      const overallVideoScores = [].concat.apply([], videoScores);
         return(
           <div className="homeBox">
             <div className="homeHead">Post Analysis Report for {"Adjon Tahiraj"}</div>
             <Row>
               <Col>
                 <Accordion defaultActiveKey="0">
+                  <Card>
+                    <Card.Header>
+                      <Accordion.Toggle as={Button} variant="link" eventKey={-1}>
+                        <h2> Overall Report </h2>
+                      </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey={-1}>
+                      <Card.Body>
+                        <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} username={"Adjon Tahiraj"}/>
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
                   {transcript.map(function(text, index){
                     return (
                       <Card>
@@ -65,7 +86,7 @@ const postAnalysis = (props) => {
                         </Card.Header>
                         <Accordion.Collapse eventKey={index}>
                           <Card.Body>
-                            <Report responses={text} username={"Adjon Tahiraj"} index = {index}/>
+                            <Report responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={"Adjon Tahiraj"} index = {index}/>
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
