@@ -9,7 +9,7 @@ const vcapServices = require('vcap_services');
 const dotenv = require('dotenv');
 const database = require('./db')
 const vision = require('@google-cloud/vision');
-
+const cors = require('cors');
 const client = new vision.ImageAnnotatorClient();
 dotenv.config();
 
@@ -17,7 +17,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pino);
-
+app.use(cors());
 //const watson = require('watson-developer-cloud');
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 const SpeechToTextV1 = require('ibm-watson/speech-to-text/v1');

@@ -10,6 +10,7 @@ const Room = ({ roomName, token, handleLogout, parentCallback}) => {
   const [participants, setParticipants] = useState([]);
   const [blur, setBlur] = useState(false);
   const [count, setCount] = useState(0);
+  const [num,setNum] = useState(0);
   const dataTrackPublished = {};
 
   dataTrackPublished.promise = new Promise((resolve, reject) => {
@@ -19,7 +20,11 @@ const Room = ({ roomName, token, handleLogout, parentCallback}) => {
 
   const dataTrack = new LocalDataTrack();
 
-
+  const innerCallback = (childData) => {
+    console.log("Inner callback")
+    setNum(childData)
+    parentCallback(num)
+}
 
   useEffect(() => {
 
@@ -76,15 +81,16 @@ const Room = ({ roomName, token, handleLogout, parentCallback}) => {
     };
   }, [roomName, token]);
 
+  
+
   const remoteParticipants = participants.map(participant => (
-    <Participant key={participant.sid} participant={participant} />
+    <Participant key={participant.sid} participant={participant} callback = {5} />
   ));
 
 
 
   const handleSend = () => {
     setCount (count+1)
-    parentCallback(count)
     room.localParticipant.publishTrack(dataTrack);
 
 
@@ -127,6 +133,7 @@ const Room = ({ roomName, token, handleLogout, parentCallback}) => {
                   <Participant
                     key={room.localParticipant.sid}
                     participant={room.localParticipant}
+                    callback = {innerCallback}
                   />
                 </div>
 
