@@ -1,0 +1,16 @@
+.arrow-box-container {
+    position: relative;
+}
+/* Word Timings and Alternatives view styles */
+.word-timings-alternatives .word {
+    padding-right: 1ex; /*I tried just putting a space in the HTML, but chrome and safari hide it :( */
+    display: inline-block;
+    margin-top: 0;
+}
+
+.smalltext { font-size: 10pt; }
+
+.gdpr-info {
+	font-size: 10pt;
+	margin-top: 1em;
+}
