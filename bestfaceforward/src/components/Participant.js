@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 
-const Participant = ({ participant }) => {
+const Participant = ({ participant, callBack }) => {
   console.log(participant)
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
@@ -28,6 +28,8 @@ const Participant = ({ participant }) => {
         setDataTracks(dataTracks => [...dataTracks, track]);
         track.on('message', data => {
           console.log(data);
+          console.log("cb",callBack);
+          callBack(data);
         });
 
       }

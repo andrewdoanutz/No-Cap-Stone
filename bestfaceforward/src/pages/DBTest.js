@@ -63,9 +63,9 @@ export default class DBTest extends Component{
    //this.resetPractice()
 
    //this.writeQuestion()
-   //this.readTranscript()
-  // this.readQuestions()
-  // this.writeLiveScore()
+   this.readTranscript()
+   this.readQuestions()
+   this.writeLiveScore()
   // this.readLiveScore()
 
   // this.writeQuestion()

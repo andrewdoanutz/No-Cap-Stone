@@ -13,6 +13,7 @@ const VideoChat = (props) => {
   }, []);
 
   const callbackFunction = (childData) => {
+      console.log("callback videochat")
       setCount(childData)
   }
 
