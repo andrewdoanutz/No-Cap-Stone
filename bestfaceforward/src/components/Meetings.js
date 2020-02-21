@@ -63,7 +63,8 @@ import speachAnalysis2 from "../images/speachAnalysis2.png"
 
    var names = ['Adjon', 'Bik', 'Andrew', 'Tim'];
    var namesList = names.map(function(name){
-     return <Col><Card>
+     return <Col>
+     <Card className = "shadow">
        <Card.Body>
          <Card.Title>{name}</Card.Title>
          <Card.Text>
@@ -152,7 +153,7 @@ import speachAnalysis2 from "../images/speachAnalysis2.png"
              />
            </Col>
 
-           <Col className="cards"><Card style={{ width: '40rem' , height: '20rem'}}>
+           <Col className="cards"><Card className = "shadow" style={{ width: '40rem' , height: '20rem'}}>
              <Card.Body>
                <Card.Title>Adjon's Post interview Analysis</Card.Title>
                <Card.Subtitle>
