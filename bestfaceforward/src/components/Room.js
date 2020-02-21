@@ -84,7 +84,7 @@ const Room = ({ roomName, token, handleLogout, parentCallback}) => {
   
 
   const remoteParticipants = participants.map(participant => (
-    <Participant key={participant.sid} participant={participant} callback = {5} />
+    <Participant key={participant.sid} participant={participant} callbackF = {innerCallback} />
   ));
 
 
@@ -133,7 +133,7 @@ const Room = ({ roomName, token, handleLogout, parentCallback}) => {
                   <Participant
                     key={room.localParticipant.sid}
                     participant={room.localParticipant}
-                    callback = {innerCallback}
+                    callbackF = {innerCallback}
                   />
                 </div>
 
