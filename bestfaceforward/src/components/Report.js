@@ -246,7 +246,7 @@ class Report extends Component {
         <Row>
           {/* Left Column */}
             <Col sm={6}>
-              <Card style={{marginBottom: "10px"}}>
+              <Card className = "shadow" style={{marginBottom: "10px"}}>
                 <Card.Header as="h3">Question Response</Card.Header>
                 <Card.Body>
                   <Card.Text>
@@ -254,7 +254,7 @@ class Report extends Component {
                   </Card.Text>
                 </Card.Body>
               </Card>
-              <Card style={{marginBottom: "10px"}}>
+              <Card className = "shadow" style={{marginBottom: "10px"}}>
                 <Card.Header as="h3">Feedback for Candidate</Card.Header>
                 <Card.Body>
                   <Card.Text>
@@ -262,7 +262,7 @@ class Report extends Component {
                   </Card.Text>
                 </Card.Body>
               </Card>
-              <Card style={{marginBottom: "10px"}}>
+              <Card className = "shadow" style={{marginBottom: "10px"}}>
                 <Card.Header as="h3">Tone Analysis</Card.Header>
                 <Card.Body>
                   <Card.Text>
@@ -270,7 +270,7 @@ class Report extends Component {
                       <PolarGrid />
                       <PolarAngleAxis dataKey="tone_name"/>
                       <PolarRadiusAxis />
-                      <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                      <Radar name="score" dataKey="score" stroke="#ffa537" fill="#ffa537" fillOpacity={0.6} animationDuration={1000}/>
                     </RadarChart>
                   </Card.Text>
                 </Card.Body>
@@ -278,7 +278,7 @@ class Report extends Component {
             </Col>
             {/* Right Column */}
             <Col sm = {5}>
-              <Card style={{marginBottom: "10px"}}>
+              <Card className = "shadow" style={{marginBottom: "10px"}}>
                   <Card.Header as="h3">Keywords</Card.Header>
                   <Card.Body>
                     <Card.Text>
@@ -295,12 +295,12 @@ class Report extends Component {
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="score" fill="#8884d8" />
+                        <Bar dataKey="score" fill="#ffa537" animationDuration={1000}/>
                       </BarChart>
                     </Card.Text>
                   </Card.Body>
                 </Card>
-                <Card style={{marginBottom: "10px"}}>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
                   <Card.Header as="h3">Concepts</Card.Header>
                   <Card.Body>
                     <Card.Text>
@@ -335,6 +335,7 @@ class Report extends Component {
                               dataKey="score"
                               animationDuration={1000}
                               label={{position: 'right', backgroundColor: '#fff'}}
+                              fill="#ffa537"
                               // shape={<Rectangle
                               //     className={classes.rectangle}
                               //     radius={[0, 10, 10, 0]}
@@ -346,7 +347,7 @@ class Report extends Component {
                     </Card.Text>
                   </Card.Body>
                 </Card>
-                <Card style={{marginBottom: "10px"}}>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
                     <Card.Header as="h3">Filler Count</Card.Header>
                     <Card.Body>
                       <Card.Text as="h4">

@@ -3,16 +3,28 @@
 body{
   font-family: "Ubuntu", sans-serif !important;
   background-color: #F0F8FF !important;
-  padding-top: 50px;
+  padding-top:5%
 }
 Button{
   background-color: #007ed9 !important;
   border:0px solid transparent !important; /* this was 1px earlier */
   color: white !important;
+  text-decoration: none !important;
+}
+Button:hover{
+  cursor: pointer;
+  color: #ffa537  !important;
+}
+.accordionButton{
+  background-color: #007ed9 !important;
 }
 .card-header{
-  background-color: #ffb400 !important;
+  background-color: #007ed9 !important;
+  color: white !important;
   
+}
+.accordion{
+  background-color: #007ed9 !important;
 }
 .scroll {
     max-height: 80vh;
