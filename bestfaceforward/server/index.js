@@ -7,7 +7,9 @@ const axios = require('axios')
 const { chatToken, videoToken, voiceToken } = require('./tokens');
 const vcapServices = require('vcap_services');
 const dotenv = require('dotenv');
+const database = require('./db')
 const vision = require('@google-cloud/vision');
+
 const client = new vision.ImageAnnotatorClient();
 dotenv.config();
 
@@ -154,6 +156,171 @@ const sendTokenResponse = (token, res) => {
     })
   );
 };
+
+///WRITING tone analysis to db
+app.get('/db/toneAnalysis', (req,res) =>{
+  console.log("Tone analysis being passed into DB:", req.body)
+  const toneAnalysis = req.body.analysis;
+  database.writeToneAnalysis()
+})
+
+app.post('/db/toneAnalysis', (req,res) =>{
+  console.log("ToneAnalysis written:", req.body)
+  const toneAnalysis = req.body.analysis;
+  database.writeToneAnalysis()
+})
+
+app.get('/db/writeTranscript', (req,res) =>{
+  console.log("Transcript being passed into DB:", req.body)
+  const toneAnalysis = req.body.question;
+  database.writeTranscript()
+})
+
+app.post('/db/writeTranscript', (req,res) =>{
+  console.log("Transcript written:", req.body["q"],req.body["u"])
+  const toneAnalysis = req.body.question;
+  database.writeTranscript(req.body["u"], req.body["q"])
+
+})
+
+app.post('/db/writeLiveScore', (req,res) =>{
+  console.log("LiveScore written:", req.body["s"],req.body["u"])
+  const toneAnalysis = req.body.question;
+  database.writeLiveScore(req.body["u"], req.body["s"])
+
+})
+
+app.get('/db/writeLiveScore', (req,res) =>{
+  console.log("LiveScore written:", req.body["s"],req.body["u"])
+  const toneAnalysis = req.body.question;
+  database.writeLiveScore(req.body["u"], req.body["s"])
+})
+
+app.post('/db/writeQuestion', (req,res) =>{
+  console.log("Question written:", req.body["q"],req.body["u"])
+  const toneAnalysis = req.body.question;
+  database.writeQuestion(req.body["u"], req.body["q"])
+
+})
+
+
+app.post('/db/resetPractice', (req,res) =>{
+  console.log("Reset Practice");
+  //const toneAnalysis = req.body.question;
+
+  database.resetPractice(req.body["u"]);
+  //database.writeQuestions()
+})
+
+
+
+//READING tone analysis from db
+app.get('/db/readToneAnalysis', (req,res) =>{
+  console.log("Tone analysis recieved from DB:", req.body)
+  const username = req.body.username;
+  database.readToneAnalysis(res,username)
+})
+
+app.post('/db/readToneAnalysis', (req,res) =>{
+  console.log("Tone analysis recieved from DB:", req.body)
+  const username = req.body.username;
+  database.readToneAnalysis(res,username)
+})
+
+//READING transcript from db
+app.get('/db/readTranscript', (req,res) =>{
+  console.log("Transcript recieved from DB (get):", req.body)
+  const username = req.body.username;
+  database.readTranscript(res,username)
+})
+
+app.post('/db/readTranscript', (req,res) =>{
+  console.log("Transcript recieved from DB (post):", req.body)
+  const username = req.body.username;
+  database.readTranscript(res,username)
+})
+
+app.post('/db/readLiveScore', (req,res) =>{
+  console.log("LiveScore recieved from DB (post):", req.body)
+  const username = req.body.username;
+  database.readLiveScore(res,username)
+})
+
+app.post('/db/readLiveScore', (req,res) =>{
+  console.log("LiveScore recieved from DB (post):", req.body)
+  const username = req.body.username;
+  database.readLiveScore(res,username)
+})
+
+
+//READING questions from db
+app.get('/db/readQuestions', (req,res) =>{
+  console.log("Questions recieved from DB (get):", req.body)
+  const username = req.body.username;
+  database.readQuestions(res,username)
+})
+
+app.post('/db/readQuestions', (req,res) =>{
+  console.log("Questions recieved from DB (post):", req.body)
+  const username = req.body.username;
+  database.readQuestions(res,username)
+})
+
+//CREATING new meeting
+app.get('/db/createNewMeeting', (req,res) =>{
+  const username = req.body.uname;
+  const candidate = req.body.interviewee;
+  const id = req.body.id;
+  console.log("IDDDDD", id)
+  const time = req.body.time
+  const date = req.body.date
+  database.createNewMeeting(res,username,candidate,id,time,date)
+})
+
+app.post('/db/createNewMeeting', (req,res) =>{
+  const username = req.body.uname;
+  const candidate = req.body.interviewee;
+  const id = req.body.id;
+  console.log("IDDDDD", id)
+  const time = req.body.time
+  const date = req.body.date
+  database.createNewMeeting(res,username,candidate,id,time,date)
+})
+
+app.get('/db/getCandidate', (req,res) =>{
+  const meetingID = req.body.meetingID
+  database.getSubjects(res, meetingID)
+})
+
+app.post('/db/getCandidate', (req,res) =>{
+  const meetingID = req.body.meetingID
+  database.getSubjects(res, meetingID)
+})
+
+app.get('/db/writeAudioAnalysis', (req,res) => {
+  const speed = req.body.speed
+  database.writeAudioAnalysis(speed)
+})
+
+app.post('/db/writeAudioAnalysis', (req,res) => {
+  const speed = req.body.speed
+  const username = req.body.username
+  database.writeAudioAnalysis(username, speed)
+})
+
+app.get('/db/readAudioAnalysis', (req,res) => {
+  const username = req.body.username;
+  const index = req.body.index;
+  database.readAudioAnalysis(res,username,index)
+})
+
+app.post('/db/readAudioAnalysis', (req,res) => {
+  const username = req.body.username;
+  const index = req.body.index;
+  database.readAudioAnalysis(res,username,index)
+})
+
+
 
 app.get('/api/subjects', (req,res) => {
   //console.log(res.data)
