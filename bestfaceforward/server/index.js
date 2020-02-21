@@ -9,9 +9,7 @@ const vcapServices = require('vcap_services');
 const dotenv = require('dotenv');
 const database = require('./db')
 const vision = require('@google-cloud/vision');
-const cors = require('cors')
-
-
+const cors = require('cors');
 const client = new vision.ImageAnnotatorClient();
 dotenv.config();
 
@@ -95,10 +93,7 @@ const getSubjects = (text, res) => {
 }
 
 app.post('/face/analysis',(req,res) => {
-  console.log("hi'");
-  console.log(req.body.x);
   var link = "https://nocapstone.s3.us-east-2.amazonaws.com/" + req.body.x + ".jpg";
-  console.log(link);
   const request = {
     "image": {source: {"imageUri":link}},
     "features": [
@@ -215,59 +210,19 @@ app.post('/db/resetPractice', (req,res) =>{
   //database.writeQuestions()
 })
 
-
-
-//READING tone analysis from db
-app.get('/db/readToneAnalysis', (req,res) =>{
-  console.log("Tone analysis recieved from DB:", req.body)
+//READING for user from db
+app.get('/db/readUserInfo', (req,res) =>{
+  console.log("Info recieved from DB:", req.body)
   const username = req.body.username;
-  database.readToneAnalysis(res,username)
+  database.readUserEntry(res,username)
 })
 
-app.post('/db/readToneAnalysis', (req,res) =>{
-  console.log("Tone analysis recieved from DB:", req.body)
+app.post('/db/readUserInfo', (req,res) =>{
+  console.log("Info recieved from DB:", req.body)
   const username = req.body.username;
-  database.readToneAnalysis(res,username)
+  database.readUserEntry(res,username)
 })
 
-//READING transcript from db
-app.get('/db/readTranscript', (req,res) =>{
-  console.log("Transcript recieved from DB (get):", req.body)
-  const username = req.body.username;
-  database.readTranscript(res,username)
-})
-
-app.post('/db/readTranscript', (req,res) =>{
-  console.log("Transcript recieved from DB (post):", req.body)
-  const username = req.body.username;
-  database.readTranscript(res,username)
-})
-
-app.post('/db/readLiveScore', (req,res) =>{
-  console.log("LiveScore recieved from DB (post):", req.body)
-  const username = req.body.username;
-  database.readLiveScore(res,username)
-})
-
-app.post('/db/readLiveScore', (req,res) =>{
-  console.log("LiveScore recieved from DB (post):", req.body)
-  const username = req.body.username;
-  database.readLiveScore(res,username)
-})
-
-
-//READING questions from db
-app.get('/db/readQuestions', (req,res) =>{
-  console.log("Questions recieved from DB (get):", req.body)
-  const username = req.body.username;
-  database.readQuestions(res,username)
-})
-
-app.post('/db/readQuestions', (req,res) =>{
-  console.log("Questions recieved from DB (post):", req.body)
-  const username = req.body.username;
-  database.readQuestions(res,username)
-})
 
 //CREATING new meeting
 app.get('/db/createNewMeeting', (req,res) =>{
@@ -311,13 +266,7 @@ app.post('/db/writeAudioAnalysis', (req,res) => {
   database.writeAudioAnalysis(username, speed)
 })
 
-app.get('/db/readAudioAnalysis', (req,res) => {
-  const username = req.body.username;
-  const index = req.body.index;
-  database.readAudioAnalysis(res,username,index)
-})
-
-app.post('/db/readAudioAnalysis', (req,res) => {
+app.get('/db/readUserInfo', (req,res) => {
   const username = req.body.username;
   const index = req.body.index;
   database.readAudioAnalysis(res,username,index)
