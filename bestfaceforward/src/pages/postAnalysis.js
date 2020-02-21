@@ -1,27 +1,32 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback,useEffect } from 'react';
 import axios from 'axios'
 import {Accordion, Card, Row, Col, Button} from 'react-bootstrap';
 import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Report from './../components/Report'
 
 
+function useAsyncHook(name){
+  const [DBInfo,setDBInfo]=useState([])
+  useEffect(() => {
+    async function getDBInfo(){
+      const res = await axios.post('http://localhost:3001/db/readUserInfo', {username: name})
+        console.log(res)
+        setDBInfo(res)
+        // const transcripts=DBInfo["data"]["Items"]["0"]["transcripts"]
+    }
+
+    getDBInfo(name)
+  }, [name])
+  return [DBInfo]
+}
+
 
 const postAnalysis = (props) => {
-  let DBInfo=[]
-  let transcripts=[]
-  let videos=[]
-  let timestamps=[]
-  axios.post('http://localhost:3001/db/readUserInfo', {username: "ryan"})
-  .then(res => {
-    //console.log("CANDIDATE:", props.location.state.name)
-    //this.setState({candidate:res})
-      console.log(res)
-      DBInfo=res
-      const transcripts=DBInfo["data"]["Items"]["0"]["transcripts"]
-      const videos=[]
-      const timestamps=[]
-      
-  })
+  const transcripts=[]
+  const videos=[]
+  const timestamps=[]
+  const DBInfo=useAsyncHook("ryan")
+
   // constructor(props){
   //   super(props);
   //   this.state={
@@ -39,45 +44,42 @@ const postAnalysis = (props) => {
   //   //this.getCandidate()
   // }
     
-    
-    
-    if(DBInfo===[]){
+    if(!DBInfo){
       return(
         <div className="homeBox">waiting</div>
       )
-    }
-    
-  return(
-    <div className="homeBox">
-      <div className="homeHead">Post Analysis Report for {"ryan"}</div>
-      {transcripts}
-      {/* <Row>
-        <Col>
-          <Accordion defaultActiveKey="0">
-            {transcript.map(function(text, index){
-              return (
-                <Card>
-                  <Card.Header>
-                    <Accordion.Toggle as={Button} variant="link" eventKey={index}>
-                      <h2> Question {index+1} </h2>
-                    </Accordion.Toggle>
-                  </Card.Header>
-                  <Accordion.Collapse eventKey={index}>
-                    <Card.Body>
-                      <Report questions={text} username={candidate} index = {index}/>
-                    </Card.Body>
-                  </Accordion.Collapse>
-                </Card>
-              )
-            })
-          }
-        </Accordion>
-      </Col>
-    </Row> */}
+    } else {
+        return(
+          <div className="homeBox">
+            <div className="homeHead">Post Analysis Report for {"ryan"}</div>
 
-  </div>
-)
+            {/* <Row>
+              <Col>
+                <Accordion defaultActiveKey="0">
+                  {transcript.map(function(text, index){
+                    return (
+                      <Card>
+                        <Card.Header>
+                          <Accordion.Toggle as={Button} variant="link" eventKey={index}>
+                            <h2> Question {index+1} </h2>
+                          </Accordion.Toggle>
+                        </Card.Header>
+                        <Accordion.Collapse eventKey={index}>
+                          <Card.Body>
+                            <Report questions={text} username={candidate} index = {index}/>
+                          </Card.Body>
+                        </Accordion.Collapse>
+                      </Card>
+                    )
+                  })
+                }
+              </Accordion>
+            </Col>
+          </Row> */}
 
+        </div>
+      )
+  }
 
 
 }
