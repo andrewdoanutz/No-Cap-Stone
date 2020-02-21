@@ -265,7 +265,7 @@ class Report extends Component {
           <Row>
             {/* Left Column */}
               <Col sm={6}>
-                <Card style={{marginBottom: "10px"}}>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
                   <Card.Header as="h3">Question Response</Card.Header>
                   <Card.Body>
                     <Card.Text>
@@ -273,7 +273,7 @@ class Report extends Component {
                     </Card.Text>
                   </Card.Body>
                 </Card>
-                <Card style={{marginBottom: "10px"}}>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
                   <Card.Header as="h3">Speech Analysis</Card.Header>
                   <Card.Body>
                     <Card.Text>
@@ -295,7 +295,7 @@ class Report extends Component {
               {/* Right Column */}
               <Col sm={6}>
                 <Row>
-                  <Card style={{marginBottom: "10px"}}>
+                  <Card className = "shadow" style={{marginBottom: "10px"}}>
                       <Card.Header as="h3">Video Analysis</Card.Header>
                       <Card.Body>
                         <Card.Text>
@@ -340,7 +340,7 @@ class Report extends Component {
                   </Card.Text>
                 </Card.Body>
               </Card>
-              <Card style={{marginBottom: "10px"}}>
+              <Card className = "shadow" style={{marginBottom: "10px"}}>
                 <Card.Header as="h3">Speech Analysis</Card.Header>
                 <Card.Body>
                   <Card.Text>
@@ -362,7 +362,7 @@ class Report extends Component {
             {/* Right Column */}
             <Col sm={6}>
               <Row>
-                <Card style={{marginBottom: "10px"}}>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
                   <Card.Header as="h3">Video Response</Card.Header>
                   <Card.Body>
                     <Card.Text>
@@ -372,7 +372,7 @@ class Report extends Component {
                 </Card>
               </Row>
               <Row>
-                <Card style={{marginBottom: "10px"}}>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
                     <Card.Header as="h3">Video Analysis</Card.Header>
                     <Card.Body>
                       <Card.Text>
