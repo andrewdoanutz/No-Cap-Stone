@@ -7,7 +7,7 @@
     let AWS = require("aws-sdk");
     //used for local development
     AWS.config.update({
-      region: "us-west-1",
+      region: "us-east-2",
       //endpoint: "http://localhost:8001",
       endpoint: "https://dynamodb.us-west-1.amazonaws.com",
       // get from google drive
