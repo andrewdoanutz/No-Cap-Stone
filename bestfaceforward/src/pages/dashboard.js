@@ -45,12 +45,12 @@ export default class Dashboard extends Component {
 
   render() {
     // console.log("here",this.state.newMeetingID);
-    console.log("Cookies",cookies.get('login'));
+    // console.log("Cookies",cookies.get('login'));
       return (
         <div className="homebox">
           <Row>
             <Col xs={3} style={{marginLeft: "10px", marginTop: "10px"}}>
-              <NewMeeting uname = {cookies.get('login')}/>
+              <NewMeeting />
               <Card className = "shadow">
                 <Card.Body>
                   <Userdash parentCallback = {this.callbackFunction} clicked = {this.state.isClicked}/>

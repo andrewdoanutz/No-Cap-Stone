@@ -239,13 +239,12 @@ module.exports = {
 
 
 
-      createNewMeeting(res, username, candidate, id, time, date){
+      createNewMeeting(res, id, username, time, date){
         var params = {
-          TableName: "Meetings",
+          TableName: "Users",
           Item:{
             "id" : id,
-            "interviewer": username,
-            "candidate" : candidate,
+            "username": username,
             "time" : time,
             "date" : date
           }

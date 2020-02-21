@@ -29,11 +29,12 @@ function useAsyncHook(){
   return [DBInfo]
 }
 
+
+
 const Userdash = (props) => {
   const [name, setName] = useState("");
   const [id, setID] = useState("");
   const DBInfo=useAsyncHook()
-  console.log(DBInfo[0])
   var names = DBInfo[0]
 
   // var names = [{name: 'Adjon Tahiraj', date: 'Mon, Feb 3 - 9:00am', id: 'A576W'},
