@@ -41,10 +41,10 @@ class VideoComponent extends Component {
 
   componentDidMount(){
     this.fetchToken()
-    this.timerID = setInterval(
+    /*this.timerID = setInterval(
       () => this.tick(),
       5000
-    );
+    );*/
   }
 
   componentWillUnmount() {
