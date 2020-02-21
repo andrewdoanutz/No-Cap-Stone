@@ -8,7 +8,6 @@ import {Button,Card,Col,Row} from 'react-bootstrap';
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from './Transcript';
 import Timing from './Timing';
-import '../css/VideoComponent.css';
 import Camera from 'react-camera'
 
 var prevTime = 10;
@@ -291,7 +290,7 @@ class VideoComponent extends Component {
             }
           } catch(e){
             console.log("error changing indicator: ",e)
-          }   
+          }
         })
       }
       ,1000))
@@ -359,7 +358,7 @@ class VideoComponent extends Component {
           {<Transcript messages={messages} />}
           {<Timing messages = {messages} />}
         </h1>
-        <Card style={{width:"20%"}}>
+        <Card className = "shadow" style={{width:"20%"}}>
           <Card.Body>
             <Card.Text>
               <Row>

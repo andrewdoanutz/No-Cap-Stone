@@ -17,7 +17,6 @@ import Database from '../components/Database'
 import NewMeeting from './newMeeting'
 import CalendarView from '../components/Calendar'
 import Info from '../components/Info'
-import "../css/login.css";
 
 
 let cookies = new Cookies();
@@ -47,7 +46,7 @@ export default class Dashboard extends Component {
     // console.log("here",this.state.newMeetingID);
     console.log("Cookies",cookies.get('login'));
       return (
-        <div className="homebox">
+        <div>
           <Row>
             <Col xs={3} style={{marginLeft: "10px", marginTop: "10px"}}>
               <NewMeeting uname = {cookies.get('login')}/>

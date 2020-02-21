@@ -5,7 +5,7 @@ import {Card,Col,Row} from 'react-bootstrap';
 const Profile=(props)=>{
     if(props.right){
       return (
-        <Card className style={{marginLeft:"10%",marginBottom: "10%", width:"90%"}}>
+        <Card className = "shadow" style={{marginLeft:"10%",marginBottom: "10%", width:"90%"}}>
           <Card.Header as="h1">{props.name}</Card.Header>
           <Card.Body>
             <Card.Text>
@@ -24,7 +24,7 @@ const Profile=(props)=>{
       );
     } else {
       return (
-        <Card style={{marginBottom: "10%", width:"90%"}}>
+        <Card className = "shadow" style={{marginBottom: "10%", width:"90%"}}>
           <Card.Header as="h1">{props.name}</Card.Header>
           <Card.Body>
             <Card.Text>
