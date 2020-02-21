@@ -16,7 +16,7 @@ const VideoCall = (props) => {
       const data = await fetch('/video/token', {
         method: 'POST',
         body: JSON.stringify({
-          identity: "User",
+          identity: props.location.state.name,
           room: props.location.state.id
         }),
         headers: {

@@ -13,6 +13,7 @@ export default function Transcript(props) {
     axios.post('http://localhost:3001/db/writeTranscript', {q:results[0].props.children,u:"practice"})
     console.log("RESULTS",results)
     console.log("RESULTS[0].props.children",results[0].props.children)
+
     return (
       <div>
         {results}
