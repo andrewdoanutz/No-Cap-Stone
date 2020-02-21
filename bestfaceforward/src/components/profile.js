@@ -5,21 +5,18 @@ import {Card,Col,Row} from 'react-bootstrap';
 const Profile=(props)=>{
     if(props.right){
       return (
-        <Card className = "w-50" style={{marginBottom: "10px"}}>
-          <Card.Header>
-            <h1 className="float-right">{props.name}</h1>
-          </Card.Header>
+        <Card className style={{marginLeft:"10%",marginBottom: "10%", width:"90%"}}>
+          <Card.Header as="h1">{props.name}</Card.Header>
           <Card.Body>
             <Card.Text>
-              <Row className="float-right">
+              <Row>
+                <Col>
+                  <img style={{height: "200px"}} src={props.image}/>
+                </Col>
                 <Col>
                   <div>{props.yearMajor}</div>
                   <div>{props.linkedIn}</div>
                 </Col>
-                <Col>
-                  <img style={{height: "200px"}} src={props.image}/>
-                </Col>
-                
               </Row>
             </Card.Text>
           </Card.Body>
@@ -27,7 +24,7 @@ const Profile=(props)=>{
       );
     } else {
       return (
-        <Card className = "w-50" style={{marginBottom: "10px"}}>
+        <Card style={{marginBottom: "10%", width:"90%"}}>
           <Card.Header as="h1">{props.name}</Card.Header>
           <Card.Body>
             <Card.Text>
