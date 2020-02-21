@@ -10,6 +10,7 @@ const Participant = ({ participant }) => {
   const [vWidth, setVWidth] = useState(0);
   const videoRef = useRef();
   const audioRef = useRef();
+  const dataRef = useRef();
 
   useEffect(() => {
     var vid = document.getElementById("participant");
@@ -18,6 +19,7 @@ const Participant = ({ participant }) => {
   })
 
   useEffect(() => {
+    console.log("hi");
     setVideoTracks(Array.from(participant.videoTracks.values()));
     setAudioTracks(Array.from(participant.audioTracks.values()));
     setDataTracks(Array.from(participant.dataTracks.values()));
@@ -27,7 +29,7 @@ const Participant = ({ participant }) => {
         setDataTracks(dataTracks => [...dataTracks, track]);
         // if (localStorage.getItem("candidate")){
           track.on('message', data => {
-            console.log("TEST123");
+           
             console.log(data);
           });
         // }
@@ -42,6 +44,9 @@ const Participant = ({ participant }) => {
     };
 
     const trackUnsubscribed = track => {
+      console.log(
+      "unsub"
+      )
       if (track.kind === 'video') {
         setVideoTracks(videoTracks => videoTracks.filter(v => v !== track));
       } else {
@@ -78,6 +83,19 @@ const Participant = ({ participant }) => {
       };
     }
   }, [audioTracks]);
+
+  
+  // useEffect(() => {
+  //   const dataTrack = dataTracks[0];
+  //   if (dataTrack) {
+  //     dataTrack.attach(dataRef.current);
+  //     return () => {
+  //       dataTrack.detach();
+  //     };
+  //   }
+  // }, [dataTracks]);
+
+
   return (
     <div className="participant bg-dark">
       <h3>{participant.identity}</h3>

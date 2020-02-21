@@ -17,7 +17,7 @@ const Room = ({ roomName, token, handleLogout }) => {
     dataTrackPublished.reject = reject;
   });
 
-  const dataTrack = new Video.LocalDataTrack();
+  const dataTrack = new LocalDataTrack();
 
 
 
@@ -41,12 +41,15 @@ const Room = ({ roomName, token, handleLogout }) => {
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
       room.participants.forEach(participantConnected);
-
+      console.log(
+        "first p"
+      )
       // if (localStorage.getItem("candidate") == 0){
         room.localParticipant.publishTrack(dataTrack);
 
 
         room.localParticipant.on('trackPublished', publication => {
+          console.log("hi 2");
           if (publication.track === dataTrack) {
             dataTrackPublished.resolve();
           }
@@ -59,8 +62,8 @@ const Room = ({ roomName, token, handleLogout }) => {
         });
       // }
 
-      dataTrackPublished.promise.then(() => dataTrack.send(count.toString()));
-
+      // dataTrackPublished.promise.then(() => dataTrack.send("bik doesnt code"));
+      // dataTrackPublished.promise.then(() => dataTrack.send("bik doesnt code"));
 
 
     });
@@ -85,10 +88,30 @@ const Room = ({ roomName, token, handleLogout }) => {
     <Participant key={participant.sid} participant={participant} />
   ));
 
+  
+    
   const handleSend = () => {
     setCount (count+1)
+    console.log("COUNT",count);
+    room.localParticipant.publishTrack(dataTrack);
 
 
+        room.localParticipant.on('trackPublished', publication => {
+          console.log("hi 2");
+          if (publication.track === dataTrack) {
+            dataTrackPublished.resolve();
+          }
+        });
+
+        room.localParticipant.on('trackPublicationFailed', (error, track) => {
+          if (track === dataTrack) {
+            dataTrackPublished.reject(error);
+          }
+        });
+      // }
+
+      dataTrackPublished.promise.then(() => dataTrack.send(count));
+    console.log("datatrack?");
   }
 
   return (
@@ -99,7 +122,7 @@ const Room = ({ roomName, token, handleLogout }) => {
           <Col>
             <h2>Room: {roomName}</h2>
             <Button className = "mb-2" onClick={handleLogout}>Log out</Button>
-            <Button className = "mb-2" onClick={handleSend}>Next Question</Button>
+            {(localStorage.getItem("candidate") != 0) ? null : <Button className = "mb-2" onClick={handleSend}>Next Question</Button>}
             <Button className = "ml-3 mb-2" onClick={ ()=> {
                 if(blur===false){
                   setBlur(true)
