@@ -49,7 +49,7 @@ const Info = (props) => {
 
               <Link to={{
                 pathname: '/videocall',
-                state: {id: props.id, name: props.name}
+                state: {id: props.id, name: name, uname: props.name}
 
               }}>
               <>
