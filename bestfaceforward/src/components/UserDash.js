@@ -9,9 +9,6 @@ function useAsyncHook(){
   useEffect(() => {
     async function getDBInfo(){
       const res = await axios.post('http://localhost:3001/db/getTable')
-        // console.log(res["data"]["Items"])
-        // console.log(res["data"]["Items"]["5"]["username"])
-        // console.log(res.length())
         var names = [];
 
         for (const user in res["data"]["Items"]){
