@@ -29,7 +29,8 @@ class VideoComponent extends Component {
       r:255,
       g:204,
       b:102,
-      status: "neutral"
+      status: "neutral",
+      videoScores:[]
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);

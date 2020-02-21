@@ -168,39 +168,61 @@ app.post('/db/toneAnalysis', (req,res) =>{
   database.writeToneAnalysis()
 })
 
-app.get('/db/writeTranscript', (req,res) =>{
-  console.log("Transcript being passed into DB:", req.body)
-  const toneAnalysis = req.body.question;
-  database.writeTranscript()
+app.post('/db/writeVideos', (req,res) =>{
+  console.log("Videos written:", req.body)
+  const username = req.body.username;
+  const videos = req.body.videos;
+  database.writeVideos(username, videos)
+})
+
+app.get('/db/writeVideos', (req,res) =>{
+  console.log("Videos written:", req.body)
+  const username = req.body.username;
+  const videos = req.body.videos;
+  database.writeVideos(username, videos)
 })
 
 app.post('/db/writeTranscript', (req,res) =>{
-  console.log("Transcript written:", req.body["q"],req.body["u"])
-  const toneAnalysis = req.body.question;
-  database.writeTranscript(req.body["u"], req.body["q"])
-
+  console.log("Transcript written:", req.body)
+  const username = req.body.username;
+  const transcript = req.body.transcript;
+  database.writeTranscript(username, transcript)
 })
 
-app.post('/db/writeLiveScore', (req,res) =>{
-  console.log("LiveScore written:", req.body["s"],req.body["u"])
-  const toneAnalysis = req.body.question;
-  database.writeLiveScore(req.body["u"], req.body["s"])
-
+app.get('/db/writeTranscript', (req,res) =>{
+  console.log("Transcript written:", req.body)
+  const username = req.body.username;
+  const transcript = req.body.transcript;
+  database.writeTranscript(username, transcript)
 })
 
 app.get('/db/writeLiveScore', (req,res) =>{
-  console.log("LiveScore written:", req.body["s"],req.body["u"])
-  const toneAnalysis = req.body.question;
-  database.writeLiveScore(req.body["u"], req.body["s"])
+  console.log("Scores written:", req.body)
+  const username = req.body.username;
+  const scores = req.body.scores;
+  database.writeLiveScore(username, scores)
+})  
+
+app.post('/db/writeLiveScore', (req,res) =>{
+  console.log("Scores written:", req.body)
+  const username = req.body.username;
+  const scores = req.body.scores;
+  database.writeLiveScore(username, scores)
 })
 
 app.post('/db/writeQuestion', (req,res) =>{
-  console.log("Question written:", req.body["q"],req.body["u"])
-  const toneAnalysis = req.body.question;
-  database.writeQuestion(req.body["u"], req.body["q"])
+  console.log("Question written:", req.body)
+  const username = req.body.username;
+  const questions = req.body.questions;
+  database.writeQuestion(username, questions)
+})  
 
+app.get('/db/writeQuestion', (req,res) =>{
+  console.log("Question written:", req.body)
+  const username = req.body.username;
+  const questions = req.body.questions;
+  database.writeQuestion(username, questions)
 })
-
 
 app.post('/db/resetPractice', (req,res) =>{
   console.log("Reset Practice");
