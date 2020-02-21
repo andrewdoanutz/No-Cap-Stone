@@ -45,7 +45,33 @@ module.exports = {
               return 1;
           }
       });
-      },
+    },
+
+    writeWordtimings(username, wordtiming){
+      var params = {
+        TableName:table,
+        Key:{
+          "username": username,
+        },
+        KeyConditionExpression: "username = :uname",
+        UpdateExpression: "set info = :uname, wordtimings = list_append(wordtimings, :wordtiming)",
+
+        ExpressionAttributeValues:{
+          ":uname": username,
+          ":wordtiming": [wordtiming]
+        }
+      };
+
+      docClient.update(params, function(err, data) {
+        if(err) {
+          console.error("Unable to updateWordtimings. Error JSON:", JSON>stringify(err, null, 2));
+          return 0;
+        } else {
+          console.log("UpdateWordtimings item:", JSON.stringify(data, null, 2));
+          return 1;
+        }
+      });
+    },
 
     writeTranscript(username, transcript){
       var params = {
