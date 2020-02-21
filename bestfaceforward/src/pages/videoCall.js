@@ -2,8 +2,6 @@ import React, { Component, useState, useCallback, useEffect} from 'react'
 import VideoChat from '../components/VideoChat.js'
 import {Row, Col} from 'react-bootstrap';
 
-import '../css/login.css';
-
 
 
 

@@ -17,7 +17,6 @@ import Candidate from './pages/candidate'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './css/App.css';
-import './css/login.css';
 
 class App extends Component {
 

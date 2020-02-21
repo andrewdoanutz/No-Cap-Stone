@@ -1,8 +1,5 @@
 import React, { Component } from 'react'
 
-
-import "../css/about.css";
-
 let Database = require('../components/Database')
 export default class DBTest extends Component{
   render(){

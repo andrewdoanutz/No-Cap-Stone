@@ -3,7 +3,6 @@ import {Form, Button, Col, Row, Card, Container} from 'react-bootstrap'
 import VideoChat from '../components/VideoChat.js'
 import Cookies from 'universal-cookie';
 
-import '../css/login.css';
 let cookies = new Cookies();
 
 export default class Login extends Component {

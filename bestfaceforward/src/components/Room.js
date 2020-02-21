@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Video, {LocalDataTrack} from 'twilio-video';
 import Participant from './Participant';
 import {Row, Container, Col,Button} from 'react-bootstrap';
-import '../css/Room.css';
 import bro from "../images/mask.png"
 const Room = ({ roomName, token, handleLogout }) => {
   const [room, setRoom] = useState(null);

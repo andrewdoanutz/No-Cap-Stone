@@ -7,14 +7,13 @@ import { ReactMediaRecorder } from "react-media-recorder";
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from '../components/Transcript';
 
-import "../css/practice.css";
 
 const videoConstraints = {
     width: 1920,
     height: 1080,
     facingMode: "user"
   };
-  
+
 const speech = new Speech()
 speech.init({
     voice:'Google UK English Female',
@@ -50,7 +49,7 @@ export default class Practice extends Component {
       componentDidMount(){
         this.fetchToken()
       }
-    
+
       fetchToken() {
         return fetch('/api/v1/credentials').then((res) => {
           if (res.status !== 200) {
@@ -62,12 +61,12 @@ export default class Practice extends Component {
           var jsonToken = JSON.parse(token)
           console.log(jsonToken)
           this.setState({token: jsonToken.accessToken, serviceUrl: jsonToken.serviceUrl})
-    
+
           console.log(this.state.token)
           console.log(this.state.serviceUrl)
         }).catch(this.handleError);
       }
-    
+
       handleError = (err, extra) => {
         console.error(err, extra);
         if (err.name === 'UNRECOGNIZED_FORMAT') {
@@ -82,34 +81,34 @@ export default class Practice extends Component {
         }
         this.setState({ error: err.message || err });
       }
-    
+
       stopListening = () => {
        if (this.stream) {
          this.stream.stop();
        }
-    
-       this.setState({ 
-           text: "", 
+
+       this.setState({
+           text: "",
            listening: false,
            formattedMessages: []
         });
       }
-    
-    
+
+
       handleFormattedMessage(msg) {
-    
+
         const { formattedMessages } = this.state;
         console.log(formattedMessages)
         this.setState({ formattedMessages: formattedMessages.concat(msg) });
       }
-    
+
       getFinalResults() {
        return this.state.formattedMessages.filter(r => r.results
          && r.results.length && r.results[0].final);
       }
-    
+
       getCurrentInterimResult() {
-    
+
         if (this.state.formattedmessages != []){
           const r = this.state.formattedMessages[this.state.formattedMessages.length - 1];
           if (!r || !r.results || !r.results.length || r.results[0].final) {
@@ -117,10 +116,10 @@ export default class Practice extends Component {
           }
           return r;
         }
-    
-    
+
+
       }
-    
+
       getFinalAndLatestInterimResult() {
         const final = this.getFinalResults();
         const interim = this.getCurrentInterimResult();
@@ -129,15 +128,15 @@ export default class Practice extends Component {
         }
         return final;
       }
-    
+
       onClickListener = () => {
         if (this.state.listening) {
           this.stopListening();
           return;
         }
-    
+
         this.setState({ listening: !this.state.listening });
-    
+
         const stream = recognizeMicrophone({
           accessToken: this.state.token,
           smart_formatting: true,
@@ -146,19 +145,19 @@ export default class Practice extends Component {
           interim_results: false,
           url: this.state.serviceUrl
         });
-    
+
         this.stream = stream;
-    
-    
+
+
         stream.on('data', this.handleFormattedMessage);
-    
+
         stream.recognizeStream.on('end', () => {
           if (this.state.error) {
             console.log("test")
           }
         });
-    
-    
+
+
         stream.on('error', (data) => this.stopListening());
       }
       //practice stuff
@@ -175,7 +174,7 @@ export default class Practice extends Component {
                 })
             })
             console.log("There are no questions left.")
-            
+
         } else {
             while(this.state.inds.includes(Math.round(rand))){
                 rand = min + Math.random() * (max - min);
@@ -202,7 +201,7 @@ export default class Practice extends Component {
                 })
             }
         }
-        
+
     }
 
     generateReport(){
@@ -232,24 +231,24 @@ export default class Practice extends Component {
             buttonText="End Questions"
         } else if(this.state.question===""){
             buttonText="Start Questions"
-        } 
+        }
 
         if(this.state.inds.length===5){
             return(
-                <div className="homeBox">
+                <div className="homeBox-practice">
                 <div className="homeHead">Interview Practice Report</div>
                 {this.generateReport()}
             </div>
-                
+
             )
-            
+
         } else {
             return (
                 <ReactMediaRecorder
                 video
                 render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
                     <div>
-                    <div className="homeBox">
+                    <div className="homeBox-practice">
                         <h1>{status}</h1>
                         <Webcam
                         audio={false}
@@ -278,7 +277,7 @@ export default class Practice extends Component {
                                 this.onClickListener()
                             })
                         },500)
-                        
+
                     }
                     this.randomQuestion()
                     }}>{buttonText}</Button>
