@@ -9,12 +9,13 @@ import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-micropho
 import Transcript from './Transcript';
 import Timing from './Timing';
 import '../css/VideoComponent.css';
-import Camera from 'react-camera'
+import Camera from 'react-camera';
+import axios from 'axios';
 
 var prevTime = 10;
 var ts = ""
 var translatedPhrase = ""
-
+var finalResult = "" 
 class VideoComponent extends Component {
   constructor(props){
     super(props)
@@ -30,7 +31,8 @@ class VideoComponent extends Component {
       g:204,
       b:102,
       status: "neutral",
-      numQues:0
+      numQues:0,
+      finalTranscript: ""
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
@@ -38,7 +40,7 @@ class VideoComponent extends Component {
     this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
     this.takePicture = this.takePicture.bind(this);
     this.callBackendAPI = this.callBackendAPI.bind(this);
-
+    this.transcriptbackFunction = this.transcriptbackFunction.bind(this);
   }
 
   componentDidMount(){
@@ -54,7 +56,7 @@ class VideoComponent extends Component {
 
     }
     else{
-      console.log("this is a recruiter");
+      console.log("this is a recruiter"); 
     }
   }
 
@@ -62,6 +64,20 @@ class VideoComponent extends Component {
     clearInterval(this.timerID);
     
   }
+
+
+  transcriptbackFunction = (childData) => {
+    console.log("transcription callback")
+    console.log(childData);
+    this.setState({finalTranscript:childData});
+ }
+
+
+ async callWriteTranscript(transcription){
+  console.log();
+  const res = await axios.post('http://localhost:3001/db/writeTranscript', {q:transcription,u: this.props.name})
+};
+
 
   tick() {
     
@@ -74,6 +90,14 @@ class VideoComponent extends Component {
       console.log("starting")
       this.onClickListener()
       this.setState({numQues:this.props.count})
+      var merged = [].concat.apply([], finalResult);
+      finalResult = "";
+      merged = merged.join(" ")
+      merged += "@"
+      
+      console.log(merged);
+      this.callWriteTranscript(merged);
+
     }
     this.setState({
       date: new Date()
@@ -83,6 +107,8 @@ class VideoComponent extends Component {
     //setTimeout(()=>this.takePicture(),4);
   }
 
+
+  
   fetchToken() {
     return fetch('/api/v1/credentials').then((res) => {
       if (res.status !== 200) {
@@ -348,6 +374,12 @@ class VideoComponent extends Component {
   render(){
     const {token, formattedMessages} = this.state;
     const messages = this.getFinalAndLatestInterimResult();
+    const results = messages.map(msg => msg.results.map((result, i) => (result.alternatives[0].transcript))).reduce((a, b) => a.concat(b), []); 
+    
+    finalResult = results;
+    //console.log(finalResult);
+    var merged = [].concat.apply([], finalResult);
+    console.log(merged.join(" "))
     console.log("BOT BOT BOT " + this.state.numQues);
     return (
       <div>
