@@ -5,6 +5,11 @@ body{
   background-color: #F0F8FF !important;
   padding-top: 50px;
 }
+Button{
+  background-color: #007ed9 !important;
+  border:0px solid transparent !important; /* this was 1px earlier */
+  color: white !important;
+}
 .scroll {
     max-height: 80vh;
     overflow-y: auto;

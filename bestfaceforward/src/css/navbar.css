@@ -1,9 +1,11 @@
 @charset "UTF-8";
 
+
+
 .navbar {
   z-index: 10;
   width: 100%;
-  background: #1b2b4b!important;
+  background: #F0F8FF!important;
   height: 7%;
   margin: 0;
 }
@@ -12,7 +14,7 @@
   font: 1.7em "Raleway", sans-serif;
   font-weight: "bold";
   letter-spacing: 1.5px;
-  color: white !important;
+  color: black !important;
   text-transform: uppercase;
   margin: 0;
 }
@@ -26,12 +28,12 @@
 .link {
   font: 1.7em "Raleway", sans-serif;
   font-weight: "bold";
-  color: white !important;
+  color: black !important;
   margin-left: 1em;
 }
 .link:hover {
   cursor: pointer;
-  color: orange !important;
+  color: orange  !important;
 }
 
 .navImage{
