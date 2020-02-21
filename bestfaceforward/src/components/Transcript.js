@@ -1,9 +1,9 @@
-import React from 'react';
+import React,{ useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios'
 export default function Transcript(props) {
-  var transcription = "";
-
+  var transcription = "hihi";
+  //props.transCB(transcription)
   try {
     // When resultsBySpeaker is enabled, each msg.results array may contain multiple results.
     // The result_index is for the first result in the message,
@@ -12,6 +12,12 @@ export default function Transcript(props) {
     const results = props.messages.map(msg => msg.results.map((result, i) => (
       <span key={`result-${msg.result_index + i}`}>{result.alternatives[0].transcript}</span>
     ))).reduce((a, b) => a.concat(b), []); // the reduce() call flattens the array
+
+
+    //const results = messages.map(msg => msg.results.map((result, i) => (result.alternatives[0].transcript))).reduce((a, b) => a.concat(b), []); 
+
+
+
     transcription+=results;
   //  axios.post('http://localhost:3001/db/writeTranscript', {q:results[0].props.children,u:"practice"})
     console.log("RESULTS",transcription)

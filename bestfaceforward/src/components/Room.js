@@ -27,6 +27,12 @@ const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
     parentCallback2(childData)
 }
 
+
+  const innerCallback2 = (childData) => {
+    console.log("Inner callback")
+    console.log(childData);
+  }
+
   useEffect(() => {
 
     const participantConnected = participant => {
@@ -104,7 +110,7 @@ const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
     room.localParticipant.on('trackPublicationFailed', (error, track) => {
       if (track === dataTrack) {
         dataTrackPublished.reject(error);
-      }
+      } 
     });
 
     dataTrackPublished.promise.then(() => dataTrack.send(count));
@@ -135,6 +141,7 @@ const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
                     key={room.localParticipant.sid}
                     participant={room.localParticipant}
                     callbackF = {innerCallback}
+            
                   />
                 </div>
 

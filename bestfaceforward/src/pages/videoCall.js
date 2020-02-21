@@ -9,7 +9,7 @@ import '../css/login.css';
 
 const VideoCall = (props) => {
   const [token, setToken] = useState(null);
-
+  console.log("videocall",props.location.state.name)
   useEffect(() => {
     async function fetchData (){
 
@@ -34,7 +34,7 @@ const VideoCall = (props) => {
           <div className="homebox">
               <Row>
                   <Col>
-                      <VideoChat roomName = {props.location.state.id} token = {token}/>
+                      <VideoChat roomName = {props.location.state.id} token = {token} name = {props.location.state.name}/>
                   </Col>
               </Row>
           </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 
-const Participant = ({ participant, callbackF }) => {
+const Participant = ({ participant, callbackF}) => {
   console.log(participant)
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
@@ -44,13 +44,13 @@ const Participant = ({ participant, callbackF }) => {
     const trackUnsubscribed = track => {
       if (track.kind === 'video') {
         setVideoTracks(videoTracks => videoTracks.filter(v => v !== track));
-      } else {
+      } else { 
         setAudioTracks(audioTracks => audioTracks.filter(a => a !== track));
       }
     };
 
     participant.on('trackSubscribed', trackSubscribed);
-    participant.on('trackUnsubscribed', trackUnsubscribed);
+    participant.on('trackUnsubscribed', trackUnsubscribed); 
 
     return () => {
       setVideoTracks([]);
