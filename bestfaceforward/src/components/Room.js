@@ -5,7 +5,7 @@ import {Row, Container, Col,Button} from 'react-bootstrap';
 import '../css/Room.css';
 import bro from "../images/mask.png"
 
-const Room = ({ roomName, token, handleLogout, parentCallback}) => {
+const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [blur, setBlur] = useState(false);
@@ -22,8 +22,9 @@ const Room = ({ roomName, token, handleLogout, parentCallback}) => {
 
   const innerCallback = (childData) => {
     console.log("Inner callback")
+    console.log(childData);
     setNum(childData)
-    parentCallback(num)
+    parentCallback2(childData)
 }
 
   useEffect(() => {
