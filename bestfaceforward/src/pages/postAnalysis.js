@@ -6,26 +6,24 @@ import Report from './../components/Report'
 
 
 function useAsyncHook(name){
-  const [DBInfo,setDBInfo]=useState([])
+  const [transcript,setTranscript]=useState([])
   useEffect(() => {
     async function getDBInfo(){
       const res = await axios.post('http://localhost:3001/db/readUserInfo', {username: name})
         console.log(res)
-        setDBInfo(res)
-        // const transcripts=DBInfo["data"]["Items"]["0"]["transcripts"]
+        setTranscript(res["data"]["Items"]["0"]["transcripts"])
     }
 
     getDBInfo(name)
   }, [name])
-  return [DBInfo]
+  return [transcript]
 }
 
 
 const postAnalysis = (props) => {
-  const transcripts=[]
+  const transcript=useAsyncHook("ryan")
   const videos=[]
   const timestamps=[]
-  const DBInfo=useAsyncHook("ryan")
 
   // constructor(props){
   //   super(props);
@@ -44,15 +42,14 @@ const postAnalysis = (props) => {
   //   //this.getCandidate()
   // }
     
-    if(!DBInfo){
+    if(!transcript){
       return(
         <div className="homeBox">waiting</div>
       )
     } else {
         return(
           <div className="homeBox">
-            <div className="homeHead">Post Analysis Report for {"ryan"}</div>
-
+            <div className="homeHead">Post Analysis Report for {transcript}</div>
             {/* <Row>
               <Col>
                 <Accordion defaultActiveKey="0">
@@ -66,7 +63,7 @@ const postAnalysis = (props) => {
                         </Card.Header>
                         <Accordion.Collapse eventKey={index}>
                           <Card.Body>
-                            <Report questions={text} username={candidate} index = {index}/>
+                            <Report questions={text} username={"ryan"} index = {index}/>
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
