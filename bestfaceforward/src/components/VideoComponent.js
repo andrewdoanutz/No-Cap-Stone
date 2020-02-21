@@ -29,7 +29,8 @@ class VideoComponent extends Component {
       r:255,
       g:204,
       b:102,
-      status: "neutral"
+      status: "neutral",
+      numQues:0
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
@@ -42,17 +43,44 @@ class VideoComponent extends Component {
 
   componentDidMount(){
     this.fetchToken()
+    
+    if (localStorage.getItem("candidate") != 0){
+      console.log("this is a candidate");
+      this.timerID = setInterval(
+        () => this.tick(),
+        1000
+      );
+      setTimeout(()=> this.onClickListener(),2000)
+
+    }
+    else{
+      console.log("this is a recruiter");
+    }
   }
 
   componentWillUnmount() {
     clearInterval(this.timerID);
+    
   }
 
   tick() {
+    
+    console.log("TICK",this.props.count);
+    if(this.state.numQues < this.props.count){
+      console.log("HELLO")
+      const messages = this.getFinalAndLatestInterimResult()
+      console.log("stopping")
+      this.onClickListener()
+      console.log("starting")
+      this.onClickListener()
+      this.setState({numQues:this.props.count})
+    }
     this.setState({
       date: new Date()
+    
     });
-    this.takePicture();
+    
+    //setTimeout(()=>this.takePicture(),4);
   }
 
   fetchToken() {
@@ -139,6 +167,7 @@ class VideoComponent extends Component {
   }
 
   onClickListener = () => {
+    console.log("ONCLICKLISTNER",this.state.listening);
     if (this.state.listening) {
       this.stopListening();
       return;
@@ -319,7 +348,7 @@ class VideoComponent extends Component {
   render(){
     const {token, formattedMessages} = this.state;
     const messages = this.getFinalAndLatestInterimResult();
-    console.log("BOT BOT BOT " + this.props.count);
+    console.log("BOT BOT BOT " + this.state.numQues);
     return (
       <div>
         <div style={{display:'none'}}>
