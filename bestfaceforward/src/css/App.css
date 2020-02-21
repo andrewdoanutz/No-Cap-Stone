@@ -10,6 +10,10 @@ Button{
   border:0px solid transparent !important; /* this was 1px earlier */
   color: white !important;
 }
+.card-header{
+  background-color: #ffb400 !important;
+  
+}
 .scroll {
     max-height: 80vh;
     overflow-y: auto;

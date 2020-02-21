@@ -53,7 +53,7 @@ export default class Login extends Component {
           <Container>
             <Row className="justify-content-center">
             <Col sm={6}>
-              <Card border = "primary" className = "shadow">
+              <Card className = "shadow">
                 <Card.Body>
                   <Form>
                     <Form.Group controlId="formBasicEmail" as={Col}>
