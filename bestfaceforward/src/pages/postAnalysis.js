@@ -3,7 +3,7 @@ import axios from 'axios'
 import {Accordion, Card, Row, Col, Button} from 'react-bootstrap';
 import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Report from './../components/Report'
-
+import { GridLoader } from "react-spinners";
 
 function useAsyncHook(name){
   const [transcript,setTranscript]=useState([])
@@ -49,7 +49,16 @@ const postAnalysis = (props) => {
     
     if(loading){
       return(
-        <div className="homeBox">waiting</div>
+        <div className="profiles">
+          <Row>
+            <GridLoader
+            size={20}
+            //size={"150px"} this also works
+            color={"#007ed9"}
+            loading={true}
+          />
+        </Row>
+        </div>
       )
     } else {
       let overallTranscript = ""

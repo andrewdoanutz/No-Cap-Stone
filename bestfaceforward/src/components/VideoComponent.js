@@ -10,6 +10,7 @@ import Transcript from './Transcript';
 import Timing from './Timing';
 import Camera from 'react-camera'
 
+
 var prevTime = 10;
 var ts = ""
 var translatedPhrase = ""

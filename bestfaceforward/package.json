@@ -46,6 +46,7 @@
     "react-scripts": "2.1.5",
     "react-scrollspy-nav": "^1.2.2",
     "react-speech-recognition": "^2.0.4",
+    "react-spinners": "^0.8.0",
     "react-toastify": "^5.4.1",
     "react-typist": "^2.0.5",
     "react-webcam": "^4.1.1",
