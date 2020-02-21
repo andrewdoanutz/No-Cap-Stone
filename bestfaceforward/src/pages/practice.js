@@ -7,6 +7,8 @@ import { ReactMediaRecorder } from "react-media-recorder";
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from '../components/Transcript';
 
+import "../css/practice.css";
+import axios from 'axios'
 
 const videoConstraints = {
     width: 1920,
@@ -23,6 +25,8 @@ speech.init({
 }).catch(e => {
     console.error("An error occured while initializing : ", e)
 })
+
+axios.post('http://localhost:3001/db/resetPractice')
 
 export default class Practice extends Component {
     constructor(props){
@@ -187,9 +191,10 @@ export default class Practice extends Component {
                 }, () => {
                     console.log(this.state.inds)
                     console.log(rand)
-                        speech.speak({
-                            text: this.state.question,
-                        })
+                    speech.speak({
+                        text: this.state.question,
+                    })
+                    axios.post('http://localhost:3001/db/writeQuestion' , {q:this.state.question,u:"practice"})
                 })
             } else {
                 this.setState({
