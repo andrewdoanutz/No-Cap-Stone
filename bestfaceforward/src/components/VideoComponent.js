@@ -37,14 +37,8 @@ class VideoComponent extends Component {
 
   }
 
-
-
   componentDidMount(){
     this.fetchToken()
-    /*this.timerID = setInterval(
-      () => this.tick(),
-      5000
-    );*/
   }
 
   componentWillUnmount() {
@@ -193,8 +187,6 @@ class VideoComponent extends Component {
   }
 
   takePicture(){
-    console.log("say cheese");
-
     const now = new Date();
     const time = now.getTime();
     var link = "";
@@ -275,7 +267,7 @@ class VideoComponent extends Component {
   render(){
     const {token, formattedMessages} = this.state;
     const messages = this.getFinalAndLatestInterimResult();
-    console.log(messages);
+    console.log("BOT BOT BOT " + this.props.count);
     return (
       <div>
         <div style={{display:'none'}}>

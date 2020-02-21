@@ -5,7 +5,7 @@ import {Row, Container, Col,Button} from 'react-bootstrap';
 import '../css/Room.css';
 import bro from "../images/mask.png"
 
-const Room = ({ roomName, token, handleLogout }) => {
+const Room = ({ roomName, token, handleLogout, parentCallback}) => {
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [blur, setBlur] = useState(false);
@@ -41,15 +41,11 @@ const Room = ({ roomName, token, handleLogout }) => {
       room.on('participantConnected', participantConnected);
       room.on('participantDisconnected', participantDisconnected);
       room.participants.forEach(participantConnected);
-      console.log(
-        "first p"
-      )
       // if (localStorage.getItem("candidate") == 0){
         room.localParticipant.publishTrack(dataTrack);
 
 
         room.localParticipant.on('trackPublished', publication => {
-          console.log("hi 2");
           if (publication.track === dataTrack) {
             dataTrackPublished.resolve();
           }
@@ -60,10 +56,6 @@ const Room = ({ roomName, token, handleLogout }) => {
             dataTrackPublished.reject(error);
           }
         });
-      // }
-
-      // dataTrackPublished.promise.then(() => dataTrack.send("bik doesnt code"));
-      // dataTrackPublished.promise.then(() => dataTrack.send("bik doesnt code"));
 
 
     });
@@ -88,30 +80,27 @@ const Room = ({ roomName, token, handleLogout }) => {
     <Participant key={participant.sid} participant={participant} />
   ));
 
-  
-    
+
+
   const handleSend = () => {
     setCount (count+1)
-    console.log("COUNT",count);
+    parentCallback(count)
     room.localParticipant.publishTrack(dataTrack);
 
 
-        room.localParticipant.on('trackPublished', publication => {
-          console.log("hi 2");
-          if (publication.track === dataTrack) {
-            dataTrackPublished.resolve();
-          }
-        });
+    room.localParticipant.on('trackPublished', publication => {
+      if (publication.track === dataTrack) {
+        dataTrackPublished.resolve();
+      }
+    });
 
-        room.localParticipant.on('trackPublicationFailed', (error, track) => {
-          if (track === dataTrack) {
-            dataTrackPublished.reject(error);
-          }
-        });
-      // }
+    room.localParticipant.on('trackPublicationFailed', (error, track) => {
+      if (track === dataTrack) {
+        dataTrackPublished.reject(error);
+      }
+    });
 
-      dataTrackPublished.promise.then(() => dataTrack.send(count));
-    console.log("datatrack?");
+    dataTrackPublished.promise.then(() => dataTrack.send(count));
   }
 
   return (

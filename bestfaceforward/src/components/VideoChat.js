@@ -7,9 +7,16 @@ import VideoComponent from './VideoComponent'
 import {Row, Col} from 'react-bootstrap';
 
 const VideoChat = (props) => {
+  const [count, setCount] = useState(null);
   const handleLogout = useCallback(event => {
 
   }, []);
+
+  const callbackFunction = (childData) => {
+      setCount(childData)
+  }
+
+
 
   let render = (
       <div>
@@ -20,8 +27,8 @@ const VideoChat = (props) => {
                 <h1 className = "text-center">Meeting</h1>
               </header>
             </div>
-            <Room roomName={props.roomName} token={props.token} handleLogout={handleLogout} />
-            <VideoComponent/>
+            <Room roomName={props.roomName} token={props.token} handleLogout={handleLogout} parentCallback = {callbackFunction}/>
+            <VideoComponent count={count}/>
           </Col>
         </Row>
       </div>
