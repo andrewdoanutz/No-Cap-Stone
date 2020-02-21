@@ -45,7 +45,7 @@ export default class Dashboard extends Component {
     // console.log("here",this.state.newMeetingID);
     console.log("Cookies",cookies.get('login'));
       return (
-        <div className="homebox">
+        <div>
           <Row>
             <Col xs={3} style={{marginLeft: "10px", marginTop: "10px"}}>
               <NewMeeting uname = {cookies.get('login')}/>

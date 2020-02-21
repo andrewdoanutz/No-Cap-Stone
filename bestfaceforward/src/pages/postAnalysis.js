@@ -30,9 +30,9 @@ render(){
           <Accordion defaultActiveKey="0">
           {this.state.transcript.map(function(text, index){
             return (
-              <Card>
+              <Card className = "shadow">
                 <Card.Header>
-                  <Accordion.Toggle as={Button} variant="link" eventKey={index}>
+                  <Accordion.Toggle as={Button} variant="link" eventKey={index} className="accordionButton">
                     <h2> Question {index+1} </h2>
                   </Accordion.Toggle>
                 </Card.Header>

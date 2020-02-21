@@ -21,7 +21,7 @@
 
 .navbarTitle:hover {
   cursor: pointer;
-  color: orange !important;
+  color: #ffc700 !important;
 }
 
 
@@ -33,7 +33,7 @@
 }
 .link:hover {
   cursor: pointer;
-  color: orange  !important;
+  color: #ffc700  !important;
 }
 
 .navImage{

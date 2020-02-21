@@ -24,7 +24,7 @@ export default class CalendarView extends React.Component {
             {title: 'Andrew Doan', date: '2020-02-13T11:00:00'},
             {title: 'Ryan Gormley', date: '2020-02-28T09:00:00'}
           ]}
-        eventColor = '#007bff'
+        eventColor = '#007ed9'
         eventTextColor = "white"
         plugins={[ dayGridPlugin]}
       />

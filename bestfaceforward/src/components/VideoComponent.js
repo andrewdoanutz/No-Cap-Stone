@@ -5,7 +5,6 @@
 import React, { Component } from 'react'
 //import SpeechRecognition from 'react-speech-recognition'
 import {Button,Card,Col,Row} from 'react-bootstrap';
-import axios from 'axios'
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from './Transcript';
 import Timing from './Timing';
@@ -359,7 +358,7 @@ class VideoComponent extends Component {
           {<Transcript messages={messages} />}
           {<Timing messages = {messages} />}
         </h1>
-        <Card style={{width:"20%"}}>
+        <Card className = "shadow" style={{width:"20%"}}>
           <Card.Body>
             <Card.Text>
               <Row>

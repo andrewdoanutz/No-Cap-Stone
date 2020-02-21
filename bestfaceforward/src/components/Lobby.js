@@ -10,7 +10,7 @@ const Lobby = (props) => {
         <Container>
           <Row className="justify-content-center">
             <Col sm={6}>
-              <Card border="primary" className = "shadow">
+              <Card className = "shadow">
                 <Card.Body>
                   <Form onSubmit={props.handleSubmit}>
                     <div className = "pb-2 center-text">
