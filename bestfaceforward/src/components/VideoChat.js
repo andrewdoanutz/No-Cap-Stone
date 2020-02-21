@@ -10,19 +10,20 @@ const VideoChat = (props) => {
   const [count, setCount] = useState(0);
   const [username,setUsername] = useState("");
   const handleLogout = useCallback(event => {
- 
+
   }, []);
 
   const callbackFunction = (childData) => {
-      console.log("callback videochat")
-      console.log(childData);
+
       setCount(childData)
   }
+  const callbackFunction2 = (childData) => {
 
-
-
+      setUsername(childData)
+  }
 
   let render = (
+
       <div>
         <Row>
           <Col>

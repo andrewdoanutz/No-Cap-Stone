@@ -15,7 +15,7 @@ import axios from 'axios';
 var prevTime = 10;
 var ts = ""
 var translatedPhrase = ""
-var finalResult = "" 
+var finalResult = ""
 class VideoComponent extends Component {
   constructor(props){
     super(props)
@@ -45,7 +45,7 @@ class VideoComponent extends Component {
 
   componentDidMount(){
     this.fetchToken()
-    
+
     if (localStorage.getItem("candidate") != 0){
       console.log("this is a candidate");
       this.timerID = setInterval(
@@ -56,59 +56,53 @@ class VideoComponent extends Component {
 
     }
     else{
-      console.log("this is a recruiter"); 
+      console.log("this is a recruiter");
     }
   }
 
   componentWillUnmount() {
     clearInterval(this.timerID);
-    
+
   }
 
 
   transcriptbackFunction = (childData) => {
-    console.log("transcription callback")
     console.log(childData);
     this.setState({finalTranscript:childData});
  }
 
-
  async callWriteTranscript(transcription){
-  console.log();
-  const res = await axios.post('http://localhost:3001/db/writeTranscript', {q:transcription,u: this.props.name})
+
+  const res = await axios.post('http://localhost:3001/db/writeTranscript', {q:transcription,u: this.props.username})
 };
 
 
   tick() {
-    
-    console.log("TICK",this.props.count);
+
+
     if(this.state.numQues < this.props.count){
-      console.log("HELLO")
       const messages = this.getFinalAndLatestInterimResult()
-      console.log("stopping")
       this.onClickListener()
-      console.log("starting")
       this.onClickListener()
       this.setState({numQues:this.props.count})
       var merged = [].concat.apply([], finalResult);
       finalResult = "";
       merged = merged.join(" ")
       merged += "@"
-      
-      console.log(merged);
+
       this.callWriteTranscript(merged);
 
     }
     this.setState({
       date: new Date()
-    
+
     });
-    
+
     //setTimeout(()=>this.takePicture(),4);
   }
 
 
-  
+
   fetchToken() {
     return fetch('/api/v1/credentials').then((res) => {
       if (res.status !== 200) {
@@ -338,7 +332,7 @@ class VideoComponent extends Component {
             }
           } catch(e){
             console.log("error changing indicator: ",e)
-          }   
+          }
         })
       }
       ,1000))
@@ -374,8 +368,8 @@ class VideoComponent extends Component {
   render(){
     const {token, formattedMessages} = this.state;
     const messages = this.getFinalAndLatestInterimResult();
-    const results = messages.map(msg => msg.results.map((result, i) => (result.alternatives[0].transcript))).reduce((a, b) => a.concat(b), []); 
-    
+    const results = messages.map(msg => msg.results.map((result, i) => (result.alternatives[0].transcript))).reduce((a, b) => a.concat(b), []);
+
     finalResult = results;
     //console.log(finalResult);
     var merged = [].concat.apply([], finalResult);
