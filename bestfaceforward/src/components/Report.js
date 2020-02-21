@@ -1,10 +1,3 @@
-// TODO: Analyze audio for speed/clarity/pacing on recrded mp4 file and display here
-
-//TODO: analyze transcript in "txt" variable for filler words/ no-no words/ ramblng
-
-//index.js
-
-
 import React, { Component } from 'react';
 import axios from 'axios'
 import {Button, Card, Row, Col} from 'react-bootstrap';
@@ -15,19 +8,7 @@ class Report extends Component {
   constructor(props){
     super(props);
     this.state = {
-      txtJson:[
-
-      "first text, something about being upset often and nonconfident in team performance. team sucks and I really hate them and wish they were better",
-
-        "second text, Happy when things work out and I hope for the best for our team. They are so awesome and I love them and we are the best team ever.",
-
-        "in most situations our team worked well under pressure. When ever we didn't communicate we roked for solutions. Very well under pressure."
-      ],
-      txt: this.props.questions,
-      index: this.props.index,
-      username: this.props.username,
-      index: this.props.index,
-      speed:"average",
+      txt: this.props.responses,
       analysis: [
                   {
                     tone_name: 'Anger', score: 0
@@ -59,22 +40,11 @@ class Report extends Component {
                   {concepts: '2', score: 1},
                   {concepts: '3', score: 1}],
     }
-    this.readTranscript()
     this.analyzeText()
     this.getSubjects()
-    this.getSpeed()
   }
 
-getSpeed = () => {
-  var speed =this.state.speed
-  axios.post('http://localhost:3001/db/readAudioAnalysis', {username: this.state.username, index:this.state.index})
-  .then(res=> {
-    console.log("SPEED:", res)
-    this.setState({
-      speed: res.data
-    })
-  })
-}
+
 
   //get number of occurances in an array of a specific value
   getOccurrence = (array, value) => {
@@ -82,16 +52,8 @@ getSpeed = () => {
     array.forEach((v) => (v === value && count++));
     return count;
   }
-  
-  readTranscript = () => {
-    axios.post('http://localhost:3001/db/readTranscript' , {username:this.state.username}).then(res=>{
-      this.setState({
-        txt: res.data[this.state.index]
-      })})
-  }
 
   getSubjects = () => {
-    var txt = this.state.txt.toLowerCase()
     axios.post('http://localhost:3001/api/subjects', {transcript: this.state.txt})
    .then(res => {
      console.log("Response: ",res)
@@ -128,13 +90,16 @@ getSpeed = () => {
 
   analyzeText = () => {
 
-    var txt = this.state.txt.toLowerCase()
-    var words = txt.split(" ")
-    var wordArray = Object.values(words)
+    // var txt = this.state.txt.toLowerCase()
+    // var words = txt.split(" ")
+    // var wordArray = Object.values(words)
 
     // this.setState({filler: this.getOccurrence(wordArray, 'um')})
-  //Post call to backend for analysis of transcript
-    axios.post('http://localhost:3001/db/readToneAnalysis', {username: this.state.username})
+
+
+
+    //Post call to backend for analysis of transcript
+    axios.post('http://localhost:3001/api/transcript', {transcript: this.state.txt})
    .then(res => {
 
      //Gets analysis from backend
@@ -144,10 +109,8 @@ getSpeed = () => {
      //     tone.score
      //   }
      // }
-     // console.log(res.data.toneAnalysis.result.document_tone.tones)
-     // var tones = res.data.toneAnalysis.result.document_tone.tones
-     console.log("RES.DATA:", res.data)
-     var tones = res.data
+     console.log(res.data.toneAnalysis.result.document_tone.tones)
+     var tones = res.data.toneAnalysis.result.document_tone.tones
      var finalTone = [ {tone_name: 'Anger', score: 0.1},
                  {
                    tone_name: 'Fear', score: 0.1
@@ -175,7 +138,7 @@ getSpeed = () => {
          }
        }
      }
-     console.log("FINALTONE:" ,finalTone)
+     console.log(finalTone)
      this.setState({
        analysis: finalTone
      })
@@ -183,8 +146,6 @@ getSpeed = () => {
      //console.log(this.state.analysis)
    })
   }
-
-
   getFeedback(){
     var res=""
     for (var a of this.state.analysis){
@@ -236,7 +197,7 @@ getSpeed = () => {
         } else if(a.score>=.4){
           res+="You are a little hesitant in what you are saying. "
         }
-      }
+      } 
     }
     if(this.state.filler>6){
       res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
@@ -251,19 +212,6 @@ getSpeed = () => {
 
 
   render(){
-    var analysisList = (this.state.txtJson).map(function(text){
-       return <Row><Card style={{ width: '18rem' }}>
-         <Card.Body>
-            <Card.Title>{text}</Card.Title>
-            <Card.Text>
-
-            </Card.Text>
-          </Card.Body>
-        </Card></Row>;
-     })
-     /* <Col>
-     {analysisList}
-   </Col> */
     return(
       <div>
         <Row>
@@ -373,15 +321,7 @@ getSpeed = () => {
                     <Card.Header as="h3">Filler Count</Card.Header>
                     <Card.Body>
                       <Card.Text as="h4">
-                        <div>Number of Filler Words: {this.state.filler}</div>
-                      </Card.Text>
-                    </Card.Body>
-                </Card>
-                <Card style={{marginBottom: "10px"}}>
-                    <Card.Header as="h3">Talking Speed</Card.Header>
-                    <Card.Body>
-                      <Card.Text as="h4">
-                        <div>During this question your speed was: {this.state.speed}</div>
+                        <div>Numer of Filler Words: {this.state.filler}</div>
                       </Card.Text>
                     </Card.Body>
                 </Card>
