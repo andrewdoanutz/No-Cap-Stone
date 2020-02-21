@@ -126,7 +126,7 @@ module.exports = {
             },
 
 
-           
+
 
 
 
@@ -186,8 +186,8 @@ module.exports = {
 
 
 
-      
-      
+
+
 
       readUserEntry(res, username){
         var params = {
@@ -216,9 +216,28 @@ module.exports = {
         });
 
       },
-      
 
-      
+      readTable(res){
+        var params = {
+            TableName:table,
+            Select: "ALL_ATTRIBUTES"
+          };
+        var jsonString;
+        docClient.scan(params, function(err, data) {
+          if (err) {
+             console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
+             return (0)
+          } else {
+            jsonString = JSON.parse(JSON.stringify(data, null, 2));
+            res.set('Content-Type', 'application/json');
+            res.send(jsonString)
+            return (1)
+          }
+        });
+      },
+
+
+
 
       createNewMeeting(res, username, candidate, id, time, date){
         var params = {
@@ -242,5 +261,5 @@ module.exports = {
         });
       },
 
-      
+
     }

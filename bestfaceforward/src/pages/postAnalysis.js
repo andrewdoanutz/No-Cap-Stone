@@ -43,7 +43,7 @@ const postAnalysis = (props) => {
   //   }
   //   //this.getCandidate()
   // }
-    
+
     if(!DBInfo){
       return(
         <div className="homeBox">waiting</div>

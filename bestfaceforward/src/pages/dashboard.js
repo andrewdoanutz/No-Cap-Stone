@@ -12,7 +12,7 @@ import VideoComponent from './../components/VideoComponent'
 import Meetings from './../components/Meetings'
 import Userlist from './../components/Userlist'
 
-import Userdash from '../components/UserDash'
+import Userdash from '../components/Userdash'
 import Database from '../components/Database'
 import NewMeeting from './newMeeting'
 import CalendarView from '../components/Calendar'

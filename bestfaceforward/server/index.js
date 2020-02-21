@@ -223,6 +223,14 @@ app.post('/db/readUserInfo', (req,res) =>{
   database.readUserEntry(res,username)
 })
 
+//Get entire table from table
+app.get('/db/getTable', (req,res) => {
+  database.readTable(res)
+})
+app.post('/db/getTable', (req,res) => {
+  database.readTable(res)
+})
+
 
 //CREATING new meeting
 app.get('/db/createNewMeeting', (req,res) =>{
