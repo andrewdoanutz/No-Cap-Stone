@@ -5,7 +5,7 @@
 .navbar {
   z-index: 10;
   width: 100%;
-  background: #F0F8FF!important;
+  background: #121212 !important;
   height: 7%;
   margin: 0;
 }
@@ -14,7 +14,7 @@
   font: 1.7em "Raleway", sans-serif;
   font-weight: "bold";
   letter-spacing: 1.5px;
-  color: black !important;
+  color: white !important;
   text-transform: uppercase;
   margin: 0;
 }
@@ -28,7 +28,7 @@
 .link {
   font: 1.7em "Raleway", sans-serif;
   font-weight: "bold";
-  color: black !important;
+  color: white !important;
   margin-left: 1em;
 }
 .link:hover {

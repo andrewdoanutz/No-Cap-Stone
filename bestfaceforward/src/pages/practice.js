@@ -7,7 +7,6 @@ import { ReactMediaRecorder } from "react-media-recorder";
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from '../components/Transcript';
 
-import "../css/practice.css";
 import axios from 'axios'
 
 const videoConstraints = {
