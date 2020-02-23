@@ -58,7 +58,7 @@ export default class Dashboard extends Component {
 
             </Col>
             <Col xs={8} style={{marginTop: "25px"}}>
-              <Card  className = "shadow">
+              <Card className = "shadow dark1 text-light">
                 <Card.Body >
                   <h4> {this.state.isClicked ? <Info name = {this.state.name} id = {this.state.id}/> : <CalendarView /> }</h4>
                 </Card.Body>

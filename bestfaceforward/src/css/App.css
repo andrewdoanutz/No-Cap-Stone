@@ -7,16 +7,16 @@ body{
   padding-top:5%
 }
 Button{
-  background-color: #08AEEA !important;
+  background-color: #36C7D0 !important;
   /* background-color: #00818A !important; */
   /* background-image: linear-gradient(90deg, #03DAC5 0%, #08AEEA 100%) !important; */
   border:0px solid transparent !important; /* this was 1px earlier */
-  color: white !important;
+  color: #121212 !important;
   text-decoration: none !important;
 }
 Button:hover{
   cursor: pointer;
-  background-image: linear-gradient(90deg, #03DAC5 0%, #08AEEA 100%) !important;
+  background-image: linear-gradient(90deg, #36C7D0 30%, #08AEEA 100%) !important;
 }
 .accordionButton{
   background-color: #007ed9 !important;
@@ -31,6 +31,9 @@ Button:hover{
 }
 .dark1{
   background-color: #272727 !important;
+}
+.text-light{
+  color: white !important;
 }
 .dark-scroll {
     max-height: 80vh;

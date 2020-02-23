@@ -15,6 +15,7 @@
   font-weight: "bold";
   letter-spacing: 1.5px;
   color: white !important;
+  font-weight: bold;
   text-transform: uppercase;
   margin: 0;
 }
@@ -27,7 +28,7 @@
 
 .link {
   font: 1.7em "Raleway", sans-serif;
-  font-weight: "bold";
+  font-weight: bold;
   color: white !important;
   margin-left: 1em;
 }
