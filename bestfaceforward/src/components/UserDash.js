@@ -20,11 +20,11 @@ const Userdash = (props) => {
 
     return (
       <div>
-        <div className = "scroll">
+        <div className = "dark-scroll">
           <Container>
             <Row>{ names.map(function(candidate){
               return <Col key = {candidate.name}> <h3> {candidate.date} </h3>
-                <Card className = "shadow" style={{marginBottom: "10%"}}>
+                <Card bg="dark" text="white" className = "shadow" style={{marginBottom: "10%"}}>
                 <Card.Body>
                   <Row>
                     <Col>

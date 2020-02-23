@@ -50,7 +50,7 @@ export default class Dashboard extends Component {
           <Row>
             <Col xs={3} style={{marginLeft: "10px", marginTop: "10px"}}>
               <NewMeeting uname = {cookies.get('login')}/>
-              <Card className = "shadow">
+              <Card text="white" className = "shadow dark1">
                 <Card.Body>
                   <Userdash parentCallback = {this.callbackFunction} clicked = {this.state.isClicked}/>
                 </Card.Body>
