@@ -66,7 +66,7 @@ const postAnalysis = (props) => {
       transcript.forEach(i=>{
         overallTranscript+=i+" "
       })
-      console.log(overallTranscript)
+      console.log(transcript)
       const overallVideoScores = [].concat.apply([], videoScores);
         return(
           <div className="homeBox">

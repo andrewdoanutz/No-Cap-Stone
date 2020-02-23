@@ -201,14 +201,34 @@ export default class Practice extends Component {
         }
 
     }
-    async storeData(){
-      let response = axios.post('http://localhost:3001/db/writeTranscript', {username: "practice",transcript:this.state.transcripts})
+    async storeData(transcripts){
+      let response = axios.post('http://localhost:3001/db/writeTranscript', {username: "practice",transcript:transcripts})
       console.log(response)
       response = axios.post('http://localhost:3001/db/writeVideos', {username: "practice",videos:this.state.videos})
       console.log(response)
       response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "practice"})
       console.log(response)
     };
+    decodeTranscript(transcript) {
+      try {
+        // When resultsBySpeaker is enabled, each msg.results array may contain multiple results.
+        // The result_index is for the first result in the message,
+        // so we need to count up from there to calculate the key.
+        // let results = []
+        // transcript.forEach((result)=>{
+        //   results.push(result.results[0].alternatives[0]['transcript'])
+        // })
+    
+         let results = ""
+        transcript.forEach((result)=>{
+          results=(result.results[0].alternatives[0]['transcript'])
+        })
+    
+        return (results);
+      } catch (ex) {
+        console.log(ex,transcript);
+      }
+    }
     generateReport(){
         if(this.state.videos.length>3){
             this.state.videos.shift()
@@ -216,7 +236,12 @@ export default class Practice extends Component {
         if(this.state.transcripts.length>3){
             this.state.transcripts.pop()
         }
-        this.storeData().then(()=>{
+        let transcriptText=[]
+        this.state.transcripts.forEach(i =>{
+          transcriptText.push(this.decodeTranscript(i))
+        })
+        console.log(transcriptText)
+        this.storeData(transcriptText).then(()=>{
           console.log("stored")
           
         })

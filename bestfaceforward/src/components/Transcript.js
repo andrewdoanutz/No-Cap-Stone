@@ -10,7 +10,7 @@ export default function Transcript(props) {
       <span key={`result-${msg.result_index + i}`}>{result.alternatives[0].transcript}</span>
     ))).reduce((a, b) => a.concat(b), []); // the reduce() call flattens the array
 
-    axios.post('http://localhost:3001/db/writeTranscript', {q:results[0].props.children,u:"practice"})
+
     console.log("RESULTS",results)
     console.log("RESULTS[0].props.children",results[0].props.children)
 
