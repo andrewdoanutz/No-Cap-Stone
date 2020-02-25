@@ -30,7 +30,7 @@ function useAsyncHook(name){
 
 const postAnalysis = (props) => {
   console.log(props)
-  const [transcript,loading,videoScores,videos,timestamps,questions]=useAsyncHook(props.location.state.username)
+  let [transcript,loading,videoScores,videos,timestamps,questions]=useAsyncHook(props.location.state.username)
   if(questions.length===0){
     let temp=[]
     transcript.map((val, index)=>{
