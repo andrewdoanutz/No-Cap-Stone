@@ -5,7 +5,7 @@ import Speech from 'speak-tts'
 import questions from '../questions.json'
 import { ReactMediaRecorder } from "react-media-recorder";
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
-import Transcript from '../components/Transcript';
+import {BrowserRouter as Redirect  } from "react-router-dom";
 
 import "../css/practice.css";
 import axios from 'axios'
@@ -201,8 +201,8 @@ export default class Practice extends Component {
         }
 
     }
-    async storeData(transcripts){
-      let response = axios.post('http://localhost:3001/db/writeTranscript', {username: "practice",transcript:transcripts})
+    async storeData(data){
+      let response = axios.post('http://localhost:3001/db/writeTranscript', {username: "practice",transcript:data})
       console.log(response)
       response = axios.post('http://localhost:3001/db/writeVideos', {username: "practice",videos:this.state.videos})
       console.log(response)
@@ -219,11 +219,13 @@ export default class Practice extends Component {
         //   results.push(result.results[0].alternatives[0]['transcript'])
         // })
     
-         let results = ""
+        let results = ""
         transcript.forEach((result)=>{
           results=(result.results[0].alternatives[0]['transcript'])
         })
-    
+        if(results===""){
+          results="No speech detected."
+        }
         return (results);
       } catch (ex) {
         console.log(ex,transcript);
@@ -236,6 +238,8 @@ export default class Practice extends Component {
         if(this.state.transcripts.length>3){
             this.state.transcripts.pop()
         }
+        console.log(this.state.videos)
+        
         let transcriptText=[]
         this.state.transcripts.forEach(i =>{
           transcriptText.push(this.decodeTranscript(i))
@@ -243,14 +247,17 @@ export default class Practice extends Component {
         console.log(transcriptText)
         this.storeData(transcriptText).then(()=>{
           console.log("stored")
-          
+          return(
+            this.props.history.push({
+              pathname: "/postAnalysis",
+              state: { username: "practice", length:this.state.transcripts.length }
+            })
+          )
         })
-        return(
-          this.props.history.push({
-            pathname: "/postAnalysis",
-            state: { username: "practice" }
-           })
-        )
+        // <Redirect to={{
+        //   pathname: '/postAnalysis',
+        //   state: {id: props.id, name: props.name}
+        // }}>
         // return(
         //     <div>
         //         {this.state.videos.map((url,index) => (
@@ -274,58 +281,58 @@ export default class Practice extends Component {
         }
 
         if(this.state.inds.length===5){
+            
             return(
-                <div className="homeBox-practice">
-                <div className="homeHead">Interview Practice Report</div>
-                {this.generateReport()}
-            </div>
-
+              <div>
+              <div>{this.generateReport()}</div>
+              </div>
             )
 
         } else {
-            return (
-                <ReactMediaRecorder
-                video
-                render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
-                    <div>
-                    <div className="homeBox-practice">
-                        <h1>{status}</h1>
-                        <Webcam
-                        audio={false}
-                        height={300}
-                        screenshotFormat="image/jpeg"
-                        width={500}
-                        videoConstraints={videoConstraints}
-                        />
-                    <Button onClick={()=> {
-                    if(this.state.recording===false){
-                        startRecording()
-                        this.onClickListener()
-                        this.setState({
-                            recording: true
-                        })
-                    } else {
-                        stopRecording()
-                        this.onClickListener()
-                        setTimeout(()=>{
-                            this.setState({
-                                transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
-                                videos: this.state.videos.concat([mediaBlobUrl])
-                            }, () => {
-                                startRecording()
-                                this.onClickListener()
-                            })
-                        },500)
+          return (
+              <ReactMediaRecorder
+              video
+              render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
+                  <div>
+                  <div className="homeBox-practice">
+                      <h1>{status}</h1>
+                      <Webcam
+                      audio={false}
+                      height={300}
+                      screenshotFormat="image/jpeg"
+                      width={500}
+                      videoConstraints={videoConstraints}
+                      />
+                  <Button onClick={()=> {
+                  if(this.state.recording===false){
+                      startRecording()
+                      this.onClickListener()
+                      this.setState({
+                          recording: true
+                      })
+                  } else {
+                      stopRecording()
+                      this.onClickListener()
+                      setTimeout(()=>{
+                          this.setState({
+                              transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
+                              videos: this.state.videos.concat([mediaBlobUrl])
+                          }, () => {
+                              console.log(this.state.videos)
+                              startRecording()
+                              this.onClickListener()
+                          })
+                      },500)
 
-                    }
-                    this.randomQuestion()
-                    }}>{buttonText}</Button>
-                    <div>{this.state.question}</div>
-                </div>
-                </div>
-                )}
-                />
-            )
-        }
-    }
+                  }
+                  this.randomQuestion()
+                  }}>{buttonText}</Button>
+                  <div>{this.state.question}</div>
+              </div>
+              </div>
+              )}
+              />
+          )
+      }
+  }
 }

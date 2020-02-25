@@ -44,7 +44,6 @@ class Report extends Component {
                   {concepts: '3', score: 1}],
     }
     this.analyzeText()
-    this.getSubjects()
   }
   
   
@@ -56,26 +55,27 @@ class Report extends Component {
     return count;
   }
 
-  getSubjects = () => {
+  getSubjects(){
     axios.post('http://localhost:3001/api/subjects', {transcript: this.state.txt})
    .then(res => {
      console.log("Response: ",res)
      var keywords = res.data.analysisResults.result.keywords
      var concepts = res.data.analysisResults.result.concepts
-   
-    var keyWordFeedback="Keywords you used are: "
-     for (var i of keywords){
-        if(i.relevance>.5){
-          keyWordFeedback+=i.text
-          if(i.text!=keywords[keywords.length-1].text){
-            keyWordFeedback+=", "
+    if(keywords.length>0){
+      var keyWordFeedback="Keywords you used are: "
+      for (var i of keywords){
+          if(i.relevance>.5){
+            keyWordFeedback+=i.text
+            if(i.text!=keywords[keywords.length-1].text){
+              keyWordFeedback+=", "
+            }
           }
-        }
-     }
-    keyWordFeedback+="."
-    if(keyWordFeedback==="Keywords you used are: ."){
-      keyWordFeedback=""
+      }
+      keyWordFeedback+="."
+    } else {
+     var keyWordFeedback=""
     }
+    if(concepts.length>0){
     var conceptFeedback="Concepts you emphasized are: "
     for (var i of concepts){
        if(i.relevance>.5){
@@ -86,13 +86,11 @@ class Report extends Component {
        }
     }
    conceptFeedback+=". "
-   if(conceptFeedback==="Concepts you emphasized are: . "){
-     conceptFeedback=""
-   }
-     this.setState({
-       concepts: conceptFeedback,
-       keywords: keyWordFeedback
-     })
+  } else {
+    var conceptFeedback=""
+  }
+
+    return conceptFeedback+keyWordFeedback
    })
   }
 
@@ -286,7 +284,7 @@ class Report extends Component {
                         </RadarChart>
                       </Row>
                       <Row>
-                        <h4>{this.getFeedback()+this.state.concepts+this.state.keywords+this.timestampAnalysis()}</h4>
+                        <h4>{this.getFeedback()}{this.getSubjects()}{this.timestampAnalysis()}</h4>
                       </Row>
                     </Card.Text>
                   </Card.Body>
@@ -353,7 +351,7 @@ class Report extends Component {
                       </RadarChart>
                     </Row>
                     <Row>
-                      <h4>{this.getFeedback()+this.state.concepts+this.state.keywords}</h4>
+                      <h4>{this.getFeedback()}{this.getSubjects()}</h4>
                     </Row>
                   </Card.Text>
                 </Card.Body>
