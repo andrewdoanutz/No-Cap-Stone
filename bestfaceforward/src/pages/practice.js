@@ -72,7 +72,8 @@ export default class Practice extends Component {
             g:204,
             b:102,
             status: "neutral",
-            videoScores:[]
+            videoScores:[],
+            finalScores:[]
         }
         this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
         this.getFinalResults = this.getFinalResults.bind(this);
@@ -233,7 +234,7 @@ export default class Practice extends Component {
 
     }
     async storeData(data,timestamps,Qs){
-      let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.videoScores,timestamps:timestamps})
+      let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:timestamps})
       console.log(response)
       response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "practice"})
       console.log(response)
@@ -274,11 +275,16 @@ export default class Practice extends Component {
         let results = []
         transcript.forEach((result)=>{
           const temp=result.results[0].alternatives[0]['timestamps']
+          console.log(temp)
+          if(!temp || temp==[] || temp=='undefined'){
+            return [1,1]
+          } else {
           results.push(temp[1])
           results.push(temp[2])
+          }
         })
-        if(results===""){
-          results="No speech detected."
+        if(results==[]){
+          return [1,1]
         }
         return (results);
       } catch (ex) {
@@ -292,6 +298,9 @@ export default class Practice extends Component {
         if(this.state.transcripts.length>3){
             this.state.transcripts.pop()
         }
+        if(this.state.finalScores.length>3){
+          this.state.finalScores.pop()
+      }
         console.log(this.state.videos)
         
         let transcriptText=[]
@@ -301,7 +310,7 @@ export default class Practice extends Component {
           timestamps.push(this.decodeTiming(i))
         })
         console.log(transcriptText)
-        console.log(transcriptText)
+        console.log(timestamps)
         let Qs = []
         Qs.push(questions[this.state.inds[0]])
         Qs.push(questions[this.state.inds[1]])
@@ -409,35 +418,39 @@ export default class Practice extends Component {
           this.callBackendAPI().then(results => {
             try{
               let resJSON=JSON.parse(results['response'])['0']['faceAnnotations']['0']
-              let joyScore=this.scoreVideoAnalysis(resJSON['joyLikelihood'])
-              let sorrowScore=this.scoreVideoAnalysis(resJSON['sorrowLikelihood'])
-              let angerScore=this.scoreVideoAnalysis(resJSON['angerLikelihood'])
-              let surpriseScore=this.scoreVideoAnalysis(resJSON['surpriseLikelihood'])
-              let totalScore=joyScore-sorrowScore-angerScore-surpriseScore
-              if(totalScore>0){
-                this.setState({
-                  r:102,
-                  g:255,
-                  b:153,
-                  status:"positive",
-                  videoScores: this.state.videoScores.concat([totalScore])
-                })
-              } else if (totalScore<0){
-                this.setState({
-                  r:255,
-                  g:102,
-                  b:102,
-                  status:"negative",
-                  videoScores: this.state.videoScores.concat([totalScore])
-                })
+              if(resJSON!=='undefined' && resJSON){
+                let joyScore=this.scoreVideoAnalysis(resJSON['joyLikelihood'])
+                let sorrowScore=this.scoreVideoAnalysis(resJSON['sorrowLikelihood'])
+                let angerScore=this.scoreVideoAnalysis(resJSON['angerLikelihood'])
+                let surpriseScore=this.scoreVideoAnalysis(resJSON['surpriseLikelihood'])
+                let totalScore=joyScore-sorrowScore-angerScore-surpriseScore
+                if(totalScore>0){
+                  this.setState({
+                    r:102,
+                    g:255,
+                    b:153,
+                    status:"positive",
+                    videoScores: this.state.videoScores.concat([totalScore])
+                  })
+                } else if (totalScore<0){
+                  this.setState({
+                    r:255,
+                    g:102,
+                    b:102,
+                    status:"negative",
+                    videoScores: this.state.videoScores.concat([totalScore])
+                  })
+                } else {
+                  this.setState({
+                    r:255,
+                    g:204,
+                    b:102,
+                    status:"neutral",
+                    videoScores: this.state.videoScores.concat([totalScore])
+                  })
+                }
               } else {
-                this.setState({
-                  r:255,
-                  g:204,
-                  b:102,
-                  status:"neutral",
-                  videoScores: this.state.videoScores.concat([totalScore])
-                })
+                return 0
               }
             } catch(e){
               console.log("error changing indicator: ",e)
@@ -451,10 +464,12 @@ export default class Practice extends Component {
         return 0
       } else if (score==="UNLIKELY"){
         return 1
-      } else if (score==="LIKELY"){
+      } else if (score=="POSSIBLE"){
         return 2
-      } else if (score==="VERY_LIKELY"){
+      } else if (score==="LIKELY"){
         return 3
+      } else if (score==="VERY_LIKELY"){
+        return 4
       } else {
         console.log("Error in scoring analysis:",score)
         return -1
@@ -522,8 +537,14 @@ export default class Practice extends Component {
                       setTimeout(()=>{
                           this.setState({
                               transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
-                              videos: this.state.videos.concat([mediaBlobUrl])
+                              videos: this.state.videos.concat([mediaBlobUrl]),
+                              finalScores: this.state.finalScores.concat([this.state.videoScores]),
+                              
                           }, () => {
+                            console.log(this.state.finalScores)
+                              this.setState({
+                                videoScores: []
+                              })
                               console.log(this.state.videos)
                               startRecording()
                               this.onClickListener()
