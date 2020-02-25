@@ -21,7 +21,7 @@ const Welcome = () => {
                   <style type="text/css">
                   {`
                     .btn-flat {
-                      background-color: #007bff;
+                      background-color: #08AEEA;
                       color: white;
                     }
 
@@ -48,7 +48,7 @@ const Welcome = () => {
                   <style type="text/css">
                   {`
                     .btn-flat {
-                      background-color: #007bff;
+                      background-color: #08AEEA;
                       color: white;
                     }
 

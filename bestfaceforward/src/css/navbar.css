@@ -5,7 +5,7 @@
 .navbar {
   z-index: 10;
   width: 100%;
-  background: #F0F8FF!important;
+  background: #F0F8FF !important;
   height: 7%;
   margin: 0;
 }
@@ -14,12 +14,7 @@
   font: 1.7em "Raleway", sans-serif;
   font-weight: "bold";
   letter-spacing: 1.5px;
-<<<<<<< HEAD
-  color: white !important;
-  font-weight: bold;
-=======
   color: black !important;
->>>>>>> parent of 3b20769... Began adding dark mode
   text-transform: uppercase;
   margin: 0;
 }
@@ -32,13 +27,7 @@
 
 .link {
   font: 1.7em "Raleway", sans-serif;
-<<<<<<< HEAD
-  font-weight: bold;
-  color: white !important;
-=======
-  font-weight: "bold";
   color: black !important;
->>>>>>> parent of 3b20769... Began adding dark mode
   margin-left: 1em;
 }
 .link:hover {

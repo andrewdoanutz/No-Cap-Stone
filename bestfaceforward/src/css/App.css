@@ -5,15 +5,41 @@ body{
   background-color: #F0F8FF !important;
   padding-top:5%
 }
-Button{
-  background-color: #007ed9 !important;
-  border:0px solid transparent !important; /* this was 1px earlier */
-  color: #121212 !important;
-  text-decoration: none !important;
+
+/* BUTTONS */
+.blue-button{
+  /* background-color: #36C7D0 !important; */
+ background-color: #08AEEA !important;
+ /* background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important; */
+ border:0px solid transparent !important; /* this was 1px earlier */
+ color: white !important;
+ text-decoration: none !important;
+
 }
 Button:hover{
   cursor: pointer;
-  color: #ffa537  !important;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
+.btn-flat {
+  background-color: #08AEEA !important;
+  color: white !important;
+}
+
+.btn-xxl {
+  padding: 1rem 1.5rem !important;
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+}
+.btn-round {
+  background-color: #08AEEA !important;
+  color: white !important;
+  border-radius: 12px;
+}
+.btn-red {
+  background-color: #F74356 !important;
+  color: white !important;
+  border-radius: 12px;
 }
 .accordionButton{
   background-color: #007ed9 !important;
@@ -26,16 +52,9 @@ Button:hover{
 .accordion{
   background-color: #007ed9 !important;
 }
-.dark1{
-  background-color: #272727 !important;
-}
-.text-light{
-  color: white !important;
-}
 .dark-scroll {
     max-height: 80vh;
     overflow-y: auto;
-    background: #272727 !important;
 }
 .centered {
   display: flex;

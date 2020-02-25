@@ -44,8 +44,8 @@ const newMeeting = ({uname}) =>{
 
   return (
     <div className = "pb-2">
-    <Button size="lg" variant="primary" onClick={handleShow}>
-      Create New Meeting
+    <Button size="lg" variant="red" onClick={handleShow}>
+      Schedule Interview
     </Button>
 
     <Modal show={show} onHide={handleClose} animation={false}>
@@ -74,7 +74,7 @@ const newMeeting = ({uname}) =>{
             Cancel
           </Button>
           <Button variant="primary" onClick={createNewMeeting}>
-            Create Meeting
+            Schedule
           </Button>
         </Modal.Footer>
       </Modal>

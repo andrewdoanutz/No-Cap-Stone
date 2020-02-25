@@ -50,28 +50,10 @@ const Info = (props) => {
               <Link to={{
                 pathname: '/videocall',
                 state: {id: props.id, name: name}
-
               }}>
-              <>
-                <style type="text/css">
-                {`
-                  .btn-flat {
-                    background-color: #007bff;
-                    color: white;
-                  }
-
-                  .btn-xxl {
-                    padding: 1rem 1.5rem;
-                    font-size: 1.5rem;
-                    font-weight: bold;
-                  }
-                  `}
-                </style>
-
                 <Button variant="flat" size="xxl">
                   <FontAwesomeIcon icon={faVideo}/> &nbsp; Join Meeting
                 </Button>
-              </>
           </Link>
 
 

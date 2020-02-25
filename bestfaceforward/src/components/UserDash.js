@@ -21,10 +21,10 @@ const Userdash = (props) => {
     return (
       <div>
         <div className = "dark-scroll">
-          <Container>
+          <Container fluid="true">
             <Row>{ names.map(function(candidate){
-              return <Col key = {candidate.name}> <h3> {candidate.date} </h3>
-                <Card bg="dark" text="white" className = "shadow" style={{marginBottom: "10%"}}>
+              return <Container fluid ="true"><Row><Col key = {candidate.name}> <h3> {candidate.date} </h3>
+                <Card className = "shadow" style={{marginBottom: "10%", "border-color": "#08AEEA"}}>
                 <Card.Body>
                   <Row>
                     <Col>
@@ -34,13 +34,14 @@ const Userdash = (props) => {
                       </Card.Text>
                     </Col>
                     <Col className="my-auto">
-                      <Button variant = "primary" value = {true} onClick = {()=> {setName(candidate.name);
-                        setID(candidate.id);
-                        props.parentCallback({name: candidate.name, id: candidate.id, isClicked: !props.clicked})}}><h5> View Candidate </h5><FontAwesomeIcon icon={faArrowRight} size='2x'/></Button>
+                        <Button variant="round" value = {true} onClick = {()=> {setName(candidate.name);
+                          setID(candidate.id);
+                          props.parentCallback({name: candidate.name, id: candidate.id, isClicked: !props.clicked})}}><h5> View Candidate </h5><FontAwesomeIcon icon={faArrowRight} size='2x'/></Button>
+
                     </Col>
                   </Row>
                 </Card.Body>
-              </Card></Col>;
+              </Card></Col></Row></Container>;
             }) }</Row>
           </Container>
         </div>

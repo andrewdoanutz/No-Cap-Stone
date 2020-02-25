@@ -50,7 +50,7 @@ export default class Dashboard extends Component {
           <Row>
             <Col xs={3} style={{marginLeft: "10px", marginTop: "10px"}}>
               <NewMeeting uname = {cookies.get('login')}/>
-              <Card text="white" className = "shadow dark1">
+              <Card className = "shadow">
                 <Card.Body>
                   <Userdash parentCallback = {this.callbackFunction} clicked = {this.state.isClicked}/>
                 </Card.Body>
@@ -58,7 +58,7 @@ export default class Dashboard extends Component {
 
             </Col>
             <Col xs={8} style={{marginTop: "25px"}}>
-              <Card className = "shadow dark1 text-light">
+              <Card className = "shadow">
                 <Card.Body >
                   <h4> {this.state.isClicked ? <Info name = {this.state.name} id = {this.state.id}/> : <CalendarView /> }</h4>
                 </Card.Body>
