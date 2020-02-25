@@ -1,7 +1,6 @@
-import React, { useState, useCallback,useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios'
 import {Accordion, Card, Row, Col, Button} from 'react-bootstrap';
-import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Report from './../components/Report'
 import { GridLoader } from "react-spinners";
 
@@ -11,6 +10,7 @@ function useAsyncHook(name){
   const [videoScores,setVideoScores]=useState([])
   const [videos,setVideos]=useState([])
   const [timestamps,setTimestamps]=useState([])
+  const [questions,setQuestions]=useState([])
   useEffect(() => {
     async function getDBInfo(){
       const res = await axios.post('http://localhost:3001/db/readUserInfo', {username: name})
@@ -18,19 +18,26 @@ function useAsyncHook(name){
       setVideoScores(res["data"]["Items"]["0"]["videoscores"])
       setVideos(res["data"]["Items"]["0"]["videos"])
       setTimestamps(res["data"]["Items"]["0"]["wordtimings"])
+      setQuestions(res["data"]["Items"]["0"]["questions"])
       setLoading(false)
     }
 
     getDBInfo(name)
   }, [name])
-  return [transcript,loading,videoScores,videos,timestamps]
+  return [transcript,loading,videoScores,videos,timestamps,questions]
 }
 
 
 const postAnalysis = (props) => {
   console.log(props)
-  const [transcript,loading,videoScores,videos,timestamps]=useAsyncHook(props.location.state.username)
-
+  const [transcript,loading,videoScores,videos,timestamps,questions]=useAsyncHook(props.location.state.username)
+  if(questions.length===0){
+    let temp=[]
+    transcript.map((val, index)=>{
+      temp.push(index+1)
+    })
+    questions=temp
+  }
   // constructor(props){
   //   super(props);
   //   this.state={
@@ -91,7 +98,7 @@ const postAnalysis = (props) => {
                       <Card>
                         <Card.Header>
                           <Accordion.Toggle as={Button} variant="link" eventKey={index}>
-                            <h2> Question {index+1} </h2>
+                            <h2> Question: {questions[index]} </h2>
                           </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey={index}>

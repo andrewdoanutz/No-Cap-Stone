@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import {Button} from 'react-bootstrap'
+import {Button,Card,Col,Row} from 'react-bootstrap'
 import Webcam from "react-webcam";
 import Speech from 'speak-tts'
 import questions from '../questions.json'
 import { ReactMediaRecorder } from "react-media-recorder";
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
-import {BrowserRouter as Redirect  } from "react-router-dom";
+import Camera from 'react-camera'
 
 import "../css/practice.css";
 import axios from 'axios'
@@ -15,6 +15,31 @@ const videoConstraints = {
     height: 1080,
     facingMode: "user"
   };
+  const style = {
+    preview: {
+      position: 'relative',
+    },
+    captureContainer: {
+      display: 'flex',
+      position: 'absolute',
+      justifyContent: 'center',
+      zIndex: 1,
+      bottom: 0,
+      width: '100%'
+    },
+    captureButton: {
+      backgroundColor: '#fff',
+      borderRadius: '50%',
+      height: 56,
+      width: 56,
+      color: '#000',
+      margin: 20
+    },
+    captureImage: {
+      width: '100%',
+    }
+  };
+  var prevTime = 10;
 
 const speech = new Speech()
 speech.init({
@@ -31,7 +56,6 @@ speech.init({
 export default class Practice extends Component {
     constructor(props){
         super(props)
-        // axios.post('http://localhost:3001/db/resetPractice')
         this.state = {
             question: "",
             inds:[],
@@ -58,8 +82,15 @@ export default class Practice extends Component {
       //speech stuff
       componentDidMount(){
         this.fetchToken()
+        this.timerID = setInterval(
+          () => this.tick(),
+          5000
+        );
       }
-
+    
+      componentWillUnmount() {
+        clearInterval(this.timerID);
+      }
       fetchToken() {
         return fetch('/api/v1/credentials').then((res) => {
           if (res.status !== 200) {
@@ -113,7 +144,7 @@ export default class Practice extends Component {
 
       getCurrentInterimResult() {
 
-        if (this.state.formattedmessages != []){
+        if (this.state.formattedmessages !== []){
           const r = this.state.formattedMessages[this.state.formattedMessages.length - 1];
           if (!r || !r.results || !r.results.length || r.results[0].final) {
             return null;
@@ -201,14 +232,13 @@ export default class Practice extends Component {
         }
 
     }
-    async storeData(data){
-      let response = axios.post('http://localhost:3001/db/writeTranscript', {username: "practice",transcript:data})
-      console.log(response)
-      response = axios.post('http://localhost:3001/db/writeVideos', {username: "practice",videos:this.state.videos})
+    async storeData(data,timestamps,Qs){
+      let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.videoScores,timestamps:timestamps})
       console.log(response)
       response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "practice"})
       console.log(response)
     };
+
     decodeTranscript(transcript) {
       try {
         // When resultsBySpeaker is enabled, each msg.results array may contain multiple results.
@@ -231,6 +261,30 @@ export default class Practice extends Component {
         console.log(ex,transcript);
       }
     }
+    decodeTiming(transcript){
+      try {
+        // When resultsBySpeaker is enabled, each msg.results array may contain multiple results.
+        // The result_index is for the first result in the message,
+        // so we need to count up from there to calculate the key.
+        // let results = []
+        // transcript.forEach((result)=>{
+        //   results.push(result.results[0].alternatives[0]['transcript'])
+        // })
+    
+        let results = []
+        transcript.forEach((result)=>{
+          const temp=result.results[0].alternatives[0]['timestamps']
+          results.push(temp[1])
+          results.push(temp[2])
+        })
+        if(results===""){
+          results="No speech detected."
+        }
+        return (results);
+      } catch (ex) {
+        console.log(ex,transcript);
+      }
+    }
     generateReport(){
         if(this.state.videos.length>3){
             this.state.videos.shift()
@@ -241,11 +295,18 @@ export default class Practice extends Component {
         console.log(this.state.videos)
         
         let transcriptText=[]
+        let timestamps=[]
         this.state.transcripts.forEach(i =>{
           transcriptText.push(this.decodeTranscript(i))
+          timestamps.push(this.decodeTiming(i))
         })
         console.log(transcriptText)
-        this.storeData(transcriptText).then(()=>{
+        console.log(transcriptText)
+        let Qs = []
+        Qs.push(questions[this.state.inds[0]])
+        Qs.push(questions[this.state.inds[1]])
+        Qs.push(questions[this.state.inds[2]])
+        this.storeData(transcriptText,timestamps,Qs).then(()=>{
           console.log("stored")
           return(
             this.props.history.push({
@@ -254,10 +315,7 @@ export default class Practice extends Component {
             })
           )
         })
-        // <Redirect to={{
-        //   pathname: '/postAnalysis',
-        //   state: {id: props.id, name: props.name}
-        // }}>
+
         // return(
         //     <div>
         //         {this.state.videos.map((url,index) => (
@@ -268,6 +326,139 @@ export default class Practice extends Component {
         //         ))}
         //     </div>
         // )
+    }
+    //video analysis
+    async callBackendAPI(){
+      console.log();
+      const response = await fetch('/face/analysis',{method: 'POST',headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body:JSON.stringify({"x":prevTime})
+      });
+      const json = await response.json();
+      return json
+    };
+
+    tick() {
+      this.setState({
+        date: new Date()
+      });
+      this.takePicture();
+    }
+
+    takePicture(){
+      console.log("say cheese");
+  
+      const now = new Date();
+      const time = now.getTime();
+      if(!this.camera){
+        return
+      }
+      this.camera.capture()
+        .then(blob => {
+          var reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = function(){
+            var dataUri = reader.result;
+            let AWS = require("aws-sdk");
+            //used for local development
+            AWS.config.update({
+              region: "us-east-2",
+              //endpoint: "http://localhost:8001",
+              endpoint: "https://s3.us-east-2.amazonaws.com",
+              // get from google drive
+               accessKeyId : "AKIAJQGHUSVY2YHHFJVQ",
+               secretAccessKey: "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"
+            });
+            const type = dataUri.split(';')[0].split('/')[1];
+            const base64Data = new Buffer.from(dataUri.replace(/^data:image\/\w+;base64,/, ""), 'base64');
+  
+            // Getting the file type, ie: jpeg, png or gif
+  
+  
+            const s3 = new AWS.S3();
+            const params = {
+              Bucket: 'nocapstone',
+              Key: `${time}.jpg`, // type is not required
+              Body: base64Data,
+              ACL: 'public-read',
+              ContentEncoding: 'base64', // required
+              ContentType: `image/${type}` // required. Notice the back ticks
+          };
+          console.log(base64Data);
+  
+            s3.upload(params, function(err, data) {
+              if (err) {
+                  throw err;
+              }
+
+  
+              console.log(`File uploaded successfully. ${data.Location}`);
+              });
+  
+  
+          }
+          prevTime = time;
+          this.img.src = URL.createObjectURL(blob);
+          console.log(this.img);
+          this.img.onload = () => { URL.revokeObjectURL(this.src); }
+          console.log("end");
+  
+        }).then(setTimeout(() => {
+          this.callBackendAPI().then(results => {
+            try{
+              let resJSON=JSON.parse(results['response'])['0']['faceAnnotations']['0']
+              let joyScore=this.scoreVideoAnalysis(resJSON['joyLikelihood'])
+              let sorrowScore=this.scoreVideoAnalysis(resJSON['sorrowLikelihood'])
+              let angerScore=this.scoreVideoAnalysis(resJSON['angerLikelihood'])
+              let surpriseScore=this.scoreVideoAnalysis(resJSON['surpriseLikelihood'])
+              let totalScore=joyScore-sorrowScore-angerScore-surpriseScore
+              if(totalScore>0){
+                this.setState({
+                  r:102,
+                  g:255,
+                  b:153,
+                  status:"positive",
+                  videoScores: this.state.videoScores.concat([totalScore])
+                })
+              } else if (totalScore<0){
+                this.setState({
+                  r:255,
+                  g:102,
+                  b:102,
+                  status:"negative",
+                  videoScores: this.state.videoScores.concat([totalScore])
+                })
+              } else {
+                this.setState({
+                  r:255,
+                  g:204,
+                  b:102,
+                  status:"neutral",
+                  videoScores: this.state.videoScores.concat([totalScore])
+                })
+              }
+            } catch(e){
+              console.log("error changing indicator: ",e)
+            }
+          })
+        }
+        ,1000))
+    }
+    scoreVideoAnalysis(score){
+      if(score==="VERY_UNLIKELY"){
+        return 0
+      } else if (score==="UNLIKELY"){
+        return 1
+      } else if (score==="LIKELY"){
+        return 2
+      } else if (score==="VERY_LIKELY"){
+        return 3
+      } else {
+        console.log("Error in scoring analysis:",score)
+        return -1
+      }
     }
 
     render() {
@@ -294,6 +485,21 @@ export default class Practice extends Component {
               video
               render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
                   <div>
+                    <div style={{display:'none'}}>
+                    <Camera
+                      style={style.preview}
+                      ref={(cam) => {
+                        this.camera = cam;
+                      }}
+                    >
+                    </Camera>
+                    <img
+                      style={style.captureImage}
+                      ref={(img) => {
+                        this.img = img;
+                      }}
+                    />
+                  </div>
                   <div className="homeBox-practice">
                       <h1>{status}</h1>
                       <Webcam
@@ -328,6 +534,27 @@ export default class Practice extends Component {
                   this.randomQuestion()
                   }}>{buttonText}</Button>
                   <div>{this.state.question}</div>
+                  <Card className = "shadow" style={{width:"20%"}}>
+                    <Card.Body>
+                      <Card.Text>
+                        <Row>
+                          <Col>
+                            <div style={{
+                              display:"inline-block",
+                              borderRadius: "50%",
+                              padding:"5%",
+                              backgroundColor: `rgba(${ this.state.r }, ${ this.state.g }, ${ this.state.b }, 1)`,
+                              width:"5%",
+                              height:"5%",}}>
+                            </div>
+                          </Col>
+                          <Col>
+                            <div>{"You look "+this.state.status}</div>
+                          </Col>
+                        </Row>
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
               </div>
               </div>
               )}
@@ -336,3 +563,4 @@ export default class Practice extends Component {
       }
   }
 }
+

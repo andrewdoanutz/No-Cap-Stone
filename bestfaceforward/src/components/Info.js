@@ -1,37 +1,33 @@
-import React, { Component, useState, useCallback} from 'react'
+import React, { useState, useCallback} from 'react'
 import {Container, Col, Row, Button, Card} from 'react-bootstrap'
 import exampleResume from "../images/exampleResume.png"
-import Room from './Room';
-import VideoComponent from './VideoComponent'
-import {BrowserRouter as Router, Link } from "react-router-dom";
+import {BrowserRouter as  Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVideo } from '@fortawesome/free-solid-svg-icons'
 
 const Info = (props) => {
   const [token, setToken] = useState(null);
-  const [previewToken, setPreviewToken] = useState(false);
-  const [postviewToken, setPostviewToken] = useState(false);
   const [name, setName] = useState("test");
 
 
-  const handleClick = useCallback(
-    async event => {
-      event.preventDefault()
-      const data = await fetch('/video/token', {
-        method: 'POST',
-        body: JSON.stringify({
-          identity: name,
-          room: props.id
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(res => res.json());
-      setToken(data.token);
-    },
-    []
-  );
+  // const handleClick = useCallback(
+  //   async event => {
+  //     event.preventDefault()
+  //     const data = await fetch('/video/token', {
+  //       method: 'POST',
+  //       body: JSON.stringify({
+  //         identity: name,
+  //         room: props.id
+  //       }),
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       }
+  //     }).then(res => res.json());
+  //     setToken(data.token);
+  //   },
+  //   []
+  // );
 
 
   const handleLogout = useCallback(event => {
