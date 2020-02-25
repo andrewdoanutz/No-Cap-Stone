@@ -43,7 +43,7 @@ const CalendarView = (props) => {
       contentHeight = {500}
       weekends={false}
       events={events}
-      eventColor = '#007bff'
+      eventColor = '#08AEEA'
       eventTextColor = "white"
       plugins={[ dayGridPlugin]}
     />

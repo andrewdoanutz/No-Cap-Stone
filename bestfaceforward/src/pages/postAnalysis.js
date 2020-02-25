@@ -47,11 +47,11 @@ const postAnalysis = (props) => {
   //   //this.getCandidate()
   // }
 
-    if(!DBInfo){
-      return(
-        <div className="homeBox">waiting</div>
-      )
-    } else {
+    // if(!DBInfo){
+    //   return(
+    //     <div className="homeBox">waiting</div>
+    //   )
+    // } else {
       let overallTranscript = ""
       transcript.forEach(i=>{
         overallTranscript+=i+" "
@@ -102,5 +102,5 @@ const postAnalysis = (props) => {
   }
 
 
-}
+
 export default postAnalysis;

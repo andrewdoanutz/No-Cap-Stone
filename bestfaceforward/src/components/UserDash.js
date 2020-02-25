@@ -1,7 +1,7 @@
 import React, { Component, useState, useCallback, useEffect} from 'react';
 import {Container, Col, Row, Button, Card, ToggleButton} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faIdCard } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
 function useAsyncHook(){
@@ -48,7 +48,7 @@ const Userdash = (props) => {
 
     return (
       <div>
-        <div className = "dark-scroll">
+        <div className = "scroll">
           <Container fluid="true">
             <Row>{ names.map(function(candidate){
               return <Container fluid ="true"><Row><Col key = {candidate.name}> <h3> {candidate.date} </h3>
@@ -61,10 +61,10 @@ const Userdash = (props) => {
                         Meeting ID: {candidate.id}
                       </Card.Text>
                     </Col>
-                    <Col className="my-auto">
-                        <Button variant="round" value = {true} onClick = {()=> {setName(candidate.name);
+                    <Col className="my-auto text-right">
+                        <Button variant="red" value = {true} onClick = {()=> {setName(candidate.name);
                           setID(candidate.id);
-                          props.parentCallback({name: candidate.name, id: candidate.id, isClicked: !props.clicked})}}><h5> View Candidate </h5><FontAwesomeIcon icon={faArrowRight} size='2x'/></Button>
+                          props.parentCallback({name: candidate.name, id: candidate.id, isClicked: !props.clicked})}}><FontAwesomeIcon icon={faIdCard} size='3x'/></Button>
 
                     </Col>
                   </Row>

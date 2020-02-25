@@ -67,7 +67,7 @@ const Info = (props) => {
           state: {id: props.id, name: props.name}
         }}>
           <>
-          <Button size="lg" variant="info">Post-Analysis Report</Button>
+          <Button size="lg" variant="border">Post-Analysis Report</Button>
             </>
           </Link>
         </Col>

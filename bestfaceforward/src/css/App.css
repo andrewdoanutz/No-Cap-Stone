@@ -16,31 +16,78 @@ body{
  text-decoration: none !important;
 
 }
-Button:hover{
+/* Button:hover{
   cursor: pointer;
   background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
   color: black !important;
-}
+} */
 .btn-flat {
   background-color: #08AEEA !important;
   color: white !important;
 }
-
+.btn-flat:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
 .btn-xxl {
   padding: 1rem 1.5rem !important;
   font-size: 1.5rem !important;
   font-weight: bold !important;
 }
+
 .btn-round {
   background-color: #08AEEA !important;
   color: white !important;
   border-radius: 12px;
 }
+.btn-round:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
+
+.btn-border{
+  border: 2px solid #08AEEA !important;
+  color: black !important;
+}
+.btn-border:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: white !important;
+}
+
+.btn-round-border{
+  border: 2px solid #08AEEA !important;
+  color: black !important;
+  border-radius: 12px;
+}
+.btn-round-border:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
+
 .btn-red {
   background-color: #F74356 !important;
   color: white !important;
   border-radius: 12px;
 }
+.btn-red:hover{
+  cursor: pointer;
+  color: black !important;
+}
+
+.btn-round-red-border{
+  border: 0.18em solid #F74356 !important;
+  color: black !important;
+  border-radius: 15em !important;
+}
+.btn-round-red-border:hover{
+  background-color: #F74356 !important;
+  color: white !important;
+}
+
 .accordionButton{
   background-color: #007ed9 !important;
 }
@@ -52,8 +99,8 @@ Button:hover{
 .accordion{
   background-color: #007ed9 !important;
 }
-.dark-scroll {
-    max-height: 80vh;
+.scroll {
+    max-height: 70vh;
     overflow-y: auto;
 }
 .centered {
