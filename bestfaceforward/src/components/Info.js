@@ -13,6 +13,7 @@ const Info = (props) => {
   const [previewToken, setPreviewToken] = useState(false);
   const [postviewToken, setPostviewToken] = useState(false);
   const [name, setName] = useState("test");
+  const [position, setPosition] = useState("");
 
 
   const handleClick = useCallback(
@@ -43,6 +44,7 @@ const Info = (props) => {
       <Row className = "pb-3">
         <Col>
           <h1 className = "pb-1">{props.name}</h1>
+          <h3 className = "py-3"> Applying for Position: {props.position} </h3>
           <h5 className = "pb-3"> Meeting ID: {props.id} </h5>
           <Row className = "pb-3">
             <Col>

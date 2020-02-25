@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserClock } from '@fortawesome/free-solid-svg-icons'
+import { faClock } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
 
@@ -57,8 +57,8 @@ const newMeeting = () =>{
       <div className = "pb-2">
         <Card className = "shadow text-center">
           <Card.Body>
-            <Button size="lg" variant="round-red-border" onClick={handleShow}>
-              <h4><FontAwesomeIcon icon={faUserClock}/> Schedule Interview</h4></Button>
+            <Button size="lg" variant="red-border" onClick={handleShow}>
+              <h4><FontAwesomeIcon icon={faClock}/>&nbsp;Schedule Interview</h4></Button>
           </Card.Body>
         </Card>
 

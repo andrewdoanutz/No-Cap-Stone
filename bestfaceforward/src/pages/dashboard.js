@@ -32,7 +32,8 @@ export default class Dashboard extends Component {
       previewToken : false,
       isClicked: false,
       name: "",
-      id: ""
+      id: "",
+      position: ""
     }
   }
 
@@ -40,6 +41,7 @@ export default class Dashboard extends Component {
       this.setState({name: childData.name})
       this.setState({id: childData.id})
       this.setState({isClicked: childData.isClicked})
+      this.setState({position: childData.position})
   }
 
 
@@ -61,7 +63,7 @@ export default class Dashboard extends Component {
             <Col xs={8} style={{marginTop: "10px"}}>
               <Card className = "shadow">
                 <Card.Body >
-                  <h4> {this.state.isClicked ? <Info name = {this.state.name} id = {this.state.id}/> : <CalendarView /> }</h4>
+                  <h4> {this.state.isClicked ? <Info name = {this.state.name} id = {this.state.id} position = {this.state.position}/> : <CalendarView /> }</h4>
                 </Card.Body>
               </Card>
             </Col>
