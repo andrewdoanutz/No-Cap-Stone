@@ -263,7 +263,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore-=.5
         } else {
-          analysisScore+=.5
+          analysisScore+=.2
         }
       } else if (a.tone_name === 'Joy'){
         if(a.score>=.8){
@@ -271,7 +271,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore+=.5
         } else {
-          analysisScore-=.5
+          analysisScore-=.7
         }
       } else if (a.tone_name === 'Anger'){
         if(a.score>=.8){
@@ -279,7 +279,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore-=.5
         } else {
-          analysisScore+=.5
+          analysisScore+=.2
         }
       } else if (a.tone_name === 'Sadness'){
         if(a.score>=.8){
@@ -287,7 +287,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore-=.5
         } else {
-          analysisScore+=.5
+          analysisScore+=.2
         }
       } else if (a.tone_name === 'Analytical'){
         if(a.score>=.8){
@@ -295,7 +295,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore+=.5
         } else {
-          analysisScore-=.5
+          analysisScore-=.7
         }
       } else if (a.tone_name === 'Confident'){
         if(a.score>=.8){
@@ -303,7 +303,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore+=.5
         } else {
-          analysisScore-=.5
+          analysisScore-=.7
         }
       } else if (a.tone_name === 'Tentative'){
         if(a.score>=.8){
@@ -311,7 +311,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore-=.5
         } else {
-          analysisScore+=.5
+          analysisScore+=.2
         }
       } 
     }
@@ -319,6 +319,7 @@ class Report extends Component {
     this.state.videoScore.forEach(i =>{
       vidSum+=i
     })
+    vidSum=vidSum/this.state.videoScore.length
     let totalScore=analysisScore+vidSum
     if(this.props.overall){
       let wpm=0
@@ -336,7 +337,7 @@ class Report extends Component {
       totalScore+=wpmScore
     }
     
-    
+    console.log("Star Score:", totalScore)
     if(totalScore>5){
       return 5
     } else if(totalScore<0){

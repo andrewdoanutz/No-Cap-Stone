@@ -276,17 +276,19 @@ export default class Practice extends Component {
         transcript.forEach((result)=>{
           const temp=result.results[0].alternatives[0]['timestamps']
           console.log(temp)
-          if(!temp || temp==[] || temp=='undefined'){
+          if(!temp || temp===[] || temp==='undefined' || temp===""){
             return [1,1]
           } else {
           results.push(temp[1])
           results.push(temp[2])
           }
         })
-        if(results==[]){
+        if(results.length<2){
           return [1,1]
+        } else {
+          return (results);
         }
-        return (results);
+        
       } catch (ex) {
         console.log(ex,transcript);
       }
