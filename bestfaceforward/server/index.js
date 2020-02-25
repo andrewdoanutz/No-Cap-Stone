@@ -168,56 +168,19 @@ app.post('/db/toneAnalysis', (req,res) =>{
   database.writeToneAnalysis()
 })
 
-app.post('/db/writeVideos', (req,res) =>{
-  console.log("Videos written:", req.body)
-  const username = req.body.username;
-  const videos = req.body.videos;
-  database.writeVideos(username, videos)
-})
 
-app.get('/db/writeVideos', (req,res) =>{
-  console.log("Videos written:", req.body)
-  const username = req.body.username;
-  const videos = req.body.videos;
-  database.writeVideos(username, videos)
-})
-
-app.post('/db/writeTranscript', (req,res) =>{
-  console.log("Transcript written:", req.body)
-  const username = req.body.username;
-  const transcript = req.body.transcript;
-  database.writeTranscript(username, transcript)
-})
-
-app.get('/db/writeTranscript', (req,res) =>{
-  console.log("Transcript written:", req.body)
-  const username = req.body.username;
-  const transcript = req.body.transcript;
-  database.writeTranscript(username, transcript)
-})
-
-app.get('/db/writeLiveScore', (req,res) =>{
-  console.log("Scores written:", req.body)
-  const username = req.body.username;
-  const scores = req.body.scores;
-  database.writeLiveScore(username, scores)
-})  
-
-app.post('/db/writeLiveScore', (req,res) =>{
-  console.log("Scores written:", req.body)
-  const username = req.body.username;
-  const scores = req.body.scores;
-  database.writeLiveScore(username, scores)
-})
-
-app.post('/db/writeQuestion', (req,res) =>{
-  console.log("Question written:", req.body)
+app.post('/db/writeUserInfo', (req,res) =>{
+  console.log("Info written:", req.body)
   const username = req.body.username;
   const questions = req.body.questions;
-  database.writeQuestion(username, questions)
+  const transcript = req.body.transcript;
+  const videos = req.body.videos;
+  const scores = req.body.scores;
+  const timestamps = req.body.timestamps
+  database.writeUserEntry(username,transcript,questions,videos,scores,timestamps)
 })  
 
-app.get('/db/writeQuestion', (req,res) =>{
+app.get('/db/writeUserInfo', (req,res) =>{
   console.log("Question written:", req.body)
   const username = req.body.username;
   const questions = req.body.questions;

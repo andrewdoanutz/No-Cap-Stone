@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import {Button, Card, Row, Col} from 'react-bootstrap';
-import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,Area,AreaChart} from 'recharts';
+import {Card, Row, Col} from 'react-bootstrap';
+import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart} from 'recharts';
 
 
 

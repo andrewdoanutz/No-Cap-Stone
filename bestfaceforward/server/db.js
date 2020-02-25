@@ -216,7 +216,35 @@ module.exports = {
 
 
       
-      
+      writeUserEntry(username,transcript,questions,videos,scores,timestamps){
+        var params = {
+          TableName:table,
+          Key:{
+            "username": username,
+          },
+          KeyConditionExpression: "username = :uname ",
+          UpdateExpression: "set info = :uname, videos = :videos, questions = :questions, transcripts = :transcripts, videoscores = :videoscores, wordtimings = :wordtimings",
+
+          ExpressionAttributeValues:{
+              ":uname": username,
+              ":videos": videos,
+              ":questions": questions,
+              ":transcripts": transcript,
+              ":videoscores": scores,
+              ":wordtimings": timestamps
+            }
+          };
+
+          docClient.update(params, function(err, data) {
+              if (err) {
+                  console.error("Unable to writeUserEntry. Error JSON:", JSON.stringify(err, null, 2));
+                  return 0;
+              } else {
+                  console.log("writeUserEntry item:", JSON.stringify(data, null, 2));
+                  return 1;
+              }
+          });
+      },
 
       readUserEntry(res, username){
         var params = {
