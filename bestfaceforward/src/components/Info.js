@@ -44,7 +44,7 @@ const Info = (props) => {
       <Row className = "pb-3">
         <Col>
           <h1 className = "pb-1">{props.name}</h1>
-          <h3 className = "py-3"> Applying for Position: {props.position} </h3>
+          <h3 className = "py-3"> Applying for Position: <strong>{props.position}</strong> </h3>
           <h5 className = "pb-3"> Meeting ID: {props.id} </h5>
           <Row className = "pb-3">
             <Col>
