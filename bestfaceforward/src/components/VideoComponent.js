@@ -8,13 +8,15 @@ import {Button,Card,Col,Row} from 'react-bootstrap';
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Transcript from './Transcript';
 import Timing from './Timing';
-import Camera from 'react-camera'
+import '../css/VideoComponent.css';
+import Camera from 'react-camera';
+import axios from 'axios';
 
 
 var prevTime = 10;
 var ts = ""
 var translatedPhrase = ""
-
+var finalResult = ""
 class VideoComponent extends Component {
   constructor(props){
     super(props)
@@ -30,7 +32,9 @@ class VideoComponent extends Component {
       g:204,
       b:102,
       status: "neutral",
-      videoScores:[]
+      videoScores:[],
+      numQues:0,
+      finalTranscript: ""
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
@@ -38,29 +42,68 @@ class VideoComponent extends Component {
     this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
     this.takePicture = this.takePicture.bind(this);
     this.callBackendAPI = this.callBackendAPI.bind(this);
-
+    this.transcriptbackFunction = this.transcriptbackFunction.bind(this);
   }
-
-
 
   componentDidMount(){
     this.fetchToken()
-    this.timerID = setInterval(
-      () => this.tick(),
-      5000
-    );
+
+    if (localStorage.getItem("candidate") != 0){
+      console.log("this is a candidate");
+      this.timerID = setInterval(
+        () => this.tick(),
+        1000
+      );
+      setTimeout(()=> this.onClickListener(),2000)
+
+    }
+    else{
+      console.log("this is a recruiter");
+    }
   }
 
   componentWillUnmount() {
     clearInterval(this.timerID);
+
   }
 
+
+  transcriptbackFunction = (childData) => {
+    console.log(childData);
+    this.setState({finalTranscript:childData});
+ }
+
+ async callWriteTranscript(transcription){
+
+  const res = await axios.post('http://localhost:3001/db/writeTranscript', {q:transcription,u: this.props.username})
+};
+
+
   tick() {
+
+
+    if(this.state.numQues < this.props.count){
+      const messages = this.getFinalAndLatestInterimResult()
+      this.onClickListener()
+      this.onClickListener()
+      this.setState({numQues:this.props.count})
+      var merged = [].concat.apply([], finalResult);
+      finalResult = "";
+      merged = merged.join(" ")
+      merged += "@"
+
+      this.callWriteTranscript(merged);
+
+    }
     this.setState({
       date: new Date()
+
     });
-    this.takePicture();
+
+    //setTimeout(()=>this.takePicture(),4);
   }
+
+
 
   fetchToken() {
     return fetch('/api/v1/credentials').then((res) => {
@@ -146,6 +189,7 @@ class VideoComponent extends Component {
   }
 
   onClickListener = () => {
+    console.log("ONCLICKLISTNER",this.state.listening);
     if (this.state.listening) {
       this.stopListening();
       return;
@@ -200,8 +244,6 @@ class VideoComponent extends Component {
   }
 
   takePicture(){
-    console.log("say cheese");
-
     const now = new Date();
     const time = now.getTime();
     this.camera.capture()
@@ -321,7 +363,13 @@ class VideoComponent extends Component {
 
   render(){
     const messages = this.getFinalAndLatestInterimResult();
-    console.log(messages);
+    const results = messages.map(msg => msg.results.map((result, i) => (result.alternatives[0].transcript))).reduce((a, b) => a.concat(b), []);
+
+    finalResult = results;
+    //console.log(finalResult);
+    var merged = [].concat.apply([], finalResult);
+    console.log(merged.join(" "))
+    console.log("BOT BOT BOT " + this.state.numQues);
     return (
       <div>
         <div style={{display:'none'}}>
