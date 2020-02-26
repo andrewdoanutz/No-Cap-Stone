@@ -14,6 +14,7 @@ function useAsyncHook(name){
   useEffect(() => {
     async function getDBInfo(){
       const res = await axios.post('http://localhost:3001/db/readUserInfo', {username: name})
+      console.log(res)
       setTranscript(res["data"]["Items"]["0"]["transcripts"])
       setVideoScores(res["data"]["Items"]["0"]["videoscores"])
       setVideos(res["data"]["Items"]["0"]["videos"])

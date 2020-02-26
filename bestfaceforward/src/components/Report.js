@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import {Card, Row, Col} from 'react-bootstrap';
 import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart} from 'recharts';
-
+import StarRatingComponent from 'react-star-rating-component';
 
 
 class Report extends Component {
@@ -58,7 +58,6 @@ class Report extends Component {
   getSubjects(){
     axios.post('http://localhost:3001/api/subjects', {transcript: this.state.txt})
    .then(res => {
-     console.log("Response: ",res)
      var keywords = res.data.analysisResults.result.keywords
      var concepts = res.data.analysisResults.result.concepts
     if(keywords.length>0){
@@ -255,6 +254,99 @@ class Report extends Component {
     }
     return feedback
   }
+  getStarRating(){
+    let analysisScore=0.0
+    for (var a of this.state.analysis){
+      if (a.tone_name === 'Fear'){
+        if(a.score>=.8){
+          analysisScore-=1
+        } else if(a.score>=.4){
+          analysisScore-=.5
+        } else {
+          analysisScore+=.2
+        }
+      } else if (a.tone_name === 'Joy'){
+        if(a.score>=.8){
+          analysisScore+=1
+        } else if(a.score>=.4){
+          analysisScore+=.5
+        } else {
+          analysisScore-=.5
+        }
+      } else if (a.tone_name === 'Anger'){
+        if(a.score>=.8){
+          analysisScore-=1
+        } else if(a.score>=.4){
+          analysisScore-=.5
+        } else {
+          analysisScore+=.5
+        }
+      } else if (a.tone_name === 'Sadness'){
+        if(a.score>=.8){
+          analysisScore-=1
+        } else if(a.score>=.4){
+          analysisScore-=.5
+        } else {
+          analysisScore+=.5
+        }
+      } else if (a.tone_name === 'Analytical'){
+        if(a.score>=.8){
+          analysisScore+=1
+        } else if(a.score>=.4){
+          analysisScore+=.5
+        } else {
+          analysisScore-=.5
+        }
+      } else if (a.tone_name === 'Confident'){
+        if(a.score>=.8){
+          analysisScore+=1
+        } else if(a.score>=.4){
+          analysisScore+=.5
+        } else {
+          analysisScore-=.5
+        }
+      } else if (a.tone_name === 'Tentative'){
+        if(a.score>=.8){
+          analysisScore-=1
+        } else if(a.score>=.4){
+          analysisScore-=.5
+        } else {
+          analysisScore+=.5
+        }
+      } 
+    }
+    let vidSum=0
+    this.state.videoScore.forEach(i =>{
+      vidSum+=i
+    })
+    vidSum=vidSum/this.state.videoScore.length
+    let totalScore=analysisScore+vidSum
+    if(this.props.overall){
+      let wpm=0
+      this.props.timestamps.forEach(pair=>{
+      wpm+=pair[1]-pair[0]
+      })
+      wpm=wpm*60/this.props.timestamps.length
+      wpm=Math.round(wpm)
+      let wpmScore=0.0
+      if(wpm<130){
+        wpmScore-=1
+      }if(wpm>170){
+        wpmScore+=1
+      }
+      totalScore+=wpmScore
+    }
+    
+    console.log("Star Score:", totalScore)
+    if(totalScore>5){
+      return 5
+    } else if(totalScore<0){
+      return 0
+    } else {
+      return Math.round(totalScore)
+    }
+  }
+
 
   render(){
     if(this.props.overall){
@@ -264,7 +356,15 @@ class Report extends Component {
             {/* Left Column */}
               <Col sm={6}>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3">Question Response</Card.Header>
+                  <Card.Header as="h3">
+                    Question Response
+                    <StarRatingComponent 
+                      name="overall" 
+                      starCount={5}
+                      value={this.getStarRating()}
+                      editing={false}
+                    />
+                  </Card.Header>
                   <Card.Body>
                     <Card.Text>
                       <h4>{this.state.txt}</h4>
@@ -331,7 +431,15 @@ class Report extends Component {
           {/* Left Column */}
             <Col sm={6}>
               <Card className = "shadow" style={{marginBottom: "10px"}}>
-                <Card.Header as="h3">Question Response</Card.Header>
+                <Card.Header as="h3">
+                  Question Response
+                  <StarRatingComponent 
+                      name={this.props.index}
+                      starCount={5}
+                      value={this.getStarRating()}
+                      editing={false}
+                    />
+                  </Card.Header>
                 <Card.Body>
                   <Card.Text>
                     <h4>{this.state.txt}</h4>
