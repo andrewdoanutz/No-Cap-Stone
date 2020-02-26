@@ -257,8 +257,8 @@ class VideoComponent extends Component {
             //endpoint: "http://localhost:8001",
             endpoint: "https://s3.us-east-2.amazonaws.com",
             // get from google drive
-             accessKeyId : "",
-             secretAccessKey: ""
+             accessKeyId : process.env.REACT_APP_TIM_AWS_ACCESS_KEY,
+             secretAccessKey: process.env.REACT_APP_TIM_AWS_SECRET_KEY
           });
           const type = dataUri.split(';')[0].split('/')[1];
           const base64Data = new Buffer.from(dataUri.replace(/^data:image\/\w+;base64,/, ""), 'base64');
