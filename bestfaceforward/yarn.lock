@@ -10622,6 +10622,14 @@ react-spinners@^0.8.0:
   dependencies:
     "@emotion/core" "^10.0.15"
 
+react-star-rating-component@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/react-star-rating-component/-/react-star-rating-component-1.4.1.tgz#74dc1c73493f088013331c234190b8cccad31f6b"
+  integrity sha512-i0YEvQzToS0s0GDkxn01Jy4EeLpVEyh023NXJTJ+/1+xkvhpACyD4d1YeBhYWZab53ppUnUxs5gmp75gJr3khA==
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.6.1"
+
 react-text-mask@^5.4.3:
   version "5.4.3"
   resolved "https://registry.yarnpkg.com/react-text-mask/-/react-text-mask-5.4.3.tgz#991efb4299e30c2e6c2c46d13f617169463e0d2d"
