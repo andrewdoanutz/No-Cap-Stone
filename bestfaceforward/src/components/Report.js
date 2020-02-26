@@ -271,7 +271,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore+=.5
         } else {
-          analysisScore-=.7
+          analysisScore-=.5
         }
       } else if (a.tone_name === 'Anger'){
         if(a.score>=.8){
@@ -279,7 +279,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore-=.5
         } else {
-          analysisScore+=.2
+          analysisScore+=.5
         }
       } else if (a.tone_name === 'Sadness'){
         if(a.score>=.8){
@@ -287,7 +287,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore-=.5
         } else {
-          analysisScore+=.2
+          analysisScore+=.5
         }
       } else if (a.tone_name === 'Analytical'){
         if(a.score>=.8){
@@ -295,7 +295,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore+=.5
         } else {
-          analysisScore-=.7
+          analysisScore-=.5
         }
       } else if (a.tone_name === 'Confident'){
         if(a.score>=.8){
@@ -303,7 +303,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore+=.5
         } else {
-          analysisScore-=.7
+          analysisScore-=.5
         }
       } else if (a.tone_name === 'Tentative'){
         if(a.score>=.8){
@@ -311,7 +311,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           analysisScore-=.5
         } else {
-          analysisScore+=.2
+          analysisScore+=.5
         }
       } 
     }
