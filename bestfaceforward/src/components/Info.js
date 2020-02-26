@@ -1,7 +1,7 @@
 import React, { useState, useCallback} from 'react'
 import {Container, Col, Row, Button, Card} from 'react-bootstrap'
 import exampleResume from "../images/exampleResume.png"
-import {BrowserRouter as  Link } from "react-router-dom";
+import {Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVideo } from '@fortawesome/free-solid-svg-icons'
@@ -48,9 +48,11 @@ const Info = (props) => {
                 state: {id: props.id, name: name, uname: props.name}
 
               }}>
+              <>
                 <Button variant="flat" size="xxl">
                   <FontAwesomeIcon icon={faVideo}/> &nbsp; Join Meeting
                 </Button>
+              </>
           </Link>
 
 
