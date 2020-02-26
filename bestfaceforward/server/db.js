@@ -48,6 +48,7 @@ module.exports = {
       },
 
     writeTranscript(username, transcript){
+      console.log(username);
       var params = {
         TableName:table,
         Key:{
