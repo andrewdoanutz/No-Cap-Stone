@@ -319,12 +319,15 @@ export default class Practice extends Component {
         Qs.push(questions[this.state.inds[2]])
         this.storeData(transcriptText,timestamps,Qs).then(()=>{
           console.log("stored")
-          return(
-            this.props.history.push({
-              pathname: "/postAnalysis",
-              state: { username: "practice", length:this.state.transcripts.length }
-            })
-          )
+          setTimeout(()=>{
+            return(
+              this.props.history.push({
+                pathname: "/postAnalysis",
+                state: { username: "practice", length:this.state.transcripts.length }
+              })
+            )
+          },500)
+          
         })
 
         // return(
