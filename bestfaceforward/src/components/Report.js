@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import {Button, Card, Row, Col} from 'react-bootstrap';
-import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,Area,AreaChart} from 'recharts';
-
+import {Card, Row, Col} from 'react-bootstrap';
+import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart} from 'recharts';
+import StarRatingComponent from 'react-star-rating-component';
 
 
 class Report extends Component {
@@ -44,10 +44,9 @@ class Report extends Component {
                   {concepts: '3', score: 1}],
     }
     this.analyzeText()
-    this.getSubjects()
   }
-  
-  
+
+
 
   //get number of occurances in an array of a specific value
   getOccurrence = (array, value) => {
@@ -56,26 +55,26 @@ class Report extends Component {
     return count;
   }
 
-  getSubjects = () => {
+  getSubjects(){
     axios.post('http://localhost:3001/api/subjects', {transcript: this.state.txt})
    .then(res => {
-     console.log("Response: ",res)
      var keywords = res.data.analysisResults.result.keywords
      var concepts = res.data.analysisResults.result.concepts
-   
-    var keyWordFeedback="Keywords you used are: "
-     for (var i of keywords){
-        if(i.relevance>.5){
-          keyWordFeedback+=i.text
-          if(i.text!=keywords[keywords.length-1].text){
-            keyWordFeedback+=", "
+    if(keywords.length>0){
+      var keyWordFeedback="Keywords you used are: "
+      for (var i of keywords){
+          if(i.relevance>.5){
+            keyWordFeedback+=i.text
+            if(i.text!=keywords[keywords.length-1].text){
+              keyWordFeedback+=", "
+            }
           }
-        }
-     }
-    keyWordFeedback+="."
-    if(keyWordFeedback==="Keywords you used are: ."){
-      keyWordFeedback=""
+      }
+      keyWordFeedback+="."
+    } else {
+     var keyWordFeedback=""
     }
+    if(concepts.length>0){
     var conceptFeedback="Concepts you emphasized are: "
     for (var i of concepts){
        if(i.relevance>.5){
@@ -86,13 +85,11 @@ class Report extends Component {
        }
     }
    conceptFeedback+=". "
-   if(conceptFeedback==="Concepts you emphasized are: . "){
-     conceptFeedback=""
-   }
-     this.setState({
-       concepts: conceptFeedback,
-       keywords: keyWordFeedback
-     })
+  } else {
+    var conceptFeedback=""
+  }
+
+    return conceptFeedback+keyWordFeedback
    })
   }
 
@@ -174,7 +171,7 @@ class Report extends Component {
           res+="You are coming across very angery. Be less aggressive in your response. "
         } else if(a.score>=.4){
           res+="Try to speak a little less aggresively when you are responding. "
-        } 
+        }
       } else if (a.tone_name === 'Sadness'){
         if(a.score>=.8){
           res+="You should speak with happier words. "
@@ -203,7 +200,7 @@ class Report extends Component {
         } else if(a.score>=.4){
           res+="You are a little hesitant in what you are saying. "
         }
-      } 
+      }
     }
     if(this.state.filler>6){
       res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
@@ -223,10 +220,10 @@ class Report extends Component {
       } else{
         res.push({ind:current, score: 0,nscore:i})
       }
-      
+
       current++;
     })
-    
+
     return res
   }
   videoFeedback(){
@@ -234,7 +231,7 @@ class Report extends Component {
     this.state.videoScore.forEach(i =>{
       vidSum+=i
     })
-    
+
     if(vidSum>0){
       return "You had a mostly positive look on your face. Keep it up!"
     } else if (vidSum<0){
@@ -257,6 +254,99 @@ class Report extends Component {
     }
     return feedback
   }
+  getStarRating(){
+    let analysisScore=0.0
+    for (var a of this.state.analysis){
+      if (a.tone_name === 'Fear'){
+        if(a.score>=.8){
+          analysisScore-=1
+        } else if(a.score>=.4){
+          analysisScore-=.5
+        } else {
+          analysisScore+=.2
+        }
+      } else if (a.tone_name === 'Joy'){
+        if(a.score>=.8){
+          analysisScore+=1
+        } else if(a.score>=.4){
+          analysisScore+=.5
+        } else {
+          analysisScore-=.7
+        }
+      } else if (a.tone_name === 'Anger'){
+        if(a.score>=.8){
+          analysisScore-=1
+        } else if(a.score>=.4){
+          analysisScore-=.5
+        } else {
+          analysisScore+=.2
+        }
+      } else if (a.tone_name === 'Sadness'){
+        if(a.score>=.8){
+          analysisScore-=1
+        } else if(a.score>=.4){
+          analysisScore-=.5
+        } else {
+          analysisScore+=.2
+        }
+      } else if (a.tone_name === 'Analytical'){
+        if(a.score>=.8){
+          analysisScore+=1
+        } else if(a.score>=.4){
+          analysisScore+=.5
+        } else {
+          analysisScore-=.7
+        }
+      } else if (a.tone_name === 'Confident'){
+        if(a.score>=.8){
+          analysisScore+=1
+        } else if(a.score>=.4){
+          analysisScore+=.5
+        } else {
+          analysisScore-=.7
+        }
+      } else if (a.tone_name === 'Tentative'){
+        if(a.score>=.8){
+          analysisScore-=1
+        } else if(a.score>=.4){
+          analysisScore-=.5
+        } else {
+          analysisScore+=.2
+        }
+      }
+    }
+    let vidSum=0
+    this.state.videoScore.forEach(i =>{
+      vidSum+=i
+    })
+    vidSum=vidSum/this.state.videoScore.length
+    let totalScore=analysisScore+vidSum
+    if(this.props.overall){
+      let wpm=0
+      this.props.timestamps.forEach(pair=>{
+      wpm+=pair[1]-pair[0]
+      })
+      wpm=wpm*60/this.props.timestamps.length
+      wpm=Math.round(wpm)
+      let wpmScore=0.0
+      if(wpm<130){
+        wpmScore-=1
+      }if(wpm>170){
+        wpmScore+=1
+      }
+      totalScore+=wpmScore
+    }
+
+    console.log("Star Score:", totalScore)
+    if(totalScore>5){
+      return 5
+    } else if(totalScore<0){
+      return 0
+    } else {
+      return Math.round(totalScore)
+    }
+  }
+
 
   render(){
     if(this.props.overall){
@@ -265,15 +355,23 @@ class Report extends Component {
           <Row>
             {/* Left Column */}
               <Col sm={6}>
-                <Card style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3">Question Response</Card.Header>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
+                  <Card.Header as="h3">
+                    Question Response
+                    <StarRatingComponent
+                      name="overall"
+                      starCount={5}
+                      value={this.getStarRating()}
+                      editing={false}
+                    />
+                  </Card.Header>
                   <Card.Body>
                     <Card.Text>
                       <h4>{this.state.txt}</h4>
                     </Card.Text>
                   </Card.Body>
                 </Card>
-                <Card style={{marginBottom: "10px"}}>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
                   <Card.Header as="h3">Speech Analysis</Card.Header>
                   <Card.Body>
                     <Card.Text>
@@ -286,7 +384,7 @@ class Report extends Component {
                         </RadarChart>
                       </Row>
                       <Row>
-                        <h4>{this.getFeedback()+this.state.concepts+this.state.keywords+this.timestampAnalysis()}</h4>
+                        <h4>{this.getFeedback()}{this.getSubjects()}{this.timestampAnalysis()}</h4>
                       </Row>
                     </Card.Text>
                   </Card.Body>
@@ -295,7 +393,7 @@ class Report extends Component {
               {/* Right Column */}
               <Col sm={6}>
                 <Row>
-                  <Card style={{marginBottom: "10px"}}>
+                  <Card className = "shadow" style={{marginBottom: "10px"}}>
                       <Card.Header as="h3">Video Analysis</Card.Header>
                       <Card.Body>
                         <Card.Text>
@@ -333,14 +431,22 @@ class Report extends Component {
           {/* Left Column */}
             <Col sm={6}>
               <Card className = "shadow" style={{marginBottom: "10px"}}>
-                <Card.Header as="h3">Question Response</Card.Header>
+                <Card.Header as="h3">
+                  Question Response
+                  <StarRatingComponent
+                      name={this.props.index}
+                      starCount={5}
+                      value={this.getStarRating()}
+                      editing={false}
+                    />
+                  </Card.Header>
                 <Card.Body>
                   <Card.Text>
                     <h4>{this.state.txt}</h4>
                   </Card.Text>
                 </Card.Body>
               </Card>
-              <Card style={{marginBottom: "10px"}}>
+              <Card className = "shadow" style={{marginBottom: "10px"}}>
                 <Card.Header as="h3">Speech Analysis</Card.Header>
                 <Card.Body>
                   <Card.Text>
@@ -353,7 +459,7 @@ class Report extends Component {
                       </RadarChart>
                     </Row>
                     <Row>
-                      <h4>{this.getFeedback()+this.state.concepts+this.state.keywords}</h4>
+                      <h4>{this.getFeedback()}{this.getSubjects()}</h4>
                     </Row>
                   </Card.Text>
                 </Card.Body>
@@ -362,7 +468,7 @@ class Report extends Component {
             {/* Right Column */}
             <Col sm={6}>
               <Row>
-                <Card style={{marginBottom: "10px"}}>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
                   <Card.Header as="h3">Video Response</Card.Header>
                   <Card.Body>
                     <Card.Text>
@@ -372,7 +478,7 @@ class Report extends Component {
                 </Card>
               </Row>
               <Row>
-                <Card style={{marginBottom: "10px"}}>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
                     <Card.Header as="h3">Video Analysis</Card.Header>
                     <Card.Body>
                       <Card.Text>

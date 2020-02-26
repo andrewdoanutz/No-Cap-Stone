@@ -1,9 +1,8 @@
-import React, { useState, useCallback,useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios'
 import {Accordion, Card, Row, Col, Button} from 'react-bootstrap';
-import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, Sector, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
 import Report from './../components/Report'
-
+import { GridLoader } from "react-spinners";
 
 function useAsyncHook(name){
   const [transcript,setTranscript]=useState([])
@@ -11,25 +10,35 @@ function useAsyncHook(name){
   const [videoScores,setVideoScores]=useState([])
   const [videos,setVideos]=useState([])
   const [timestamps,setTimestamps]=useState([])
+  const [questions,setQuestions]=useState([])
   useEffect(() => {
     async function getDBInfo(){
       const res = await axios.post('http://localhost:3001/db/readUserInfo', {username: name})
+      console.log(res)
       setTranscript(res["data"]["Items"]["0"]["transcripts"])
       setVideoScores(res["data"]["Items"]["0"]["videoscores"])
       setVideos(res["data"]["Items"]["0"]["videos"])
       setTimestamps(res["data"]["Items"]["0"]["wordtimings"])
+      setQuestions(res["data"]["Items"]["0"]["questions"])
       setLoading(false)
     }
 
     getDBInfo(name)
   }, [name])
-  return [transcript,loading,videoScores,videos,timestamps]
+  return [transcript,loading,videoScores,videos,timestamps,questions]
 }
 
 
 const postAnalysis = (props) => {
-  const [transcript,loading,videoScores,videos,timestamps]=useAsyncHook("Adjon Tahiraj")
-
+  console.log(props)
+  let [transcript,loading,videoScores,videos,timestamps,questions]=useAsyncHook(props.location.state.username)
+  if(questions.length===0){
+    let temp=[]
+    transcript.map((val, index)=>{
+      temp.push(index+1)
+    })
+    questions=temp
+  }
   // constructor(props){
   //   super(props);
   //   this.state={
@@ -47,20 +56,29 @@ const postAnalysis = (props) => {
   //   //this.getCandidate()
   // }
 
-    // if(!DBInfo){
-    //   return(
-    //     <div className="homeBox">waiting</div>
-    //   )
-    // } else {
+    if(loading){
+      return(
+        <div className="profiles">
+          <Row>
+            <GridLoader
+            size={20}
+            //size={"150px"} this also works
+            color={"#007ed9"}
+            loading={true}
+          />
+        </Row>
+        </div>
+      )
+    } else {
       let overallTranscript = ""
       transcript.forEach(i=>{
         overallTranscript+=i+" "
       })
-      console.log(overallTranscript)
+      console.log(transcript)
       const overallVideoScores = [].concat.apply([], videoScores);
         return(
           <div className="homeBox">
-            <div className="homeHead">Post Analysis Report for {"Adjon Tahiraj"}</div>
+            <div className="homeHead">Post Analysis Report for {props.location.state.username}</div>
             <Row>
               <Col>
                 <Accordion defaultActiveKey="0">
@@ -72,7 +90,7 @@ const postAnalysis = (props) => {
                     </Card.Header>
                     <Accordion.Collapse eventKey={-1}>
                       <Card.Body>
-                        <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} timestamps={timestamps} username={"Adjon Tahiraj"}/>
+                        <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} timestamps={timestamps} username={props.location.state.username}/>
                       </Card.Body>
                     </Accordion.Collapse>
                   </Card>
@@ -81,12 +99,12 @@ const postAnalysis = (props) => {
                       <Card>
                         <Card.Header>
                           <Accordion.Toggle as={Button} variant="link" eventKey={index}>
-                            <h2> Question {index+1} </h2>
+                            <h2> Question: {questions[index]} </h2>
                           </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey={index}>
                           <Card.Body>
-                            <Report responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={"Adjon Tahiraj"} index = {index}/>
+                            <Report responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={props.location.state.username} index = {index}/>
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -102,5 +120,5 @@ const postAnalysis = (props) => {
   }
 
 
-
+}
 export default postAnalysis;

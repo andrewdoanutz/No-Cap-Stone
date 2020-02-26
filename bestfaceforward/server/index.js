@@ -168,6 +168,7 @@ app.post('/db/toneAnalysis', (req,res) =>{
   database.writeToneAnalysis()
 })
 
+
 app.get('/db/writeTranscript', (req,res) =>{
   console.log("Transcript being passed into DB:", req.body)
   const toneAnalysis = req.body.question;
@@ -201,6 +202,23 @@ app.post('/db/writeQuestion', (req,res) =>{
 
 })
 
+app.post('/db/writeUserInfo', (req,res) =>{
+  console.log("Info written:", req.body)
+  const username = req.body.username;
+  const questions = req.body.questions;
+  const transcript = req.body.transcript;
+  const videos = req.body.videos;
+  const scores = req.body.scores;
+  const timestamps = req.body.timestamps
+  database.writeUserEntry(username,transcript,questions,videos,scores,timestamps)
+})
+
+app.get('/db/writeUserInfo', (req,res) =>{
+  console.log("Question written:", req.body)
+  const username = req.body.username;
+  const questions = req.body.questions;
+  database.writeQuestion(username, questions)
+})
 
 app.post('/db/resetPractice', (req,res) =>{
   console.log("Reset Practice");
