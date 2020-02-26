@@ -55,11 +55,11 @@ module.exports = {
           "username": username,
         },
         KeyConditionExpression: "username = :uname ",
-        UpdateExpression: "set info = :uname, transcripts = list_append(transcripts, :transcript)",
+        UpdateExpression: "set info = :uname, transcripts = :transcript",
 
         ExpressionAttributeValues:{
             ":uname": username,
-            ":transcript": [transcript]
+            ":transcript": transcript
           }
         };
 
@@ -81,11 +81,11 @@ module.exports = {
             "username": username,
           },
           KeyConditionExpression: "username = :uname ",
-          UpdateExpression: "set info = :uname, questions = list_append(questions, :question)",
+          UpdateExpression: "set info = :uname, questions = :question",
 
           ExpressionAttributeValues:{
               ":uname": username,
-              ":question": [question]
+              ":question": question
             }
           };
 
@@ -100,18 +100,18 @@ module.exports = {
           });
           },
 
-        writeLiveScore(username, score){
+        writeLiveScore(username, scores){
           var params = {
             TableName:table,
             Key:{
               "username": username,
             },
             KeyConditionExpression: "username = :uname ",
-            UpdateExpression: "set info = :uname, liveAnalysisScore = :score",
+            UpdateExpression: "set info = :uname, videoscores = :scores",
 
             ExpressionAttributeValues:{
                 ":uname": username,
-                ":score": score
+                ":scores": scores
               }
             };
 
@@ -125,6 +125,31 @@ module.exports = {
                 }
             });
             },
+          writeVideos(username, videos){
+            var params = {
+              TableName:table,
+              Key:{
+                "username": username,
+              },
+              KeyConditionExpression: "username = :uname ",
+              UpdateExpression: "set info = :uname, videos = :videos",
+
+              ExpressionAttributeValues:{
+                  ":uname": username,
+                  ":videos": videos
+                }
+              };
+
+              docClient.update(params, function(err, data) {
+                  if (err) {
+                      console.error("Unable to writeVideos. Error JSON:", JSON.stringify(err, null, 2));
+                      return 0;
+                  } else {
+                      console.log("writeVideos item:", JSON.stringify(data, null, 2));
+                      return 1;
+                  }
+              });
+              },
 
 
 
@@ -139,12 +164,16 @@ module.exports = {
             "username": username,
           },
           KeyConditionExpression: "username = :uname ",
-          UpdateExpression: "set info = :uname, transcripts = :transcript, questions = :question",
+          UpdateExpression: "set info = :uname, transcripts = :transcript, questions = :question, wordtimings = :wordtimings, videoscores = :videoscores, videos = :videos",
 
           ExpressionAttributeValues:{
               ":uname": username,
               ":transcript": [],
-              ":question" : []
+              ":question" : [],
+              ":wordtimings":[],
+              ":videoscores":[],
+              ":videos":[]
+
             }
           };
 
@@ -188,7 +217,35 @@ module.exports = {
 
 
 
+      writeUserEntry(username,transcript,questions,videos,scores,timestamps){
+        var params = {
+          TableName:table,
+          Key:{
+            "username": username,
+          },
+          KeyConditionExpression: "username = :uname ",
+          UpdateExpression: "set info = :uname, videos = :videos, questions = :questions, transcripts = :transcripts, videoscores = :videoscores, wordtimings = :wordtimings",
 
+          ExpressionAttributeValues:{
+              ":uname": username,
+              ":videos": videos,
+              ":questions": questions,
+              ":transcripts": transcript,
+              ":videoscores": scores,
+              ":wordtimings": timestamps
+            }
+          };
+
+          docClient.update(params, function(err, data) {
+              if (err) {
+                  console.error("Unable to writeUserEntry. Error JSON:", JSON.stringify(err, null, 2));
+                  return 0;
+              } else {
+                  console.log("writeUserEntry item:", JSON.stringify(data, null, 2));
+                  return 1;
+              }
+          });
+      },
 
       readUserEntry(res, username){
         var params = {

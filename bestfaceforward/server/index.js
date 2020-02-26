@@ -168,39 +168,24 @@ app.post('/db/toneAnalysis', (req,res) =>{
   database.writeToneAnalysis()
 })
 
-app.get('/db/writeTranscript', (req,res) =>{
-  console.log("Transcript being passed into DB:", req.body)
-  const toneAnalysis = req.body.question;
-  database.writeTranscript()
+
+app.post('/db/writeUserInfo', (req,res) =>{
+  console.log("Info written:", req.body)
+  const username = req.body.username;
+  const questions = req.body.questions;
+  const transcript = req.body.transcript;
+  const videos = req.body.videos;
+  const scores = req.body.scores;
+  const timestamps = req.body.timestamps
+  database.writeUserEntry(username,transcript,questions,videos,scores,timestamps)
+})  
+
+app.get('/db/writeUserInfo', (req,res) =>{
+  console.log("Question written:", req.body)
+  const username = req.body.username;
+  const questions = req.body.questions;
+  database.writeQuestion(username, questions)
 })
-
-app.post('/db/writeTranscript', (req,res) =>{
-  console.log("Transcript written:", req.body["q"],req.body["u"])
-  const toneAnalysis = req.body.question;
-  database.writeTranscript(req.body["u"], req.body["q"])
-
-})
-
-app.post('/db/writeLiveScore', (req,res) =>{
-  console.log("LiveScore written:", req.body["s"],req.body["u"])
-  const toneAnalysis = req.body.question;
-  database.writeLiveScore(req.body["u"], req.body["s"])
-
-})
-
-app.get('/db/writeLiveScore', (req,res) =>{
-  console.log("LiveScore written:", req.body["s"],req.body["u"])
-  const toneAnalysis = req.body.question;
-  database.writeLiveScore(req.body["u"], req.body["s"])
-})
-
-app.post('/db/writeQuestion', (req,res) =>{
-  console.log("Question written:", req.body["q"],req.body["u"])
-  const toneAnalysis = req.body.question;
-  database.writeQuestion(req.body["u"], req.body["q"])
-
-})
-
 
 app.post('/db/resetPractice', (req,res) =>{
   console.log("Reset Practice");

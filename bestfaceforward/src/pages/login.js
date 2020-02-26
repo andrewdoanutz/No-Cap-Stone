@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Form, Button, Col, Row, Card, Container} from 'react-bootstrap'
-import VideoChat from '../components/VideoChat.js'
 import Cookies from 'universal-cookie';
 
 let cookies = new Cookies();

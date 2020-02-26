@@ -30,6 +30,7 @@ class VideoComponent extends Component {
       g:204,
       b:102,
       status: "neutral",
+      videoScores:[],
       numQues:0,
       finalTranscript: ""
     }
@@ -165,7 +166,7 @@ class VideoComponent extends Component {
 
   getCurrentInterimResult() {
 
-    if (this.state.formattedmessages != []){
+    if (this.state.formattedmessages !== []){
       const r = this.state.formattedMessages[this.state.formattedMessages.length - 1];
       if (!r || !r.results || !r.results.length || r.results[0].final) {
         return null;
@@ -243,7 +244,6 @@ class VideoComponent extends Component {
   takePicture(){
     const now = new Date();
     const time = now.getTime();
-    var link = "";
     this.camera.capture()
       .then(blob => {
         var reader = new FileReader();
@@ -281,7 +281,6 @@ class VideoComponent extends Component {
             if (err) {
                 throw err;
             }
-            link = data.Location;
 
             console.log(`File uploaded successfully. ${data.Location}`);
             });
@@ -289,10 +288,6 @@ class VideoComponent extends Component {
 
         }
         prevTime = time;
-       //
-
-        //this.callBackendAPI();
-        //isReady = false;
         this.img.src = URL.createObjectURL(blob);
         console.log(this.img);
         this.img.onload = () => { URL.revokeObjectURL(this.src); }
@@ -365,7 +360,6 @@ class VideoComponent extends Component {
 
 
   render(){
-    const {token, formattedMessages} = this.state;
     const messages = this.getFinalAndLatestInterimResult();
     const results = messages.map(msg => msg.results.map((result, i) => (result.alternatives[0].transcript))).reduce((a, b) => a.concat(b), []);
 
