@@ -72,7 +72,10 @@ export default class Practice extends Component {
             g:204,
             b:102,
             status: "neutral",
-            videoScores:[],
+            joyScores:[],
+            angerScores:[],
+            sorrowScores:[],
+            surpriseScores:[],
             finalScores:[]
         }
         this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
@@ -428,7 +431,6 @@ export default class Practice extends Component {
                 let sorrowScore=this.scoreVideoAnalysis(resJSON['sorrowLikelihood'])
                 let angerScore=this.scoreVideoAnalysis(resJSON['angerLikelihood'])
                 let surpriseScore=this.scoreVideoAnalysis(resJSON['surpriseLikelihood'])
-                let attribute=this.maxScore([joyScore,sorrowScore,angerScore,surpriseScore])
                 let totalScore=joyScore-sorrowScore-angerScore-surpriseScore
                 if(totalScore>0){
                   this.setState({
@@ -436,7 +438,10 @@ export default class Practice extends Component {
                     g:255,
                     b:153,
                     status:"positive",
-                    videoScores: this.state.videoScores.concat([totalScore,attribute])
+                    joyScores: this.state.joyScores.concat([joyScore]),
+                    sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
+                    angerScores: this.state.angerScores.concat([angerScore]),
+                    surpriseScores: this.state.surpriseScores.concat([surpriseScore])
                   })
                 } else if (totalScore<0){
                   this.setState({
@@ -444,7 +449,10 @@ export default class Practice extends Component {
                     g:102,
                     b:102,
                     status:"negative",
-                    videoScores: this.state.videoScores.concat([totalScore,attribute])
+                    joyScores: this.state.joyScores.concat([joyScore]),
+                    sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
+                    angerScores: this.state.angerScores.concat([angerScore]),
+                    surpriseScores: this.state.surpriseScores.concat([surpriseScore])
                   })
                 } else {
                   this.setState({
@@ -452,7 +460,10 @@ export default class Practice extends Component {
                     g:204,
                     b:102,
                     status:"neutral",
-                    videoScores: this.state.videoScores.concat([totalScore,attribute])
+                    joyScores: this.state.joyScores.concat([joyScore]),
+                    sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
+                    angerScores: this.state.angerScores.concat([angerScore]),
+                    surpriseScores: this.state.surpriseScores.concat([surpriseScore])
                   })
                 }
               } else {
@@ -464,25 +475,6 @@ export default class Practice extends Component {
           })
         }
         ,1000))
-    }
-    maxScore(scores){
-      let maxScore=0
-      let maxInd=0
-      scores.map((value,index)=>{
-        if(Math.abs(value)>maxScore){
-          maxScore=value
-          maxInd=index
-        }
-      })
-      if(maxInd===0){
-        return "Joy"
-      } else if (maxInd===1){
-        return "Sorrow"
-      } else if (maxInd===2){
-        return "Anger"
-      } else {
-        return "Surprise"
-      }
     }
     scoreVideoAnalysis(score){
       if(score==="VERY_UNLIKELY"){
@@ -563,19 +555,21 @@ export default class Practice extends Component {
                           this.setState({
                               transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
                               videos: this.state.videos.concat([mediaBlobUrl]),
-                              finalScores: this.state.finalScores.concat([this.state.videoScores]),
+                              finalScores: this.state.finalScores.concat([[this.state.joyScores,this.state.sorrowScores,this.state.angerScores,this.state.surpriseScores]]),
                               
                           }, () => {
                             console.log(this.state.finalScores)
                               this.setState({
-                                videoScores: []
+                                joyScores: [],
+                                sorrowScores: [],
+                                angerScores: [],
+                                surpriseScores: []
                               })
                               console.log(this.state.videos)
                               startRecording()
                               this.onClickListener()
                           })
                       },500)
-
                   }
                   this.randomQuestion()
                   }}>{buttonText}</Button>

@@ -28,7 +28,28 @@ function useAsyncHook(name){
   return [transcript,loading,videoScores,videos,timestamps,questions]
 }
 
-
+function combineScores(scores){
+  let joy=[]
+  let sorrow=[]
+  let anger=[]
+  let surprise=[]
+  scores.map((value) =>{
+    value.map((a,index)=>{
+      a.map((value)=>{
+        if (index===0){
+          joy.push(value)
+        } else if (index===1){
+          sorrow.push(value)
+        } else if (index===2){
+          anger.push(value)
+        } else if (index===3){
+          surprise.push(value)
+        } 
+      })
+    })
+  })
+  return [joy,sorrow,anger,surprise]
+}
 const postAnalysis = (props) => {
   console.log(props)
   let [transcript,loading,videoScores,videos,timestamps,questions]=useAsyncHook(props.location.state.username)
@@ -75,7 +96,8 @@ const postAnalysis = (props) => {
         overallTranscript+=i+" "
       })
       console.log(transcript)
-      const overallVideoScores = [].concat.apply([], videoScores);
+      const overallVideoScores = combineScores(videoScores)
+      console.log(overallVideoScores)
         return(
           <div className="homeBox">
             <div className="homeHead">Post Analysis Report for {props.location.state.username}</div>
