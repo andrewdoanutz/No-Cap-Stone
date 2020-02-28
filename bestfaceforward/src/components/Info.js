@@ -1,7 +1,7 @@
 import React, { useState, useCallback} from 'react'
 import {Container, Col, Row, Button, Card} from 'react-bootstrap'
 import exampleResume from "../images/exampleResume.png"
-import {Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVideo } from '@fortawesome/free-solid-svg-icons'
