@@ -226,19 +226,66 @@ class Report extends Component {
     
     return res
   }
-  videoFeedback(){
-    let vidSum=0
-    this.state.videoScore.forEach(i =>{
-      vidSum+=i
+  maxScore(scores){
+    let maxScore=0
+    let secondMaxInd=0
+    let maxInd=0
+    scores.map((value,index)=>{
+      if(Math.abs(value)>maxScore){
+        maxScore=value
+        secondMaxInd=maxInd
+        maxInd=index
+      }
     })
-    
-    if(vidSum>0){
-      return "You had a mostly positive look on your face. Keep it up!"
-    } else if (vidSum<0){
-      return "You had a mostly negative look on your face. Try to smile more."
+    let maxAttribute=""
+    let second=""
+    if(maxInd===0){
+      maxAttribute= "Joy"
+    } else if (maxInd===1){
+      maxAttribute= "Sorrow"
+    } else if (maxInd===2){
+      maxAttribute= "Anger"
     } else {
-      return "You had a neutral look on your face. Try smiling a bit more!"
+      maxAttribute= "Surprise"
     }
+    if(secondMaxInd===0){
+      second= "Joy"
+    } else if (secondMaxInd===1){
+      second= "Sorrow"
+    } else if (secondMaxInd===2){
+      second= "Anger"
+    } else {
+      second= "Surprise"
+    }
+    return maxAttribute,second
+  }
+  videoFeedback(){
+    let joy=0
+    let sorrow=0
+    let anger=0
+    let surprise=0
+    for (var a of this.state.videoScore){
+      if (a[0] === 'Joy'){
+        joy+=a[1]
+      } else if (a.tone_name === 'Sorrow'){
+        sorrow+=a[1]
+      } else if (a.tone_name === 'Anger'){
+        anger+=a[1]
+      } else if (a.tone_name === 'Surprise'){
+        surprise+=a[1]
+      } 
+    }
+    let maxAttribute,secondMaxAttribute=this.maxScore([joy,sorrow,anger,surprise])
+    let res=""
+    res+="The strongest emotion you showed was "+maxAttribute+". The second strongest was "+secondMaxAttribute+". "
+    if(this.state.filler>6){
+      res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
+    } else if(this.state.filler>3) {
+      res+="You are using some filler words in your response. Try pausing between sentences instead of using ums and uhs. "
+    } else {
+      res+="You are barely using any filler words. Good job! "
+    }
+    return res;
   }
   timestampAnalysis(){
     let wpm=0
@@ -316,9 +363,41 @@ class Report extends Component {
       } 
     }
     let vidSum=0
-    this.state.videoScore.forEach(i =>{
-      vidSum+=i
-    })
+    for (var a of this.state.videoScore){
+      if (a[0] === 'Joy'){
+        if(Math.abs(a[1])>=3){
+          vidSum+=1
+        } else if(Math.abs(a[1])==2){
+          vidSum+=.5
+        } else {
+          vidSum-=.5
+        }
+      } else if (a[0] === 'Sorrow'){
+        if(Math.abs(a[1])>=3){
+          vidSum-=1
+        } else if(Math.abs(a[1])==2){
+          vidSum-=.5
+        } else {
+          vidSum+=.5
+        }
+      } else if (a[0] === 'Anger'){
+        if(Math.abs(a[1])>=3){
+          vidSum-=1
+        } else if(Math.abs(a[1])==2){
+          vidSum-=.5
+        } else {
+          vidSum+=.5
+        }
+      } else if (a[0] === 'Surprise'){
+        if(Math.abs(a[1])>=3){
+          vidSum-=1
+        } else if(Math.abs(a[1])==2){
+          vidSum-=.5
+        } else {
+          vidSum+=.5
+        }
+      } 
+    }
     vidSum=vidSum/this.state.videoScore.length
     let totalScore=analysisScore+vidSum
     if(this.props.overall){
