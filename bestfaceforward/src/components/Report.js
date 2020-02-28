@@ -11,8 +11,6 @@ class Report extends Component {
       txt: this.props.responses,
       videoURL:this.props.videoURL,
       videoScore:this.props.videoScore,
-      posFeedback:"",
-      negFeedback:"",
       analysis: [
                   {
                     tone_name: 'Anger', score: 0
@@ -45,9 +43,6 @@ class Report extends Component {
                   {concepts: '3', score: 1}],
     }
     this.analyzeText()
-    this.getFeedback()
-    this.getSubjects()
-    this.timestampAnalysis()
     
   }
   
@@ -154,137 +149,242 @@ class Report extends Component {
      //console.log(this.state.analysis)
    })
   }
-  getFeedback(){
-    console.log("getting feedback")
+  getNegFeedback(){
+    let negFeedback=""
+
     for (var a of this.state.analysis){
       if (a.tone_name === 'Fear'){
         if(a.score>=.8){
-          this.setState({
-            negFeedback:this.state.negFeedback+"Try to be more confident in what you are saying. Don't be scared of the interviewer. "
-          })
+
+            negFeedback=negFeedback+"Try to be more confident in what you are saying. Don't be scared of the interviewer. "
+
         } else if(a.score>=.4){
-          this.setState({
-            negFeedback:this.state.negFeedback+"A little more confidence in what you are saying will help get your point across better. "
-          })
 
-        } else {
-          this.setState({
-            posFeedback:this.state.posFeedback+"You are not speaking very fearfully. Good job! "
-          })
+            negFeedback=negFeedback+"A little more confidence in what you are saying will help get your point across better. "
 
-        }
+
+        } 
       } else if (a.tone_name === 'Joy'){
         if(a.score>=.8){
-          this.setState({
-            posFeedback:this.state.posFeedback+"You are coming across very happy. Keep it up! "
-          })
+         
 
         } else if(a.score>=.4){
-          this.setState({
-            negFeedback:this.state.negFeedback+"Try to speak a little more joyfully when you are responding. "
-          })
+
+            negFeedback=negFeedback+"Try to speak a little more joyfully when you are responding. "
+
 
         } else {
-          this.setState({
-            negFeedback:this.state.negFeedback+"You should use more joyful vocabulary when responding. "
-          })
+
+            negFeedback=negFeedback+"You should use more joyful vocabulary when responding. "
+
 
         }
       } else if (a.tone_name === 'Anger'){
         if(a.score>=.8){
-          this.setState({
-            negFeedback:this.state.negFeedback+"You are coming across very angery. Be less aggressive in your response. "
-          })
+
+            negFeedback=negFeedback+"You are coming across very angery. Be less aggressive in your response. "
+
 
         } else if(a.score>=.4){
-          this.setState({
-            negFeedback:this.state.negFeedback+"Try to speak a little less aggresively when you are responding."
-          })
 
-        } else{
-          this.setState({
-            posFeedback:this.state.posFeedback+"You are not speaking very angerly. Keep it up! "
-          })
+            negFeedback=negFeedback+"Try to speak a little less aggresively when you are responding."
 
-        }
+
+        } 
       } else if (a.tone_name === 'Sadness'){
         if(a.score>=.8){
-          this.setState({
-            negFeedback:this.state.negFeedback+"You should speak with happier words. "
-          })
+
+            negFeedback=negFeedback+"You should speak with happier words. "
+
 
         } else if(a.score>=.4){
-          this.setState({
-            negFeedback:this.state.negFeedback+"Some of your words are coming across kind of sad. Use more happy vocabulary. "
-          })
+
+            negFeedback=negFeedback+"Some of your words are coming across kind of sad. Use more happy vocabulary. "
 
 
-        } else {
-          this.setState({
-            posFeedback:this.state.posFeedback+"You are not speaking very sadly. Good job!"
-          })
 
-        }
+        } 
       } else if (a.tone_name === 'Analytical'){
         if(a.score>=.8){
-          this.setState({
-            negFeedback:this.state.negFeedback+"Your response is very analytical. Try to speak more naturally. "
-          })
+
+            negFeedback=negFeedback+"Your response is very analytical. Try to speak more naturally. "
+
 
         } else if(a.score>=.4){
-          this.setState({
-            posFeedback:this.state.posFeedback+"Your response is analytical and logical. Good job! "
-          })
+         
 
         } else {
-          this.setState({
-            negFeedback:this.state.negFeedback+"Try to be more analytical and logical in your response. "
-          })
+
+            negFeedback=negFeedback+"Try to be more analytical and logical in your response. "
+
 
         }
       } else if (a.tone_name === 'Confident'){
         if(a.score>=.8){
-          this.setState({
-            posFeedback:this.state.posFeedback+"You are very confident in what you are saying. Good job! "
-          })
+          
 
         } else if(a.score>=.4){
-          this.setState({
-            negFeedback:this.state.negFeedback+"A little more confidence in what you are saying will help get your point across better. "
-          })
+
+            negFeedback=negFeedback+"A little more confidence in what you are saying will help get your point across better. "
+
 
         } else {
-          this.setState({
-            negFeedback:this.state.negFeedback+"Try being more confident in your response. "
-          })
+
+            negFeedback=negFeedback+"Try being more confident in your response. "
+
 
         }
       } else if (a.tone_name === 'Tentative'){
         if(a.score>=.8){
-          this.setState({
-            negFeedback:this.state.negFeedback+"You are very hesitant in what your are saying. Don't be scared of the interviewer. "
-          },()=>{
-            console.log(this.state.negFeedback)
-            console.log(this.state.posFeedback)
-          })
+
+            negFeedback=negFeedback+"You are very hesitant in what your are saying. Don't be scared of the interviewer. "
+       
 
         } else if(a.score>=.4){
-          this.setState({
-            negFeedback:this.state.negFeedback+"You are a little hesitant in what you are saying. "
-          },()=>{
-            console.log(this.state.negFeedback)
-            console.log(this.state.posFeedback)
-          })
+
+            negFeedback=negFeedback+"You are a little hesitant in what you are saying. "
+
+
+        } 
+
+        if(!this.props.overall){
+          return negFeedback
+        }
+        let wpm=0
+        this.props.timestamps.forEach(pair=>{
+          wpm+=pair[1]-pair[0]
+        })
+        wpm=wpm*60/this.props.timestamps.length
+        let feedback="Your average words per minute was "+Math.round(wpm)+". "
+        if(wpm<130){
+          feedback+="Try speaking a little faster."
+
+            negFeedback=negFeedback+feedback
+
+        }else if(wpm>170){
+          feedback+="Try speaking a little slower."
+
+            negFeedback=negFeedback+feedback
+
+        } 
+        return negFeedback
+      } 
+    }
+    // if(this.state.filler>6){
+    //   res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
+    // } else if(this.state.filler>3) {
+    //   res+="You are using some filler words in your response. Try pausing between sentences instead of using ums and uhs. "
+    // } else {
+    //   res+="You are barely using any filler words. Good job! "
+    // }
+    
+  }
+
+  getPosFeedback(){
+    let posFeedback=""
+
+    for (var a of this.state.analysis){
+      if (a.tone_name === 'Fear'){
+        if(a.score>=.8){
+          
+        } else if(a.score>=.4){
+          
 
         } else {
-          this.setState({
-            posFeedback:this.state.posFeedback+"You are not speaking tentatively. Keep it up! "
-          },()=>{
-            console.log(this.state.negFeedback)
-            console.log(this.state.posFeedback)
-          })
+
+            posFeedback=posFeedback+"You are not speaking very fearfully. Good job! "
+
 
         }
+      } else if (a.tone_name === 'Joy'){
+        if(a.score>=.8){
+
+            posFeedback=posFeedback+"You are coming across very happy. Keep it up! "
+
+
+        } 
+      } else if (a.tone_name === 'Anger'){
+        if(a.score>=.8){
+          
+
+        } else if(a.score>=.4){
+          
+
+        } else{
+
+            posFeedback=posFeedback+"You are not speaking very angerly. Keep it up! "
+
+
+        }
+      } else if (a.tone_name === 'Sadness'){
+        if(a.score>=.8){
+        
+
+        } else if(a.score>=.4){
+         
+
+
+        } else {
+
+            posFeedback=posFeedback+"You are not speaking very sadly. Good job!"
+
+
+        }
+      } else if (a.tone_name === 'Analytical'){
+        if(a.score>=.8){
+          
+
+        } else if(a.score>=.4){
+
+            posFeedback=posFeedback+"Your response is analytical and logical. Good job! "
+
+
+        } 
+      } else if (a.tone_name === 'Confident'){
+        if(a.score>=.8){
+
+            posFeedback=posFeedback+"You are very confident in what you are saying. Good job! "
+
+
+        } else if(a.score>=.4){
+         
+
+        } else {
+          
+
+        }
+      } else if (a.tone_name === 'Tentative'){
+        if(a.score>=.8){
+          
+
+        } else if(a.score>=.4){
+          
+
+        } else {
+
+            posFeedback=posFeedback+"You are not speaking tentatively. Keep it up! "
+        
+
+        }
+        posFeedback=posFeedback+this.getSubjects()
+        if(!this.props.overall){
+          return posFeedback
+        }
+        let wpm=0
+        this.props.timestamps.forEach(pair=>{
+          wpm+=pair[1]-pair[0]
+        })
+        wpm=wpm*60/this.props.timestamps.length
+        let feedback="Your average words per minute was "+Math.round(wpm)+". "
+        if(wpm<130){
+          
+        }else if(wpm>170){
+          
+        } else {
+          feedback+="Good job!"
+          posFeedback=posFeedback+feedback
+        }
+        return posFeedback
       } 
     }
     // if(this.state.filler>6){
@@ -385,33 +485,7 @@ class Report extends Component {
     }
     return res;
   }
-  timestampAnalysis(){
-    if(!this.props.overall){
-      return
-    }
-    let wpm=0
-    this.props.timestamps.forEach(pair=>{
-      wpm+=pair[1]-pair[0]
-    })
-    wpm=wpm*60/this.props.timestamps.length
-    let feedback="Your average words per minute was "+Math.round(wpm)+". "
-    if(wpm<130){
-      feedback+="Try speaking a little faster."
-      this.setState({
-        negFeedback:this.state.negFeedback+feedback
-      })
-    }else if(wpm>170){
-      feedback+="Try speaking a little slower."
-      this.setState({
-        negFeedback:this.state.negFeedback+feedback
-      })
-    } else {
-      feedback+="Good job!"
-      this.setState({
-        posFeedback:this.state.posFeedback+feedback
-      })
-    }
-  }
+
   getStarRating(){
     let analysisScore=0.0
     for (var a of this.state.analysis){
@@ -574,8 +648,8 @@ class Report extends Component {
                         </RadarChart>
                       </Row>
                       <Row>
-                      <Col><h3>{this.state.posFeedback}</h3></Col>
-                          <Col><h3>{this.state.negFeedback}</h3></Col>
+                        <Col><h3>{this.getPosFeedback()}</h3></Col>
+                        <Col><h3>{this.getNegFeedback()}</h3></Col>
                       </Row>
                     </Card.Text>
                   </Card.Body>
@@ -646,8 +720,8 @@ class Report extends Component {
                       </RadarChart>
                     </Row>
                     <Row>
-                      <Col><h3>{this.state.posFeedback}</h3></Col>
-                      <Col><h3>{this.state.negFeedback}</h3></Col>
+                      <Col><h3>{this.getPosFeedback()}</h3></Col>
+                      <Col><h3>{this.getNegFeedback()}</h3></Col>
                     </Row>
                   </Card.Text>
                 </Card.Body>
