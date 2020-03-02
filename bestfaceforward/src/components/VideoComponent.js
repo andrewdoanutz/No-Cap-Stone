@@ -1,6 +1,6 @@
 //To  disable CORS policy in chrome:
   // kill all instances of chrome
-  //run on command line: "open -a Google\ Chrome --args --disable-web-security --user-data-dir"
+  //run on command line: "open -n -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --user-data-dir="/tmp/chrome_dev_test" --disable-web-security"
 
 import React, { Component } from 'react'
 //import SpeechRecognition from 'react-speech-recognition'

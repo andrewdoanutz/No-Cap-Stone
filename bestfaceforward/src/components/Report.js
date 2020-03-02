@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import {Card, Row, Col} from 'react-bootstrap';
-import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart} from 'recharts';
+import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart, Tooltip} from 'recharts';
 import StarRatingComponent from 'react-star-rating-component';
-
 
 class Report extends Component {
   constructor(props){
@@ -44,6 +43,7 @@ class Report extends Component {
                   {concepts: '3', score: 1}],
     }
     this.analyzeText()
+    
   }
   
   
@@ -149,111 +149,343 @@ class Report extends Component {
      //console.log(this.state.analysis)
    })
   }
-  getFeedback(){
-    var res=""
+  getNegFeedback(){
+    let negFeedback=""
+
     for (var a of this.state.analysis){
       if (a.tone_name === 'Fear'){
         if(a.score>=.8){
-          res+="Try to be more confident in what you are saying. Don't be scared of the interviewer. "
+
+            negFeedback=negFeedback+"Try to be more confident in what you are saying. Don't be scared of the interviewer. "
+
         } else if(a.score>=.4){
-          res+="A little more confidence in what you are saying will help get your point across better. "
-        }
+
+            negFeedback=negFeedback+"A little more confidence in what you are saying will help get your point across better. "
+
+
+        } 
       } else if (a.tone_name === 'Joy'){
         if(a.score>=.8){
-          res+="You are coming across very happy. Keep it up! "
+         
+
         } else if(a.score>=.4){
-          res+="Try to speak a little more joyfully when you are responding. "
+
+            negFeedback=negFeedback+"Try to speak a little more joyfully when you are responding. "
+
+
         } else {
-          res+="You should use more joyful vocabulary when responding. "
+
+            negFeedback=negFeedback+"You should use more joyful vocabulary when responding. "
+
+
         }
       } else if (a.tone_name === 'Anger'){
         if(a.score>=.8){
-          res+="You are coming across very angery. Be less aggressive in your response. "
+
+            negFeedback=negFeedback+"You are coming across very angery. Be less aggressive in your response. "
+
+
         } else if(a.score>=.4){
-          res+="Try to speak a little less aggresively when you are responding. "
+
+            negFeedback=negFeedback+"Try to speak a little less aggresively when you are responding."
+
+
         } 
       } else if (a.tone_name === 'Sadness'){
         if(a.score>=.8){
-          res+="You should speak with happier words. "
+
+            negFeedback=negFeedback+"You should speak with happier words. "
+
+
         } else if(a.score>=.4){
-          res+="Some of your words are coming across kind of sad. Use more happy vocabulary. "
-        }
+
+            negFeedback=negFeedback+"Some of your words are coming across kind of sad. Use more happy vocabulary. "
+
+
+
+        } 
       } else if (a.tone_name === 'Analytical'){
         if(a.score>=.8){
-          res+="Your response is very analytical. Try to speak more naturally. "
+
+            negFeedback=negFeedback+"Your response is very analytical. Try to speak more naturally. "
+
+
         } else if(a.score>=.4){
-          res+="Your response is analytical and logical. Good job! "
+         
+
         } else {
-          res+="Try to be more analytical and logical in your response. "
+
+            negFeedback=negFeedback+"Try to be more analytical and logical in your response. "
+
+
         }
       } else if (a.tone_name === 'Confident'){
         if(a.score>=.8){
-          res+="You are very confident in what you are saying. Good job! "
+          
+
         } else if(a.score>=.4){
-          res+="A little more confidence in what you are saying will help get your point across better. "
+
+            negFeedback=negFeedback+"A little more confidence in what you are saying will help get your point across better. "
+
+
         } else {
-          res+="Try being more confident in your response. "
+
+            negFeedback=negFeedback+"Try being more confident in your response. "
+
+
         }
       } else if (a.tone_name === 'Tentative'){
         if(a.score>=.8){
-          res+="You are very hesitant in what your are saying. Don't be scared of the interviewer. "
+
+            negFeedback=negFeedback+"You are very hesitant in what your are saying. Don't be scared of the interviewer. "
+       
+
         } else if(a.score>=.4){
-          res+="You are a little hesitant in what you are saying. "
+
+            negFeedback=negFeedback+"You are a little hesitant in what you are saying. "
+
+
+        } 
+
+        if(!this.props.overall){
+          return negFeedback
         }
+        let wpm=0
+        this.props.timestamps.forEach(pair=>{
+          wpm+=pair[1]-pair[0]
+        })
+        wpm=wpm*60/this.props.timestamps.length
+        let feedback="Your average words per minute was "+Math.round(wpm)+". "
+        if(wpm<130){
+          feedback+="Try speaking a little faster."
+
+            negFeedback=negFeedback+feedback
+
+        }else if(wpm>170){
+          feedback+="Try speaking a little slower."
+
+            negFeedback=negFeedback+feedback
+
+        } 
+        return negFeedback
       } 
     }
-    if(this.state.filler>6){
-      res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
-    } else if(this.state.filler>3) {
-      res+="You are using some filler words in your response. Try pausing between sentences instead of using ums and uhs. "
-    } else {
-      res+="You are barely using any filler words. Good job! "
-    }
-    return res;
+    // if(this.state.filler>6){
+    //   res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
+    // } else if(this.state.filler>3) {
+    //   res+="You are using some filler words in your response. Try pausing between sentences instead of using ums and uhs. "
+    // } else {
+    //   res+="You are barely using any filler words. Good job! "
+    // }
+    
   }
+
+  getPosFeedback(){
+    let posFeedback=""
+
+    for (var a of this.state.analysis){
+      if (a.tone_name === 'Fear'){
+        if(a.score>=.8){
+          
+        } else if(a.score>=.4){
+          
+
+        } else {
+
+            posFeedback=posFeedback+"You are not speaking very fearfully. Good job! "
+
+
+        }
+      } else if (a.tone_name === 'Joy'){
+        if(a.score>=.8){
+
+            posFeedback=posFeedback+"You are coming across very happy. Keep it up! "
+
+
+        } 
+      } else if (a.tone_name === 'Anger'){
+        if(a.score>=.8){
+          
+
+        } else if(a.score>=.4){
+          
+
+        } else{
+
+            posFeedback=posFeedback+"You are not speaking very angerly. Keep it up! "
+
+
+        }
+      } else if (a.tone_name === 'Sadness'){
+        if(a.score>=.8){
+        
+
+        } else if(a.score>=.4){
+         
+
+
+        } else {
+
+            posFeedback=posFeedback+"You are not speaking very sadly. Good job!"
+
+
+        }
+      } else if (a.tone_name === 'Analytical'){
+        if(a.score>=.8){
+          
+
+        } else if(a.score>=.4){
+
+            posFeedback=posFeedback+"Your response is analytical and logical. Good job! "
+
+
+        } 
+      } else if (a.tone_name === 'Confident'){
+        if(a.score>=.8){
+
+            posFeedback=posFeedback+"You are very confident in what you are saying. Good job! "
+
+
+        } else if(a.score>=.4){
+         
+
+        } else {
+          
+
+        }
+      } else if (a.tone_name === 'Tentative'){
+        if(a.score>=.8){
+          
+
+        } else if(a.score>=.4){
+          
+
+        } else {
+
+            posFeedback=posFeedback+"You are not speaking tentatively. Keep it up! "
+        
+
+        }
+        posFeedback=posFeedback+this.getSubjects()
+        if(!this.props.overall){
+          return posFeedback
+        }
+        let wpm=0
+        this.props.timestamps.forEach(pair=>{
+          wpm+=pair[1]-pair[0]
+        })
+        wpm=wpm*60/this.props.timestamps.length
+        let feedback="Your average words per minute was "+Math.round(wpm)+". "
+        if(wpm<130){
+          
+        }else if(wpm>170){
+          
+        } else {
+          feedback+="Good job!"
+          posFeedback=posFeedback+feedback
+        }
+        return posFeedback
+      } 
+    }
+    // if(this.state.filler>6){
+    //   res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
+    // } else if(this.state.filler>3) {
+    //   res+="You are using some filler words in your response. Try pausing between sentences instead of using ums and uhs. "
+    // } else {
+    //   res+="You are barely using any filler words. Good job! "
+    // }
+    
+  }
+  toPercent(decimal, fixed = 0){
+    return `${(decimal * 100).toFixed(fixed)}%`;
+  }
+  getPercent(value, total){
+    const ratio = total > 0 ? value / total : 0;
+    
+    return this.toPercent(ratio, 2);
+  }
+  
+   
+  renderTooltipContent(o){
+    const { payload, label } = o;
+    const total = payload.reduce((result, entry) => (result + entry.value), 0);
+    
+    return (
+      <div className="customized-tooltip-content">
+        <p className="total">{`${label} (Total: ${total})`}</p>
+        <ul className="list">
+          {
+            payload.map((entry, index) => (
+              <div key={`item-${index}`} style={{color: entry.color}}>
+                {entry.name+`: `+entry.value}
+                {/* {entry.name}+{`: `}+{entry.value}+{this.getPercent(entry.value, total).bind(this)} percent not working for some reason*/}
+              </div>
+            ))
+          }
+        </ul>
+      </div>
+    );
+  };
   formatVideoScores(){
     let res=[]
-    let current=0
-    this.state.videoScore.forEach(i =>{
-      if(i>0){
-        res.push({ind:current, score: i, nscore:0})
-      } else{
-        res.push({ind:current, score: 0,nscore:i})
-      }
-      
-      current++;
+    this.state.videoScore[0].map((value,index) =>{
+      res.push({ind:index, joy: value, sorrow:this.state.videoScore[1][index], anger:this.state.videoScore[2][index],surprise:this.state.videoScore[3][index]})
     })
     
     return res
   }
-  videoFeedback(){
-    let vidSum=0
-    this.state.videoScore.forEach(i =>{
-      vidSum+=i
+  maxScore(scores){
+    let maxScore=0
+    let maxInd=0
+    scores.map((value,index)=>{
+      if(Math.abs(value)>maxScore){
+        maxScore=Math.abs(value)
+        maxInd=index
+      }
     })
-    
-    if(vidSum>0){
-      return "You had a mostly positive look on your face. Keep it up!"
-    } else if (vidSum<0){
-      return "You had a mostly negative look on your face. Try to smile more."
+    let maxAttribute="Unknown"
+    if(maxInd===0){
+      maxAttribute= "Joy"
+    } else if (maxInd===1){
+      maxAttribute= "Sorrow"
+    } else if (maxInd===2){
+      maxAttribute= "Anger"
     } else {
-      return "You had a neutral look on your face. Try smiling a bit more!"
+      maxAttribute= "Surprise"
     }
+  
+    return maxAttribute
   }
-  timestampAnalysis(){
-    let wpm=0
-    this.props.timestamps.forEach(pair=>{
-      wpm+=pair[1]-pair[0]
+  videoFeedback(){
+    let joy=0
+    let sorrow=0
+    let anger=0
+    let surprise=0
+    this.state.videoScore.map((value,index) =>{
+      value.forEach((a)=>{
+        if (index===0){
+          joy+=a
+        } else if (index===1){
+          sorrow+=a
+        } else if (index===2){
+          anger+=a
+        } else if (index===3){
+          surprise+=a
+        } 
+      })
     })
-    wpm=wpm*60/this.props.timestamps.length
-    let feedback="Your average words per minute was "+Math.round(wpm)+". "
-    if(wpm<130){
-      feedback+="Try speaking a little faster."
-    }if(wpm>170){
-      feedback+="Try speaking a little slower."
+
+    let maxAttribute=this.maxScore([joy,sorrow,anger,surprise])
+    let res=""
+    res+="The strongest emotion you showed was "+maxAttribute+". "
+    if(maxAttribute==="Joy"){
+      res+="Good job! Keep it up."
+    } else {
+      res+="Try smiling a little more."
     }
-    return feedback
+    return res;
   }
+
   getStarRating(){
     let analysisScore=0.0
     for (var a of this.state.analysis){
@@ -316,10 +548,42 @@ class Report extends Component {
       } 
     }
     let vidSum=0
-    this.state.videoScore.forEach(i =>{
-      vidSum+=i
+    this.state.videoScore.map((value,index)=>{
+      if (index===0){
+        if(Math.abs(value)>=3){
+          vidSum+=1
+        } else if(Math.abs(value)==2){
+          vidSum+=.5
+        } else {
+          vidSum-=.5
+        }
+      } else if (index===1){
+        if(Math.abs(value)>=3){
+          vidSum-=1
+        } else if(Math.abs(value)==2){
+          vidSum-=.5
+        } else {
+          vidSum+=.5
+        }
+      } else if (index===2){
+        if(Math.abs(value)>=3){
+          vidSum-=1
+        } else if(Math.abs(value)==2){
+          vidSum-=.5
+        } else {
+          vidSum+=.5
+        }
+      } else if (index===3){
+        if(Math.abs(value)>=3){
+          vidSum-=1
+        } else if(Math.abs(value)==2){
+          vidSum-=.5
+        } else {
+          vidSum+=.5
+        }
+      } 
     })
-    vidSum=vidSum/this.state.videoScore.length
+    // vidSum=vidSum/this.state.videoScore.length
     let totalScore=analysisScore+vidSum
     if(this.props.overall){
       let wpm=0
@@ -347,7 +611,7 @@ class Report extends Component {
     }
   }
 
-
+ 
   render(){
     if(this.props.overall){
       return(
@@ -384,7 +648,8 @@ class Report extends Component {
                         </RadarChart>
                       </Row>
                       <Row>
-                        <h4>{this.getFeedback()}{this.getSubjects()}{this.timestampAnalysis()}</h4>
+                        <Col><h3>{this.getPosFeedback()}</h3></Col>
+                        <Col><h3>{this.getNegFeedback()}</h3></Col>
                       </Row>
                     </Card.Text>
                   </Card.Body>
@@ -398,20 +663,16 @@ class Report extends Component {
                       <Card.Body>
                         <Card.Text>
                           <Row>
-                            <AreaChart
-                              width={600}
-                              height={500}
-                              data={this.formatVideoScores()}
-                              margin={{
-                                top: 10, right: 30, left: 0, bottom: 0,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
+                            <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
+                                margin={{top: 10, right: 30, left: 0, bottom: 0}} >
                               <XAxis dataKey="ind"/>
-                              <YAxis />
-                              <Area type="monotone" dataKey="score" stroke="#000" fill="green" />
-                              <Area type="monotone" dataKey="nscore" stroke="#000" fill="red" />
-                            </AreaChart>
+                              <YAxis tickFormatter={this.toPercent}/>
+                              <Tooltip content={this.renderTooltipContent}/>
+                              <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
+                              <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
+                              <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
+                              <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
+                           </AreaChart>
                           </Row>
                           <Row>
                             <h3>{this.videoFeedback()}</h3>
@@ -434,7 +695,7 @@ class Report extends Component {
                 <Card.Header as="h3">
                   Question Response
                   <StarRatingComponent 
-                      name={this.props.index}
+                      name={"s"+this.props.index}
                       starCount={5}
                       value={this.getStarRating()}
                       editing={false}
@@ -459,7 +720,8 @@ class Report extends Component {
                       </RadarChart>
                     </Row>
                     <Row>
-                      <h4>{this.getFeedback()}{this.getSubjects()}</h4>
+                      <Col><h3>{this.getPosFeedback()}</h3></Col>
+                      <Col><h3>{this.getNegFeedback()}</h3></Col>
                     </Row>
                   </Card.Text>
                 </Card.Body>
@@ -483,20 +745,16 @@ class Report extends Component {
                     <Card.Body>
                       <Card.Text>
                         <Row>
-                          <AreaChart
-                            width={600}
-                            height={500}
-                            data={this.formatVideoScores()}
-                            margin={{
-                              top: 10, right: 30, left: 0, bottom: 0,
-                            }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="ind"/>
-                            <YAxis />
-                            <Area type="monotone" dataKey="score" stroke="#000" fill="green" />
-                            <Area type="monotone" dataKey="nscore" stroke="#000" fill="red" />
-                          </AreaChart>
+                        <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
+                            margin={{top: 10, right: 30, left: 0, bottom: 0}} >
+                          <XAxis dataKey="ind"/>
+                          <YAxis tickFormatter={this.toPercent}/>
+                          <Tooltip content={this.renderTooltipContent}/>
+                          <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
+                          <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
+                          <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
+                          <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
+                        </AreaChart>
                         </Row>
                         <Row>
                           <h3>{this.videoFeedback()}</h3>

@@ -53,71 +53,74 @@ speech.init({
 
 
 export default class Practice extends Component {
-  constructor(props){
-    super(props)
-    this.state = {
-      question: "",
-      inds:[],
-      videos:[],
-      recording: false,
-      transcripts:[],
-      text: "",
-      token: null,
-      listening: false,
-      error: null,
-      serviceUrl: null,
-      formattedMessages: [],
-      r:255,
-      g:204,
-      b:102,
-      status: "neutral",
-      videoScores:[],
-      finalScores:[]
-    }
-    this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
-    this.getFinalResults = this.getFinalResults.bind(this);
-    this.getCurrentInterimResult = this.getCurrentInterimResult.bind(this);
-    this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
-  }
-  //speech stuff
-  componentDidMount(){
-    this.fetchToken()
-    this.timerID = setInterval(
-      () => this.tick(),
-      5000
-    );
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.timerID);
-  }
-
-  // SPEECH TO TEXT
-  fetchToken() {
-    return fetch('/api/v1/credentials').then((res) => {
-      if (res.status !== 200) {
-        throw new Error('Error retrieving auth token');
+    constructor(props){
+        super(props)
+        this.state = {
+            question: "",
+            inds:[],
+            videos:[],
+            recording: false,
+            transcripts:[],
+            text: "",
+            token: null,
+            listening: false,
+            error: null,
+            serviceUrl: null,
+            formattedMessages: [],
+            r:255,
+            g:204,
+            b:102,
+            status: "neutral",
+            joyScores:[],
+            angerScores:[],
+            sorrowScores:[],
+            surpriseScores:[],
+            finalScores:[]
+        }
+        this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
+        this.getFinalResults = this.getFinalResults.bind(this);
+        this.getCurrentInterimResult = this.getCurrentInterimResult.bind(this);
+        this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
       }
-      return res.text();
-    }).then((token) => {
-      var jsonToken = JSON.parse(token)
-      this.setState({token: jsonToken.accessToken, serviceUrl: jsonToken.serviceUrl})
-    }).catch(this.handleError);
-  }
+      //speech stuff
+      componentDidMount(){
+        this.fetchToken()
+        this.timerID = setInterval(
+          () => this.tick(),
+          5000
+        );
+      }
+    
+      componentWillUnmount() {
+        clearInterval(this.timerID);
+      }
+      fetchToken() {
+        return fetch('/api/v1/credentials').then((res) => {
+          if (res.status !== 200) {
+            throw new Error('Error retrieving auth token');
+          }
+          return res.text();
+        }).then((token) => {
+          var jsonToken = JSON.parse(token)
+          this.setState({token: jsonToken.accessToken, serviceUrl: jsonToken.serviceUrl})
+        }).catch(this.handleError);
+      }
 
-  handleError = (err, extra) => {
-    if (err.name === 'UNRECOGNIZED_FORMAT') {
-      err = 'Unable to determine content type from file name or header; mp3, wav, flac, ogg, opus, and webm are supported. Please choose a different file.';
-    } else if (err.name === 'NotSupportedError' && this.state.audioSource === 'mic') {
-      err = 'This browser does not support microphone input.';
-    } else if (err.message === '(\'UpsamplingNotAllowed\', 8000, 16000)') {
-      err = 'Please select a narrowband voice model to transcribe 8KHz audio files.';
-    } else if (err.message === 'Invalid constraint') {
-      // iPod Touch does this on iOS 11 - there is a microphone, but Safari claims there isn't
-      err = 'Unable to access microphone';
-    }
-    this.setState({ error: err.message || err });
-  }
+      handleError = (err, extra) => {
+        console.error(err, extra);
+        if (err.name === 'UNRECOGNIZED_FORMAT') {
+          err = 'Unable to determine content type from file name or header; mp3, wav, flac, ogg, opus, and webm are supported. Please choose a different file.';
+        } else if (err.name === 'NotSupportedError' && this.state.audioSource === 'mic') {
+          err = 'This browser does not support microphone input.';
+        } else if (err.message === '(\'UpsamplingNotAllowed\', 8000, 16000)') {
+          err = 'Please select a narrowband voice model to transcribe 8KHz audio files.';
+        } else if (err.message === 'Invalid constraint') {
+          // iPod Touch does this on iOS 11 - there is a microphone, but Safari claims there isn't
+          err = 'Unable to access microphone';
+        }
+        this.setState({ error: err.message || err });
+      }
+
 
   stopListening = () => {
     if (this.stream) {
@@ -393,53 +396,62 @@ export default class Practice extends Component {
 
 
       }
-      prevTime = time;
-      this.img.src = URL.createObjectURL(blob);
-      console.log(this.img);
-      this.img.onload = () => { URL.revokeObjectURL(this.src); }
-      console.log("end");
-
-    }).then(setTimeout(() => {
-      this.callBackendAPI().then(results => {
-        try{
-          let resJSON=JSON.parse(results['response'])['0']['faceAnnotations']['0']
-          if(resJSON!=='undefined' && resJSON){
-            let joyScore=this.scoreVideoAnalysis(resJSON['joyLikelihood'])
-            let sorrowScore=this.scoreVideoAnalysis(resJSON['sorrowLikelihood'])
-            let angerScore=this.scoreVideoAnalysis(resJSON['angerLikelihood'])
-            let surpriseScore=this.scoreVideoAnalysis(resJSON['surpriseLikelihood'])
-            let totalScore=joyScore-sorrowScore-angerScore-surpriseScore
-            if(totalScore>0){
-              this.setState({
-                r:102,
-                g:255,
-                b:153,
-                status:"positive",
-                videoScores: this.state.videoScores.concat([totalScore])
-              })
-            } else if (totalScore<0){
-              this.setState({
-                r:255,
-                g:102,
-                b:102,
-                status:"negative",
-                videoScores: this.state.videoScores.concat([totalScore])
-              })
-            } else {
-              this.setState({
-                r:255,
-                g:204,
-                b:102,
-                status:"neutral",
-                videoScores: this.state.videoScores.concat([totalScore])
-              })
+          prevTime = time;
+          this.img.src = URL.createObjectURL(blob);
+          console.log(this.img);
+          this.img.onload = () => { URL.revokeObjectURL(this.src); }
+          console.log("end");
+  
+        }).then(setTimeout(() => {
+          this.callBackendAPI().then(results => {
+            try{
+              let resJSON=JSON.parse(results['response'])['0']['faceAnnotations']['0']
+              if(resJSON!=='undefined' && resJSON){
+                let joyScore=this.scoreVideoAnalysis(resJSON['joyLikelihood'])
+                let sorrowScore=this.scoreVideoAnalysis(resJSON['sorrowLikelihood'])
+                let angerScore=this.scoreVideoAnalysis(resJSON['angerLikelihood'])
+                let surpriseScore=this.scoreVideoAnalysis(resJSON['surpriseLikelihood'])
+                let totalScore=joyScore-sorrowScore-angerScore-surpriseScore
+                if(totalScore>0){
+                  this.setState({
+                    r:102,
+                    g:255,
+                    b:153,
+                    status:"positive",
+                    joyScores: this.state.joyScores.concat([joyScore]),
+                    sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
+                    angerScores: this.state.angerScores.concat([angerScore]),
+                    surpriseScores: this.state.surpriseScores.concat([surpriseScore])
+                  })
+                } else if (totalScore<0){
+                  this.setState({
+                    r:255,
+                    g:102,
+                    b:102,
+                    status:"negative",
+                    joyScores: this.state.joyScores.concat([joyScore]),
+                    sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
+                    angerScores: this.state.angerScores.concat([angerScore]),
+                    surpriseScores: this.state.surpriseScores.concat([surpriseScore])
+                  })
+                } else {
+                  this.setState({
+                    r:255,
+                    g:204,
+                    b:102,
+                    status:"neutral",
+                    joyScores: this.state.joyScores.concat([joyScore]),
+                    sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
+                    angerScores: this.state.angerScores.concat([angerScore]),
+                    surpriseScores: this.state.surpriseScores.concat([surpriseScore])
+                  })
+                }
+              } else {
+                return 0
+              }
+            } catch(e){
+              console.log("error changing indicator: ",e)
             }
-          } else {
-            return 0
-          }
-        } catch(e){
-          // console.log("error changing indicator: ",e)
-        }
       })
     }
     ,1000))
@@ -523,19 +535,21 @@ export default class Practice extends Component {
                         this.setState({
                           transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
                           videos: this.state.videos.concat([mediaBlobUrl]),
-                          finalScores: this.state.finalScores.concat([this.state.videoScores]),
+                          finalScores: this.state.finalScores.concat([[this.state.joyScores,this.state.sorrowScores,this.state.angerScores,this.state.surpriseScores]]),
 
                         }, () => {
                           // console.log(this.state.finalScores)
                           this.setState({
-                            videoScores: []
+                              joyScores: [],
+                              sorrowScores: [],
+                              angerScores: [],
+                              surpriseScores: []  
                           })
                           // console.log(this.state.videos)
                           startRecording()
                           this.onClickListener()
                         })
                       },500)
-
                     }
                     this.randomQuestion()
                   }}>{buttonText}</Button>
