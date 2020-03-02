@@ -166,12 +166,6 @@ export default class Practice extends Component {
     }
 
     onClickListener = () => {
-      if (this.state.listening) {
-        this.stopListening();
-        return;
-      }
-
-      this.setState({ listening: !this.state.listening });
 
       const stream = recognizeMicrophone({
         accessToken: this.state.token,
@@ -326,17 +320,6 @@ export default class Practice extends Component {
           },500)
 
         })
-
-        // return(
-        //     <div>
-        //         {this.state.videos.map((url,index) => (
-        //             <video key={'v'+index} src={url} controls/>
-        //         ))}
-        //         {this.state.transcripts.map((text,index) => (
-        //             <div>{<Transcript key={'t'+index} messages={text}/>}</div>
-        //         ))}
-        //     </div>
-        // )
     }
     //video analysis
     async callBackendAPI(){
@@ -397,7 +380,7 @@ export default class Practice extends Component {
           ContentEncoding: 'base64', // required
           ContentType: `image/${type}` // required. Notice the back ticks
         };
-        console.log(base64Data);
+        // console.log(base64Data);
 
         s3.upload(params, function(err, data) {
           if (err) {
@@ -405,7 +388,7 @@ export default class Practice extends Component {
           }
 
 
-          console.log(`File uploaded successfully. ${data.Location}`);
+          // console.log(`File uploaded successfully. ${data.Location}`);
         });
 
 
@@ -455,7 +438,7 @@ export default class Practice extends Component {
             return 0
           }
         } catch(e){
-          console.log("error changing indicator: ",e)
+          // console.log("error changing indicator: ",e)
         }
       })
     }
@@ -543,11 +526,11 @@ export default class Practice extends Component {
                           finalScores: this.state.finalScores.concat([this.state.videoScores]),
 
                         }, () => {
-                          console.log(this.state.finalScores)
+                          // console.log(this.state.finalScores)
                           this.setState({
                             videoScores: []
                           })
-                          console.log(this.state.videos)
+                          // console.log(this.state.videos)
                           startRecording()
                           this.onClickListener()
                         })
