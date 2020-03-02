@@ -10,9 +10,10 @@ const Welcome = () => {
     localStorage.setItem('candidate', 0)
   };
   return (
+    <div className = "background-img">
     <div className = "pb-2">
         <Row style = {{height: "80vh"}}>
-          <Col className = "horizontal-center my-auto">
+          <Col className = "horizontal-center my-auto text-white">
             <h1>Are you a &nbsp;
               <Link to={{
                 pathname: '/candidate'
@@ -71,6 +72,7 @@ const Welcome = () => {
         </Row>
 
     </div>
+  </div>
   );
 }
 

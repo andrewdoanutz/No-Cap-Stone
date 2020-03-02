@@ -167,6 +167,10 @@ export default class Practice extends Component {
 
     onClickListener = () => {
 
+      if(this.state.inds.length===4){
+        this.stopListening();
+      }
+
       const stream = recognizeMicrophone({
         accessToken: this.state.token,
         smart_formatting: true,
@@ -485,31 +489,77 @@ export default class Practice extends Component {
           video
           render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
             <div>
-              <div style={{display:'none'}}>
-                <Camera
-                  style={style.preview}
-                  ref={(cam) => {
-                    this.camera = cam;
-                  }}
-                  >
-                  </Camera>
-                  <img
-                    style={style.captureImage}
-                    ref={(img) => {
-                      this.img = img;
-                    }}
-                  />
-                </div>
+              <Row>
+                <Col>
+                  <div style={{display:'none'}}>
+                    <Camera
+                      style={style.preview}
+                      ref={(cam) => {
+                        this.camera = cam;
+                      }}
+                      >
+                    </Camera>
+                    <img
+                      style={style.captureImage}
+                      ref={(img) => {
+                        this.img = img;
+                      }}
+                    />
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Row className = "homeBox-practice">
+                    <Webcam
+                      audio={false}
+                      height={300}
+                      screenshotFormat="image/jpeg"
+                      width={500}
+                      videoConstraints={videoConstraints}
+                    />
+                  </Row>
+                  <Row className = "homeBox-practice">
+                    <Card className = "shadow" style={{width:"30%"}}>
+                      <Card.Body>
+                        <Card.Text>
+                          <Row>
+                            <Col>
+                              <div style={{
+                                display:"inline-block",
+                                borderRadius: "50%",
+                                padding:"5%",
+                                backgroundColor: `rgba(${ this.state.r }, ${ this.state.g }, ${ this.state.b }, 1)`,
+                                width:"10%",
+                                height:"10%",}}>
+                              </div>
+                            </Col>
+                            <Col>
+                              <div>{"You look "+this.state.status}</div>
+                            </Col>
+                          </Row>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Row>
+
+
+                </Col>
+                <Col className = "pr-3">
+                  <Card className = "shadow" style={{width:"80%"}}>
+                    <Card.Body>
+                      <h1>{this.state.question}</h1>
+                    </Card.Body>
+                  </Card>
+                </Col>
+
+              </Row>
+
                 <div className="homeBox-practice">
-                  
-                  <Webcam
-                    audio={false}
-                    height={300}
-                    screenshotFormat="image/jpeg"
-                    width={500}
-                    videoConstraints={videoConstraints}
-                  />
-                  <Button onClick={()=> {
+
+
+
+                  <Button variant= "flat" size = "xxl" onClick={()=> {
                     if(this.state.recording===false){
                       startRecording()
                       this.onClickListener()
@@ -539,28 +589,10 @@ export default class Practice extends Component {
                     }
                     this.randomQuestion()
                   }}>{buttonText}</Button>
-                  <div>{this.state.question}</div>
-                  <Card className = "shadow" style={{width:"20%"}}>
-                    <Card.Body>
-                      <Card.Text>
-                        <Row>
-                          <Col>
-                            <div style={{
-                              display:"inline-block",
-                              borderRadius: "50%",
-                              padding:"5%",
-                              backgroundColor: `rgba(${ this.state.r }, ${ this.state.g }, ${ this.state.b }, 1)`,
-                              width:"5%",
-                              height:"5%",}}>
-                            </div>
-                          </Col>
-                          <Col>
-                            <div>{"You look "+this.state.status}</div>
-                          </Col>
-                        </Row>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
+
+
+
+
                 </div>
               </div>
             )}

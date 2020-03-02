@@ -6,6 +6,25 @@ body{
   padding-top:5%
 }
 
+.background-img{
+  /* Location of the image */
+  background-image: url(../images/conference.jpg);
+
+  /* Background image is centered vertically and horizontally at all times */
+  background-position: center center;
+
+  /* Background image doesn't tile */
+  background-repeat: no-repeat;
+
+  /* Background image is fixed in the viewport so that it doesn't move when
+     the content's height is greater than the image's height */
+  background-attachment: fixed;
+
+  /* This is what makes the background image rescale based
+     on the container's size */
+  background-size: cover;
+}
+
 /* BUTTONS */
 .blue-button{
   /* background-color: #36C7D0 !important; */
@@ -203,7 +222,9 @@ video {
 .homeBox-practice{
     padding-top:5%;
     text-align: center;
-    top:0
+    justify-content: center;
+    align-items: center;
+    top:0;
 }
 .homeHead{
     font: 2.5em "Raleway", sans-serif;
