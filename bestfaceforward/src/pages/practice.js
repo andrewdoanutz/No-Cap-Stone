@@ -90,7 +90,7 @@ export default class Practice extends Component {
           5000
         );
       }
-    
+
       componentWillUnmount() {
         clearInterval(this.timerID);
       }
@@ -405,7 +405,7 @@ export default class Practice extends Component {
           console.log(this.img);
           this.img.onload = () => { URL.revokeObjectURL(this.src); }
           console.log("end");
-  
+
         }).then(setTimeout(() => {
           this.callBackendAPI().then(results => {
             try{
@@ -481,9 +481,9 @@ export default class Practice extends Component {
     if(this.state.inds.length===4){
       buttonText="Generate Report"
     } else if(this.state.inds.length===3){
-      buttonText="End Questions"
+      buttonText="End Interview"
     } else if(this.state.question===""){
-      buttonText="Start Questions"
+      buttonText="Begin Interview"
     }
 
     if(this.state.inds.length===5){
@@ -593,7 +593,7 @@ export default class Practice extends Component {
                               joyScores: [],
                               sorrowScores: [],
                               angerScores: [],
-                              surpriseScores: []  
+                              surpriseScores: []
                           })
                           // console.log(this.state.videos)
                           startRecording()
