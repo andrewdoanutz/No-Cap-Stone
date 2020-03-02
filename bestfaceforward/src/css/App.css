@@ -6,6 +6,11 @@ body{
   padding-top:5%
 }
 
+.analysisText{
+  text-align: left;
+  font-size: large;
+}
+
 /* BUTTONS */
 .blue-button{
   /* background-color: #36C7D0 !important; */

@@ -89,7 +89,7 @@ class Report extends Component {
     var conceptFeedback=""
   }
 
-    return conceptFeedback+keyWordFeedback
+    return [conceptFeedback,keyWordFeedback]
    })
   }
 
@@ -150,17 +150,17 @@ class Report extends Component {
    })
   }
   getNegFeedback(){
-    let negFeedback=""
+    let negFeedback=[]
 
     for (var a of this.state.analysis){
       if (a.tone_name === 'Fear'){
         if(a.score>=.8){
 
-            negFeedback=negFeedback+"Try to be more confident in what you are saying. Don't be scared of the interviewer. "
+            negFeedback.push("Try to be more confident in what you are saying. Don't be scared of the interviewer. ")
 
         } else if(a.score>=.4){
 
-            negFeedback=negFeedback+"A little more confidence in what you are saying will help get your point across better. "
+            negFeedback.push("A little more confidence in what you are saying will help get your point across better. ")
 
 
         } 
@@ -170,36 +170,36 @@ class Report extends Component {
 
         } else if(a.score>=.4){
 
-            negFeedback=negFeedback+"Try to speak a little more joyfully when you are responding. "
+            negFeedback.push("Try to speak a little more joyfully when you are responding. ")
 
 
         } else {
 
-            negFeedback=negFeedback+"You should use more joyful vocabulary when responding. "
+            negFeedback.push("You should use more joyful vocabulary when responding. ")
 
 
         }
       } else if (a.tone_name === 'Anger'){
         if(a.score>=.8){
 
-            negFeedback=negFeedback+"You are coming across very angery. Be less aggressive in your response. "
+            negFeedback.push("You are coming across very angery. Be less aggressive in your response. ")
 
 
         } else if(a.score>=.4){
 
-            negFeedback=negFeedback+"Try to speak a little less aggresively when you are responding."
+            negFeedback.push("Try to speak a little less aggresively when you are responding.")
 
 
         } 
       } else if (a.tone_name === 'Sadness'){
         if(a.score>=.8){
 
-            negFeedback=negFeedback+"You should speak with happier words. "
+            negFeedback.push("You should speak with happier words. ")
 
 
         } else if(a.score>=.4){
 
-            negFeedback=negFeedback+"Some of your words are coming across kind of sad. Use more happy vocabulary. "
+            negFeedback.push("Some of your words are coming across kind of sad. Use more happy vocabulary. ")
 
 
 
@@ -207,7 +207,7 @@ class Report extends Component {
       } else if (a.tone_name === 'Analytical'){
         if(a.score>=.8){
 
-            negFeedback=negFeedback+"Your response is very analytical. Try to speak more naturally. "
+            negFeedback.push("Your response is very analytical. Try to speak more naturally. ")
 
 
         } else if(a.score>=.4){
@@ -215,7 +215,7 @@ class Report extends Component {
 
         } else {
 
-            negFeedback=negFeedback+"Try to be more analytical and logical in your response. "
+            negFeedback.push("Try to be more analytical and logical in your response. ")
 
 
         }
@@ -225,24 +225,24 @@ class Report extends Component {
 
         } else if(a.score>=.4){
 
-            negFeedback=negFeedback+"A little more confidence in what you are saying will help get your point across better. "
+            negFeedback.push("A little more confidence in what you are saying will help get your point across better. ")
 
 
         } else {
 
-            negFeedback=negFeedback+"Try being more confident in your response. "
+            negFeedback.push("Try being more confident in your response. ")
 
 
         }
       } else if (a.tone_name === 'Tentative'){
         if(a.score>=.8){
 
-            negFeedback=negFeedback+"You are very hesitant in what your are saying. Don't be scared of the interviewer. "
+            negFeedback.push("You are very hesitant in what your are saying. Don't be scared of the interviewer. ")
        
 
         } else if(a.score>=.4){
 
-            negFeedback=negFeedback+"You are a little hesitant in what you are saying. "
+            negFeedback.push("You are a little hesitant in what you are saying. ")
 
 
         } 
@@ -259,12 +259,12 @@ class Report extends Component {
         if(wpm<130){
           feedback+="Try speaking a little faster."
 
-            negFeedback=negFeedback+feedback
+            negFeedback.push(feedback)
 
         }else if(wpm>170){
           feedback+="Try speaking a little slower."
 
-            negFeedback=negFeedback+feedback
+            negFeedback.push(feedback)
 
         } 
         return negFeedback
@@ -281,7 +281,7 @@ class Report extends Component {
   }
 
   getPosFeedback(){
-    let posFeedback=""
+    let posFeedback=[]
 
     for (var a of this.state.analysis){
       if (a.tone_name === 'Fear'){
@@ -292,14 +292,14 @@ class Report extends Component {
 
         } else {
 
-            posFeedback=posFeedback+"You are not speaking very fearfully. Good job! "
+            posFeedback.push("You are not speaking very fearfully. Good job! ")
 
 
         }
       } else if (a.tone_name === 'Joy'){
         if(a.score>=.8){
 
-            posFeedback=posFeedback+"You are coming across very happy. Keep it up! "
+            posFeedback.push("You are coming across very happy. Keep it up! ")
 
 
         } 
@@ -312,7 +312,7 @@ class Report extends Component {
 
         } else{
 
-            posFeedback=posFeedback+"You are not speaking very angerly. Keep it up! "
+            posFeedback.push("You are not speaking very angerly. Keep it up! ")
 
 
         }
@@ -326,7 +326,7 @@ class Report extends Component {
 
         } else {
 
-            posFeedback=posFeedback+"You are not speaking very sadly. Good job!"
+            posFeedback.push("You are not speaking very sadly. Good job!")
 
 
         }
@@ -336,14 +336,14 @@ class Report extends Component {
 
         } else if(a.score>=.4){
 
-            posFeedback=posFeedback+"Your response is analytical and logical. Good job! "
+            posFeedback.push("Your response is analytical and logical.")
 
 
         } 
       } else if (a.tone_name === 'Confident'){
         if(a.score>=.8){
 
-            posFeedback=posFeedback+"You are very confident in what you are saying. Good job! "
+            posFeedback.push("You are very confident in what you are saying. Good job! ")
 
 
         } else if(a.score>=.4){
@@ -362,11 +362,15 @@ class Report extends Component {
 
         } else {
 
-            posFeedback=posFeedback+"You are not speaking tentatively. Keep it up! "
+            posFeedback.push("You are not speaking tentatively. Keep it up! ")
         
 
         }
-        posFeedback=posFeedback+this.getSubjects()
+        let subjects=this.getSubjects()
+        if(subjects){
+          posFeedback=posFeedback.concat(subjects)
+        }
+        
         if(!this.props.overall){
           return posFeedback
         }
@@ -382,7 +386,7 @@ class Report extends Component {
           
         } else {
           feedback+="Good job!"
-          posFeedback=posFeedback+feedback
+          posFeedback.push(feedback)
         }
         return posFeedback
       } 
@@ -412,17 +416,22 @@ class Report extends Component {
     
     return (
       <div className="customized-tooltip-content">
-        <p className="total">{`${label} (Total: ${total})`}</p>
-        <ul className="list">
-          {
-            payload.map((entry, index) => (
-              <div key={`item-${index}`} style={{color: entry.color}}>
-                {entry.name+`: `+entry.value}
-                {/* {entry.name}+{`: `}+{entry.value}+{this.getPercent(entry.value, total).bind(this)} percent not working for some reason*/}
-              </div>
-            ))
-          }
-        </ul>
+         <Card>
+            <Card.Body>
+            <p className="total">{`${label} (Total: ${total})`}</p>
+            <ul className="list">
+              {
+                payload.map((entry, index) => (
+                  <div key={`item-${index}`} style={{color: entry.color}}>
+                    {entry.name+`: `+entry.value}
+                    {/* {entry.name}+{`: `}+{entry.value}+{this.getPercent(entry.value, total).bind(this)} percent not working for some reason*/}
+                  </div>
+                ))
+              }
+            </ul>
+            </Card.Body>
+        </Card>
+        
       </div>
     );
   };
@@ -648,8 +657,22 @@ class Report extends Component {
                         </RadarChart>
                       </Row>
                       <Row>
-                        <Col><h3>{this.getPosFeedback()}</h3></Col>
-                        <Col><h3>{this.getNegFeedback()}</h3></Col>
+                        <Col>
+                        <h2>{"Pros"}</h2>
+                        <ul className="analysisText">
+                          {this.getPosFeedback().map((value,index)=>{
+                            return(<li>{value}</li>)
+                          })}
+                        </ul>
+                        </Col>
+                        <Col>
+                        <h2>{"Cons"}</h2>
+                        <ul className="analysisText">
+                          {this.getNegFeedback().map((value,index)=>{
+                            return(<li>{value}</li>)
+                          })}
+                        </ul>
+                        </Col>
                       </Row>
                     </Card.Text>
                   </Card.Body>
@@ -720,8 +743,22 @@ class Report extends Component {
                       </RadarChart>
                     </Row>
                     <Row>
-                      <Col><h3>{this.getPosFeedback()}</h3></Col>
-                      <Col><h3>{this.getNegFeedback()}</h3></Col>
+                      <Col>
+                      <h2>{"Pros"}</h2>
+                      <ul className="analysisText">
+                        {this.getPosFeedback().map((value,index)=>{
+                          return(<li>{value}</li>)
+                        })}
+                      </ul>
+                      </Col>
+                      <Col>
+                      <h2>{"Cons"}</h2>
+                      <ul className="analysisText">
+                        {this.getNegFeedback().map((value,index)=>{
+                          return(<li>{value}</li>)
+                        })}
+                      </ul>
+                      </Col>
                     </Row>
                   </Card.Text>
                 </Card.Body>
