@@ -501,7 +501,7 @@ export default class Practice extends Component {
                   />
                 </div>
                 <div className="homeBox-practice">
-                  <h1>{status}</h1>
+                  
                   <Webcam
                     audio={false}
                     height={300}
