@@ -300,46 +300,43 @@ export default class Practice extends Component {
       if(this.state.videos.length>3){
         this.state.videos.shift()
       }
-      if(this.state.transcripts.length>3){
-        this.state.transcripts.pop()
-      }
-      if(this.state.finalScores.length>3){
-        this.state.finalScores.pop()
-      }
-      console.log(this.state.videos)
+        console.log(this.state.videos)
 
-      let transcriptText=[]
-      let timestamps=[]
-      this.state.transcripts.forEach(i =>{
-        transcriptText.push(this.decodeTranscript(i))
-        timestamps.push(this.decodeTiming(i))
-      })
-      console.log(transcriptText)
-      console.log(timestamps)
-      let Qs = []
-      Qs.push(questions[this.state.inds[0]])
-      Qs.push(questions[this.state.inds[1]])
-      Qs.push(questions[this.state.inds[2]])
-      this.storeData(transcriptText,timestamps,Qs).then(()=>{
-        console.log("stored")
-        return(
-          this.props.history.push({
-            pathname: "/postAnalysis",
-            state: { username: "practice", length:this.state.transcripts.length }
-          })
-        )
-      })
+        let transcriptText=[]
+        let timestamps=[]
+        this.state.transcripts.forEach(i =>{
+          transcriptText.push(this.decodeTranscript(i))
+          timestamps.push(this.decodeTiming(i))
+        })
+        console.log(transcriptText)
+        console.log(timestamps)
+        let Qs = []
+        Qs.push(questions[this.state.inds[0]])
+        Qs.push(questions[this.state.inds[1]])
+        Qs.push(questions[this.state.inds[2]])
+        this.storeData(transcriptText,timestamps,Qs).then(()=>{
+          console.log("stored")
+          setTimeout(()=>{
+            return(
+              this.props.history.push({
+                pathname: "/postAnalysis",
+                state: { username: "practice", length:this.state.transcripts.length }
+              })
+            )
+          },500)
 
-      // return(
-      //     <div>
-      //         {this.state.videos.map((url,index) => (
-      //             <video key={'v'+index} src={url} controls/>
-      //         ))}
-      //         {this.state.transcripts.map((text,index) => (
-      //             <div>{<Transcript key={'t'+index} messages={text}/>}</div>
-      //         ))}
-      //     </div>
-      // )
+        })
+
+        // return(
+        //     <div>
+        //         {this.state.videos.map((url,index) => (
+        //             <video key={'v'+index} src={url} controls/>
+        //         ))}
+        //         {this.state.transcripts.map((text,index) => (
+        //             <div>{<Transcript key={'t'+index} messages={text}/>}</div>
+        //         ))}
+        //     </div>
+        // )
     }
     //video analysis
     async callBackendAPI(){
