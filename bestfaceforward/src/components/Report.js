@@ -633,8 +633,8 @@ class Report extends Component {
             {/* Left Column */}
               <Col sm={6}>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3">
-                    Question Response
+                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
+                    {"Question Response"}
                     <StarRatingComponent 
                       name="overall" 
                       starCount={5}
@@ -644,15 +644,15 @@ class Report extends Component {
                   </Card.Header>
                   <Card.Body>
                     <Card.Text>
-                      <div className="analysisText">{this.state.txt}</div>
+                      <Col><div className="analysisText">{this.state.txt}</div></Col>
                     </Card.Text>
                   </Card.Body>
                 </Card>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3">Speech Analysis</Card.Header>
+                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Speech Analysis</Card.Header>
                   <Card.Body>
                     <Card.Text>
-                      <Row style={{paddingLeft: 50}}>
+                      <Row style={{paddingLeft: 30}}>
                         <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
                           <PolarGrid/>
                           <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
@@ -662,7 +662,7 @@ class Report extends Component {
                       </Row>
                       <Row>
                         <Col>
-                          <h2>{"Things You Did Well"}</h2>
+                          <h2 style={{textDecoration:"underline",fontWeight:"bold"}}>{"Things You Did Well"}</h2>
                           <ul className="analysisText">
                             {this.getPosFeedback().map((value,index)=>{
                               return(<li>{value}</li>)
@@ -670,7 +670,7 @@ class Report extends Component {
                           </ul>
                           </Col>
                           <Col>
-                          <h2>{"Things to Improve"}</h2>
+                          <h2 style={{textDecoration:"underline",fontWeight:"bold"}}>{"Things To Improve"}</h2>
                           <ul className="analysisText">
                             {this.getNegFeedback().map((value,index)=>{
                               return(<li>{value}</li>)
@@ -686,21 +686,23 @@ class Report extends Component {
               <Col sm={6}>
                 <Row>
                   <Card className = "shadow" style={{marginBottom: "10px"}}>
-                      <Card.Header as="h3">Video Analysis</Card.Header>
+                      <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Video Analysis</Card.Header>
                       <Card.Body>
                         <Card.Text>
                           <Row>
-                            <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
-                                margin={{top: 10, right: 30, left: 0, bottom: 0}} >
-                              <XAxis dataKey="ind" tick={{fontSize: 20}}/>
-                              <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
-                              <Legend formatter={this.legendFormatter}/>
-                              <Tooltip content={this.renderTooltipContent}/>
-                              <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
-                              <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
-                              <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
-                              <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
-                           </AreaChart>
+                            <Col>
+                              <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
+                                  margin={{top: 10, right: 30, left: 0, bottom: 0}} >
+                                <XAxis dataKey="ind" tick={{fontSize: 20}}/>
+                                <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
+                                <Legend formatter={this.legendFormatter}/>
+                                <Tooltip content={this.renderTooltipContent}/>
+                                <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
+                                <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
+                                <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
+                                <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
+                            </AreaChart>
+                           </Col>
                           </Row>
                           <Row>
                             <Col><h3>{this.videoFeedback()}</h3></Col>
@@ -720,7 +722,7 @@ class Report extends Component {
           {/* Left Column */}
             <Col sm={6}>
               <Card className = "shadow" style={{marginBottom: "10px"}}>
-                <Card.Header as="h3">
+                <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
                   Question Response
                   <StarRatingComponent 
                       name={"s"+this.props.index}
@@ -731,15 +733,15 @@ class Report extends Component {
                   </Card.Header>
                 <Card.Body>
                   <Card.Text>
-                    <div className="analysisText">{this.state.txt}</div>
+                    <Col><div className="analysisText">{this.state.txt}</div></Col>
                   </Card.Text>
                 </Card.Body>
               </Card>
               <Card className = "shadow" style={{marginBottom: "10px"}}>
-                <Card.Header as="h3">Speech Analysis</Card.Header>
+                <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Speech Analysis</Card.Header>
                 <Card.Body>
                   <Card.Text>
-                    <Row style={{paddingLeft: 50}}>
+                    <Row style={{paddingLeft: 30}}>
                       <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
                         <PolarGrid/>
                         <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
@@ -749,7 +751,7 @@ class Report extends Component {
                     </Row>
                     <Row>
                       <Col>
-                        <h2>{"Things You Did Well"}</h2>
+                        <h2 style={{textDecoration:"underline",fontWeight:"bold"}}>{"Things You Did Well"}</h2>
                         <ul className="analysisText">
                           {this.getPosFeedback().map((value,index)=>{
                             return(<li>{value}</li>)
@@ -757,7 +759,7 @@ class Report extends Component {
                         </ul>
                         </Col>
                         <Col>
-                        <h2>{"Things to Improve"}</h2>
+                        <h2 style={{textDecoration:"underline",fontWeight:"bold"}}>{"Things To Improve"}</h2>
                         <ul className="analysisText">
                           {this.getNegFeedback().map((value,index)=>{
                             return(<li>{value}</li>)
@@ -773,7 +775,7 @@ class Report extends Component {
             <Col sm={6}>
               <Row>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3">Video Response</Card.Header>
+                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Video Response</Card.Header>
                   <Card.Body>
                     <Card.Text>
                       <iframe width="600px" height="300px" src={this.state.videoURL}/>
@@ -783,21 +785,23 @@ class Report extends Component {
               </Row>
               <Row>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
-                    <Card.Header as="h3">Video Analysis</Card.Header>
+                    <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Video Analysis</Card.Header>
                     <Card.Body>
                       <Card.Text>
                         <Row>
-                        <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
-                            margin={{top: 10, right: 30, left: 0, bottom: 0}} >
-                          <XAxis dataKey="ind" tick={{fontSize: 20}}/>
-                          <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
-                          <Legend formatter={this.legendFormatter}/>
-                          <Tooltip content={this.renderTooltipContent}/>
-                          <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
-                          <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
-                          <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
-                          <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
-                        </AreaChart>
+                          <Col>
+                            <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
+                                margin={{top: 10, right: 30, left: 0, bottom: 0}} >
+                              <XAxis dataKey="ind" tick={{fontSize: 20}}/>
+                              <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
+                              <Legend formatter={this.legendFormatter}/>
+                              <Tooltip content={this.renderTooltipContent}/>
+                              <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
+                              <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
+                              <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
+                              <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
+                            </AreaChart>
+                          </Col>
                         </Row>
                         <Row>
                           <Col><h3>{this.videoFeedback()}</h3></Col>

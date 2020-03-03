@@ -29,6 +29,10 @@ body{
   text-align: left;
   font-size: large;
 }
+.accordionButton:hover{
+  cursor: pointer;
+  color: #08AEEA;
+}
 
 /* BUTTONS */
 .blue-button{
@@ -112,12 +116,6 @@ body{
   color: white !important;
 }
 
-.accordionButton{
-  background-color: #08AEEA !important;
-}
-.accordion{
-  background-color: #08AEEA !important;
-}
 .scroll {
     max-height: 70vh;
     overflow-y: auto;
