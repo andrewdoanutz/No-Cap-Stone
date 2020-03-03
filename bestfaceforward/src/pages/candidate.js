@@ -68,7 +68,7 @@ const Candidate = () => {
               </>
             </Link>
           </Col>
-          <Col className = "left-border">
+          <Col className = "left-border small-vertical-space">
             <Lobby
                username={username}
                roomName={roomName}

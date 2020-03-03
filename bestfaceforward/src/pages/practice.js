@@ -6,6 +6,8 @@ import questions from '../questions.json'
 import { ReactMediaRecorder } from "react-media-recorder";
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import Camera from 'react-camera'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMehBlank, faGrinBeam, faFrown } from '@fortawesome/free-solid-svg-icons'
 
 import axios from 'axios'
 
@@ -67,9 +69,6 @@ export default class Practice extends Component {
             error: null,
             serviceUrl: null,
             formattedMessages: [],
-            r:255,
-            g:204,
-            b:102,
             status: "neutral",
             joyScores:[],
             angerScores:[],
@@ -388,13 +387,10 @@ export default class Practice extends Component {
           ContentType: `image/${type}` // required. Notice the back ticks
         };
         // console.log(base64Data);
-
         s3.upload(params, function(err, data) {
           if (err) {
             throw err;
           }
-
-
           // console.log(`File uploaded successfully. ${data.Location}`);
         });
 
@@ -418,9 +414,6 @@ export default class Practice extends Component {
                 let totalScore=joyScore-sorrowScore-angerScore-surpriseScore
                 if(totalScore>0){
                   this.setState({
-                    r:102,
-                    g:255,
-                    b:153,
                     status:"positive",
                     joyScores: this.state.joyScores.concat([joyScore]),
                     sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
@@ -429,9 +422,6 @@ export default class Practice extends Component {
                   })
                 } else if (totalScore<0){
                   this.setState({
-                    r:255,
-                    g:102,
-                    b:102,
                     status:"negative",
                     joyScores: this.state.joyScores.concat([joyScore]),
                     sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
@@ -440,9 +430,6 @@ export default class Practice extends Component {
                   })
                 } else {
                   this.setState({
-                    r:255,
-                    g:204,
-                    b:102,
                     status:"neutral",
                     joyScores: this.state.joyScores.concat([joyScore]),
                     sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
@@ -486,6 +473,41 @@ export default class Practice extends Component {
       buttonText="Begin Interview"
     }
 
+    let question;
+    if (this.state.question!=="" && this.state.inds.length!==4){
+      question =
+        <Card className = "shadow" style={{width:"80%"}}>
+          <Card.Body>
+            <h1>{this.state.question}</h1>
+          </Card.Body>
+        </Card>
+    } else if (this.state.inds.length===4){
+      question =
+      <Card className = "shadow" style={{width:"80%"}}>
+        <Card.Body>
+          <h1>Click below to see your results!</h1>
+        </Card.Body>
+      </Card>
+    } else if (this.state.question===""){
+      question =
+      <Card className = "shadow" style={{width:"80%"}}>
+        <Card.Body>
+          <h1>When you're ready, click BEGIN to start practicing! </h1>
+        </Card.Body>
+      </Card>
+    }
+
+    let emoji;
+    if (this.state.status== "neutral"){
+      emoji = <h5 style={{ color: "#fdd835" }}> <FontAwesomeIcon icon={faMehBlank} size='4x'/> </h5>
+    } else if (this.state.status == "positive"){
+      emoji = <h5 style={{ color: "#00c853" }}> <FontAwesomeIcon icon={faGrinBeam} size='4x' /> </h5>
+    } else if (this.state.status == "negative"){
+      emoji = <h5 style={{ color: "#d32f2f" }}> <FontAwesomeIcon icon={faFrown} size='4x' /> </h5>
+    }
+
+
+
     if(this.state.inds.length===5){
 
       return(
@@ -500,7 +522,7 @@ export default class Practice extends Component {
         <ReactMediaRecorder
           video
           render={({ status, startRecording, stopRecording, mediaBlobUrl }) => (
-            <div>
+            <div className = "vertical-center large-vertical-space">
               <Row>
                 <Col>
                   <div style={{display:'none'}}>
@@ -525,52 +547,28 @@ export default class Practice extends Component {
                   <Row className = "homeBox-practice">
                     <Webcam
                       audio={false}
-                      height={300}
+                      height={350}
                       screenshotFormat="image/jpeg"
                       width={500}
                       videoConstraints={videoConstraints}
                     />
                   </Row>
+                  {/* Emoji */}
                   <Row className = "homeBox-practice">
-                    <Card className = "shadow" style={{width:"30%"}}>
+                    <Card className = "shadow" style={{width:"15%"}}>
                       <Card.Body>
-                        <Card.Text>
-                          <Row>
-                            <Col>
-                              <div style={{
-                                display:"inline-block",
-                                borderRadius: "50%",
-                                padding:"5%",
-                                backgroundColor: `rgba(${ this.state.r }, ${ this.state.g }, ${ this.state.b }, 1)`,
-                                width:"10%",
-                                height:"10%",}}>
-                              </div>
-                            </Col>
-                            <Col>
-                              <div>{"You look "+this.state.status}</div>
-                            </Col>
-                          </Row>
-                        </Card.Text>
+                          {emoji}
                       </Card.Body>
                     </Card>
                   </Row>
-
-
                 </Col>
+
                 <Col className = "pr-3">
-                  <Card className = "shadow" style={{width:"80%"}}>
-                    <Card.Body>
-                      <h1>{this.state.question}</h1>
-                    </Card.Body>
-                  </Card>
+                  {question}
                 </Col>
-
               </Row>
 
                 <div className="homeBox-practice">
-
-
-
                   <Button variant= "flat" size = "xxl" onClick={()=> {
                     if(this.state.recording===false){
                       startRecording()
@@ -603,9 +601,6 @@ export default class Practice extends Component {
                     }
                     this.randomQuestion()
                   }}>{buttonText}</Button>
-
-
-
 
                 </div>
               </div>

@@ -3,7 +3,6 @@
 body{
   font-family: "Ubuntu", sans-serif !important;
   background-color: #F0F8FF !important;
-  padding-top:5%
 }
 
 .background-img{
@@ -168,9 +167,23 @@ body{
   text-align: center;
 }
 
+.small-vertical-space{
+  margin-top: 5%;
+}
+
+.large-vertical-space{
+  margin-top: 15vh;
+}
+
 .vertical-space {
-  margin-top: 10%;
-  margin-bottom: 10%;
+  margin-top: 25vh;
+  margin-bottom: 20vh;
+}
+
+.vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 video {
