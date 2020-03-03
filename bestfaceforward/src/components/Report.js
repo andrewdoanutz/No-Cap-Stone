@@ -500,57 +500,57 @@ class Report extends Component {
     for (var a of this.state.analysis){
       if (a.tone_name === 'Fear'){
         if(a.score>=.8){
-          analysisScore-=1
-        } else if(a.score>=.4){
           analysisScore-=.5
+        } else if(a.score>=.4){
+          analysisScore-=.3
         } else {
-          analysisScore+=.2
+          analysisScore+=.5
         }
       } else if (a.tone_name === 'Joy'){
         if(a.score>=.8){
-          analysisScore+=1
-        } else if(a.score>=.4){
           analysisScore+=.5
+        } else if(a.score>=.4){
+          analysisScore+=.3
         } else {
           analysisScore-=.5
         }
       } else if (a.tone_name === 'Anger'){
         if(a.score>=.8){
-          analysisScore-=1
-        } else if(a.score>=.4){
           analysisScore-=.5
+        } else if(a.score>=.4){
+          analysisScore-=.3
         } else {
           analysisScore+=.5
         }
       } else if (a.tone_name === 'Sadness'){
         if(a.score>=.8){
-          analysisScore-=1
-        } else if(a.score>=.4){
           analysisScore-=.5
+        } else if(a.score>=.4){
+          analysisScore-=.3
         } else {
           analysisScore+=.5
         }
       } else if (a.tone_name === 'Analytical'){
         if(a.score>=.8){
-          analysisScore+=1
-        } else if(a.score>=.4){
           analysisScore+=.5
+        } else if(a.score>=.4){
+          analysisScore+=.3
         } else {
           analysisScore-=.5
         }
       } else if (a.tone_name === 'Confident'){
         if(a.score>=.8){
-          analysisScore+=1
-        } else if(a.score>=.4){
           analysisScore+=.5
+        } else if(a.score>=.4){
+          analysisScore+=.3
         } else {
           analysisScore-=.5
         }
       } else if (a.tone_name === 'Tentative'){
         if(a.score>=.8){
-          analysisScore-=1
-        } else if(a.score>=.4){
           analysisScore-=.5
+        } else if(a.score>=.4){
+          analysisScore-=.3
         } else {
           analysisScore+=.5
         }
@@ -560,33 +560,33 @@ class Report extends Component {
     this.state.videoScore.map((value,index)=>{
       if (index===0){
         if(Math.abs(value)>=3){
-          vidSum+=1
-        } else if(Math.abs(value)==2){
           vidSum+=.5
+        } else if(Math.abs(value)==2){
+          vidSum+=.3
         } else {
           vidSum-=.5
         }
       } else if (index===1){
         if(Math.abs(value)>=3){
-          vidSum-=1
-        } else if(Math.abs(value)==2){
           vidSum-=.5
+        } else if(Math.abs(value)==2){
+          vidSum-=.3
         } else {
           vidSum+=.5
         }
       } else if (index===2){
         if(Math.abs(value)>=3){
-          vidSum-=1
-        } else if(Math.abs(value)==2){
           vidSum-=.5
+        } else if(Math.abs(value)==2){
+          vidSum-=.3
         } else {
           vidSum+=.5
         }
       } else if (index===3){
         if(Math.abs(value)>=3){
-          vidSum-=1
-        } else if(Math.abs(value)==2){
           vidSum-=.5
+        } else if(Math.abs(value)==2){
+          vidSum-=.3
         } else {
           vidSum+=.5
         }
@@ -603,8 +603,10 @@ class Report extends Component {
       wpm=Math.round(wpm)
       let wpmScore=0.0
       if(wpm<130){
-        wpmScore-=1
-      }if(wpm>170){
+        wpmScore-=.5
+      }else if(wpm>170){
+        wpmScore-=.5
+      } else {
         wpmScore+=1
       }
       totalScore+=wpmScore
