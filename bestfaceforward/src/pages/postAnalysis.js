@@ -106,7 +106,7 @@ const postAnalysis = (props) => {
       const overallVideoScores = combineScores(videoScores)
       console.log(overallVideoScores)
         return(
-          <div className="homeBox" style={{width:"95%",paddingLeft:"4%"}}>
+          <div className="homeBox" style={{width:"95%",paddingLeft:"4%",paddingTop:"7%"}}>
             <Card>
               <Card.Header as="h1" style={{backgroundColor:"#F74356", color:"white"}}>
                 Post Analysis Report for {props.location.state.username}
