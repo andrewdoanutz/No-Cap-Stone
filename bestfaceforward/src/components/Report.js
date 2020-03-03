@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import {Card, Row, Col} from 'react-bootstrap';
-import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart, Tooltip} from 'recharts';
+import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart, Tooltip, Legend} from 'recharts';
 import StarRatingComponent from 'react-star-rating-component';
 
 class Report extends Component {
@@ -620,7 +620,11 @@ class Report extends Component {
     }
   }
 
- 
+  legendFormatter(value) {
+    
+    return <span style={{ fontSize:20 }}>{value}</span>;
+  }
+
   render(){
     if(this.props.overall){
       return(
@@ -640,7 +644,7 @@ class Report extends Component {
                   </Card.Header>
                   <Card.Body>
                     <Card.Text>
-                      <h4>{this.state.txt}</h4>
+                      <div className="analysisText">{this.state.txt}</div>
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -648,30 +652,30 @@ class Report extends Component {
                   <Card.Header as="h3">Speech Analysis</Card.Header>
                   <Card.Body>
                     <Card.Text>
-                      <Row>
-                        <RadarChart cx={300} cy={250} outerRadius={150} width={500} height={500} data={this.state.analysis}>
-                          <PolarGrid />
-                          <PolarAngleAxis dataKey="tone_name"/>
+                      <Row style={{paddingLeft: 50}}>
+                        <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
+                          <PolarGrid/>
+                          <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
                           <PolarRadiusAxis />
                           <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
                         </RadarChart>
                       </Row>
                       <Row>
                         <Col>
-                        <h2>{"Pros"}</h2>
-                        <ul className="analysisText">
-                          {this.getPosFeedback().map((value,index)=>{
-                            return(<li>{value}</li>)
-                          })}
-                        </ul>
-                        </Col>
-                        <Col>
-                        <h2>{"Cons"}</h2>
-                        <ul className="analysisText">
-                          {this.getNegFeedback().map((value,index)=>{
-                            return(<li>{value}</li>)
-                          })}
-                        </ul>
+                          <h2>{"Things You Did Well"}</h2>
+                          <ul className="analysisText">
+                            {this.getPosFeedback().map((value,index)=>{
+                              return(<li>{value}</li>)
+                            })}
+                          </ul>
+                          </Col>
+                          <Col>
+                          <h2>{"Things to Improve"}</h2>
+                          <ul className="analysisText">
+                            {this.getNegFeedback().map((value,index)=>{
+                              return(<li>{value}</li>)
+                            })}
+                          </ul>
                         </Col>
                       </Row>
                     </Card.Text>
@@ -688,8 +692,9 @@ class Report extends Component {
                           <Row>
                             <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
                                 margin={{top: 10, right: 30, left: 0, bottom: 0}} >
-                              <XAxis dataKey="ind"/>
-                              <YAxis tickFormatter={this.toPercent}/>
+                              <XAxis dataKey="ind" tick={{fontSize: 20}}/>
+                              <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
+                              <Legend formatter={this.legendFormatter}/>
                               <Tooltip content={this.renderTooltipContent}/>
                               <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
                               <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
@@ -698,7 +703,7 @@ class Report extends Component {
                            </AreaChart>
                           </Row>
                           <Row>
-                            <h3>{this.videoFeedback()}</h3>
+                            <Col><h3>{this.videoFeedback()}</h3></Col>
                           </Row>
                         </Card.Text>
                       </Card.Body>
@@ -726,7 +731,7 @@ class Report extends Component {
                   </Card.Header>
                 <Card.Body>
                   <Card.Text>
-                    <h4>{this.state.txt}</h4>
+                    <div className="analysisText">{this.state.txt}</div>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -734,30 +739,30 @@ class Report extends Component {
                 <Card.Header as="h3">Speech Analysis</Card.Header>
                 <Card.Body>
                   <Card.Text>
-                    <Row>
-                      <RadarChart cx={300} cy={250} outerRadius={150} width={500} height={500} data={this.state.analysis}>
-                        <PolarGrid />
-                        <PolarAngleAxis dataKey="tone_name"/>
+                    <Row style={{paddingLeft: 50}}>
+                      <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
+                        <PolarGrid/>
+                        <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
                         <PolarRadiusAxis />
                         <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
                       </RadarChart>
                     </Row>
                     <Row>
                       <Col>
-                      <h2>{"Pros"}</h2>
-                      <ul className="analysisText">
-                        {this.getPosFeedback().map((value,index)=>{
-                          return(<li>{value}</li>)
-                        })}
-                      </ul>
-                      </Col>
-                      <Col>
-                      <h2>{"Cons"}</h2>
-                      <ul className="analysisText">
-                        {this.getNegFeedback().map((value,index)=>{
-                          return(<li>{value}</li>)
-                        })}
-                      </ul>
+                        <h2>{"Things You Did Well"}</h2>
+                        <ul className="analysisText">
+                          {this.getPosFeedback().map((value,index)=>{
+                            return(<li>{value}</li>)
+                          })}
+                        </ul>
+                        </Col>
+                        <Col>
+                        <h2>{"Things to Improve"}</h2>
+                        <ul className="analysisText">
+                          {this.getNegFeedback().map((value,index)=>{
+                            return(<li>{value}</li>)
+                          })}
+                        </ul>
                       </Col>
                     </Row>
                   </Card.Text>
@@ -784,8 +789,9 @@ class Report extends Component {
                         <Row>
                         <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
                             margin={{top: 10, right: 30, left: 0, bottom: 0}} >
-                          <XAxis dataKey="ind"/>
-                          <YAxis tickFormatter={this.toPercent}/>
+                          <XAxis dataKey="ind" tick={{fontSize: 20}}/>
+                          <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
+                          <Legend formatter={this.legendFormatter}/>
                           <Tooltip content={this.renderTooltipContent}/>
                           <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
                           <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
@@ -794,7 +800,7 @@ class Report extends Component {
                         </AreaChart>
                         </Row>
                         <Row>
-                          <h3>{this.videoFeedback()}</h3>
+                          <Col><h3>{this.videoFeedback()}</h3></Col>
                         </Row>
                       </Card.Text>
                     </Card.Body>
