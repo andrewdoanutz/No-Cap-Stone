@@ -366,8 +366,6 @@ class VideoComponent extends Component {
     finalResult = results;
     //console.log(finalResult);
     var merged = [].concat.apply([], finalResult);
-    console.log(merged.join(" "))
-    console.log("BOT BOT BOT " + this.state.numQues);
     return (
       <div>
         <div style={{display:'none'}}>

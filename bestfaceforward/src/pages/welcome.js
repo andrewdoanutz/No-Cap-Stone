@@ -11,68 +11,68 @@ const Welcome = () => {
   };
   return (
     <div className = "background-img">
-    <div className = "pb-2">
-        <Row style = {{height: "80vh"}}>
-          <Col className = "horizontal-center my-auto text-white">
-            <h1>Are you a &nbsp;
-              <Link to={{
-                pathname: '/candidate'
-              }}>
-                <>
-                  <style type="text/css">
-                  {`
-                    .btn-flat {
-                      background-color: #08AEEA;
-                      color: white;
-                    }
+      <div>
+          <Row style = {{height: "100vh"}}>
+            <Col className = "horizontal-center my-auto text-white">
+              <h1>Are you a &nbsp;
+                <Link to={{
+                  pathname: '/candidate'
+                }}>
+                  <>
+                    <style type="text/css">
+                    {`
+                      .btn-flat {
+                        background-color: #08AEEA;
+                        color: white;
+                      }
 
-                    .btn-xxl {
-                      padding: 1rem 1.5rem;
-                      font-size: 1.7rem;
-                      font-weight: bold;
-                    }
-                    `}
-                  </style>
+                      .btn-xxl {
+                        padding: 1rem 1.5rem;
+                        font-size: 1.7rem;
+                        font-weight: bold;
+                      }
+                      `}
+                    </style>
 
-                  <Button variant="flat" size="xxl" onClick = {setCandidate}>
-                    candidate
-                  </Button>
-                </>
-              </Link>
+                    <Button variant="flat" size="xxl" onClick = {setCandidate}>
+                      candidate
+                    </Button>
+                  </>
+                </Link>
 
-              &nbsp; or an &nbsp;
+                &nbsp; or an &nbsp;
 
-              <Link to={{
-                pathname: '/login'
-              }}>
-                <>
-                  <style type="text/css">
-                  {`
-                    .btn-flat {
-                      background-color: #08AEEA;
-                      color: white;
-                    }
+                <Link to={{
+                  pathname: '/login'
+                }}>
+                  <>
+                    <style type="text/css">
+                    {`
+                      .btn-flat {
+                        background-color: #08AEEA;
+                        color: white;
+                      }
 
-                    .btn-xxl {
-                      padding: 1rem 1.5rem;
-                      font-size: 1.7rem;
-                      font-weight: bold;
-                    }
-                    `}
-                  </style>
+                      .btn-xxl {
+                        padding: 1rem 1.5rem;
+                        font-size: 1.7rem;
+                        font-weight: bold;
+                      }
+                      `}
+                    </style>
 
-                  <Button variant="flat" size="xxl" onClick = {setInterviewer}>
-                    interviewer
-                  </Button>
-                </>
-              </Link>
-              &nbsp;?
-            </h1>
-          </Col>
-        </Row>
+                    <Button variant="flat" size="xxl" onClick = {setInterviewer}>
+                      interviewer
+                    </Button>
+                  </>
+                </Link>
+                &nbsp;?
+              </h1>
+            </Col>
+          </Row>
 
+      </div>
     </div>
-  </div>
   );
 }
 
