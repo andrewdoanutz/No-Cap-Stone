@@ -634,13 +634,13 @@ class Report extends Component {
               <Col sm={6}>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
                   <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
-                    {"Question Response"}
-                    <StarRatingComponent 
-                      name="overall" 
-                      starCount={5}
-                      value={this.getStarRating()}
-                      editing={false}
-                    />
+                      <div>{"Question Response"}</div>
+                      <div><StarRatingComponent 
+                        name="overall" 
+                        starCount={5}
+                        value={this.getStarRating()}
+                        editing={false}
+                      /></div>
                   </Card.Header>
                   <Card.Body>
                     <Card.Text>
@@ -723,13 +723,13 @@ class Report extends Component {
             <Col sm={6}>
               <Card className = "shadow" style={{marginBottom: "10px"}}>
                 <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
-                  Question Response
-                  <StarRatingComponent 
-                      name={"s"+this.props.index}
-                      starCount={5}
-                      value={this.getStarRating()}
-                      editing={false}
-                    />
+                  <div>{"Question Response"}</div>
+                  <div><StarRatingComponent 
+                    name="overall" 
+                    starCount={5}
+                    value={this.getStarRating()}
+                    editing={false}
+                  /></div>
                   </Card.Header>
                 <Card.Body>
                   <Card.Text>
