@@ -307,7 +307,6 @@ export default class Practice extends Component {
         transcriptText.push(this.decodeTranscript(i))
         timestamps.push(this.decodeTiming(i))
       })
-      console.log(transcriptText.slice(0,3))
       let Qs = []
       Qs.push(questions[this.state.inds[0]])
       Qs.push(questions[this.state.inds[1]])
