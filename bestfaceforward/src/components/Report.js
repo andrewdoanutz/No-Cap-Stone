@@ -167,7 +167,7 @@ class Report extends Component {
       } else if (a.tone_name === 'Joy'){
         if(a.score>=.8){
          
-
+          continue
         } else if(a.score>=.4){
 
             negFeedback.push("Try to speak a little more joyfully when you are responding. ")
@@ -212,7 +212,7 @@ class Report extends Component {
 
         } else if(a.score>=.4){
          
-
+          continue
         } else {
 
             negFeedback.push("Try to be more analytical and logical in your response. ")
@@ -222,7 +222,7 @@ class Report extends Component {
       } else if (a.tone_name === 'Confident'){
         if(a.score>=.8){
           
-
+          continue
         } else if(a.score>=.4){
 
             negFeedback.push("A little more confidence in what you are saying will help get your point across better. ")
@@ -285,16 +285,8 @@ class Report extends Component {
 
     for (var a of this.state.analysis){
       if (a.tone_name === 'Fear'){
-        if(a.score>=.8){
-          
-        } else if(a.score>=.4){
-          
-
-        } else {
-
+        if(a.score<.4){
             posFeedback.push("You are not speaking very fearfully. Good job! ")
-
-
         }
       } else if (a.tone_name === 'Joy'){
         if(a.score>=.8){
@@ -304,37 +296,21 @@ class Report extends Component {
 
         } 
       } else if (a.tone_name === 'Anger'){
-        if(a.score>=.8){
-          
-
-        } else if(a.score>=.4){
-          
-
-        } else{
+        if(a.score<.4){
 
             posFeedback.push("You are not speaking very angerly. Keep it up! ")
 
 
         }
       } else if (a.tone_name === 'Sadness'){
-        if(a.score>=.8){
-        
-
-        } else if(a.score>=.4){
-         
-
-
-        } else {
+        if(a.score<.4){
 
             posFeedback.push("You are not speaking very sadly. Good job!")
 
 
         }
       } else if (a.tone_name === 'Analytical'){
-        if(a.score>=.8){
-          
-
-        } else if(a.score>=.4){
+        if(a.score>=.4){
 
             posFeedback.push("Your response is analytical and logical.")
 
@@ -346,21 +322,9 @@ class Report extends Component {
             posFeedback.push("You are very confident in what you are saying. Good job! ")
 
 
-        } else if(a.score>=.4){
-         
-
-        } else {
-          
-
-        }
+        } 
       } else if (a.tone_name === 'Tentative'){
-        if(a.score>=.8){
-          
-
-        } else if(a.score>=.4){
-          
-
-        } else {
+        if(a.score<.4){
 
             posFeedback.push("You are not speaking tentatively. Keep it up! ")
         
@@ -381,9 +345,9 @@ class Report extends Component {
         wpm=wpm*60/this.props.timestamps.length
         let feedback="Your average words per minute was "+Math.round(wpm)+". "
         if(wpm<130){
-          
+
         }else if(wpm>170){
-          
+
         } else {
           feedback+="Good job!"
           posFeedback.push(feedback)
