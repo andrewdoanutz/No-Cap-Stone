@@ -1,17 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import Lobby from './Lobby';
 import Room from './Room';
 import VideoComponent from './VideoComponent'
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col,Card,Button} from 'react-bootstrap';
+
 
 const VideoChat = (props) => {
   const [count, setCount] = useState(0);
   const [username,setUsername] = useState("");
-  const handleLogout = useCallback(event => {
 
-  }, []);
 
   const callbackFunction = (childData) => {
 
@@ -24,16 +22,18 @@ const VideoChat = (props) => {
 
   let render = (
 
-      <div>
+      <div className="vertical-centered" style={{width:"95%"}}>
+        <Row className="centered" style={{marginBottom:"5%"}}>
+          <Card className = "shadow centered" style={{width:"30%", borderRadius: "1px", borderColor: "#F74356"}}>
+            <Card.Body>
+              <h1>Meeting {props.roomName}</h1>
+            </Card.Body>
+          </Card>
+        </Row>
         <Row>
           <Col>
-            <div className = "py-3">
-              <header>
-                <h1 className = "text-center">Meeting</h1>
-              </header>
-            </div>
-            <Room roomName={props.roomName} token={props.token} handleLogout={handleLogout} parentCallback2 = {callbackFunction}/>
-            <VideoComponent count={count} username = {props.name} />
+              <Room roomName={props.roomName} token={props.token} handleLogout={props.handleLogout} parentCallback2 = {callbackFunction}/>
+              <VideoComponent count={count} username = {props.name} />
           </Col>
         </Row>
       </div>

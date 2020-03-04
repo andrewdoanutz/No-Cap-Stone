@@ -10,10 +10,11 @@ import Transcript from './Transcript';
 import Timing from './Timing';
 import Camera from 'react-camera';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMehBlank, faGrinBeam, faFrown } from '@fortawesome/free-solid-svg-icons'
 
 var prevTime = 10;
 var ts = ""
-var translatedPhrase = ""
 var finalResult = ""
 class VideoComponent extends Component {
   constructor(props){
@@ -42,7 +43,7 @@ class VideoComponent extends Component {
     this.callBackendAPI = this.callBackendAPI.bind(this);
     this.transcriptbackFunction = this.transcriptbackFunction.bind(this);
   }
-
+  
   componentDidMount(){
     this.fetchToken()
 
@@ -229,18 +230,6 @@ class VideoComponent extends Component {
   }
 
 
-
-
-  translate(){
-    console.log(`translating...`)
-    var googleTranslate = require('google-translate')('AIzaSyCsY_IQPqIt6SAvAymb5CAC0q_qNRMAAj8');
-    console.log(ts)
-    googleTranslate.translate(ts, 'es', function(err, translation) {
-      console.log(translation.translatedText);
-      translatedPhrase = translation.translatedText;
-    });
-  }
-
   takePicture(){
     const now = new Date();
     const time = now.getTime();
@@ -362,12 +351,19 @@ class VideoComponent extends Component {
   render(){
     const messages = this.getFinalAndLatestInterimResult();
     const results = messages.map(msg => msg.results.map((result, i) => (result.alternatives[0].transcript))).reduce((a, b) => a.concat(b), []);
-
+    let emoji;
+    if (this.state.status== "neutral"){
+      emoji = <h5 style={{ color: "#fdd835" }}> <FontAwesomeIcon icon={faMehBlank} size='4x'/> </h5>
+    } else if (this.state.status == "positive"){
+      emoji = <h5 style={{ color: "#00c853" }}> <FontAwesomeIcon icon={faGrinBeam} size='4x' /> </h5>
+    } else if (this.state.status == "negative"){
+      emoji = <h5 style={{ color: "#d32f2f" }}> <FontAwesomeIcon icon={faFrown} size='4x' /> </h5>
+    }
     finalResult = results;
     //console.log(finalResult);
     var merged = [].concat.apply([], finalResult);
     return (
-      <div>
+      <div className="vertical-center" style={{paddingLeft:"2.5%"}}>
         <div style={{display:'none'}}>
           <Camera
             style={style.preview}
@@ -383,39 +379,10 @@ class VideoComponent extends Component {
             }}
           />
         </div>
-        <div>
-          <Button className ="mb-2" onClick={this.translate}>Translate Transcript</Button>
-          <span className="subtitles">{translatedPhrase}</span>
-        </div>
-        <div>
-          <Button color="primary" onClick={this.onClickListener}>
-            {this.state.listening ? 'Stop' : 'Start'} Listening
-          </Button>
-
-        </div>
-        <h1>
-          {<Transcript messages={messages} />}
-          {<Timing messages = {messages} />}
-        </h1>
-        <Card className = "shadow" style={{width:"20%"}}>
+        {/* Emoji */}
+        <Card className = "shadow" style={{width:"5.8%"}}>
           <Card.Body>
-            <Card.Text>
-              <Row>
-                <Col>
-                  <div style={{
-                    display:"inline-block",
-                    borderRadius: "50%",
-                    padding:"5%",
-                    backgroundColor: `rgba(${ this.state.r }, ${ this.state.g }, ${ this.state.b }, 1)`,
-                    width:"5%",
-                    height:"5%",}}>
-                  </div>
-                </Col>
-                <Col>
-                  <div>{"You look "+this.state.status}</div>
-                </Col>
-              </Row>
-            </Card.Text>
+            {emoji}
           </Card.Body>
         </Card>
       </div>
