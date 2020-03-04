@@ -8,6 +8,7 @@ import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-micropho
 import Camera from 'react-camera'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMehBlank, faGrinBeam, faFrown } from '@fortawesome/free-solid-svg-icons'
+import Timing from '../components/Timing'
 
 import axios from 'axios'
 
@@ -74,7 +75,8 @@ export default class Practice extends Component {
       angerScores:[],
       sorrowScores:[],
       surpriseScores:[],
-      finalScores:[]
+      finalScores:[],
+      hesCount: 0
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
@@ -456,6 +458,8 @@ scoreVideoAnalysis(score){
 }
 
 render() {
+  const messages = this.getFinalAndLatestInterimResult();
+  console.log(messages)
   let buttonText="Next Question"
   if(this.state.inds.length===4){
     buttonText="Generate Report"
@@ -594,8 +598,6 @@ render() {
                 </Row>
               </Col>
             </Row>
-
-
 
             </div>
           )}

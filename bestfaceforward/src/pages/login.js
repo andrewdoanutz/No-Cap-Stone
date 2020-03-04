@@ -46,7 +46,7 @@ export default class Login extends Component {
   }
   render() {
     return(
-      <div>
+      <div className = "large-vertical-space">
         <div className="homeBox">
           <h1 className="homeHead">Login</h1>
           <Container>
