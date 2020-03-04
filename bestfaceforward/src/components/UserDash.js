@@ -17,6 +17,7 @@ function useAsyncHook(){
             currentUser.name = res["data"]["Items"][user]["username"]
             currentUser.id = res["data"]["Items"][user]["id"]
             currentUser.date = res["data"]["Items"][user]["date"]
+            currentUser.position = res["data"]["Items"][user]["position"]
             console.log(currentUser)
             names.unshift(currentUser)
           }
@@ -58,13 +59,13 @@ const Userdash = (props) => {
                     <Col>
                       <Card.Title><h4>{candidate.name}</h4></Card.Title>
                       <Card.Text>
-                        Meeting ID: {candidate.id}
+                        <h5>{candidate.position}</h5>
                       </Card.Text>
                     </Col>
                     <Col className="my-auto text-right">
                         <Button variant="red" value = {true} onClick = {()=> {setName(candidate.name);
                           setID(candidate.id);
-                          props.parentCallback({name: candidate.name, id: candidate.id, isClicked: !props.clicked})}}><FontAwesomeIcon icon={faIdCard} size='3x'/></Button>
+                          props.parentCallback({name: candidate.name, position: candidate.position, id: candidate.id, isClicked: !props.clicked})}}><FontAwesomeIcon icon={faIdCard} size='3x'/></Button>
 
                     </Col>
                   </Row>

@@ -39,7 +39,9 @@ const Info = (props) => {
       <Row className = "pb-3">
         <Col>
           <h1 className = "pb-1">{props.name}</h1>
-          <h5 className = "pb-3"> Meeting ID: {props.id} </h5>
+          <h4> Applying for: {props.position} </h4>
+          <h5 className = "pt-5"> Meeting ID: {props.id} </h5>
+
           <Row className = "pb-3">
             <Col>
 
@@ -69,6 +71,38 @@ const Info = (props) => {
           <Button size="lg" variant="border">Post-Analysis Report</Button>
             </>
           </Link>
+        </Col>
+      </Row>
+      <Row className = "pt-5">
+        <Col>
+          <Card className = "shadow">
+            <Card.Header>
+              Notes
+            </Card.Header>
+            <Card.Body>
+              <Card.Text>
+                <span>
+                  - UCSB Computer Engineering, GPA: 3.75
+                </span><br/>
+                <span>
+                  - Previous intern at Apple
+                </span><br/>
+                <span>
+                  - Great backend developer and communication skills
+                </span><br/>
+                <span>
+                  - Not as experienced at frontend development
+                </span><br/>
+                <span>
+                  - UCSB Computer Engineering, GPA: 3.75
+                </span><br/>
+              </Card.Text>
+
+            </Card.Body>
+            <Card.Footer className = "text-right">
+              <Button size="lg" variant="flat"> Edit </Button>
+            </Card.Footer>
+          </Card>
         </Col>
       </Row>
     </Col>
