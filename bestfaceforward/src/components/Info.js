@@ -61,7 +61,7 @@ const Info = (props) => {
 
         </Col>
       </Row>
-      <Row>
+      <Row className = "pb-5">
         <Col>
         <Link to={{
           pathname: '/postAnalysis',
