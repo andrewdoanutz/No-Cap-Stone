@@ -522,13 +522,15 @@ render() {
             <Row>
               <Col>
                 <Row className = "homeBox-practice">
-                  <Webcam
-                    audio={false}
-                    height={350}
-                    screenshotFormat="image/jpeg"
-                    width={500}
-                    videoConstraints={videoConstraints}
-                    />
+                  <Card className = "py-4 bg-dark" style={{width: "70%"}}>
+                    <Webcam
+                      audio={false}
+                      height={350}
+                      screenshotFormat="image/jpeg"
+                      width={400}
+                      videoConstraints={videoConstraints}
+                      />
+                  </Card>
                 </Row>
                 {/* Emoji */}
                 <Row className = "homeBox-practice">
@@ -546,52 +548,55 @@ render() {
                     <h1>{question}</h1>
                   </Card.Body>
                 </Card>
-                <Row>
-                  <Card>
+                <Row className = "centered pt-5" style = {{width: "80%"}}>
+                  <Card className = "bg-dark shadow">
                     <Card.Body>
-                      <Card.Img src="/bot.png" />
+                      <Card.Img src="/bot2.png" />
                   </Card.Body>
                   </Card>
+                </Row>
+                <Row>
+                  <div className="homeBox-practice centered" style = {{width: "78%"}}>
+                    <Button variant= "flat" size = "xxl" onClick={()=> {
+                        if(this.state.recording===false){
+                          startRecording()
+                          this.onClickListener()
+                          this.setState({
+                            recording: true
+                          })
+                        } else {
+                          stopRecording()
+                          this.onClickListener()
+                          setTimeout(()=>{
+                            this.setState({
+                              transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
+                              videos: this.state.videos.concat([mediaBlobUrl]),
+                              finalScores: this.state.finalScores.concat([[this.state.joyScores,this.state.sorrowScores,this.state.angerScores,this.state.surpriseScores]]),
+
+                            }, () => {
+                              // console.log(this.state.finalScores)
+                              this.setState({
+                                joyScores: [],
+                                sorrowScores: [],
+                                angerScores: [],
+                                surpriseScores: []
+                              })
+                              // console.log(this.state.videos)
+                              startRecording()
+                              this.onClickListener()
+                            })
+                          },500)
+                        }
+                        this.randomQuestion()
+                      }}>{buttonText}</Button>
+
+                    </div>
                 </Row>
               </Col>
             </Row>
 
 
-            <div className="homeBox-practice">
-              <Button variant= "flat" size = "xxl" onClick={()=> {
-                  if(this.state.recording===false){
-                    startRecording()
-                    this.onClickListener()
-                    this.setState({
-                      recording: true
-                    })
-                  } else {
-                    stopRecording()
-                    this.onClickListener()
-                    setTimeout(()=>{
-                      this.setState({
-                        transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
-                        videos: this.state.videos.concat([mediaBlobUrl]),
-                        finalScores: this.state.finalScores.concat([[this.state.joyScores,this.state.sorrowScores,this.state.angerScores,this.state.surpriseScores]]),
 
-                      }, () => {
-                        // console.log(this.state.finalScores)
-                        this.setState({
-                          joyScores: [],
-                          sorrowScores: [],
-                          angerScores: [],
-                          surpriseScores: []
-                        })
-                        // console.log(this.state.videos)
-                        startRecording()
-                        this.onClickListener()
-                      })
-                    },500)
-                  }
-                  this.randomQuestion()
-                }}>{buttonText}</Button>
-
-              </div>
             </div>
           )}
           />

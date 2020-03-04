@@ -5,6 +5,15 @@ body{
   background-color: #F0F8FF !important;
 }
 
+.webcam {
+  padding: 10px;
+  border-radius: 6px;
+  display: inline-block;
+  /* margin-right: 10px; */
+  border-radius: 10px;
+  border-color: black;
+}
+
 .background-img{
   /* Location of the image */
   background-image: url(../images/conference.jpg);
@@ -293,6 +302,7 @@ video {
 	font-size: 10pt;
 	margin-top: 1em;
 }
+
 
 /* Room */
 
