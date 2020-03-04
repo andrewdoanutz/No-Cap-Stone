@@ -739,16 +739,23 @@ class Report extends Component {
             </Col>
             {/* Right Column */}
             <Col sm={6}>
-              <Row>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Video Response</Card.Header>
-                  <Card.Body>
-                    <Card.Text>
-                      <iframe width="600px" height="300px" src={this.state.videoURL}/>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-              </Row>
+              {()=>{
+                if(this.props.source==="practice"){
+                  return(
+                  <Row>
+                    <Card className = "shadow" style={{marginBottom: "10px"}}>
+                      <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Video Response</Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                          <iframe width="600px" height="300px" src={this.state.videoURL}/>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </Row>
+                  )
+                }
+              }}
+             
               <Row>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
                     <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Video Analysis</Card.Header>

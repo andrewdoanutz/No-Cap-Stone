@@ -137,7 +137,7 @@ const postAnalysis = (props) => {
                             </Card.Header>
                             <Accordion.Collapse eventKey={index}>
                               <Card.Body>
-                                <Report responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={props.location.state.username} index = {index}/>
+                                <Report source={props.location.state.source} responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={props.location.state.username} index = {index}/>
                               </Card.Body>
                             </Accordion.Collapse>
                           </Card>

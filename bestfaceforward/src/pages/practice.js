@@ -322,7 +322,7 @@ export default class Practice extends Component {
         return(
           this.props.history.push({
             pathname: "/postAnalysis",
-            state: { username: "practice", length:this.state.transcripts.length }
+            state: { username: "practice", source:"practice" }
           })
         )
       },500)

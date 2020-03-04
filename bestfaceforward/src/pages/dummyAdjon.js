@@ -6,7 +6,7 @@ export default class DummyAdjon extends Component {
       <>
         {this.props.history.push({
         pathname: "/postAnalysis",
-        state: { username: "Adjon Tahiraj"}
+        state: { username: "Adjon Tahiraj", source:"interviewer"}
         })}
       </>
     )
