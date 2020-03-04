@@ -41,6 +41,11 @@ body{
   cursor: pointer;
   color: #08AEEA;
 }
+.analysisButton:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
 
 /* BUTTONS */
 .blue-button{

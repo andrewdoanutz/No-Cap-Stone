@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import {Card, Row, Col} from 'react-bootstrap';
+import {Card, Row, Col, Button,Accordion} from 'react-bootstrap';
 import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart, Tooltip, Legend} from 'recharts';
 import StarRatingComponent from 'react-star-rating-component';
 
@@ -298,7 +298,7 @@ class Report extends Component {
       } else if (a.tone_name === 'Anger'){
         if(a.score<.4){
 
-            posFeedback.push("You are not speaking very angerly. Keep it up! ")
+            posFeedback.push("You are not speaking very angrily. Keep it up! ")
 
 
         }
@@ -595,196 +595,296 @@ class Report extends Component {
     if(this.props.overall){
       return(
         <div>
-          <Row>
-            {/* Left Column */}
-              <Col sm={6}>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
-                      <div>{"Question Response"}</div>
-                      <div><StarRatingComponent 
+          <Col>
+            <Row>
+              <Col className="centered">
+                <Row>
+                  <h1>
+                    <div>Question Score</div>
+                    <div><StarRatingComponent 
                         name="overall" 
                         starCount={5}
                         value={this.getStarRating()}
                         editing={false}
                       /></div>
+                  </h1>
+                </Row>
+              </Col>
+            </Row>
+            <Row>
+            {/* Left Column */}
+              <Col sm={6}>
+                <Accordion defaultActiveKey={-1}>
+                  <Card.Header  className="analysisButton" style={{backgroundColor:"#08AEEA", color:"white", marginBottom:"10px"}}>
+                    <Accordion.Toggle as={"h1"}  eventKey={0}>
+                      <h2> Audio Analysis </h2>
+                    </Accordion.Toggle>
                   </Card.Header>
-                  <Card.Body>
-                    <Card.Text>
-                      <Col><div className="analysisText">{this.state.txt}</div></Col>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Speech Analysis</Card.Header>
-                  <Card.Body>
-                    <Card.Text>
-                      <Row style={{paddingLeft: 30}}>
-                        <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
-                          <PolarGrid/>
-                          <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
-                          <PolarRadiusAxis />
-                          <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                        </RadarChart>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <h2 style={{textDecoration:"underline",fontWeight:"bold"}}>{"Things You Did Well"}</h2>
-                          <ul className="analysisText">
-                            {this.getPosFeedback().map((value,index)=>{
-                              return(<li>{value}</li>)
-                            })}
-                          </ul>
-                          </Col>
-                          <Col>
-                          <h2 style={{textDecoration:"underline",fontWeight:"bold"}}>{"Things To Improve"}</h2>
-                          <ul className="analysisText">
-                            {this.getNegFeedback().map((value,index)=>{
-                              return(<li>{value}</li>)
-                            })}
-                          </ul>
-                        </Col>
-                      </Row>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+                  <Accordion.Collapse eventKey={0}>
+                    <div>
+                      <Card className = "shadow" style={{marginBottom: "10px"}}>
+                        <Card.Header as="h3">
+                            <div>{"Question Response"}</div>
+                        </Card.Header>
+                        <Card.Body>
+                          <Card.Text>
+                            <Col><div className="analysisText">{this.state.txt}</div></Col>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                      <Card className = "shadow" style={{marginBottom: "10px"}}>
+                      <Card.Header as="h3">Things You Did Well</Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                            <Col>
+                              <ul className="analysisText">
+                                {this.getPosFeedback().map((value,index)=>{
+                                  return(<li>{value}</li>)
+                                })}
+                              </ul>
+                            </Col>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                      <Card className = "shadow" style={{marginBottom: "10px"}}>
+                        <Card.Header as="h3">Things to Improve</Card.Header>
+                        <Card.Body>
+                          <Card.Text>
+                              <Col>
+                                <ul className="analysisText">
+                                  {this.getNegFeedback().map((value,index)=>{
+                                    return(<li>{value}</li>)
+                                  })}
+                                </ul>
+                              </Col>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                      <Card className = "shadow" style={{marginBottom: "10px"}}>
+                        <Card.Header as="h3">Tones Detected</Card.Header>
+                        <Card.Body>
+                          <Card.Text>
+                            <Row style={{paddingLeft: 30}}>
+                              <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
+                                <PolarGrid/>
+                                <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
+                                <PolarRadiusAxis />
+                                <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                              </RadarChart>
+                            </Row>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </div>
+                  </Accordion.Collapse>
+                </Accordion>
               </Col>
               {/* Right Column */}
               <Col sm={6}>
-                <Row>
-                  <Card className = "shadow" style={{marginBottom: "10px"}}>
-                      <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Video Analysis</Card.Header>
-                      <Card.Body>
-                        <Card.Text>
-                          <Row>
-                            <Col>
-                              <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
-                                  margin={{top: 10, right: 30, left: 0, bottom: 0}} >
-                                <XAxis dataKey="ind" tick={{fontSize: 20}}/>
-                                <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
-                                <Legend formatter={this.legendFormatter}/>
-                                <Tooltip content={this.renderTooltipContent}/>
-                                <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
-                                <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
-                                <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
-                                <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
-                            </AreaChart>
-                           </Col>
-                          </Row>
-                          <Row>
-                            <Col><h3>{this.videoFeedback()}</h3></Col>
-                          </Row>
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </Row>
+                <Accordion defaultActiveKey={-1}>
+                  <Card.Header  className="analysisButton" style={{backgroundColor:"#08AEEA", color:"white", marginBottom:"10px"}}>
+                    <Accordion.Toggle as={"h1"}  eventKey={1}>
+                      <h2> Video Analysis </h2>
+                    </Accordion.Toggle>
+                  </Card.Header>
+                  <Accordion.Collapse eventKey={1}>
+                    <div>
+                      <Row>
+                        <Card className = "shadow" style={{marginBottom: "10px"}}>
+                          <Card.Header as="h3">Video Feedback</Card.Header>
+                            <Card.Body>
+                              <Card.Text>
+                                  <Col>
+                                    <h3>{this.videoFeedback()}</h3>
+                                  </Col>
+                              </Card.Text>
+                            </Card.Body>
+                          </Card>
+                          <Card className = "shadow" style={{marginBottom: "10px"}}>
+                            <Card.Header as="h3">Emotion Over Time</Card.Header>
+                            <Card.Body>
+                              <Card.Text>
+                                <Row>
+                                  <Col>
+                                    <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
+                                        margin={{top: 10, right: 30, left: 0, bottom: 0}} >
+                                      <XAxis dataKey="ind" tick={{fontSize: 20}}/>
+                                      <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
+                                      <Legend formatter={this.legendFormatter}/>
+                                      <Tooltip content={this.renderTooltipContent}/>
+                                      <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
+                                      <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
+                                      <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
+                                      <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
+                                  </AreaChart>
+                                </Col>
+                                </Row>
+                              </Card.Text>
+                            </Card.Body>
+                          </Card>
+                        </Row>
+                      </div>
+                    </Accordion.Collapse>
+                  </Accordion>
                 </Col>
               </Row>
+            </Col>
           </div>
         );
     } else {
     return(
       <div>
-        <Row>
-          {/* Left Column */}
-            <Col sm={6}>
-              <Card className = "shadow" style={{marginBottom: "10px"}}>
-                <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
-                  <div>{"Question Response"}</div>
+        <Col>
+          <Row>
+            <Col className="centered">
+              <Row>
+                <h1>
+                  <div>Question Score</div>
                   <div><StarRatingComponent 
-                    name="overall" 
-                    starCount={5}
-                    value={this.getStarRating()}
-                    editing={false}
-                  /></div>
-                  </Card.Header>
-                <Card.Body>
-                  <Card.Text>
-                    <Col><div className="analysisText">{this.state.txt}</div></Col>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-              <Card className = "shadow" style={{marginBottom: "10px"}}>
-                <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Speech Analysis</Card.Header>
-                <Card.Body>
-                  <Card.Text>
-                    <Row style={{paddingLeft: 30}}>
-                      <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
-                        <PolarGrid/>
-                        <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
-                        <PolarRadiusAxis />
-                        <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                      </RadarChart>
-                    </Row>
-                    <Row>
-                      <Col>
-                        <h2 style={{textDecoration:"underline",fontWeight:"bold"}}>{"Things You Did Well"}</h2>
-                        <ul className="analysisText">
-                          {this.getPosFeedback().map((value,index)=>{
-                            return(<li>{value}</li>)
-                          })}
-                        </ul>
-                        </Col>
-                        <Col>
-                        <h2 style={{textDecoration:"underline",fontWeight:"bold"}}>{"Things To Improve"}</h2>
-                        <ul className="analysisText">
-                          {this.getNegFeedback().map((value,index)=>{
-                            return(<li>{value}</li>)
-                          })}
-                        </ul>
-                      </Col>
-                    </Row>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
+                      name="overall" 
+                      starCount={5}
+                      value={this.getStarRating()}
+                      editing={false}
+                    /></div>
+                </h1>
+              </Row>
             </Col>
-            {/* Right Column */}
-            <Col sm={6}>
-              {()=>{
-                if(this.props.source==="practice"){
-                  return(
-                  <Row>
+          </Row>
+          <Row>
+            {/* Left Column */}
+              <Col sm={6}>
+              <Accordion defaultActiveKey={-1}>
+                <Card.Header  className="analysisButton" style={{backgroundColor:"#08AEEA", color:"white", marginBottom:"10px"}}>
+                  <Accordion.Toggle as={"h1"} eventKey={0}>
+                    <h2> Audio Analysis </h2>
+                  </Accordion.Toggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey={0}>
+                  <div>
                     <Card className = "shadow" style={{marginBottom: "10px"}}>
-                      <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Video Response</Card.Header>
+                      <Card.Header as="h3">
+                        <div>{"Question Response"}</div>
+                        </Card.Header>
                       <Card.Body>
                         <Card.Text>
-                          <iframe width="600px" height="300px" src={this.state.videoURL}/>
+                          <Col><div className="analysisText">{this.state.txt}</div></Col>
                         </Card.Text>
                       </Card.Body>
                     </Card>
-                  </Row>
-                  )
-                }
-              }}
-             
-              <Row>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
-                    <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Video Analysis</Card.Header>
-                    <Card.Body>
-                      <Card.Text>
-                        <Row>
-                          <Col>
-                            <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
-                                margin={{top: 10, right: 30, left: 0, bottom: 0}} >
-                              <XAxis dataKey="ind" tick={{fontSize: 20}}/>
-                              <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
-                              <Legend formatter={this.legendFormatter}/>
-                              <Tooltip content={this.renderTooltipContent}/>
-                              <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
-                              <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
-                              <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
-                              <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
-                            </AreaChart>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col><h3>{this.videoFeedback()}</h3></Col>
-                        </Row>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Row>
+                    <Card className = "shadow" style={{marginBottom: "10px"}}>
+                      <Card.Header as="h3">Things You Did Well</Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                            <Col>
+                              <ul className="analysisText">
+                                {this.getPosFeedback().map((value,index)=>{
+                                  return(<li>{value}</li>)
+                                })}
+                              </ul>
+                            </Col>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                    <Card className = "shadow" style={{marginBottom: "10px"}}>
+                      <Card.Header as="h3">Things to Improve</Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                            <Col>
+                              <ul className="analysisText">
+                                {this.getNegFeedback().map((value,index)=>{
+                                  return(<li>{value}</li>)
+                                })}
+                              </ul>
+                            </Col>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                    <Card className = "shadow" style={{marginBottom: "10px"}}>
+                      <Card.Header as="h3">Tones Detected</Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                          <Row style={{paddingLeft: 30}}>
+                            <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
+                              <PolarGrid/>
+                              <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
+                              <PolarRadiusAxis />
+                              <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                            </RadarChart>
+                          </Row>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                </Accordion.Collapse>
+              </Accordion>
               </Col>
-            </Row>
+              {/* Right Column */}
+              <Col sm={6}>
+              <Accordion defaultActiveKey={-1}>
+                <Card.Header className="analysisButton" style={{backgroundColor:"#08AEEA", color:"white", marginBottom:"10px"}}>
+                  <Accordion.Toggle as={"h1"} eventKey={1}>
+                    <h2> Video Analysis </h2>
+                  </Accordion.Toggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey={1}>
+                  <div>
+                    {()=>{
+                      if(this.props.source==="practice"){
+                        return(
+                        <Row>
+                          <Card className = "shadow" style={{marginBottom: "10px"}}>
+                            <Card.Header as="h3">Video Response</Card.Header>
+                            <Card.Body>
+                              <Card.Text>
+                                <iframe width="600px" height="300px" src={this.state.videoURL}/>
+                              </Card.Text>
+                            </Card.Body>
+                          </Card>
+                        </Row>
+                        )
+                      }
+                    }}
+                  
+                    <Row>
+                      <Card className = "shadow" style={{marginBottom: "10px"}}>
+                        <Card.Header as="h3">Video Feedback</Card.Header>
+                          <Card.Body>
+                            <Card.Text>
+                                <Col>
+                                  <h3>{this.videoFeedback()}</h3>
+                                </Col>
+                            </Card.Text>
+                          </Card.Body>
+                        </Card>
+                        <Card className = "shadow" style={{marginBottom: "10px"}}>
+                          <Card.Header as="h3">Emotion Over Time</Card.Header>
+                          <Card.Body>
+                            <Card.Text>
+                              <Row>
+                                <Col>
+                                  <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
+                                      margin={{top: 10, right: 30, left: 0, bottom: 0}} >
+                                    <XAxis dataKey="ind" tick={{fontSize: 20}}/>
+                                    <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
+                                    <Legend formatter={this.legendFormatter}/>
+                                    <Tooltip content={this.renderTooltipContent}/>
+                                    <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
+                                    <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
+                                    <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
+                                    <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
+                                  </AreaChart>
+                                </Col>
+                              </Row>
+                            </Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </Row>
+                      </div>
+                    </Accordion.Collapse>
+                  </Accordion>
+                </Col>
+              </Row>
+            </Col>
         </div>
       );
     }
