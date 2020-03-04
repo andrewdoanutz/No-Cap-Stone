@@ -633,6 +633,21 @@ class Report extends Component {
                         </Card.Body>
                       </Card>
                       <Card className = "shadow" style={{marginBottom: "10px"}}>
+                        <Card.Header as="h3">Tones Detected</Card.Header>
+                        <Card.Body>
+                          <Card.Text>
+                            <Row style={{paddingLeft: 30}}>
+                              <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
+                                <PolarGrid/>
+                                <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
+                                <PolarRadiusAxis />
+                                <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                              </RadarChart>
+                            </Row>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                      <Card className = "shadow" style={{marginBottom: "10px"}}>
                       <Card.Header as="h3">Things You Did Well</Card.Header>
                       <Card.Body>
                         <Card.Text>
@@ -657,21 +672,6 @@ class Report extends Component {
                                   })}
                                 </ul>
                               </Col>
-                          </Card.Text>
-                        </Card.Body>
-                      </Card>
-                      <Card className = "shadow" style={{marginBottom: "10px"}}>
-                        <Card.Header as="h3">Tones Detected</Card.Header>
-                        <Card.Body>
-                          <Card.Text>
-                            <Row style={{paddingLeft: 30}}>
-                              <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
-                                <PolarGrid/>
-                                <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
-                                <PolarRadiusAxis />
-                                <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                              </RadarChart>
-                            </Row>
                           </Card.Text>
                         </Card.Body>
                       </Card>
@@ -772,6 +772,21 @@ class Report extends Component {
                       </Card.Body>
                     </Card>
                     <Card className = "shadow" style={{marginBottom: "10px"}}>
+                      <Card.Header as="h3">Tones Detected</Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                          <Row style={{paddingLeft: 30}}>
+                            <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
+                              <PolarGrid/>
+                              <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
+                              <PolarRadiusAxis />
+                              <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                            </RadarChart>
+                          </Row>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                    <Card className = "shadow" style={{marginBottom: "10px"}}>
                       <Card.Header as="h3">Things You Did Well</Card.Header>
                       <Card.Body>
                         <Card.Text>
@@ -796,21 +811,6 @@ class Report extends Component {
                                 })}
                               </ul>
                             </Col>
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                    <Card className = "shadow" style={{marginBottom: "10px"}}>
-                      <Card.Header as="h3">Tones Detected</Card.Header>
-                      <Card.Body>
-                        <Card.Text>
-                          <Row style={{paddingLeft: 30}}>
-                            <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
-                              <PolarGrid/>
-                              <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
-                              <PolarRadiusAxis />
-                              <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                            </RadarChart>
-                          </Row>
                         </Card.Text>
                       </Card.Body>
                     </Card>
