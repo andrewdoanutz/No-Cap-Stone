@@ -823,15 +823,12 @@ class Report extends Component {
               <Accordion defaultActiveKey={-1}>
                 <Card.Header className="analysisButton" style={{backgroundColor:"#08AEEA", color:"white", marginBottom:"10px"}}>
                   <Accordion.Toggle as={"h1"} eventKey={1}>
-                    <h2> Video Analysis </h2>
+                    <div> Video Analysis </div>
                   </Accordion.Toggle>
                 </Card.Header>
                 <Accordion.Collapse eventKey={1}>
                   <div>
-                    {()=>{
-                      if(this.props.source==="practice"){
-                        return(
-                        <Row>
+                    {this.props.source==="practice" ? <Row>
                           <Card className = "shadow" style={{marginBottom: "10px"}}>
                             <Card.Header as="h3">Video Response</Card.Header>
                             <Card.Body>
@@ -840,11 +837,7 @@ class Report extends Component {
                               </Card.Text>
                             </Card.Body>
                           </Card>
-                        </Row>
-                        )
-                      }
-                    }}
-                  
+                        </Row>: null}
                     <Row>
                       <Card className = "shadow" style={{marginBottom: "10px"}}>
                         <Card.Header as="h3">Video Feedback</Card.Header>
