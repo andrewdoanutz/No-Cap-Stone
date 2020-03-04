@@ -55,70 +55,70 @@ speech.init({
 
 
 export default class Practice extends Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            question: "",
-            inds:[],
-            videos:[],
-            recording: false,
-            transcripts:[],
-            text: "",
-            token: null,
-            listening: false,
-            error: null,
-            serviceUrl: null,
-            formattedMessages: [],
-            status: "neutral",
-            joyScores:[],
-            angerScores:[],
-            sorrowScores:[],
-            surpriseScores:[],
-            finalScores:[]
-        }
-        this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
-        this.getFinalResults = this.getFinalResults.bind(this);
-        this.getCurrentInterimResult = this.getCurrentInterimResult.bind(this);
-        this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
-      }
-      //speech stuff
-      componentDidMount(){
-        this.fetchToken()
-        this.timerID = setInterval(
-          () => this.tick(),
-          5000
-        );
-      }
+  constructor(props){
+    super(props)
+    this.state = {
+      question: "",
+      inds:[],
+      videos:[],
+      recording: false,
+      transcripts:[],
+      text: "",
+      token: null,
+      listening: false,
+      error: null,
+      serviceUrl: null,
+      formattedMessages: [],
+      status: "neutral",
+      joyScores:[],
+      angerScores:[],
+      sorrowScores:[],
+      surpriseScores:[],
+      finalScores:[]
+    }
+    this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
+    this.getFinalResults = this.getFinalResults.bind(this);
+    this.getCurrentInterimResult = this.getCurrentInterimResult.bind(this);
+    this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
+  }
+  //speech stuff
+  componentDidMount(){
+    this.fetchToken()
+    this.timerID = setInterval(
+      () => this.tick(),
+      5000
+    );
+  }
 
-      componentWillUnmount() {
-        clearInterval(this.timerID);
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+  fetchToken() {
+    return fetch('/api/v1/credentials').then((res) => {
+      if (res.status !== 200) {
+        throw new Error('Error retrieving auth token');
       }
-      fetchToken() {
-        return fetch('/api/v1/credentials').then((res) => {
-          if (res.status !== 200) {
-            throw new Error('Error retrieving auth token');
-          }
-          return res.text();
-        }).then((token) => {
-          var jsonToken = JSON.parse(token)
-          this.setState({token: jsonToken.accessToken, serviceUrl: jsonToken.serviceUrl})
-        }).catch(this.handleError);
-      }
+      return res.text();
+    }).then((token) => {
+      var jsonToken = JSON.parse(token)
+      this.setState({token: jsonToken.accessToken, serviceUrl: jsonToken.serviceUrl})
+    }).catch(this.handleError);
+  }
 
-      handleError = (err, extra) => {
-        console.error(err, extra);
-        if (err.name === 'UNRECOGNIZED_FORMAT') {
-          err = 'Unable to determine content type from file name or header; mp3, wav, flac, ogg, opus, and webm are supported. Please choose a different file.';
-        } else if (err.name === 'NotSupportedError' && this.state.audioSource === 'mic') {
-          err = 'This browser does not support microphone input.';
-        } else if (err.message === '(\'UpsamplingNotAllowed\', 8000, 16000)') {
-          err = 'Please select a narrowband voice model to transcribe 8KHz audio files.';
-        } else if (err.message === 'Invalid constraint') {
-          // iPod Touch does this on iOS 11 - there is a microphone, but Safari claims there isn't
-          err = 'Unable to access microphone';
-        }
-        this.setState({ error: err.message || err });
-      }
+  handleError = (err, extra) => {
+    console.error(err, extra);
+    if (err.name === 'UNRECOGNIZED_FORMAT') {
+      err = 'Unable to determine content type from file name or header; mp3, wav, flac, ogg, opus, and webm are supported. Please choose a different file.';
+    } else if (err.name === 'NotSupportedError' && this.state.audioSource === 'mic') {
+      err = 'This browser does not support microphone input.';
+    } else if (err.message === '(\'UpsamplingNotAllowed\', 8000, 16000)') {
+      err = 'Please select a narrowband voice model to transcribe 8KHz audio files.';
+    } else if (err.message === 'Invalid constraint') {
+      // iPod Touch does this on iOS 11 - there is a microphone, but Safari claims there isn't
+      err = 'Unable to access microphone';
+    }
+    this.setState({ error: err.message || err });
+  }
 
 
   stopListening = () => {
@@ -300,32 +300,30 @@ export default class Practice extends Component {
       if(this.state.videos.length>3){
         this.state.videos.shift()
       }
-        console.log(this.state.videos)
 
-        let transcriptText=[]
-        let timestamps=[]
-        this.state.transcripts.forEach(i =>{
-          transcriptText.push(this.decodeTranscript(i))
-          timestamps.push(this.decodeTiming(i))
-        })
-        console.log(transcriptText)
-        console.log(timestamps)
-        let Qs = []
-        Qs.push(questions[this.state.inds[0]])
-        Qs.push(questions[this.state.inds[1]])
-        Qs.push(questions[this.state.inds[2]])
-        this.storeData(transcriptText,timestamps,Qs).then(()=>{
-          console.log("stored")
-          setTimeout(()=>{
-            return(
-              this.props.history.push({
-                pathname: "/postAnalysis",
-                state: { username: "practice", length:this.state.transcripts.length }
-              })
-            )
-          },500)
+      let transcriptText=[]
+      let timestamps=[]
+      this.state.transcripts.forEach(i =>{
+        transcriptText.push(this.decodeTranscript(i))
+        timestamps.push(this.decodeTiming(i))
+      })
+      console.log(transcriptText.slice(0,3))
+      let Qs = []
+      Qs.push(questions[this.state.inds[0]])
+      Qs.push(questions[this.state.inds[1]])
+      Qs.push(questions[this.state.inds[2]])
+      this.storeData(transcriptText,timestamps,Qs).then(()=>{
+        console.log("stored")
+        setTimeout(()=>{
+          return(
+            this.props.history.push({
+              pathname: "/postAnalysis",
+              state: { username: "practice", length:this.state.transcripts.length }
+            })
+          )
+        },500)
 
-        })
+      })
     }
     //video analysis
     async callBackendAPI(){
@@ -348,8 +346,6 @@ export default class Practice extends Component {
   }
 
   takePicture(){
-    console.log("say cheese");
-
     const now = new Date();
     const time = now.getTime();
     if(!this.camera){
@@ -396,53 +392,50 @@ export default class Practice extends Component {
 
 
       }
-          prevTime = time;
-          this.img.src = URL.createObjectURL(blob);
-          console.log(this.img);
-          this.img.onload = () => { URL.revokeObjectURL(this.src); }
-          console.log("end");
-
-        }).then(setTimeout(() => {
-          this.callBackendAPI().then(results => {
-            try{
-              let resJSON=JSON.parse(results['response'])['0']['faceAnnotations']['0']
-              if(resJSON!=='undefined' && resJSON){
-                let joyScore=this.scoreVideoAnalysis(resJSON['joyLikelihood'])
-                let sorrowScore=this.scoreVideoAnalysis(resJSON['sorrowLikelihood'])
-                let angerScore=this.scoreVideoAnalysis(resJSON['angerLikelihood'])
-                let surpriseScore=this.scoreVideoAnalysis(resJSON['surpriseLikelihood'])
-                let totalScore=joyScore-sorrowScore-angerScore-surpriseScore
-                if(totalScore>0){
-                  this.setState({
-                    status:"positive",
-                    joyScores: this.state.joyScores.concat([joyScore]),
-                    sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
-                    angerScores: this.state.angerScores.concat([angerScore]),
-                    surpriseScores: this.state.surpriseScores.concat([surpriseScore])
-                  })
-                } else if (totalScore<0){
-                  this.setState({
-                    status:"negative",
-                    joyScores: this.state.joyScores.concat([joyScore]),
-                    sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
-                    angerScores: this.state.angerScores.concat([angerScore]),
-                    surpriseScores: this.state.surpriseScores.concat([surpriseScore])
-                  })
-                } else {
-                  this.setState({
-                    status:"neutral",
-                    joyScores: this.state.joyScores.concat([joyScore]),
-                    sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
-                    angerScores: this.state.angerScores.concat([angerScore]),
-                    surpriseScores: this.state.surpriseScores.concat([surpriseScore])
-                  })
-                }
-              } else {
-                return 0
-              }
-            } catch(e){
-              console.log("error changing indicator: ",e)
+      prevTime = time;
+      this.img.src = URL.createObjectURL(blob);
+      this.img.onload = () => { URL.revokeObjectURL(this.src); }
+    }).then(setTimeout(() => {
+      this.callBackendAPI().then(results => {
+        try{
+          let resJSON=JSON.parse(results['response'])['0']['faceAnnotations']['0']
+          if(resJSON!=='undefined' && resJSON){
+            let joyScore=this.scoreVideoAnalysis(resJSON['joyLikelihood'])
+            let sorrowScore=this.scoreVideoAnalysis(resJSON['sorrowLikelihood'])
+            let angerScore=this.scoreVideoAnalysis(resJSON['angerLikelihood'])
+            let surpriseScore=this.scoreVideoAnalysis(resJSON['surpriseLikelihood'])
+            let totalScore=joyScore-sorrowScore-angerScore-surpriseScore
+            if(totalScore>0){
+              this.setState({
+                status:"positive",
+                joyScores: this.state.joyScores.concat([joyScore]),
+                sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
+                angerScores: this.state.angerScores.concat([angerScore]),
+                surpriseScores: this.state.surpriseScores.concat([surpriseScore])
+              })
+            } else if (totalScore<0){
+              this.setState({
+                status:"negative",
+                joyScores: this.state.joyScores.concat([joyScore]),
+                sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
+                angerScores: this.state.angerScores.concat([angerScore]),
+                surpriseScores: this.state.surpriseScores.concat([surpriseScore])
+              })
+            } else {
+              this.setState({
+                status:"neutral",
+                joyScores: this.state.joyScores.concat([joyScore]),
+                sorrowScores: this.state.sorrowScores.concat([sorrowScore]),
+                angerScores: this.state.angerScores.concat([angerScore]),
+                surpriseScores: this.state.surpriseScores.concat([surpriseScore])
+              })
             }
+          } else {
+            return 0
+          }
+        } catch(e){
+          console.log("error changing indicator: ",e)
+        }
       })
     }
     ,1000))
@@ -475,26 +468,11 @@ export default class Practice extends Component {
 
     let question;
     if (this.state.question!=="" && this.state.inds.length!==4){
-      question =
-        <Card className = "shadow" style={{width:"80%"}}>
-          <Card.Body>
-            <h1>{this.state.question}</h1>
-          </Card.Body>
-        </Card>
+      question = this.state.question
     } else if (this.state.inds.length===4){
-      question =
-      <Card className = "shadow" style={{width:"80%"}}>
-        <Card.Body>
-          <h1>Click below to see your results!</h1>
-        </Card.Body>
-      </Card>
+      question ="Click below to see your results!"
     } else if (this.state.question===""){
-      question =
-      <Card className = "shadow" style={{width:"80%"}}>
-        <Card.Body>
-          <h1>When you're ready, click BEGIN to start practicing! </h1>
-        </Card.Body>
-      </Card>
+      question = "When you're ready, click BEGIN to start practicing!"
     }
 
     let emoji;
@@ -538,7 +516,7 @@ export default class Practice extends Component {
                       ref={(img) => {
                         this.img = img;
                       }}
-                    />
+                      />
                   </div>
                 </Col>
               </Row>
@@ -551,25 +529,35 @@ export default class Practice extends Component {
                       screenshotFormat="image/jpeg"
                       width={500}
                       videoConstraints={videoConstraints}
-                    />
+                      />
                   </Row>
                   {/* Emoji */}
                   <Row className = "homeBox-practice">
                     <Card className = "shadow" style={{width:"15%"}}>
                       <Card.Body>
-                          {emoji}
+                        {emoji}
                       </Card.Body>
                     </Card>
                   </Row>
                 </Col>
 
                 <Col className = "pr-3">
-                  {question}
+                  <Card className = "shadow" style={{width:"80%", borderRadius: "1px", borderColor: "#F74356"}}>
+                    <Card.Body>
+                      <h1>{question}</h1>
+                    </Card.Body>
+                  </Card>
+
                 </Col>
               </Row>
+              <Row>
+                <Card>
+                  <Card.Img src="../images/bot.png" />
+                </Card>
+              </Row>
 
-                <div className="homeBox-practice">
-                  <Button variant= "flat" size = "xxl" onClick={()=> {
+              <div className="homeBox-practice">
+                <Button variant= "flat" size = "xxl" onClick={()=> {
                     if(this.state.recording===false){
                       startRecording()
                       this.onClickListener()
@@ -588,10 +576,10 @@ export default class Practice extends Component {
                         }, () => {
                           // console.log(this.state.finalScores)
                           this.setState({
-                              joyScores: [],
-                              sorrowScores: [],
-                              angerScores: [],
-                              surpriseScores: []
+                            joyScores: [],
+                            sorrowScores: [],
+                            angerScores: [],
+                            surpriseScores: []
                           })
                           // console.log(this.state.videos)
                           startRecording()
@@ -605,7 +593,7 @@ export default class Practice extends Component {
                 </div>
               </div>
             )}
-          />
+            />
         )
       }
     }
