@@ -69,7 +69,7 @@ export default class Login extends Component {
                     </Form.Group>
                     <Form.Group controlId="formBasicUPLogin" as={Col}>
                       <div className="formButton">
-                        <Button size="lg" variant="primary" type="button" onClick={this.UPLoginPressed.bind(this)}>
+                        <Button size="lg" variant="flat" type="button" onClick={this.UPLoginPressed.bind(this)}>
                           Submit
                         </Button>
                       </div>
