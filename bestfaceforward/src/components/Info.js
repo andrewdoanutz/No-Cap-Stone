@@ -93,9 +93,6 @@ const Info = (props) => {
                 <span>
                   - Not as experienced at frontend development
                 </span><br/>
-                <span>
-                  - UCSB Computer Engineering, GPA: 3.75
-                </span><br/>
               </Card.Text>
 
             </Card.Body>

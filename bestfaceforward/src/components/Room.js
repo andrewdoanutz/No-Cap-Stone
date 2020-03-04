@@ -132,15 +132,15 @@ const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
               <div className="local-participant">
 
                 {room ? (
-                  
+
                   <div className="container">
-                    
+
                     <Participant
                       key={room.localParticipant.sid}
                       participant={room.localParticipant}
                       callbackF = {innerCallback}
                     />
-                    
+
                   </div>
                   ) : (
                     <div className="profiles">
@@ -156,10 +156,9 @@ const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
               </Row>
               <Row>
               <Link to={{
-                pathname: '/postAnalysis',
-                state: { username: "Adjon Tahiraj", source:"interviewer"}
+                pathname: '/dashboard'
               }}>
-                <Button variant= "flat" size = "xxl" onClick={handleLogout}>Log Out</Button>
+                <Button variant= "border" size = "xxl" onClick={handleLogout}>End Interview</Button>
               </Link>
               </Row>
             </Col>
@@ -169,7 +168,7 @@ const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
           </Row>
           <Row>
             <Col sm={5} style={{height:"0%"}}>
-              
+
             </Col>
             <Col sm={7} className="centered">
             {(localStorage.getItem("candidate") != 0) ? null : <Button variant= "flat" size = "xxl" onClick={handleSend}>Next Question</Button>}
