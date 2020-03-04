@@ -65,7 +65,7 @@ const Info = (props) => {
         <Col>
         <Link to={{
           pathname: '/postAnalysis',
-          state: {id: props.id, name: props.name}
+          state: { username: props.name, source:"interviewer"}
         }}>
           <>
           <Button size="lg" variant="border">Post-Analysis Report</Button>
