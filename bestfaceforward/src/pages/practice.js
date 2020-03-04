@@ -302,6 +302,9 @@ export default class Practice extends Component {
     if(this.state.videos.length>3){
       this.state.videos.shift()
     }
+    if(this.state.transcripts.length>3){
+      this.state.transcripts.pop()
+    }
 
     let transcriptText=[]
     let timestamps=[]
