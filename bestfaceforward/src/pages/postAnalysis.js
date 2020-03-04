@@ -28,7 +28,28 @@ function useAsyncHook(name){
   return [transcript,loading,videoScores,videos,timestamps,questions]
 }
 
-
+function combineScores(scores){
+  let joy=[]
+  let sorrow=[]
+  let anger=[]
+  let surprise=[]
+  scores.map((value) =>{
+    value.map((a,index)=>{
+      a.map((value)=>{
+        if (index===0){
+          joy.push(value)
+        } else if (index===1){
+          sorrow.push(value)
+        } else if (index===2){
+          anger.push(value)
+        } else if (index===3){
+          surprise.push(value)
+        } 
+      })
+    })
+  })
+  return [joy,sorrow,anger,surprise]
+}
 const postAnalysis = (props) => {
   console.log(props)
   let [transcript,loading,videoScores,videos,timestamps,questions]=useAsyncHook(props.location.state.username)
@@ -55,7 +76,14 @@ const postAnalysis = (props) => {
   //   }
   //   //this.getCandidate()
   // }
-    
+
+    // if(!DBInfo){
+    //   return(
+    //     <div className="homeBox">waiting</div>
+    //   )
+    // } else {
+
+
     if(loading){
       return(
         <div className="profiles">
@@ -75,50 +103,55 @@ const postAnalysis = (props) => {
         overallTranscript+=i+" "
       })
       console.log(transcript)
-      const overallVideoScores = [].concat.apply([], videoScores);
+      const overallVideoScores = combineScores(videoScores)
+      console.log(overallVideoScores)
         return(
-          <div className="homeBox">
-            <div className="homeHead">Post Analysis Report for {props.location.state.username}</div>
-            <Row>
-              <Col>
-                <Accordion defaultActiveKey="0">
-                  <Card>
-                    <Card.Header>
-                      <Accordion.Toggle as={Button} variant="link" eventKey={-1}>
-                        <h2> Overall Report </h2>
-                      </Accordion.Toggle>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey={-1}>
-                      <Card.Body>
-                        <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} timestamps={timestamps} username={props.location.state.username}/>
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
-                  {transcript.map(function(text, index){
-                    return (
+          <div className="homeBox" style={{width:"95%",paddingLeft:"4%",paddingTop:"7%"}}>
+            <Card>
+              <Card.Header as="h1" style={{backgroundColor:"#F74356", color:"white"}}>
+                Post Analysis Report for {props.location.state.username}
+              </Card.Header>
+              <Card.Body>
+                <Row>
+                  <Col>
+                    <Accordion defaultActiveKey={-1}>
                       <Card>
                         <Card.Header>
-                          <Accordion.Toggle as={Button} variant="link" eventKey={index}>
-                            <h2> Question: {questions[index]} </h2>
+                          <Accordion.Toggle as={"h1"} className="accordionButton" eventKey={-1}>
+                            <h2> Overall Report </h2>
                           </Accordion.Toggle>
                         </Card.Header>
-                        <Accordion.Collapse eventKey={index}>
+                        <Accordion.Collapse eventKey={-1}>
                           <Card.Body>
-                            <Report responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={props.location.state.username} index = {index}/>
+                            <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} timestamps={timestamps} username={props.location.state.username}/>
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
-                      )
-                    })
-                  }
-                </Accordion>
-              </Col>
-            </Row>
-
+                      {transcript.map(function(text, index){
+                        return (
+                          <Card>
+                            <Card.Header>
+                              <Accordion.Toggle as={"h1"} className="accordionButton" eventKey={index}>
+                                <h2 > Question: {questions[index]} </h2>
+                              </Accordion.Toggle>
+                            </Card.Header>
+                            <Accordion.Collapse eventKey={index}>
+                              <Card.Body>
+                                <Report source={props.location.state.source} responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={props.location.state.username} index = {index}/>
+                              </Card.Body>
+                            </Accordion.Collapse>
+                          </Card>
+                          )
+                        })
+                      }
+                    </Accordion>
+                  </Col>
+                </Row>
+              </Card.Body>
+            </Card>
         </div>
       )
   }
-
 
 }
 export default postAnalysis;

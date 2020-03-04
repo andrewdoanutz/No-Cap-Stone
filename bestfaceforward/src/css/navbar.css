@@ -5,14 +5,14 @@
 .navbar {
   z-index: 10;
   width: 100%;
-  background: #F0F8FF!important;
+  background: #F0F8FF !important;
   height: 7%;
   margin: 0;
 }
 
 .navbarTitle{
   font: 1.7em "Raleway", sans-serif;
-  font-weight: "bold";
+  font-weight: bold !important;
   letter-spacing: 1.5px;
   color: black !important;
   text-transform: uppercase;
@@ -21,19 +21,19 @@
 
 .navbarTitle:hover {
   cursor: pointer;
-  color: #ffc700 !important;
+  color: #007ed9 !important;
 }
 
 
 .link {
   font: 1.7em "Raleway", sans-serif;
-  font-weight: "bold";
   color: black !important;
   margin-left: 1em;
+  font-weight: bold;
 }
 .link:hover {
   cursor: pointer;
-  color: #ffc700  !important;
+  color: #007ed9  !important;
 }
 
 .navImage{

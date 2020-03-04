@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Video, {LocalDataTrack} from 'twilio-video';
 import Participant from './Participant';
 import {Row, Container, Col,Button} from 'react-bootstrap';
+import { GridLoader } from "react-spinners";
+import {Link} from "react-router-dom";
 import bro from "../images/mask.png"
 
 const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
@@ -63,7 +65,16 @@ const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
             dataTrackPublished.reject(error);
           }
         });
-
+        return () => {
+          setRoom(currentRoom => {
+            if (currentRoom && currentRoom.localParticipant.state === 'connected') {
+              currentRoom.disconnect();
+              return null;
+            } else {
+              return currentRoom;
+            }
+          });
+        }
 
     });
 
@@ -90,7 +101,6 @@ const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
   ));
 
 
-
   const handleSend = () => {
     setCount (count+1)
     room.localParticipant.publishTrack(dataTrack);
@@ -115,41 +125,57 @@ const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
 
     <div>
       <Container className = "room">
+        <Col>
         <Row>
-          <Col>
-            <h2>Room: {roomName}</h2>
-            <Button className = "mb-2" onClick={handleLogout}>Log out</Button>
-            {(localStorage.getItem("candidate") != 0) ? null : <Button className = "mb-2" onClick={handleSend}>Next Question</Button>}
-            <Button className = "ml-3 mb-2" onClick={ ()=> {
-                if(blur===false){
-                  setBlur(true)
-                } else {
-                  setBlur(false)
-                }
-              }
-            }>Blur</Button>
-            <div className="local-participant">
+          <Col sm={5}>
+            <Row>
+              <div className="local-participant">
 
-              {room ? (
-                <div className="container">
-                  <Participant
-                    key={room.localParticipant.sid}
-                    participant={room.localParticipant}
-                    callbackF = {innerCallback}
-                  />
+                {room ? (
+                  
+                  <div className="container">
+                    
+                    <Participant
+                      key={room.localParticipant.sid}
+                      participant={room.localParticipant}
+                      callbackF = {innerCallback}
+                    />
+                    
+                  </div>
+                  ) : (
+                    <div className="profiles">
+                        <GridLoader
+                        size={20}
+                        //size={"150px"} this also works
+                        color={"#007ed9"}
+                        loading={true}
+                      />
+                    </div>
+                  )}
                 </div>
-
-              ) : (
-                ''
-              )}
-            </div>
-          </Col>
-          <Col>
-            <h3>Other Participants</h3>
-            <div className = "py-4"></div>
-            <div className="remote-participants">{remoteParticipants}</div>
-          </Col>
-        </Row>
+              </Row>
+              <Row>
+              <Link to={{
+                pathname: '/postAnalysis',
+                state: { username: "Adjon Tahiraj", source:"interviewer"}
+              }}>
+                <Button variant= "flat" size = "xxl" onClick={handleLogout}>Log Out</Button>
+              </Link>
+              </Row>
+            </Col>
+            <Col className="centered" sm={7}>
+              <div className="remote-participants">{remoteParticipants}</div>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm={5} style={{height:"0%"}}>
+              
+            </Col>
+            <Col sm={7} className="centered">
+            {(localStorage.getItem("candidate") != 0) ? null : <Button variant= "flat" size = "xxl" onClick={handleSend}>Next Question</Button>}
+            </Col>
+          </Row>
+        </Col>
       </Container>
     </div>
   );

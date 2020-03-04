@@ -12,11 +12,12 @@ import VideoComponent from './../components/VideoComponent'
 import Meetings from './../components/Meetings'
 import Userlist from './../components/Userlist'
 
-import Userdash from '../components/UserDash'
+import Userdash from '../components/Userdash'
 import Database from '../components/Database'
 import NewMeeting from './newMeeting'
 import CalendarView from '../components/Calendar'
 import Info from '../components/Info'
+
 
 
 let cookies = new Cookies();
@@ -31,25 +32,28 @@ export default class Dashboard extends Component {
       previewToken : false,
       isClicked: false,
       name: "",
-      id: ""
+      id: "",
+      position: ""
     }
   }
 
   callbackFunction = (childData) => {
       this.setState({name: childData.name})
       this.setState({id: childData.id})
+      this.setState({position: childData.position})
       this.setState({isClicked: childData.isClicked})
+
   }
 
 
   render() {
     // console.log("here",this.state.newMeetingID);
-    console.log("Cookies",cookies.get('login'));
+    // console.log("Cookies",cookies.get('login'));
       return (
         <div>
           <Row>
-            <Col xs={3} style={{marginLeft: "10px", marginTop: "10px"}}>
-              <NewMeeting uname = {cookies.get('login')}/>
+            <Col xs={3} style={{marginLeft: "10px", marginTop: "8vh"}}>
+              <NewMeeting />
               <Card className = "shadow">
                 <Card.Body>
                   <Userdash parentCallback = {this.callbackFunction} clicked = {this.state.isClicked}/>
@@ -57,10 +61,10 @@ export default class Dashboard extends Component {
               </Card>
 
             </Col>
-            <Col xs={8} style={{marginTop: "25px"}}>
-              <Card  className = "shadow">
+            <Col xs={8} style={{marginTop: "8vh"}}>
+              <Card className = "shadow">
                 <Card.Body >
-                  <h4> {this.state.isClicked ? <Info name = {this.state.name} id = {this.state.id}/> : <CalendarView /> }</h4>
+                  <h4> {this.state.isClicked ? <Info name = {this.state.name} id = {this.state.id} position = {this.state.position}/> : <CalendarView /> }</h4>
                 </Card.Body>
               </Card>
             </Col>

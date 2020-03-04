@@ -3,31 +3,134 @@
 body{
   font-family: "Ubuntu", sans-serif !important;
   background-color: #F0F8FF !important;
-  padding-top:5%
 }
-Button{
-  background-color: #007ed9 !important;
-  border:0px solid transparent !important; /* this was 1px earlier */
-  color: white !important;
-  text-decoration: none !important;
+
+.webcam {
+  padding: 10px;
+  border-radius: 6px;
+  display: inline-block;
+  /* margin-right: 10px; */
+  border-radius: 10px;
+  border-color: black;
 }
-Button:hover{
+
+.background-img{
+  /* Location of the image */
+  background-image: url(../images/conference.jpg);
+
+  /* Background image is centered vertically and horizontally at all times */
+  background-position: center center;
+
+  /* Background image doesn't tile */
+  background-repeat: no-repeat;
+
+  /* Background image is fixed in the viewport so that it doesn't move when
+     the content's height is greater than the image's height */
+  background-attachment: fixed;
+
+  /* This is what makes the background image rescale based
+     on the container's size */
+  background-size: cover;
+}
+
+.analysisText{
+  text-align: left;
+  font-size: large;
+}
+.accordionButton:hover{
   cursor: pointer;
-  color: #ffa537  !important;
+  color: #08AEEA;
 }
-.accordionButton{
-  background-color: #007ed9 !important;
+.analysisButton:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
 }
-.card-header{
-  background-color: #007ed9 !important;
+
+/* BUTTONS */
+.blue-button{
+  /* background-color: #36C7D0 !important; */
+ background-color: #08AEEA !important;
+ /* background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important; */
+ border:0px solid transparent !important; /* this was 1px earlier */
+ color: white !important;
+ text-decoration: none !important;
+
+}
+/* Button:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+} */
+.btn-flat {
+  background-color: #08AEEA !important;
   color: white !important;
-  
 }
-.accordion{
-  background-color: #007ed9 !important;
+.btn-flat:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
 }
+.btn-xxl {
+  padding: 1rem 1.5rem !important;
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+}
+
+.btn-round {
+  background-color: #08AEEA !important;
+  color: white !important;
+  border-radius: 12px;
+}
+.btn-round:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
+
+.btn-border{
+  border: 2px solid #08AEEA !important;
+  color: black !important;
+}
+.btn-border:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: white !important;
+}
+
+.btn-round-border{
+  border: 2px solid #08AEEA !important;
+  color: black !important;
+  border-radius: 12px;
+}
+.btn-round-border:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
+
+.btn-red {
+  background-color: #F74356 !important;
+  color: white !important;
+  border-radius: 12px;
+}
+.btn-red:hover{
+  cursor: pointer;
+  color: black !important;
+}
+
+.btn-round-red-border{
+  border: 0.18em solid #F74356 !important;
+  color: black !important;
+  border-radius: 15em !important;
+}
+.btn-round-red-border:hover{
+  background-color: #F74356 !important;
+  color: white !important;
+}
+
 .scroll {
-    max-height: 80vh;
+    max-height: 70vh;
     overflow-y: auto;
 }
 .centered {
@@ -78,9 +181,23 @@ Button:hover{
   text-align: center;
 }
 
+.small-vertical-space{
+  margin-top: 5%;
+}
+
+.large-vertical-space{
+  margin-top: 15vh;
+}
+
 .vertical-space {
-  margin-top: 10%;
-  margin-bottom: 10%;
+  margin-top: 25vh;
+  margin-bottom: 20vh;
+}
+
+.vertical-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 video {
@@ -135,7 +252,9 @@ video {
 .homeBox-practice{
     padding-top:5%;
     text-align: center;
-    top:0
+    justify-content: center;
+    align-items: center;
+    top:0;
 }
 .homeHead{
     font: 2.5em "Raleway", sans-serif;
@@ -188,6 +307,7 @@ video {
 	font-size: 10pt;
 	margin-top: 1em;
 }
+
 
 /* Room */
 

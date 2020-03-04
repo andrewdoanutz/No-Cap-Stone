@@ -39,7 +39,9 @@ const Info = (props) => {
       <Row className = "pb-3">
         <Col>
           <h1 className = "pb-1">{props.name}</h1>
-          <h5 className = "pb-3"> Meeting ID: {props.id} </h5>
+          <h4> Applying for: {props.position} </h4>
+          <h5 className = "pt-5"> Meeting ID: {props.id} </h5>
+
           <Row className = "pb-3">
             <Col>
 
@@ -49,21 +51,6 @@ const Info = (props) => {
 
               }}>
               <>
-                <style type="text/css">
-                {`
-                  .btn-flat {
-                    background-color: #007bff;
-                    color: white;
-                  }
-
-                  .btn-xxl {
-                    padding: 1rem 1.5rem;
-                    font-size: 1.5rem;
-                    font-weight: bold;
-                  }
-                  `}
-                </style>
-
                 <Button variant="flat" size="xxl">
                   <FontAwesomeIcon icon={faVideo}/> &nbsp; Join Meeting
                 </Button>
@@ -74,16 +61,48 @@ const Info = (props) => {
 
         </Col>
       </Row>
-      <Row>
+      <Row className = "pb-5">
         <Col>
         <Link to={{
           pathname: '/postAnalysis',
-          state: {id: props.id, name: props.name}
+          state: { username: props.name, source:"interviewer"}
         }}>
           <>
-          <Button size="lg" variant="info">Post-Analysis Report</Button>
+          <Button size="lg" variant="border">Post-Analysis Report</Button>
             </>
           </Link>
+        </Col>
+      </Row>
+      <Row className = "pt-5">
+        <Col>
+          <Card className = "shadow">
+            <Card.Header>
+              Notes
+            </Card.Header>
+            <Card.Body>
+              <Card.Text>
+                <span>
+                  - UCSB Computer Engineering, GPA: 3.75
+                </span><br/>
+                <span>
+                  - Previous intern at Apple
+                </span><br/>
+                <span>
+                  - Great backend developer and communication skills
+                </span><br/>
+                <span>
+                  - Not as experienced at frontend development
+                </span><br/>
+                <span>
+                  - UCSB Computer Engineering, GPA: 3.75
+                </span><br/>
+              </Card.Text>
+
+            </Card.Body>
+            <Card.Footer className = "text-right">
+              <Button size="lg" variant="flat"> Edit </Button>
+            </Card.Footer>
+          </Card>
         </Col>
       </Row>
     </Col>

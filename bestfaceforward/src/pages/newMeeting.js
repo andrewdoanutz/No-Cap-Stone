@@ -1,85 +1,106 @@
 import React, { useState, useCallback } from 'react';
-import {Button, Modal, Form} from 'react-bootstrap';
+import {Button, Modal, Form, Card} from 'react-bootstrap';
 import Database from '../components/Database'
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUserClock } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
 
-const newMeeting = ({uname}) =>{
-  // this.state= {
-  //     interviewee : 0
-  //   }
+
+const newMeeting = () =>{
   const [show, setShow] = useState(false);
-  const [interviewee, setInterviewee] = useState('')
-  const [email, setEmail]= useState('')
-  const [meetingID, setMeetingID] = useState('')
+  const [time, setTime] = useState('');
+  const [date, setDate] = useState('');
+  const [id, setID] = useState('');
+  const [uname, setUname] = useState('');
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const handleChangeInterviewee = useCallback(event =>{
-    setInterviewee(event.target.value);
-    // this.setState({interviewee:event.target.value})
-    // console.log("interviewe:", interviewee)
-    // console.log("setinterviewe:", setInterviewee)
+
+  const handleChangeUname = useCallback(event =>{
+    setUname(event.target.value);
   }, []);
-  const handleChangeEmail = useCallback(event =>{
-    setEmail(event.target.value);
+
+  const handleChangeID = useCallback(event =>{
+    setID(event.target.value);
   }, []);
+
+  const handleChangeDate = useCallback( event => {
+    setDate(event.target.value)
+  }, []);
+
+  const handleChangeTime = useCallback( event => {
+    setTime(event.target.value)
+  }, []);
+
+
   const createNewMeeting = useCallback(
-    async event =>{
-    //   Matabase2.addMeeting(interviewee,"Adjon").then((result) =>{
-    //     console.log("result of adding meeting:",result);
-    event.preventDefault()
-    var id = (Math.floor(Math.random()* (10000000 - 1) + 1)).toString()
-    //console.log("username:", uname)
-    console.log("Meeting ID: ", id)
-    console.log("Email: ", email)
-    console.log("interviewe:", interviewee)
-    console.log("interviewer:", uname)
-    var time = "9am"
-    var date = "feb20"
-    //Database.addMeet(id, uname, interviewee);
-    axios.post('http://localhost:3001/db/createNewMeeting', {username: uname, interviewee: interviewee, id: id, time: time, date:date})
-    handleClose();
-  }, [email, interviewee] );
+    () =>{
+      //   Matabase2.addMeeting(interviewee,"Adjon").then((result) =>{
+      //     console.log("result of adding meeting:",result);
 
-  return (
-    <div className = "pb-2">
-    <Button size="lg" variant="primary" onClick={handleShow}>
-      Create New Meeting
-    </Button>
+      var id = Math.random().toString(36).substring(2, 5) + Math.random().toString(36).substring(2, 5);
+      var time = time
+      var date = date
+      console.log(id)
+      console.log(time)
+      console.log(date)
+      //Database.addMeet(id, uname, interviewee);
+      // axios.post('http://localhost:3001/db/createNewMeeting', {username: uname, id: id, time: time, date:date})
+      handleClose();
+    }, [] );
 
-    <Modal show={show} onHide={handleClose} animation={false}>
-      <Modal.Header closeButton>
-        <Modal.Title>Create New Meeting</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
+    return (
+      <div className = "pb-2">
+        <Card className = "shadow text-center">
+          <Card.Body>
+            <Button size="lg" variant="round-red-border" onClick={handleShow}>
+              <h4><FontAwesomeIcon icon={faUserClock}/> Schedule Interview</h4></Button>
+          </Card.Body>
+        </Card>
 
 
-        <Form>
-          <Form.Group controlId="formBasicUsername">
-            <Form.Label>Username</Form.Label>
-            <Form.Control type="text" value= {interviewee} onChange = {handleChangeInterviewee} placeholder="Enter Inteviewee's first name" />
-          </Form.Group>
-
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Interviewee's email</Form.Label>
-            <Form.Control type="Email" value = {email} onChange={handleChangeEmail} placeholder="Email" />
-          </Form.Group>
-        </Form>
+        <Modal show={show} onHide={handleClose} animation={false}>
+          <Modal.Header closeButton>
+            <Modal.Title>Create New Meeting</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
 
 
-      </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={createNewMeeting}>
-            Create Meeting
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-  );
-}
+            <Form>
+              <Form.Group controlId="formBasicUsername">
+                <Form.Label>Candidate Name</Form.Label>
+                <Form.Control type="text" value= {uname} onChange = {handleChangeUname} placeholder="Enter Inteviewee's first name" />
+              </Form.Group>
 
-export default newMeeting;
+              <Form.Group controlId="formBasicDate">
+                <Form.Label>Date</Form.Label>
+                <Form.Control type="date" value= {date} onChange = {handleChangeDate} placeholder="Enter Date" />
+              </Form.Group>
+
+              <Form.Group controlId="formBasicDate">
+                <Form.Label>Time</Form.Label>
+                <Form.Control type="time" value= {time} onChange = {handleChangeTime} placeholder="Enter Date" />
+              </Form.Group>
+
+            </Form>
+
+
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={createNewMeeting}>
+              Schedule
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
+  }
+
+  export default newMeeting;

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import {Card, Row, Col} from 'react-bootstrap';
-import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart} from 'recharts';
+import {Card, Row, Col, Button,Accordion} from 'react-bootstrap';
+import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart, Tooltip, Legend} from 'recharts';
 import StarRatingComponent from 'react-star-rating-component';
-
 
 class Report extends Component {
   constructor(props){
@@ -44,6 +43,7 @@ class Report extends Component {
                   {concepts: '3', score: 1}],
     }
     this.analyzeText()
+    
   }
   
   
@@ -89,7 +89,7 @@ class Report extends Component {
     var conceptFeedback=""
   }
 
-    return conceptFeedback+keyWordFeedback
+    return [conceptFeedback,keyWordFeedback]
    })
   }
 
@@ -149,177 +149,414 @@ class Report extends Component {
      //console.log(this.state.analysis)
    })
   }
-  getFeedback(){
-    var res=""
+  getNegFeedback(){
+    let negFeedback=[]
+
     for (var a of this.state.analysis){
       if (a.tone_name === 'Fear'){
         if(a.score>=.8){
-          res+="Try to be more confident in what you are saying. Don't be scared of the interviewer. "
+
+            negFeedback.push("Try to be more confident in what you are saying. Don't be scared of the interviewer. ")
+
         } else if(a.score>=.4){
-          res+="A little more confidence in what you are saying will help get your point across better. "
-        }
+
+            negFeedback.push("A little more confidence in what you are saying will help get your point across better. ")
+
+
+        } 
       } else if (a.tone_name === 'Joy'){
         if(a.score>=.8){
-          res+="You are coming across very happy. Keep it up! "
+         
+          continue
         } else if(a.score>=.4){
-          res+="Try to speak a little more joyfully when you are responding. "
+
+            negFeedback.push("Try to speak a little more joyfully when you are responding. ")
+
+
         } else {
-          res+="You should use more joyful vocabulary when responding. "
+
+            negFeedback.push("You should use more joyful vocabulary when responding. ")
+
+
         }
       } else if (a.tone_name === 'Anger'){
         if(a.score>=.8){
-          res+="You are coming across very angery. Be less aggressive in your response. "
+
+            negFeedback.push("You are coming across very angery. Be less aggressive in your response. ")
+
+
         } else if(a.score>=.4){
-          res+="Try to speak a little less aggresively when you are responding. "
+
+            negFeedback.push("Try to speak a little less aggresively when you are responding.")
+
+
         } 
       } else if (a.tone_name === 'Sadness'){
         if(a.score>=.8){
-          res+="You should speak with happier words. "
+
+            negFeedback.push("You should speak with happier words. ")
+
+
         } else if(a.score>=.4){
-          res+="Some of your words are coming across kind of sad. Use more happy vocabulary. "
-        }
+
+            negFeedback.push("Some of your words are coming across kind of sad. Use more happy vocabulary. ")
+
+
+
+        } 
       } else if (a.tone_name === 'Analytical'){
         if(a.score>=.8){
-          res+="Your response is very analytical. Try to speak more naturally. "
+
+            negFeedback.push("Your response is very analytical. Try to speak more naturally. ")
+
+
         } else if(a.score>=.4){
-          res+="Your response is analytical and logical. Good job! "
+         
+          continue
         } else {
-          res+="Try to be more analytical and logical in your response. "
+
+            negFeedback.push("Try to be more analytical and logical in your response. ")
+
+
         }
       } else if (a.tone_name === 'Confident'){
         if(a.score>=.8){
-          res+="You are very confident in what you are saying. Good job! "
+          
+          continue
         } else if(a.score>=.4){
-          res+="A little more confidence in what you are saying will help get your point across better. "
+
+            negFeedback.push("A little more confidence in what you are saying will help get your point across better. ")
+
+
         } else {
-          res+="Try being more confident in your response. "
+
+            negFeedback.push("Try being more confident in your response. ")
+
+
         }
       } else if (a.tone_name === 'Tentative'){
         if(a.score>=.8){
-          res+="You are very hesitant in what your are saying. Don't be scared of the interviewer. "
+
+            negFeedback.push("You are very hesitant in what your are saying. Don't be scared of the interviewer. ")
+       
+
         } else if(a.score>=.4){
-          res+="You are a little hesitant in what you are saying. "
+
+            negFeedback.push("You are a little hesitant in what you are saying. ")
+
+
+        } 
+
+        if(!this.props.overall){
+          return negFeedback
         }
+        let wpm=0
+        this.props.timestamps.forEach(pair=>{
+          wpm+=pair[1]-pair[0]
+        })
+        wpm=wpm*60/this.props.timestamps.length
+        let feedback="Your average words per minute was "+Math.round(wpm)+". "
+        if(wpm<130){
+          feedback+="Try speaking a little faster."
+
+            negFeedback.push(feedback)
+
+        }else if(wpm>170){
+          feedback+="Try speaking a little slower."
+
+            negFeedback.push(feedback)
+
+        } 
+        return negFeedback
       } 
     }
-    if(this.state.filler>6){
-      res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
-    } else if(this.state.filler>3) {
-      res+="You are using some filler words in your response. Try pausing between sentences instead of using ums and uhs. "
-    } else {
-      res+="You are barely using any filler words. Good job! "
-    }
-    return res;
+    // if(this.state.filler>6){
+    //   res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
+    // } else if(this.state.filler>3) {
+    //   res+="You are using some filler words in your response. Try pausing between sentences instead of using ums and uhs. "
+    // } else {
+    //   res+="You are barely using any filler words. Good job! "
+    // }
+    
   }
+
+  getPosFeedback(){
+    let posFeedback=[]
+
+    for (var a of this.state.analysis){
+      if (a.tone_name === 'Fear'){
+        if(a.score<.4){
+            posFeedback.push("You are not speaking very fearfully. Good job! ")
+        }
+      } else if (a.tone_name === 'Joy'){
+        if(a.score>=.8){
+
+            posFeedback.push("You are coming across very happy. Keep it up! ")
+
+
+        } 
+      } else if (a.tone_name === 'Anger'){
+        if(a.score<.4){
+
+            posFeedback.push("You are not speaking very angrily. Keep it up! ")
+
+
+        }
+      } else if (a.tone_name === 'Sadness'){
+        if(a.score<.4){
+
+            posFeedback.push("You are not speaking very sadly. Good job!")
+
+
+        }
+      } else if (a.tone_name === 'Analytical'){
+        if(a.score>=.4){
+
+            posFeedback.push("Your response is analytical and logical.")
+
+
+        } 
+      } else if (a.tone_name === 'Confident'){
+        if(a.score>=.8){
+
+            posFeedback.push("You are very confident in what you are saying. Good job! ")
+
+
+        } 
+      } else if (a.tone_name === 'Tentative'){
+        if(a.score<.4){
+
+            posFeedback.push("You are not speaking tentatively. Keep it up! ")
+        
+
+        }
+        let subjects=this.getSubjects()
+        if(subjects){
+          posFeedback=posFeedback.concat(subjects)
+        }
+        
+        if(!this.props.overall){
+          return posFeedback
+        }
+        let wpm=0
+        this.props.timestamps.forEach(pair=>{
+          wpm+=pair[1]-pair[0]
+        })
+        wpm=wpm*60/this.props.timestamps.length
+        let feedback="Your average words per minute was "+Math.round(wpm)+". "
+        if(wpm<130){
+
+        }else if(wpm>170){
+
+        } else {
+          feedback+="Good job!"
+          posFeedback.push(feedback)
+        }
+        return posFeedback
+      } 
+    }
+    // if(this.state.filler>6){
+    //   res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
+    // } else if(this.state.filler>3) {
+    //   res+="You are using some filler words in your response. Try pausing between sentences instead of using ums and uhs. "
+    // } else {
+    //   res+="You are barely using any filler words. Good job! "
+    // }
+    
+  }
+  toPercent(decimal, fixed = 0){
+    return `${(decimal * 100).toFixed(fixed)}%`;
+  }
+  getPercent(value, total){
+    const ratio = total > 0 ? value / total : 0;
+    
+    return this.toPercent(ratio, 2);
+  }
+  
+   
+  renderTooltipContent(o){
+    const { payload, label } = o;
+    const total = payload.reduce((result, entry) => (result + entry.value), 0);
+    
+    return (
+      <div className="customized-tooltip-content">
+         <Card>
+            <Card.Body>
+            <p className="total">{`${label} (Total: ${total})`}</p>
+            <ul className="list">
+              {
+                payload.map((entry, index) => (
+                  <div key={`item-${index}`} style={{color: entry.color}}>
+                    {entry.name+`: `+entry.value}
+                    {/* {entry.name}+{`: `}+{entry.value}+{this.getPercent(entry.value, total).bind(this)} percent not working for some reason*/}
+                  </div>
+                ))
+              }
+            </ul>
+            </Card.Body>
+        </Card>
+        
+      </div>
+    );
+  };
   formatVideoScores(){
     let res=[]
-    let current=0
-    this.state.videoScore.forEach(i =>{
-      if(i>0){
-        res.push({ind:current, score: i, nscore:0})
-      } else{
-        res.push({ind:current, score: 0,nscore:i})
-      }
-      
-      current++;
+    this.state.videoScore[0].map((value,index) =>{
+      res.push({ind:index, joy: value, sorrow:this.state.videoScore[1][index], anger:this.state.videoScore[2][index],surprise:this.state.videoScore[3][index]})
     })
     
     return res
   }
-  videoFeedback(){
-    let vidSum=0
-    this.state.videoScore.forEach(i =>{
-      vidSum+=i
+  maxScore(scores){
+    let maxScore=0
+    let maxInd=0
+    scores.map((value,index)=>{
+      if(Math.abs(value)>maxScore){
+        maxScore=Math.abs(value)
+        maxInd=index
+      }
     })
-    
-    if(vidSum>0){
-      return "You had a mostly positive look on your face. Keep it up!"
-    } else if (vidSum<0){
-      return "You had a mostly negative look on your face. Try to smile more."
+    let maxAttribute="Unknown"
+    if(maxInd===0){
+      maxAttribute= "Joy"
+    } else if (maxInd===1){
+      maxAttribute= "Sorrow"
+    } else if (maxInd===2){
+      maxAttribute= "Anger"
     } else {
-      return "You had a neutral look on your face. Try smiling a bit more!"
+      maxAttribute= "Surprise"
     }
+  
+    return maxAttribute
   }
-  timestampAnalysis(){
-    let wpm=0
-    this.props.timestamps.forEach(pair=>{
-      wpm+=pair[1]-pair[0]
+  videoFeedback(){
+    let joy=0
+    let sorrow=0
+    let anger=0
+    let surprise=0
+    this.state.videoScore.map((value,index) =>{
+      value.forEach((a)=>{
+        if (index===0){
+          joy+=a
+        } else if (index===1){
+          sorrow+=a
+        } else if (index===2){
+          anger+=a
+        } else if (index===3){
+          surprise+=a
+        } 
+      })
     })
-    wpm=wpm*60/this.props.timestamps.length
-    let feedback="Your average words per minute was "+Math.round(wpm)+". "
-    if(wpm<130){
-      feedback+="Try speaking a little faster."
-    }if(wpm>170){
-      feedback+="Try speaking a little slower."
+
+    let maxAttribute=this.maxScore([joy,sorrow,anger,surprise])
+    let res=""
+    res+="The strongest emotion you showed was "+maxAttribute+". "
+    if(maxAttribute==="Joy"){
+      res+="Good job! Keep it up."
+    } else {
+      res+="Try smiling a little more."
     }
-    return feedback
+    return res;
   }
+
   getStarRating(){
     let analysisScore=0.0
     for (var a of this.state.analysis){
       if (a.tone_name === 'Fear'){
         if(a.score>=.8){
-          analysisScore-=1
-        } else if(a.score>=.4){
           analysisScore-=.5
+        } else if(a.score>=.4){
+          analysisScore-=.3
         } else {
-          analysisScore+=.2
+          analysisScore+=.5
         }
       } else if (a.tone_name === 'Joy'){
         if(a.score>=.8){
-          analysisScore+=1
-        } else if(a.score>=.4){
           analysisScore+=.5
+        } else if(a.score>=.4){
+          analysisScore+=.3
         } else {
           analysisScore-=.5
         }
       } else if (a.tone_name === 'Anger'){
         if(a.score>=.8){
-          analysisScore-=1
-        } else if(a.score>=.4){
           analysisScore-=.5
+        } else if(a.score>=.4){
+          analysisScore-=.3
         } else {
           analysisScore+=.5
         }
       } else if (a.tone_name === 'Sadness'){
         if(a.score>=.8){
-          analysisScore-=1
-        } else if(a.score>=.4){
           analysisScore-=.5
+        } else if(a.score>=.4){
+          analysisScore-=.3
         } else {
           analysisScore+=.5
         }
       } else if (a.tone_name === 'Analytical'){
         if(a.score>=.8){
-          analysisScore+=1
-        } else if(a.score>=.4){
           analysisScore+=.5
+        } else if(a.score>=.4){
+          analysisScore+=.3
         } else {
           analysisScore-=.5
         }
       } else if (a.tone_name === 'Confident'){
         if(a.score>=.8){
-          analysisScore+=1
-        } else if(a.score>=.4){
           analysisScore+=.5
+        } else if(a.score>=.4){
+          analysisScore+=.3
         } else {
           analysisScore-=.5
         }
       } else if (a.tone_name === 'Tentative'){
         if(a.score>=.8){
-          analysisScore-=1
-        } else if(a.score>=.4){
           analysisScore-=.5
+        } else if(a.score>=.4){
+          analysisScore-=.3
         } else {
           analysisScore+=.5
         }
       } 
     }
     let vidSum=0
-    this.state.videoScore.forEach(i =>{
-      vidSum+=i
+    this.state.videoScore.map((value,index)=>{
+      if (index===0){
+        if(Math.abs(value)>=3){
+          vidSum+=.5
+        } else if(Math.abs(value)==2){
+          vidSum+=.3
+        } else {
+          vidSum-=.5
+        }
+      } else if (index===1){
+        if(Math.abs(value)>=3){
+          vidSum-=.5
+        } else if(Math.abs(value)==2){
+          vidSum-=.3
+        } else {
+          vidSum+=.5
+        }
+      } else if (index===2){
+        if(Math.abs(value)>=3){
+          vidSum-=.5
+        } else if(Math.abs(value)==2){
+          vidSum-=.3
+        } else {
+          vidSum+=.5
+        }
+      } else if (index===3){
+        if(Math.abs(value)>=3){
+          vidSum-=.5
+        } else if(Math.abs(value)==2){
+          vidSum-=.3
+        } else {
+          vidSum+=.5
+        }
+      } 
     })
-    vidSum=vidSum/this.state.videoScore.length
+    // vidSum=vidSum/this.state.videoScore.length
     let totalScore=analysisScore+vidSum
     if(this.props.overall){
       let wpm=0
@@ -330,8 +567,10 @@ class Report extends Component {
       wpm=Math.round(wpm)
       let wpmScore=0.0
       if(wpm<130){
-        wpmScore-=1
-      }if(wpm>170){
+        wpmScore-=.5
+      }else if(wpm>170){
+        wpmScore-=.5
+      } else {
         wpmScore+=1
       }
       totalScore+=wpmScore
@@ -347,166 +586,305 @@ class Report extends Component {
     }
   }
 
+  legendFormatter(value) {
+    
+    return <span style={{ fontSize:20 }}>{value}</span>;
+  }
 
   render(){
     if(this.props.overall){
       return(
         <div>
-          <Row>
+          <Col>
+            <Row>
+              <Col className="centered">
+                <Row>
+                  <h1>
+                    <div>Question Score</div>
+                    <div><StarRatingComponent 
+                        name="overall" 
+                        starCount={5}
+                        value={this.getStarRating()}
+                        editing={false}
+                      /></div>
+                  </h1>
+                </Row>
+              </Col>
+            </Row>
+            <Row>
             {/* Left Column */}
               <Col sm={6}>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3">
-                    Question Response
-                    <StarRatingComponent 
-                      name="overall" 
-                      starCount={5}
-                      value={this.getStarRating()}
-                      editing={false}
-                    />
+                <Accordion defaultActiveKey={-1}>
+                  <Card.Header  className="analysisButton" style={{backgroundColor:"#08AEEA", color:"white", marginBottom:"10px"}}>
+                    <Accordion.Toggle as={"h1"}  eventKey={0}>
+                      <h2> Audio Analysis </h2>
+                    </Accordion.Toggle>
                   </Card.Header>
-                  <Card.Body>
-                    <Card.Text>
-                      <h4>{this.state.txt}</h4>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3">Speech Analysis</Card.Header>
-                  <Card.Body>
-                    <Card.Text>
-                      <Row>
-                        <RadarChart cx={300} cy={250} outerRadius={150} width={500} height={500} data={this.state.analysis}>
-                          <PolarGrid />
-                          <PolarAngleAxis dataKey="tone_name"/>
-                          <PolarRadiusAxis />
-                          <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                        </RadarChart>
-                      </Row>
-                      <Row>
-                        <h4>{this.getFeedback()}{this.getSubjects()}{this.timestampAnalysis()}</h4>
-                      </Row>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+                  <Accordion.Collapse eventKey={0}>
+                    <div>
+                      <Card className = "shadow" style={{marginBottom: "10px"}}>
+                        <Card.Header as="h3">
+                            <div>{"Question Response"}</div>
+                        </Card.Header>
+                        <Card.Body>
+                          <Card.Text>
+                            <Col><div className="analysisText">{this.state.txt}</div></Col>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                      <Card className = "shadow" style={{marginBottom: "10px"}}>
+                      <Card.Header as="h3">Things You Did Well</Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                            <Col>
+                              <ul className="analysisText">
+                                {this.getPosFeedback().map((value,index)=>{
+                                  return(<li>{value}</li>)
+                                })}
+                              </ul>
+                            </Col>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                      <Card className = "shadow" style={{marginBottom: "10px"}}>
+                        <Card.Header as="h3">Things to Improve</Card.Header>
+                        <Card.Body>
+                          <Card.Text>
+                              <Col>
+                                <ul className="analysisText">
+                                  {this.getNegFeedback().map((value,index)=>{
+                                    return(<li>{value}</li>)
+                                  })}
+                                </ul>
+                              </Col>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                      <Card className = "shadow" style={{marginBottom: "10px"}}>
+                        <Card.Header as="h3">Tones Detected</Card.Header>
+                        <Card.Body>
+                          <Card.Text>
+                            <Row style={{paddingLeft: 30}}>
+                              <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
+                                <PolarGrid/>
+                                <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
+                                <PolarRadiusAxis />
+                                <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                              </RadarChart>
+                            </Row>
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </div>
+                  </Accordion.Collapse>
+                </Accordion>
               </Col>
               {/* Right Column */}
               <Col sm={6}>
-                <Row>
-                  <Card className = "shadow" style={{marginBottom: "10px"}}>
-                      <Card.Header as="h3">Video Analysis</Card.Header>
-                      <Card.Body>
-                        <Card.Text>
-                          <Row>
-                            <AreaChart
-                              width={600}
-                              height={500}
-                              data={this.formatVideoScores()}
-                              margin={{
-                                top: 10, right: 30, left: 0, bottom: 0,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis dataKey="ind"/>
-                              <YAxis />
-                              <Area type="monotone" dataKey="score" stroke="#000" fill="green" />
-                              <Area type="monotone" dataKey="nscore" stroke="#000" fill="red" />
-                            </AreaChart>
-                          </Row>
-                          <Row>
-                            <h3>{this.videoFeedback()}</h3>
-                          </Row>
-                        </Card.Text>
-                      </Card.Body>
-                    </Card>
-                  </Row>
+                <Accordion defaultActiveKey={-1}>
+                  <Card.Header  className="analysisButton" style={{backgroundColor:"#08AEEA", color:"white", marginBottom:"10px"}}>
+                    <Accordion.Toggle as={"h1"}  eventKey={1}>
+                      <h2> Video Analysis </h2>
+                    </Accordion.Toggle>
+                  </Card.Header>
+                  <Accordion.Collapse eventKey={1}>
+                    <div>
+                      <Row>
+                        <Card className = "shadow" style={{marginBottom: "10px"}}>
+                          <Card.Header as="h3">Video Feedback</Card.Header>
+                            <Card.Body>
+                              <Card.Text>
+                                  <Col>
+                                    <h3>{this.videoFeedback()}</h3>
+                                  </Col>
+                              </Card.Text>
+                            </Card.Body>
+                          </Card>
+                          <Card className = "shadow" style={{marginBottom: "10px"}}>
+                            <Card.Header as="h3">Emotion Over Time</Card.Header>
+                            <Card.Body>
+                              <Card.Text>
+                                <Row>
+                                  <Col>
+                                    <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
+                                        margin={{top: 10, right: 30, left: 0, bottom: 0}} >
+                                      <XAxis dataKey="ind" tick={{fontSize: 20}}/>
+                                      <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
+                                      <Legend formatter={this.legendFormatter}/>
+                                      <Tooltip content={this.renderTooltipContent}/>
+                                      <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
+                                      <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
+                                      <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
+                                      <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
+                                  </AreaChart>
+                                </Col>
+                                </Row>
+                              </Card.Text>
+                            </Card.Body>
+                          </Card>
+                        </Row>
+                      </div>
+                    </Accordion.Collapse>
+                  </Accordion>
                 </Col>
               </Row>
+            </Col>
           </div>
         );
     } else {
     return(
       <div>
-        <Row>
-          {/* Left Column */}
-            <Col sm={6}>
-              <Card className = "shadow" style={{marginBottom: "10px"}}>
-                <Card.Header as="h3">
-                  Question Response
-                  <StarRatingComponent 
-                      name={this.props.index}
+        <Col>
+          <Row>
+            <Col className="centered">
+              <Row>
+                <h1>
+                  <div>Question Score</div>
+                  <div><StarRatingComponent 
+                      name="overall" 
                       starCount={5}
                       value={this.getStarRating()}
                       editing={false}
-                    />
-                  </Card.Header>
-                <Card.Body>
-                  <Card.Text>
-                    <h4>{this.state.txt}</h4>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-              <Card className = "shadow" style={{marginBottom: "10px"}}>
-                <Card.Header as="h3">Speech Analysis</Card.Header>
-                <Card.Body>
-                  <Card.Text>
-                    <Row>
-                      <RadarChart cx={300} cy={250} outerRadius={150} width={500} height={500} data={this.state.analysis}>
-                        <PolarGrid />
-                        <PolarAngleAxis dataKey="tone_name"/>
-                        <PolarRadiusAxis />
-                        <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                      </RadarChart>
-                    </Row>
-                    <Row>
-                      <h4>{this.getFeedback()}{this.getSubjects()}</h4>
-                    </Row>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-            {/* Right Column */}
-            <Col sm={6}>
-              <Row>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3">Video Response</Card.Header>
-                  <Card.Body>
-                    <Card.Text>
-                      <iframe width="600px" height="300px" src={this.state.videoURL}/>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+                    /></div>
+                </h1>
               </Row>
-              <Row>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
-                    <Card.Header as="h3">Video Analysis</Card.Header>
-                    <Card.Body>
-                      <Card.Text>
-                        <Row>
-                          <AreaChart
-                            width={600}
-                            height={500}
-                            data={this.formatVideoScores()}
-                            margin={{
-                              top: 10, right: 30, left: 0, bottom: 0,
-                            }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="ind"/>
-                            <YAxis />
-                            <Area type="monotone" dataKey="score" stroke="#000" fill="green" />
-                            <Area type="monotone" dataKey="nscore" stroke="#000" fill="red" />
-                          </AreaChart>
-                        </Row>
-                        <Row>
-                          <h3>{this.videoFeedback()}</h3>
-                        </Row>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
-                </Row>
+            </Col>
+          </Row>
+          <Row>
+            {/* Left Column */}
+              <Col sm={6}>
+              <Accordion defaultActiveKey={-1}>
+                <Card.Header  className="analysisButton" style={{backgroundColor:"#08AEEA", color:"white", marginBottom:"10px"}}>
+                  <Accordion.Toggle as={"h1"} eventKey={0}>
+                    <h2> Audio Analysis </h2>
+                  </Accordion.Toggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey={0}>
+                  <div>
+                    <Card className = "shadow" style={{marginBottom: "10px"}}>
+                      <Card.Header as="h3">
+                        <div>{"Question Response"}</div>
+                        </Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                          <Col><div className="analysisText">{this.state.txt}</div></Col>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                    <Card className = "shadow" style={{marginBottom: "10px"}}>
+                      <Card.Header as="h3">Things You Did Well</Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                            <Col>
+                              <ul className="analysisText">
+                                {this.getPosFeedback().map((value,index)=>{
+                                  return(<li>{value}</li>)
+                                })}
+                              </ul>
+                            </Col>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                    <Card className = "shadow" style={{marginBottom: "10px"}}>
+                      <Card.Header as="h3">Things to Improve</Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                            <Col>
+                              <ul className="analysisText">
+                                {this.getNegFeedback().map((value,index)=>{
+                                  return(<li>{value}</li>)
+                                })}
+                              </ul>
+                            </Col>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                    <Card className = "shadow" style={{marginBottom: "10px"}}>
+                      <Card.Header as="h3">Tones Detected</Card.Header>
+                      <Card.Body>
+                        <Card.Text>
+                          <Row style={{paddingLeft: 30}}>
+                            <RadarChart cx={300} cy={250} outerRadius={150} width={700} height={500} data={this.state.analysis}>
+                              <PolarGrid/>
+                              <PolarAngleAxis dataKey="tone_name" tick={{fontSize: 30}}/>
+                              <PolarRadiusAxis />
+                              <Radar name="score" dataKey="score" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+                            </RadarChart>
+                          </Row>
+                        </Card.Text>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                </Accordion.Collapse>
+              </Accordion>
               </Col>
-            </Row>
+              {/* Right Column */}
+              <Col sm={6}>
+              <Accordion defaultActiveKey={-1}>
+                <Card.Header className="analysisButton" style={{backgroundColor:"#08AEEA", color:"white", marginBottom:"10px"}}>
+                  <Accordion.Toggle as={"h1"} eventKey={1}>
+                    <h2> Video Analysis </h2>
+                  </Accordion.Toggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey={1}>
+                  <div>
+                    {()=>{
+                      if(this.props.source==="practice"){
+                        return(
+                        <Row>
+                          <Card className = "shadow" style={{marginBottom: "10px"}}>
+                            <Card.Header as="h3">Video Response</Card.Header>
+                            <Card.Body>
+                              <Card.Text>
+                                <iframe width="600px" height="300px" src={this.state.videoURL}/>
+                              </Card.Text>
+                            </Card.Body>
+                          </Card>
+                        </Row>
+                        )
+                      }
+                    }}
+                  
+                    <Row>
+                      <Card className = "shadow" style={{marginBottom: "10px"}}>
+                        <Card.Header as="h3">Video Feedback</Card.Header>
+                          <Card.Body>
+                            <Card.Text>
+                                <Col>
+                                  <h3>{this.videoFeedback()}</h3>
+                                </Col>
+                            </Card.Text>
+                          </Card.Body>
+                        </Card>
+                        <Card className = "shadow" style={{marginBottom: "10px"}}>
+                          <Card.Header as="h3">Emotion Over Time</Card.Header>
+                          <Card.Body>
+                            <Card.Text>
+                              <Row>
+                                <Col>
+                                  <AreaChart width={600} height={500} data={this.formatVideoScores()} stackOffset="expand"
+                                      margin={{top: 10, right: 30, left: 0, bottom: 0}} >
+                                    <XAxis dataKey="ind" tick={{fontSize: 20}}/>
+                                    <YAxis tickFormatter={this.toPercent} tick={{fontSize: 20}}/>
+                                    <Legend formatter={this.legendFormatter}/>
+                                    <Tooltip content={this.renderTooltipContent}/>
+                                    <Area type='monotone' dataKey='joy' stackId="1" stroke='#82ca9d' fill='#82ca9d' />
+                                    <Area type='monotone' dataKey='sorrow' stackId="1" stroke='#8884d8' fill='#8884d8' />
+                                    <Area type='monotone' dataKey='anger' stackId="1" stroke='#ffc658' fill='#ffc658' />
+                                    <Area type='monotone' dataKey='surprise' stackId="1" stroke='#FF8042' fill='#FF8042' />
+                                  </AreaChart>
+                                </Col>
+                              </Row>
+                            </Card.Text>
+                          </Card.Body>
+                        </Card>
+                      </Row>
+                      </div>
+                    </Accordion.Collapse>
+                  </Accordion>
+                </Col>
+              </Row>
+            </Col>
         </div>
       );
     }

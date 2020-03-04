@@ -48,7 +48,7 @@ const Lobby = (props) => {
                       pathname: '/videocall',
                       state: {name: props.username, id: props.roomName }
                     }}>
-                      <Button  size="lg">
+                      <Button variant="flat" size="lg">
                         Submit
                       </Button>
                     </Link>

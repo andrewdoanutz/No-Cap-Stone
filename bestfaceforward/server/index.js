@@ -208,26 +208,30 @@ app.post('/db/readUserInfo', (req,res) =>{
   database.readUserEntry(res,username)
 })
 
+//Get entire table from table
+app.get('/db/getTable', (req,res) => {
+  database.readTable(res)
+})
+app.post('/db/getTable', (req,res) => {
+  database.readTable(res)
+})
+
 
 //CREATING new meeting
 app.get('/db/createNewMeeting', (req,res) =>{
   const username = req.body.uname;
-  const candidate = req.body.interviewee;
   const id = req.body.id;
-  console.log("IDDDDD", id)
   const time = req.body.time
   const date = req.body.date
-  database.createNewMeeting(res,username,candidate,id,time,date)
+  database.createNewMeeting(res,username,id,time,date)
 })
 
 app.post('/db/createNewMeeting', (req,res) =>{
   const username = req.body.uname;
-  const candidate = req.body.interviewee;
   const id = req.body.id;
-  console.log("IDDDDD", id)
   const time = req.body.time
   const date = req.body.date
-  database.createNewMeeting(res,username,candidate,id,time,date)
+  database.createNewMeeting(res,username,id,time,date)
 })
 
 app.get('/db/getCandidate', (req,res) =>{
