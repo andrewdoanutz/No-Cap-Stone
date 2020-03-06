@@ -181,6 +181,17 @@ body{
   text-align: center;
 }
 
+.homepage-card{
+  margin: auto;
+  width: 45%;
+  text-align: center;
+  background-color: rgba(41, 43, 44, 0.5) !important;
+}
+
+.large-text{
+  font-size: xx-large;
+}
+
 .small-vertical-space{
   margin-top: 5%;
 }

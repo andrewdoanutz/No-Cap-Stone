@@ -76,7 +76,7 @@ export default class Practice extends Component {
       sorrowScores:[],
       surpriseScores:[],
       finalScores:[],
-      hesitationCount: 0
+      hesitation: 0
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
@@ -263,7 +263,7 @@ export default class Practice extends Component {
       }
 
       for (var i = 1; i< allTimes.length; i++){
-        if ((allTimes[i][1]-allTimes[i-1][2])>1){
+        if ((allTimes[i][1]-allTimes[i-1][2])>0.75){
           count++
         }
       }
@@ -489,7 +489,7 @@ scoreVideoAnalysis(score){
 
 render() {
   const messages = this.getFinalAndLatestInterimResult();
-  this.updateHesitation(messages)
+  console.log(this.state.hesitation)
   let buttonText="Next Question"
   if(this.state.inds.length===4){
     buttonText="Generate Report"
@@ -592,21 +592,25 @@ render() {
                 <Row>
                   <div className="homeBox-practice centered" style = {{width: "78%"}}>
                     <Button variant= "flat" size = "xxl" onClick={()=> {
+
                         if(this.state.recording===false){
                           startRecording()
                           this.onClickListener()
+                          var hesitate = this.updateHesitation(messages)
                           this.setState({
-                            recording: true
+                            recording: true,
+                            hesitation: hesitate
                           })
                         } else {
                           stopRecording()
                           this.onClickListener()
+                          var hesitate = this.updateHesitation(messages)
                           setTimeout(()=>{
                             this.setState({
                               transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
                               videos: this.state.videos.concat([mediaBlobUrl]),
                               finalScores: this.state.finalScores.concat([[this.state.joyScores,this.state.sorrowScores,this.state.angerScores,this.state.surpriseScores]]),
-
+                              hesitation: hesitate
                             }, () => {
                               // console.log(this.state.finalScores)
                               this.setState({
