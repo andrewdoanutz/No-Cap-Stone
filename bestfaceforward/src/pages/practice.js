@@ -240,9 +240,10 @@ export default class Practice extends Component {
 
   }
   async storeData(data,timestamps,Qs){
-    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:timestamps})
+    console.log(this.state.finalScores)
+    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "Practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:timestamps})
     console.log(response)
-    response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "practice"})
+    response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "Practice"})
     console.log(response)
   };
 
@@ -268,7 +269,6 @@ export default class Practice extends Component {
         }
       }
     }
-    console.log(count)
     return count
   }
 
@@ -307,7 +307,6 @@ export default class Practice extends Component {
       let results = []
       transcript.forEach((result)=>{
         const temp=result.results[0].alternatives[0]['timestamps']
-        console.log(temp)
         if(!temp || temp===[] || temp==='undefined' || temp===""){
           return [1,1]
         } else {
@@ -349,7 +348,7 @@ export default class Practice extends Component {
         return(
           this.props.history.push({
             pathname: "/postAnalysis",
-            state: { username: "practice", source:"practice" }
+            state: { username: "Practice", source:"practice" }
           })
         )
       },500)
@@ -358,7 +357,6 @@ export default class Practice extends Component {
   }
   //video analysis
   async callBackendAPI(){
-    console.log();
     const response = await fetch('/face/analysis',{method: 'POST',headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -476,7 +474,7 @@ scoreVideoAnalysis(score){
     return 0
   } else if (score==="UNLIKELY"){
     return 1
-  } else if (score=="POSSIBLE"){
+  } else if (score==="POSSIBLE"){
     return 2
   } else if (score==="LIKELY"){
     return 3
@@ -509,11 +507,11 @@ render() {
   }
 
   let emoji;
-  if (this.state.status== "neutral"){
+  if (this.state.status=== "neutral"){
     emoji = <h5 style={{ color: "#fdd835" }}> <FontAwesomeIcon icon={faMehBlank} size='4x'/> </h5>
-  } else if (this.state.status == "positive"){
+  } else if (this.state.status === "positive"){
     emoji = <h5 style={{ color: "#00c853" }}> <FontAwesomeIcon icon={faGrinBeam} size='4x' /> </h5>
-  } else if (this.state.status == "negative"){
+  } else if (this.state.status === "negative"){
     emoji = <h5 style={{ color: "#d32f2f" }}> <FontAwesomeIcon icon={faFrown} size='4x' /> </h5>
   }
 

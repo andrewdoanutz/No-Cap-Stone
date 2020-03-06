@@ -643,6 +643,16 @@ class Report extends Component {
                     </Card.Text>
                   </Card.Body>
                 </Card>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
+                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
+                      <div>{"Question Response"}</div>
+                  </Card.Header>
+                  <Card.Body>
+                    <Card.Text>
+                      <Col><div className="analysisText">{this.state.txt}</div></Col>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
               </Col>
               {/* Right Column */}
               <Col sm={6}>
@@ -694,20 +704,6 @@ class Report extends Component {
                     </Card.Body>
                   </Card>
                   </Row>
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Card className = "shadow" style={{marginBottom: "10px"}}>
-                    <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
-                        <div>{"Question Response"}</div>
-                    </Card.Header>
-                    <Card.Body>
-                      <Card.Text>
-                        <Col><div className="analysisText">{this.state.txt}</div></Col>
-                      </Card.Text>
-                    </Card.Body>
-                  </Card>
                 </Col>
               </Row>
             </Col>
