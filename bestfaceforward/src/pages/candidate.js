@@ -40,14 +40,17 @@ const Candidate = () => {
 
 
   return(
-    <div>
-        <Row className = "vertical-space">
-          <Col className = "fill vertical-space horizontal-center">
+    <div className = "background-img">
+    <div style={{height:"100vh"}}>
+      <Row>
+        <Col>
+        <Row style={{marginTop: "25vh"}}>
+          <Col className = "fill vertical-space align-middle horizontal-center">
             <Link to={{
               pathname: '/practice'
             }}>
               <>
-                <Button variant="flat" size="xxl">
+                <Button variant="flat-homepage" size="xxl-homepage">
                   Practice for the Interview
                 </Button>
               </>
@@ -63,7 +66,10 @@ const Candidate = () => {
              />
           </Col>
         </Row>
+        </Col>
+        </Row>
     </div>
+  </div>
   )
 
 }
