@@ -249,6 +249,7 @@ export default class Practice extends Component {
   updateHesitation (messages) {
     var timings
     var allTimes = []
+    var count = 0
     if (!(Object.keys(messages).length == 0)){
       timings = messages.map(msg => msg.results.map(
         (result) => (result.alternatives[0].timestamps).map(
@@ -260,8 +261,15 @@ export default class Practice extends Component {
           }
         }
       }
+
+      for (var i = 1; i< allTimes.length; i++){
+        if ((allTimes[i][1]-allTimes[i-1][2])>1){
+          count++
+        }
+      }
     }
-    console.log(allTimes)
+    console.log(count)
+    return count
   }
 
   decodeTranscript(transcript) {
