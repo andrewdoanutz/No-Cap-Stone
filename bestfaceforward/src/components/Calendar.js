@@ -15,7 +15,7 @@ function useAsyncHook(){
         var names = [];
 
         for (const user in res["data"]["Items"]){
-          if (res["data"]["Items"][user]["username"]!="practice"){
+          if (res["data"]["Items"][user]["username"]!="practice" && res["data"]["Items"][user]["username"]!="Practice"){
             var currentUser = {};
             currentUser.title = res["data"]["Items"][user]["username"]
             currentUser.date = res["data"]["Items"][user]["time"]
