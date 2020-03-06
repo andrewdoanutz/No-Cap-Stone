@@ -76,12 +76,13 @@ export default class Practice extends Component {
       sorrowScores:[],
       surpriseScores:[],
       finalScores:[],
-      hesCount: 0
+      hesitationCount: 0
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
     this.getCurrentInterimResult = this.getCurrentInterimResult.bind(this);
     this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
+    this.updateHesitation = this.updateHesitation.bind(this);
   }
   //speech stuff
   componentDidMount(){
@@ -244,6 +245,24 @@ export default class Practice extends Component {
     response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "practice"})
     console.log(response)
   };
+
+  updateHesitation (messages) {
+    var timings
+    var allTimes = []
+    if (!(Object.keys(messages).length == 0)){
+      timings = messages.map(msg => msg.results.map(
+        (result) => (result.alternatives[0].timestamps).map(
+          (times) => (times))))
+      for (const elems of timings){
+        for (const j of elems){
+          for (const i of j){
+            allTimes.push(i)
+          }
+        }
+      }
+    }
+    console.log(allTimes)
+  }
 
   decodeTranscript(transcript) {
     try {
@@ -462,7 +481,7 @@ scoreVideoAnalysis(score){
 
 render() {
   const messages = this.getFinalAndLatestInterimResult();
-  console.log(messages)
+  this.updateHesitation(messages)
   let buttonText="Next Question"
   if(this.state.inds.length===4){
     buttonText="Generate Report"
