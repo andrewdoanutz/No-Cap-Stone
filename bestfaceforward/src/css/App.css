@@ -199,6 +199,7 @@ body{
 
 .left-border {
   border-left: 2px solid #333;
+  border-color: white;
 }
 
 .fill {
@@ -214,6 +215,20 @@ body{
 .homepage-card{
   margin: auto;
   width: 45%;
+  text-align: center;
+  background-color: rgba(41, 43, 44, 0.5) !important;
+}
+
+.cand-card{
+  margin: auto;
+  width: 80%;
+  text-align: center;
+  background-color: rgba(41, 43, 44, 0.5) !important;
+}
+
+.cand-card-2{
+  margin: auto;
+  width: 50%;
   text-align: center;
   background-color: rgba(41, 43, 44, 0.5) !important;
 }
