@@ -286,7 +286,7 @@ class Report extends Component {
     for (var a of this.state.analysis){
       if (a.tone_name === 'Fear'){
         if(a.score<.4){
-            posFeedback.push("You are not speaking very fearfully. Good job! ")
+            posFeedback.push("You do not seem nervous in your tone.")
         }
       } else if (a.tone_name === 'Joy'){
         if(a.score>=.8){
@@ -298,7 +298,7 @@ class Report extends Component {
       } else if (a.tone_name === 'Anger'){
         if(a.score<.4){
 
-            posFeedback.push("You are not speaking very angrily. Keep it up! ")
+            posFeedback.push("Your tone is not angry in nature. That's a great sign! ")
 
 
         }
@@ -615,6 +615,16 @@ class Report extends Component {
             {/* Left Column */}
               <Col sm={6}>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
+                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
+                      <div>{"Question Response"}</div>
+                  </Card.Header>
+                  <Card.Body>
+                    <Card.Text>
+                      <Col><div className="analysisText">{this.state.txt}</div></Col>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
                   <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Tones Detected</Card.Header>
                   <Card.Body>
                     <Card.Text>
@@ -630,20 +640,18 @@ class Report extends Component {
                   </Card.Body>
                 </Card>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
-                      <div>{"Question Response"}</div>
-                  </Card.Header>
-                  <Card.Body>
-                    <Card.Text>
-                      <Col><div className="analysisText">{this.state.txt}</div></Col>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
-                <Card.Header style={{backgroundColor:"#08AEEA", color:"white"}} as="h3">Hesitations</Card.Header>
+                <Card.Header style={{backgroundColor:"#08AEEA", color:"white"}} as="h3">Filler Words</Card.Header>
                 <Card.Body>
                   <Card.Text>
-                      <h1 className = "analysisText horizontal-center">Testing</h1>
+                      <h1 className = "analysisText text-center">
+                        Words such as "like" or "um":</h1>
+                      <h1>
+                        {this.props.hesitations[0]}
+                      </h1>
+                      <br/>
+                      <h1 className = "analysisText text-center">
+                        {(this.props.hesitations[0]<6) ? "That's not that many. Keep it up!": "Try taking a few seconds before answering to give a more confident response!"}
+                      </h1>
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -684,7 +692,7 @@ class Report extends Component {
                       </Card.Body>
                     </Card>
                     <Card className = "shadow" style={{marginBottom: "10px"}}>
-                    <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Things to Improve</Card.Header>
+                    <Card.Header as="h3" style={{backgroundColor:"#F74356", color:"white"}}>Things to Improve</Card.Header>
                     <Card.Body>
                       <Card.Text>
                           <Col>
@@ -698,7 +706,7 @@ class Report extends Component {
                     </Card.Body>
                   </Card>
                   <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header style={{backgroundColor:"#08AEEA", color:"white"}} as="h3">Things You Did Well</Card.Header>
+                  <Card.Header style={{backgroundColor:"#00E676", color:"white"}} as="h3">Things You Did Well</Card.Header>
                   <Card.Body>
                     <Card.Text>
                         <Col>
@@ -765,7 +773,7 @@ class Report extends Component {
                   </Card.Body>
                 </Card>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Things You Did Well</Card.Header>
+                  <Card.Header as="h3" style={{backgroundColor:"#00E676", color:"white"}}>Things You Did Well</Card.Header>
                   <Card.Body>
                     <Card.Text>
                         <Col>
@@ -825,7 +833,7 @@ class Report extends Component {
                       </Card.Body>
                     </Card>
                     <Card className = "shadow" style={{marginBottom: "10px"}}>
-                    <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Things to Improve</Card.Header>
+                    <Card.Header as="h3" style={{backgroundColor:"#F74356", color:"white"}}>Things to Improve</Card.Header>
                     <Card.Body>
                       <Card.Text>
                           <Col>

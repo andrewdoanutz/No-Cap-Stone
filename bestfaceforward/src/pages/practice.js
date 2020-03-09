@@ -241,9 +241,9 @@ export default class Practice extends Component {
     }
 
   }
-  async storeData(data,timestamps,Qs){
+  async storeData(data,timestamps,Qs,hesitations){
     console.log(this.state.finalScores)
-    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "Practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:this.state.timestamps})
+    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "Practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:this.state.timings, hesitations: hesitations})
     console.log(response)
     response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "Practice"})
     console.log(response)
@@ -347,7 +347,14 @@ export default class Practice extends Component {
     Qs.push(questions[this.state.inds[0]])
     Qs.push(questions[this.state.inds[1]])
     Qs.push(questions[this.state.inds[2]])
-    this.storeData(transcriptText,timestamps,Qs).then(()=>{
+
+    let hes = []
+    hes.push(this.state.hesitations[0]+this.state.hesitations[1]+this.state.hesitations[2])
+    hes.push(this.state.hesitations[0])
+    hes.push(this.state.hesitations[1]-this.state.hesitations[0])
+    hes.push(this.state.hesitations[2]-this.state.hesitations[1])
+
+    this.storeData(transcriptText,timestamps,Qs, hes).then(()=>{
       console.log("stored")
       setTimeout(()=>{
         return(

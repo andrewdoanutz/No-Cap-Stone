@@ -11,6 +11,7 @@ function useAsyncHook(name){
   const [videos,setVideos]=useState([])
   const [timestamps,setTimestamps]=useState([])
   const [questions,setQuestions]=useState([])
+  const [hesitations,setHesitations]=useState([])
   useEffect(() => {
     async function getDBInfo(){
       const res = await axios.post('http://localhost:3001/db/readUserInfo', {username: name})
@@ -20,12 +21,13 @@ function useAsyncHook(name){
       setVideos(res["data"]["Items"]["0"]["videos"])
       setTimestamps(res["data"]["Items"]["0"]["wordtimings"])
       setQuestions(res["data"]["Items"]["0"]["questions"])
+      setHesitations(res["data"]["Items"]["0"]["hesitations"])
       setLoading(false)
     }
 
     getDBInfo(name)
   }, [name])
-  return [transcript,loading,videoScores,videos,timestamps,questions]
+  return [transcript,loading,videoScores,videos,timestamps,questions,hesitations]
 }
 
 function combineScores(scores){
@@ -44,7 +46,7 @@ function combineScores(scores){
           anger.push(value)
         } else if (index===3){
           surprise.push(value)
-        } 
+        }
       })
     })
   })
@@ -52,7 +54,7 @@ function combineScores(scores){
 }
 const postAnalysis = (props) => {
   console.log(props)
-  let [transcript,loading,videoScores,videos,timestamps,questions]=useAsyncHook(props.location.state.username)
+  let [transcript,loading,videoScores,videos,timestamps,questions,hesitations]=useAsyncHook(props.location.state.username)
   if(questions.length===0){
     let temp=[]
     transcript.map((val, index)=>{
@@ -108,7 +110,7 @@ const postAnalysis = (props) => {
         return(
           <div className="homeBox" style={{width:"95%",paddingLeft:"4%",paddingTop:"7%"}}>
             <Card>
-              <Card.Header as="h1" style={{backgroundColor:"#F74356", color:"white"}}>
+              <Card.Header as="h1" className = "bg-dark" style={{color:"white"}}>
                 Post Analysis Report for {props.location.state.username}
               </Card.Header>
               <Card.Body>
@@ -123,7 +125,7 @@ const postAnalysis = (props) => {
                         </Card.Header>
                         <Accordion.Collapse eventKey={-1}>
                           <Card.Body>
-                            <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} timestamps={timestamps} username={props.location.state.username}/>
+                            <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} timestamps={timestamps} username={props.location.state.username} hesitations={hesitations}/>
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -137,7 +139,7 @@ const postAnalysis = (props) => {
                             </Card.Header>
                             <Accordion.Collapse eventKey={index}>
                               <Card.Body>
-                                <Report source={props.location.state.source} responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={props.location.state.username} index = {index}/>
+                                <Report source={props.location.state.source} responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={props.location.state.username} index = {index} hesitations={hesitations}/>
                               </Card.Body>
                             </Accordion.Collapse>
                           </Card>

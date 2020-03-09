@@ -177,8 +177,9 @@ app.post('/db/writeUserInfo', (req,res) =>{
   const videos = req.body.videos;
   const scores = req.body.scores;
   const timestamps = req.body.timestamps
-  database.writeUserEntry(username,transcript,questions,videos,scores,timestamps)
-})  
+  const hesitations = req.body.hesitations
+  database.writeUserEntry(username,transcript,questions,videos,scores,timestamps,hesitations)
+})
 
 app.get('/db/writeUserInfo', (req,res) =>{
   console.log("Question written:", req.body)
