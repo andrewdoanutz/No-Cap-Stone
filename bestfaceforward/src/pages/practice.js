@@ -615,7 +615,10 @@ render() {
                               })
                               // console.log(this.state.videos)
                               startRecording()
-                              this.onClickListener()
+                              setTimeout(()=>{
+                                this.onClickListener()
+                              },2000)
+                              
                             })
                           },500)
                         }
