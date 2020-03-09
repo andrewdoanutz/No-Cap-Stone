@@ -40,7 +40,7 @@ const Candidate = () => {
 
 
   return(
-    <div className = "background-img">
+    <div className = "background-img-2">
     <div style={{height:"100vh"}}>
       <Row>
         <Col>

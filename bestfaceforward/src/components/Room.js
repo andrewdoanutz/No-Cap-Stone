@@ -155,11 +155,11 @@ const Room = ({ roomName, token, handleLogout, parentCallback2}) => {
                 </div>
               </Row>
               <Row>
-              <Link to={{
-                pathname: '/dashboard'
-              }}>
-                <Button variant= "border" size = "xxl" onClick={handleLogout}>End Interview</Button>
-              </Link>
+                <Link to={{
+                  pathname: '/dashboard'
+                }}>
+                  <Button variant= "border" size = "xxl" onClick={handleLogout}>End Interview</Button>
+                </Link>
               </Row>
             </Col>
             <Col className="centered" sm={7}>

@@ -43,7 +43,7 @@ class VideoComponent extends Component {
     this.callBackendAPI = this.callBackendAPI.bind(this);
     this.transcriptbackFunction = this.transcriptbackFunction.bind(this);
   }
-  
+
   componentDidMount(){
     this.fetchToken()
 
@@ -351,14 +351,7 @@ class VideoComponent extends Component {
   render(){
     const messages = this.getFinalAndLatestInterimResult();
     const results = messages.map(msg => msg.results.map((result, i) => (result.alternatives[0].transcript))).reduce((a, b) => a.concat(b), []);
-    let emoji;
-    if (this.state.status== "neutral"){
-      emoji = <h5 style={{ color: "#fdd835" }}> <FontAwesomeIcon icon={faMehBlank} size='4x'/> </h5>
-    } else if (this.state.status == "positive"){
-      emoji = <h5 style={{ color: "#00c853" }}> <FontAwesomeIcon icon={faGrinBeam} size='4x' /> </h5>
-    } else if (this.state.status == "negative"){
-      emoji = <h5 style={{ color: "#d32f2f" }}> <FontAwesomeIcon icon={faFrown} size='4x' /> </h5>
-    }
+    
     finalResult = results;
     //console.log(finalResult);
     var merged = [].concat.apply([], finalResult);
@@ -379,12 +372,6 @@ class VideoComponent extends Component {
             }}
           />
         </div>
-        {/* Emoji */}
-        <Card className = "shadow" style={{width:"5.8%"}}>
-          <Card.Body>
-            {emoji}
-          </Card.Body>
-        </Card>
       </div>
     )
   }
