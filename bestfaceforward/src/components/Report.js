@@ -43,10 +43,10 @@ class Report extends Component {
                   {concepts: '3', score: 1}],
     }
     this.analyzeText()
-    
+
   }
-  
-  
+
+
 
   //get number of occurances in an array of a specific value
   getOccurrence = (array, value) => {
@@ -163,10 +163,10 @@ class Report extends Component {
             negFeedback.push("A little more confidence in what you are saying will help get your point across better. ")
 
 
-        } 
+        }
       } else if (a.tone_name === 'Joy'){
         if(a.score>=.8){
-         
+
           continue
         } else if(a.score>=.4){
 
@@ -190,7 +190,7 @@ class Report extends Component {
             negFeedback.push("Try to speak a little less aggresively when you are responding.")
 
 
-        } 
+        }
       } else if (a.tone_name === 'Sadness'){
         if(a.score>=.8){
 
@@ -203,7 +203,7 @@ class Report extends Component {
 
 
 
-        } 
+        }
       } else if (a.tone_name === 'Analytical'){
         if(a.score>=.8){
 
@@ -211,7 +211,7 @@ class Report extends Component {
 
 
         } else if(a.score>=.4){
-         
+
           continue
         } else {
 
@@ -221,7 +221,7 @@ class Report extends Component {
         }
       } else if (a.tone_name === 'Confident'){
         if(a.score>=.8){
-          
+
           continue
         } else if(a.score>=.4){
 
@@ -238,14 +238,14 @@ class Report extends Component {
         if(a.score>=.8){
 
             negFeedback.push("You are very hesitant in what your are saying. Don't be scared of the interviewer. ")
-       
+
 
         } else if(a.score>=.4){
 
             negFeedback.push("You are a little hesitant in what you are saying. ")
 
 
-        } 
+        }
 
         if(!this.props.overall){
           return negFeedback
@@ -266,9 +266,9 @@ class Report extends Component {
 
             negFeedback.push(feedback)
 
-        } 
+        }
         return negFeedback
-      } 
+      }
     }
     // if(this.state.filler>6){
     //   res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
@@ -277,7 +277,7 @@ class Report extends Component {
     // } else {
     //   res+="You are barely using any filler words. Good job! "
     // }
-    
+
   }
 
   getPosFeedback(){
@@ -294,7 +294,7 @@ class Report extends Component {
             posFeedback.push("You are coming across very happy. Keep it up! ")
 
 
-        } 
+        }
       } else if (a.tone_name === 'Anger'){
         if(a.score<.4){
 
@@ -315,26 +315,26 @@ class Report extends Component {
             posFeedback.push("Your response is analytical and logical.")
 
 
-        } 
+        }
       } else if (a.tone_name === 'Confident'){
         if(a.score>=.8){
 
             posFeedback.push("You are very confident in what you are saying. Good job! ")
 
 
-        } 
+        }
       } else if (a.tone_name === 'Tentative'){
         if(a.score<.4){
 
             posFeedback.push("You are not speaking tentatively. Keep it up! ")
-        
+
 
         }
         let subjects=this.getSubjects()
         if(subjects){
           posFeedback=posFeedback.concat(subjects)
         }
-        
+
         if(!this.props.overall){
           return posFeedback
         }
@@ -353,7 +353,7 @@ class Report extends Component {
           posFeedback.push(feedback)
         }
         return posFeedback
-      } 
+      }
     }
     // if(this.state.filler>6){
     //   res+= "You are using a lot of filler words when you respond. Try cutting back on the ums and uhs. "
@@ -362,22 +362,22 @@ class Report extends Component {
     // } else {
     //   res+="You are barely using any filler words. Good job! "
     // }
-    
+
   }
   toPercent(decimal, fixed = 0){
     return `${(decimal * 100).toFixed(fixed)}%`;
   }
   getPercent(value, total){
     const ratio = total > 0 ? value / total : 0;
-    
+
     return this.toPercent(ratio, 2);
   }
-  
-   
+
+
   renderTooltipContent(o){
     const { payload, label } = o;
     const total = payload.reduce((result, entry) => (result + entry.value), 0);
-    
+
     return (
       <div className="customized-tooltip-content">
          <Card>
@@ -395,7 +395,7 @@ class Report extends Component {
             </ul>
             </Card.Body>
         </Card>
-        
+
       </div>
     );
   };
@@ -404,7 +404,7 @@ class Report extends Component {
     this.state.videoScore[0].map((value,index) =>{
       res.push({ind:index, joy: value, sorrow:this.state.videoScore[1][index], anger:this.state.videoScore[2][index],surprise:this.state.videoScore[3][index]})
     })
-    
+
     return res
   }
   maxScore(scores){
@@ -426,7 +426,7 @@ class Report extends Component {
     } else {
       maxAttribute= "Surprise"
     }
-  
+
     return maxAttribute
   }
   videoFeedback(){
@@ -444,7 +444,7 @@ class Report extends Component {
           anger+=a
         } else if (index===3){
           surprise+=a
-        } 
+        }
       })
     })
 
@@ -518,7 +518,7 @@ class Report extends Component {
         } else {
           analysisScore+=.5
         }
-      } 
+      }
     }
     let vidSum=0
     this.state.videoScore.map((value,index)=>{
@@ -554,7 +554,7 @@ class Report extends Component {
         } else {
           vidSum+=.5
         }
-      } 
+      }
     })
     // vidSum=vidSum/this.state.videoScore.length
     let totalScore=analysisScore+vidSum
@@ -575,7 +575,7 @@ class Report extends Component {
       }
       totalScore+=wpmScore
     }
-    
+
     console.log("Star Score:", totalScore)
     if(totalScore>5){
       return 5
@@ -587,7 +587,7 @@ class Report extends Component {
   }
 
   legendFormatter(value) {
-    
+
     return <span style={{ fontSize:20 }}>{value}</span>;
   }
 
@@ -601,8 +601,8 @@ class Report extends Component {
                 <Row>
                   <h1>
                     <div>Overall Score</div>
-                    <div><StarRatingComponent 
-                        name="overall" 
+                    <div><StarRatingComponent
+                        name="overall"
                         starCount={5}
                         value={this.getStarRating()}
                         editing={false}
@@ -630,26 +630,20 @@ class Report extends Component {
                   </Card.Body>
                 </Card>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
-                <Card.Header style={{backgroundColor:"#08AEEA", color:"white"}} as="h3">Things You Did Well</Card.Header>
-                <Card.Body>
-                  <Card.Text>
-                      <Col>
-                        <ul>
-                          {this.getPosFeedback().map((value,index)=>{
-                            return(<li className="analysisText">{value}</li>)
-                          })}
-                        </ul>
-                      </Col>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
                   <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
                       <div>{"Question Response"}</div>
                   </Card.Header>
                   <Card.Body>
                     <Card.Text>
                       <Col><div className="analysisText">{this.state.txt}</div></Col>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
+                <Card.Header style={{backgroundColor:"#08AEEA", color:"white"}} as="h3">Hesitations</Card.Header>
+                <Card.Body>
+                  <Card.Text>
+                      <h1 className = "analysisText horizontal-center">Testing</h1>
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -703,6 +697,20 @@ class Report extends Component {
                       </Card.Text>
                     </Card.Body>
                   </Card>
+                  <Card className = "shadow" style={{marginBottom: "10px"}}>
+                  <Card.Header style={{backgroundColor:"#08AEEA", color:"white"}} as="h3">Things You Did Well</Card.Header>
+                  <Card.Body>
+                    <Card.Text>
+                        <Col>
+                          <ul>
+                            {this.getPosFeedback().map((value,index)=>{
+                              return(<li className="analysisText">{value}</li>)
+                            })}
+                          </ul>
+                        </Col>
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
                   </Row>
                 </Col>
               </Row>
@@ -718,8 +726,8 @@ class Report extends Component {
               <Row>
                 <h1>
                   <div>Question Score</div>
-                  <div><StarRatingComponent 
-                      name="overall" 
+                  <div><StarRatingComponent
+                      name="overall"
                       starCount={5}
                       value={this.getStarRating()}
                       editing={false}
@@ -747,6 +755,16 @@ class Report extends Component {
                   </Card.Body>
                 </Card>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
+                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
+                    <div>{"Question Response"}</div>
+                    </Card.Header>
+                  <Card.Body>
+                    <Card.Text>
+                      <Col><div className="analysisText">{this.state.txt}</div></Col>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
                   <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Things You Did Well</Card.Header>
                   <Card.Body>
                     <Card.Text>
@@ -757,16 +775,6 @@ class Report extends Component {
                             })}
                           </ul>
                         </Col>
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>
-                    <div>{"Question Response"}</div>
-                    </Card.Header>
-                  <Card.Body>
-                    <Card.Text>
-                      <Col><div className="analysisText">{this.state.txt}</div></Col>
                     </Card.Text>
                   </Card.Body>
                 </Card>

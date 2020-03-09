@@ -48,7 +48,6 @@ class VideoComponent extends Component {
     this.fetchToken()
 
     if (localStorage.getItem("candidate") != 0){
-      console.log("this is a candidate");
       this.timerID = setInterval(
         () => this.tick(),
         1000
@@ -278,9 +277,7 @@ class VideoComponent extends Component {
         }
         prevTime = time;
         this.img.src = URL.createObjectURL(blob);
-        console.log(this.img);
         this.img.onload = () => { URL.revokeObjectURL(this.src); }
-        console.log("end");
 
       }).then(setTimeout(() => {
         this.callBackendAPI().then(results => {
@@ -351,7 +348,7 @@ class VideoComponent extends Component {
   render(){
     const messages = this.getFinalAndLatestInterimResult();
     const results = messages.map(msg => msg.results.map((result, i) => (result.alternatives[0].transcript))).reduce((a, b) => a.concat(b), []);
-    
+
     finalResult = results;
     //console.log(finalResult);
     var merged = [].concat.apply([], finalResult);

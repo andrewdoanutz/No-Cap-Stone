@@ -77,7 +77,8 @@ export default class Practice extends Component {
       surpriseScores:[],
       finalScores:[],
       hesitation: 0,
-      hesitations: []
+      hesitations: [],
+      timings: []
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
@@ -183,7 +184,7 @@ export default class Practice extends Component {
       format: true, // adds capitals, periods, and a few other things (client-side)
       objectMode: true,
       interim_results: false,
-      word_alternatives_threshold: 0.7,
+      word_alternatives_threshold: 0.3,
       timestamps: true,
       url: this.state.serviceUrl
     });
@@ -242,7 +243,7 @@ export default class Practice extends Component {
   }
   async storeData(data,timestamps,Qs){
     console.log(this.state.finalScores)
-    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "Practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:timestamps})
+    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "Practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:this.state.timestamps})
     console.log(response)
     response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "Practice"})
     console.log(response)
@@ -264,6 +265,9 @@ export default class Practice extends Component {
         }
       }
 
+
+      this.setState({timings: allTimes})
+      console.log(this.state.timings)
       for (var i = 1; i< allTimes.length; i++){
         if ((allTimes[i][1]-allTimes[i-1][2])>0.8){
           count++
@@ -622,7 +626,7 @@ render() {
                               setTimeout(()=>{
                                 this.onClickListener()
                               },2500)
-                              
+
                             })
                           },500)
                         }
