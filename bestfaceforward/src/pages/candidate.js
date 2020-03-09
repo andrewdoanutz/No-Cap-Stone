@@ -40,30 +40,44 @@ const Candidate = () => {
 
 
   return(
-    <div>
-        <Row className = "vertical-space">
-          <Col className = "fill vertical-space horizontal-center">
-            <Link to={{
-              pathname: '/practice'
-            }}>
-              <>
-                <Button variant="flat" size="xxl">
-                  Practice for the Interview
-                </Button>
-              </>
-            </Link>
+    <div className = "background-img">
+    <div style={{height:"100vh"}}>
+      <Row>
+        <Col>
+        <Row style={{marginTop: "25vh"}}>
+          <Col className = "fill vertical-space align-middle horizontal-center">
+            <Card className = "cand-card-2">
+              <Card.Body>
+                <Link to={{
+                  pathname: '/practice'
+                }}>
+                  <>
+                    <Button variant="flat-homepage" size="xxl-homepage">
+                      Practice for the Interview
+                    </Button>
+                  </>
+                </Link>
+              </Card.Body>
+            </Card>
           </Col>
           <Col className = "left-border small-vertical-space">
-            <Lobby
-               username={username}
-               roomName={roomName}
-               handleUsernameChange={handleUsernameChange}
-               handleRoomNameChange={handleRoomNameChange}
-               handleSubmit={handleSubmit}
-             />
+            <Card className = "cand-card py-4">
+              <Card.Body>
+                <Lobby
+                   username={username}
+                   roomName={roomName}
+                   handleUsernameChange={handleUsernameChange}
+                   handleRoomNameChange={handleRoomNameChange}
+                   handleSubmit={handleSubmit}
+                 />
+               </Card.Body>
+             </Card>
           </Col>
         </Row>
+        </Col>
+        </Row>
     </div>
+  </div>
   )
 
 }

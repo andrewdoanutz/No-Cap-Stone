@@ -6,7 +6,7 @@ const Lobby = (props) => {
   return (
     <div>
       <div className = "homeBox">
-        <div className="homeHead">Join Meeting</div>
+        <div className="homeHead text-white">Join Meeting</div>
         <Container>
           <Row className="justify-content-center">
             <Col sm={6}>
