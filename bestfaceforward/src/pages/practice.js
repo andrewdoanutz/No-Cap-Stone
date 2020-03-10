@@ -78,7 +78,8 @@ export default class Practice extends Component {
       finalScores:[],
       hesitation: 0,
       hesitations: [],
-      timings: []
+      timings: [],
+      qcount: 1,
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
@@ -224,8 +225,9 @@ export default class Practice extends Component {
       rand=Math.round(rand)
       if(this.state.inds.length<3){
         this.setState({
-          question:questions[rand],
-          inds: this.state.inds.concat([rand])
+          question:questions[this.state.qcount],
+          inds: this.state.inds.concat([this.state.qcount]),
+          qcount: this.state.qcount+1
         }, () => {
           speech.speak({
             text: this.state.question,
@@ -234,7 +236,7 @@ export default class Practice extends Component {
       } else {
         this.setState({
           question:"",
-          inds: this.state.inds.concat([rand])
+          inds: this.state.inds.concat([this.state.qcount])
         }, () => {
         })
       }
@@ -267,7 +269,7 @@ export default class Practice extends Component {
 
 
       this.setState({timings: allTimes})
-      // console.log(JSON.stringify(this.state.timings))
+      console.log(JSON.stringify(this.state.timings))
       for (var i = 1; i< allTimes.length; i++){
         if ((allTimes[i][1]-allTimes[i-1][2])>0.8){
           count++
