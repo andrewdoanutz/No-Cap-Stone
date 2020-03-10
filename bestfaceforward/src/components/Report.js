@@ -156,7 +156,7 @@ class Report extends Component {
       if (a.tone_name === 'Fear'){
         if(a.score>=.8){
 
-            negFeedback.push("Try to be more confident in what you are saying. Don't be scared of the interviewer. ")
+            negFeedback.push("Try to be more confident in what you are saying.")
 
         } else if(a.score>=.4){
 
@@ -170,12 +170,12 @@ class Report extends Component {
           continue
         } else if(a.score>=.4){
 
-            negFeedback.push("Try to speak a little more joyfully when you are responding. ")
+            negFeedback.push("Try to speak with a more positive attitude when you are responding.")
 
 
         } else {
 
-            negFeedback.push("You should use more joyful vocabulary when responding. ")
+            negFeedback.push("You should be more positive in your wording when responding. ")
 
 
         }
@@ -247,26 +247,6 @@ class Report extends Component {
 
         }
 
-        if(!this.props.overall){
-          return negFeedback
-        }
-        let wpm=0
-        this.props.timestamps.forEach(pair=>{
-          wpm+=pair[1]-pair[0]
-        })
-        wpm=wpm*60/this.props.timestamps.length
-        let feedback="Your average words per minute was "+Math.round(wpm)+". "
-        if(wpm<130){
-          feedback+="Try speaking a little faster."
-
-            negFeedback.push(feedback)
-
-        }else if(wpm>170){
-          feedback+="Try speaking a little slower."
-
-            negFeedback.push(feedback)
-
-        }
         return negFeedback
       }
     }
@@ -335,23 +315,6 @@ class Report extends Component {
           posFeedback=posFeedback.concat(subjects)
         }
 
-        if(!this.props.overall){
-          return posFeedback
-        }
-        let wpm=0
-        this.props.timestamps.forEach(pair=>{
-          wpm+=pair[1]-pair[0]
-        })
-        wpm=wpm*60/this.props.timestamps.length
-        let feedback="Your average words per minute was "+Math.round(wpm)+". "
-        if(wpm<130){
-
-        }else if(wpm>170){
-
-        } else {
-          feedback+="Good job!"
-          posFeedback.push(feedback)
-        }
         return posFeedback
       }
     }
@@ -558,23 +521,7 @@ class Report extends Component {
     })
     // vidSum=vidSum/this.state.videoScore.length
     let totalScore=analysisScore+vidSum
-    if(this.props.overall){
-      let wpm=0
-      this.props.timestamps.forEach(pair=>{
-      wpm+=pair[1]-pair[0]
-      })
-      wpm=wpm*60/this.props.timestamps.length
-      wpm=Math.round(wpm)
-      let wpmScore=0.0
-      if(wpm<130){
-        wpmScore-=.5
-      }else if(wpm>170){
-        wpmScore-=.5
-      } else {
-        wpmScore+=1
-      }
-      totalScore+=wpmScore
-    }
+
 
     console.log("Star Score:", totalScore)
     if(totalScore>5){
@@ -706,7 +653,7 @@ class Report extends Component {
                     </Card.Body>
                   </Card>
                   <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header style={{backgroundColor:"#00E676", color:"white"}} as="h3">Things You Did Well</Card.Header>
+                  <Card.Header style={{backgroundColor:"#388e3c", color:"white"}} as="h3">Things You Did Well</Card.Header>
                   <Card.Body>
                     <Card.Text>
                         <Col>
@@ -773,7 +720,7 @@ class Report extends Component {
                   </Card.Body>
                 </Card>
                 <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3" style={{backgroundColor:"#00E676", color:"white"}}>Things You Did Well</Card.Header>
+                  <Card.Header as="h3" style={{backgroundColor:"#388e3c", color:"white"}}>Things You Did Well</Card.Header>
                   <Card.Body>
                     <Card.Text>
                         <Col>

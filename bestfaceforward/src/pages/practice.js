@@ -183,8 +183,8 @@ export default class Practice extends Component {
       smart_formatting: true,
       format: true, // adds capitals, periods, and a few other things (client-side)
       objectMode: true,
-      interim_results: false,
-      word_alternatives_threshold: 0.3,
+      interim_results: true,
+      word_alternatives_threshold: 0.1,
       timestamps: true,
       url: this.state.serviceUrl
     });
@@ -267,7 +267,7 @@ export default class Practice extends Component {
 
 
       this.setState({timings: allTimes})
-      console.log(this.state.timings)
+      // console.log(JSON.stringify(this.state.timings))
       for (var i = 1; i< allTimes.length; i++){
         if ((allTimes[i][1]-allTimes[i-1][2])>0.8){
           count++
