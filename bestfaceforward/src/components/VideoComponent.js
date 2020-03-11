@@ -347,7 +347,6 @@ class VideoComponent extends Component {
 
   render(){
     const messages = this.getFinalAndLatestInterimResult();
-    console.log(messages)
     const results = messages.map(msg => msg.results.map((result, i) => (result.alternatives[0].transcript))).reduce((a, b) => a.concat(b), []);
 
     finalResult = results;
