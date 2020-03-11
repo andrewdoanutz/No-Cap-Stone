@@ -3,6 +3,8 @@ import axios from 'axios'
 import {Card, Row, Col, Button,Accordion} from 'react-bootstrap';
 import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart, Tooltip, Legend} from 'recharts';
 import StarRatingComponent from 'react-star-rating-component';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
 
 class Report extends Component {
   constructor(props){
@@ -741,7 +743,11 @@ class Report extends Component {
                       <Card className = "shadow" style={{marginBottom: "10px"}}>
                         <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Video Response</Card.Header>
                         <Card.Body>
-                            <Card.Img src={this.props.img} />
+                            <div className = "container">
+                              <img src={this.props.img} alt = "face"/>
+                              <button className = "btn"><FontAwesomeIcon icon={faPlayCircle} size="3x" style={{color: "rgba(0,0,0,0.8)"}}/></button>
+                            </div>
+                            {/* <Card.Img src={this.props.img} /> */}
                         </Card.Body>
                       </Card>
                     </Row>: null}
