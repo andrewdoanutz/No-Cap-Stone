@@ -1,21 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 
-const Participant = ({ participant }) => {
+const Participant = ({ participant, callbackF, uname , callbackU}) => {
+  console.log(participant)
   const [videoTracks, setVideoTracks] = useState([]);
   const [audioTracks, setAudioTracks] = useState([]);
+  const [dataTracks, setDataTracks] = useState([]);
+  const [vHeight, setVHeight] = useState(0);
+  const [vWidth, setVWidth] = useState(0);
   const videoRef = useRef();
   const audioRef = useRef();
+  const dataRef = useRef();
 
   useEffect(() => {
-    console.log(participant);
+    var vid = document.getElementById("participant");
+    setVHeight(vid.videoWidth);
+    setVWidth(vid.videoHeight);
+  })
+
+  useEffect(() => {
     setVideoTracks(Array.from(participant.videoTracks.values()));
     setAudioTracks(Array.from(participant.audioTracks.values()));
+    setDataTracks(Array.from(participant.dataTracks.values()));
 
     const trackSubscribed = track => {
-      if (track.kind === 'video') {
+      if (track.kind === 'data'){
+        setDataTracks(dataTracks => [...dataTracks, track]);
+        track.on('message', data => {
+          console.log(data);
+          console.log("cb",callbackF);
+          callbackF(data);
+        });
+
+      }
+      else if (track.kind === 'video') {
         setVideoTracks(videoTracks => [...videoTracks, track]);
-      } else {
+      }
+      else {
         setAudioTracks(audioTracks => [...audioTracks, track]);
       }
     };
@@ -57,10 +78,13 @@ const Participant = ({ participant }) => {
       };
     }
   }, [audioTracks]);
+
+
+
   return (
-    <div className="participant">
+    <div className="participant bg-dark">
       <h3>{participant.identity}</h3>
-        <video ref={videoRef} autoPlay muted />
+        <video id = "participant" ref={videoRef} autoPlay muted />
       <audio ref={audioRef} autoPlay={false} muted={true} />
     </div>
   );

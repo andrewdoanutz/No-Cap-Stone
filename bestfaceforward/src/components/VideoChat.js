@@ -1,73 +1,44 @@
 import React, { useState, useCallback } from 'react';
+import ReactDOM from "react-dom";
 import Lobby from './Lobby';
 import Room from './Room';
 import VideoComponent from './VideoComponent'
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col,Card,Button} from 'react-bootstrap';
 
-const VideoChat = () => {
-  const [username, setUsername] = useState('');
-  const [roomName, setRoomName] = useState('');
-  const [token, setToken] = useState(null);
 
-  const handleUsernameChange = useCallback(event => {
-    setUsername(event.target.value);
-  }, []);
+const VideoChat = (props) => {
+  const [count, setCount] = useState(0);
+  const [username,setUsername] = useState("");
 
-  const handleRoomNameChange = useCallback(event => {
-    setRoomName(event.target.value);
-  }, []);
 
-  const handleSubmit = useCallback(
-    async event => {
-      event.preventDefault();
-      const data = await fetch('/video/token', {
-        method: 'POST',
-        body: JSON.stringify({
-          identity: username,
-          room: roomName
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(res => res.json());
-      setToken(data.token);
-    },
-    [roomName, username]
-  );
+  const callbackFunction = (childData) => {
 
-  const handleLogout = useCallback(event => {
-    setToken(null);
-  }, []);
+      setCount(childData)
+  }
+  const callbackFunction2 = (childData) => {
 
-  let render;
-  if (token) {
-    render = (
-      <div>
+      setUsername(childData)
+  }
+
+  let render = (
+
+      <div className="vertical-centered" style={{width:"95%"}}>
+        <Row className="centered" style={{marginBottom:"5%"}}>
+          <Card className = "shadow centered" style={{width:"30%", borderRadius: "1px", borderColor: "#F74356"}}>
+            <Card.Body>
+              <h1>Interview {props.roomName}</h1>
+            </Card.Body>
+          </Card>
+        </Row>
         <Row>
           <Col>
-            <div className = "py-3">
-              <header>
-                <h1 className = "text-center">Meeting</h1>
-              </header>
-            </div>
-            <Room roomName={roomName} token={token} handleLogout={handleLogout} />
-            <VideoComponent/>
+              <Room roomName={props.roomName} token={props.token} handleLogout={props.handleLogout} parentCallback2 = {callbackFunction}/>
+              <VideoComponent count={count} username = {props.name} />
           </Col>
         </Row>
       </div>
 
     );
-  } else {
-    render = (
-      <Lobby
-        username={username}
-        roomName={roomName}
-        handleUsernameChange={handleUsernameChange}
-        handleRoomNameChange={handleRoomNameChange}
-        handleSubmit={handleSubmit}
-      />
-    );
-  }
   return render;
 };
 

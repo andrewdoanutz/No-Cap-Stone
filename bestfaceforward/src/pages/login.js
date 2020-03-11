@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import {Form, Button, Col, Row} from 'react-bootstrap'
-import VideoChat from '../components/VideoChat.js'
+import {Form, Button, Col, Row, Card, Container} from 'react-bootstrap'
 import Cookies from 'universal-cookie';
 
-import '../css/login.css';
 let cookies = new Cookies();
 
 export default class Login extends Component {
@@ -27,7 +25,7 @@ export default class Login extends Component {
         showError:true
       })
     } else {
-      cookies.set('login', 'testUserName', { path: '/' });
+      cookies.set('login', this.username.current.value, { path: '/' });
       this.props.history.push('/dashboard')
     }
   }
@@ -48,34 +46,42 @@ export default class Login extends Component {
   }
   render() {
     return(
-      <div>
+      <div className = "large-vertical-space">
         <div className="homeBox">
-          <div className="homeHead">Login</div>
-          <Row>
-          <Col>
-            <Form>
-              <Form.Group controlId="formBasicEmail" as={Col}>
-                <Form.Label className="formText">Username</Form.Label>
-                <div className="formField">
-                  <Form.Control type="username" placeholder="Enter username" ref={this.username}/>
-                </div>
-              </Form.Group>
-              <Form.Group controlId="formBasicPassword" as={Col}>
-                <Form.Label className="formText">Password</Form.Label>
-                <div className="formField">
-                  <Form.Control type="password" placeholder="Password" ref={this.password}/>
-                </div>
-              </Form.Group>
-              <Form.Group controlId="formBasicUPLogin" as={Col}>
-                <div className="formButton">
-                  <Button variant="primary" type="button" onClick={this.UPLoginPressed.bind(this)}>
-                    Submit
-                  </Button>
-                </div>
-              </Form.Group>
-            </Form>
-          </Col>
-          </Row>
+          <h1 className="homeHead">Login</h1>
+          <Container>
+            <Row className="justify-content-center">
+            <Col sm={6}>
+              <Card className = "shadow">
+                <Card.Body>
+                  <Form>
+                    <Form.Group controlId="formBasicEmail" as={Col}>
+                      <Form.Label className="formText">Username</Form.Label>
+                      <div className="formField">
+                        <Form.Control type="username" placeholder="Enter username" ref={this.username}/>
+                      </div>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicPassword" as={Col}>
+                      <Form.Label className="formText">Password</Form.Label>
+                      <div className="formField">
+                        <Form.Control type="password" placeholder="Password" ref={this.password}/>
+                      </div>
+                    </Form.Group>
+                    <Form.Group controlId="formBasicUPLogin" as={Col}>
+                      <div className="formButton">
+                        <Button size="lg" variant="flat" type="button" onClick={this.UPLoginPressed.bind(this)}>
+                          Submit
+                        </Button>
+                      </div>
+                    </Form.Group>
+                  </Form>
+                </Card.Body>
+              </Card>
+
+            </Col>
+            </Row>
+          </Container>
+
 
           <div className={this.state.showError ? 'errorMessage' : 'hideMessage'}>{this.errorMessage}</div>
           <div className="makeAcct">

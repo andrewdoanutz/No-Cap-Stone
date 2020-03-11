@@ -1,6 +1,167 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Ubuntu&display=swap");
+
 body{
-  background-color: #edf7fc;
-  padding-top: 50px;
+  font-family: "Ubuntu", sans-serif !important;
+  background-color: #F0F8FF !important;
+}
+
+.webcam {
+  padding: 10px;
+  border-radius: 6px;
+  display: inline-block;
+  /* margin-right: 10px; */
+  border-radius: 10px;
+  border-color: black;
+}
+
+.background-img{
+  /* Location of the image */
+  background-image: url(../images/conference.jpg);
+
+  /* Background image is centered vertically and horizontally at all times */
+  background-position: center center;
+
+  /* Background image doesn't tile */
+  background-repeat: no-repeat;
+
+  /* Background image is fixed in the viewport so that it doesn't move when
+     the content's height is greater than the image's height */
+  background-attachment: fixed;
+
+  /* This is what makes the background image rescale based
+     on the container's size */
+  background-size: cover;
+}
+
+.background-img-2{
+  /* Location of the image */
+  background-image: url(../images/conf.jpg);
+
+  /* Background image is centered vertically and horizontally at all times */
+  background-position: center center;
+
+  /* Background image doesn't tile */
+  background-repeat: no-repeat;
+
+  /* Background image is fixed in the viewport so that it doesn't move when
+     the content's height is greater than the image's height */
+  background-attachment: fixed;
+
+  /* This is what makes the background image rescale based
+     on the container's size */
+  background-size: cover;
+}
+
+.analysisText{
+  text-align: left;
+  font-size: 2.7em;
+}
+.accordionButton:hover{
+  cursor: pointer;
+  color: #08AEEA;
+}
+
+
+/* BUTTONS */
+.blue-button{
+  /* background-color: #36C7D0 !important; */
+ background-color: #08AEEA !important;
+ /* background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important; */
+ border:0px solid transparent !important; /* this was 1px earlier */
+ color: white !important;
+ text-decoration: none !important;
+
+}
+/* Button:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+} */
+.btn-flat {
+  background-color: #08AEEA !important;
+  color: white !important;
+}
+.btn-flat:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
+.btn-flat-homepage {
+  background-color: #08AEEA !important;
+  color: white !important;
+}
+.btn-flat-homepage:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
+
+.btn-xxl-homepage {
+  padding: 1rem 1.5rem;
+  font-size: x-large !important;
+  font-weight: bold;
+}
+.btn-xxl {
+  padding: 1rem 1.5rem !important;
+  font-size: 1.5rem !important;
+  font-weight: bold !important;
+}
+
+.btn-round {
+  background-color: #08AEEA !important;
+  color: white !important;
+  border-radius: 12px;
+}
+.btn-round:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
+
+.btn-border{
+  border: 2px solid #08AEEA !important;
+  color: black !important;
+}
+.btn-border:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: white !important;
+}
+
+.btn-round-border{
+  border: 2px solid #08AEEA !important;
+  color: black !important;
+  border-radius: 12px;
+}
+.btn-round-border:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
+
+.btn-red {
+  background-color: #F74356 !important;
+  color: white !important;
+  border-radius: 12px;
+}
+.btn-red:hover{
+  cursor: pointer;
+  color: black !important;
+}
+
+.btn-round-red-border{
+  border: 0.18em solid #F74356 !important;
+  color: black !important;
+  border-radius: 15em !important;
+}
+.btn-round-red-border:hover{
+  background-color: #F74356 !important;
+  color: white !important;
+}
+
+.scroll {
+    max-height: 70vh;
+    overflow-y: auto;
 }
 .centered {
   display: flex;
@@ -18,7 +179,6 @@ body{
   padding: 0 2em 2em;
 }
 .participant {
-  background: #121212;
   padding: 10px;
   border-radius: 6px;
   display: inline-block;
@@ -33,10 +193,199 @@ body{
   color: #fff;
 }
 
+.right-border {
+  border-right: 2px solid #333;
+}
+
+.left-border {
+  border-left: 2px solid #333;
+  border-color: white;
+}
+
+.fill {
+  height: 100%;
+}
+
+.horizontal-center {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+}
+
+.homepage-card{
+  margin: auto;
+  width: 45%;
+  text-align: center;
+  background-color: rgba(41, 43, 44, 0.5) !important;
+}
+
+.cand-card{
+  margin: auto;
+  width: 80%;
+  text-align: center;
+  background-color: rgba(41, 43, 44, 0.5) !important;
+}
+
+.cand-card-2{
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  background-color: rgba(41, 43, 44, 0.5) !important;
+}
+
+.large-text{
+  font-size: xx-large;
+}
+
+.small-vertical-space{
+  margin-top: 5%;
+}
+
+.large-vertical-space{
+  margin-top: 15vh;
+}
+
+.vertical-space {
+  margin-top: 25vh;
+  margin-bottom: 20vh;
+}
+
+.vertical-center {
+  justify-content: center;
+}
+
 video {
   width: 100%;
   max-width: 600px;
   display: block;
   margin: 0 auto;
   border-radius: 6px;
+}
+
+.demo-image-preview {
+  position: relative;
+  text-align: center;
+}
+
+.demo-image-preview > img {
+  width: 768px;
+}
+
+@media(max-width:768px){
+  .demo-image-preview > img {
+    width: 100%;
+  }
+}
+
+/* fullscreen enable by props */
+.demo-image-preview-fullscreen > img {
+  width: 100vw;
+  height:100vh;
+}
+
+
+
+.profiles{
+    padding-top:10%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    width:100%;
+}
+
+.profile{
+    padding:5%;
+}
+
+.homeBox{
+    padding-top:2%;
+    text-align: center;
+}
+.homeBox-practice{
+    padding-top:5%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    top:0;
+}
+.homeHead{
+    font: 2.5em "Raleway", sans-serif;
+    font-weight: bold;
+    padding-bottom: 2%;
+}
+.makeAcct{
+    padding-top:7%;
+    font: 1.3em "Ubuntu", sans-serif;
+}
+.errorMessage{
+    font: 1.8em "Ubuntu", sans-serif;
+    color: red;
+    font-weight: bold;
+}
+.formText{
+    font: 2em "Ubuntu", sans-serif;
+    color: #333;
+    text-align: left;
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+.formButton{
+    padding-top:1%;
+
+}
+
+.hideMessage {
+    opacity: 0%;
+    font: 1.8em "Ubuntu", sans-serif;
+    font-weight: bold;
+}
+
+/* Word Timings */
+
+.arrow-box-container {
+    position: relative;
+}
+/* Word Timings and Alternatives view styles */
+.word-timings-alternatives .word {
+    padding-right: 1ex; /*I tried just putting a space in the HTML, but chrome and safari hide it :( */
+    display: inline-block;
+    margin-top: 0;
+}
+
+.smalltext { font-size: 10pt; }
+
+.gdpr-info {
+	font-size: 10pt;
+	margin-top: 1em;
+}
+
+
+/* Room */
+
+
+.mask {
+  width: 95%;
+  height: 85.5%;
+  position: absolute;
+  top: 12.5%;
+  left: 2.5%;
+  bottom: 1.5%;
+  filter: blur(3px);
+}
+
+.container{
+  position: relative;
+  display: inline-block;
+}
+.empty{
+  display: none;
+}
+
+.subtitles{
+    background-color: black;
+    color: white;
+    font: 1.5em "Roboto Mono", sans-serif;
 }

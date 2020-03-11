@@ -7,17 +7,17 @@
     let AWS = require("aws-sdk");
     //used for local development
     AWS.config.update({
-      region: "us-west-1",
+      region: "us-east-2",
       //endpoint: "http://localhost:8001",
       endpoint: "https://dynamodb.us-west-1.amazonaws.com",
       // get from google drive
-     // accessKeyId : , 
-      //secretAccessKey:
+     accessKeyId : process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY
     });
     let dynamodb = new AWS.DynamoDB();
     let docClient = new AWS.DynamoDB.DocumentClient();
     let table = "Users"
-    
+
     module.exports = {
        createTable(tble = table){
          console.log(tble)
@@ -47,7 +47,7 @@
           }
         });
       },
-    
+
       //can change the hardcoded variables
        addUser(username = "test", password = "test", firstName = "test", lastName = "test", email = "test"){
         //change this part to recieve input
@@ -55,7 +55,7 @@
         var isInterviewer = true;
         var isRecruiter = false;
         var meetings = [];
-    
+
         var params = {
             TableName:table,
             Item:{
@@ -72,7 +72,7 @@
                 }
             }
         };
-    
+
         console.log("Adding a new item...");
         docClient.put(params, function(err, data) {
             if (err) {
@@ -84,7 +84,7 @@
             }
         });
       },
-    
+
        deleteUser(username = "test"){
         var params = {
             TableName:table,
@@ -92,7 +92,7 @@
                 "username": username,
             }
           };
-    
+
           console.log("Attempting to delete...");
           docClient.delete(params, function(err, data) {
               if (err) {
@@ -102,12 +102,12 @@
               }
           });
         },
-    
+
        queryUser(username = "test"){
         var params = {
             TableName:table,
             KeyConditionExpression: "username = :uname ",
-    
+
             ExpressionAttributeValues:{
               ":uname": username
             }
@@ -118,13 +118,13 @@
               if (err) {
                   jsonString = JSON.stringify(err, null, 2);
                   console.error("Unable to query item. Error JSON:", jsonString);
-                  
+
                   return(0);
               } else {
                   jsonString =  JSON.parse(JSON.stringify(data, null, 2));
-             
+
                   console.log("QueryItem succeeded:", jsonString);
-                  
+
                   return(1);
               }
           });
@@ -134,7 +134,7 @@
            var params = {
                TableName:table,
                KeyConditionExpression: "username = :uname ",
-    
+
                ExpressionAttributeValues:{
                    ":uname": username
                }
@@ -145,7 +145,7 @@
                if (err) {
                    jsonString = JSON.stringify(err, null, 2);
                    console.error("Unable to query item. Error JSON:", jsonString);
-                  
+
                    return(0);
                } else {
                    jsonString =  JSON.parse(JSON.stringify(data, null, 2));
@@ -173,7 +173,7 @@
             ":newEmail": email
           }
         };
-      
+
         console.log("Updating the item...");
         docClient.update(params, function(err, data) {
             if (err) {
