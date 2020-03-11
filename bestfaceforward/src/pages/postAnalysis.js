@@ -20,7 +20,7 @@ function useAsyncHook(name){
       setTranscript(res["data"]["Items"]["0"]["transcripts"])
       setVideoScores(res["data"]["Items"]["0"]["videoscores"])
       setVideos(res["data"]["Items"]["0"]["videos"])
-      setTimestamps(res["data"]["Items"]["0"]["wordtimings"])
+      setTimestamps(JSON.parse(res["data"]["Items"]["0"]["wordtimings"]))
       setQuestions(res["data"]["Items"]["0"]["questions"])
       setHesitations(res["data"]["Items"]["0"]["hesitations"])
       setImg(res["data"]["Items"]["0"]["img"])
@@ -29,6 +29,7 @@ function useAsyncHook(name){
 
     getDBInfo(name)
   }, [name])
+  console.log(timestamps)
   return [transcript,loading,videoScores,videos,timestamps,questions,hesitations, img]
 }
 

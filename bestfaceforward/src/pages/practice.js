@@ -246,7 +246,7 @@ export default class Practice extends Component {
   }
   async storeData(data,timestamps,Qs,hesitations){
     console.log(this.state.finalScores)
-    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "Practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:this.state.timings, img: this.state.img, hesitations: hesitations})
+    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "Practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:JSON.stringify(this.state.timings), img: this.state.img, hesitations: hesitations})
     console.log(response)
     response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "Practice"})
     console.log(response)
