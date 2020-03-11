@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import {Card, Row, Col, Button,Accordion} from 'react-bootstrap';
-import {RadarChart, Radar, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart, Tooltip, Legend} from 'recharts';
+import {RadarChart, Radar, Line, Label, LineChart, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart, Tooltip, Legend} from 'recharts';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
@@ -48,8 +48,6 @@ class Report extends Component {
     this.analyzeText()
 
   }
-
-
 
   //get number of occurances in an array of a specific value
   getOccurrence = (array, value) => {
@@ -536,6 +534,8 @@ class Report extends Component {
     }
   }
 
+
+
   legendFormatter(value) {
 
     return <span style={{ fontSize:20 }}>{value}</span>;
@@ -605,7 +605,35 @@ class Report extends Component {
                     </Card.Text>
                   </Card.Body>
                 </Card>
+                <Card className = "shadow" style={{marginBottom: "10px"}}>
+                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Word Timings</Card.Header>
+                  <Card.Body>
+                    <LineChart
+                      width={500}
+                      height={300}
+                      data={this.props.timestamps}
+                      margin={{
+                        top: 15, right: 20, left: 20, bottom: 5,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis height={50} label="Time" dataKey="time" />
+                      <YAxis >
+                      <Label
+                        value="Word Hesitation"
+                        position="insideLeft"
+                        angle={-90}
+                        style={{ textAnchor: 'middle' }}
+                        />
+                      </YAxis>
+                      <Tooltip />
+                      <Legend />
+                      <Line dataKey="hesitation" stroke="#8884d8" activeDot={{stroke:"#8884d8", r: 8 }} />
+                    </LineChart>
+                  </Card.Body>
+                </Card>
               </Col>
+
               {/* Right Column */}
               <Col sm={6}>
                 <Row>
