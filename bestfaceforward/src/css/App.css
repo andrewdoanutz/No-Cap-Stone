@@ -356,7 +356,7 @@ video {
     font-weight: bold;
 }
 .formText{
-    font: 2em "Ubuntu", sans-serif;
+    font: 2.3em "Ubuntu", sans-serif;
     color: #333;
     text-align: left;
     padding-top: 1%;
@@ -365,7 +365,7 @@ video {
 
 .formButton{
     padding-top:1%;
-
+    font-size: large !important;
 }
 
 .hideMessage {

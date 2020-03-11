@@ -596,7 +596,7 @@ class Report extends Component {
                       <h1 className = "analysisText text-center">
                         Words such as "like" or "um":</h1>
                       <h1>
-                        {this.props.hesitations[0]}
+                        <strong>{this.props.hesitations[0]}</strong>
                       </h1>
                       <br/>
                       <h1 className = "analysisText text-center">

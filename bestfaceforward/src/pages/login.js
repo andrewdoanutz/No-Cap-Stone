@@ -85,7 +85,7 @@ export default class Login extends Component {
 
           <div className={this.state.showError ? 'errorMessage' : 'hideMessage'}>{this.errorMessage}</div>
           <div className="makeAcct">
-            <a href="\makeacct">Make Account</a>
+            <a style = {{fontSize: "large"}} href="\makeacct">Make Account</a>
           </div>
 
         </div>
