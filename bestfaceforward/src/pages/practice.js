@@ -271,14 +271,16 @@ export default class Practice extends Component {
       var timingGraph = []
       for (var i = 1; i < allTimes.length; i++){
         var item = {}
-        item.word = allTimes[i][0]
         item.time = allTimes[i][1]
         if ((allTimes[i][1]-allTimes[i-1][2])<0){
           item.hesitation = 0
         } else {
           item.hesitation = allTimes[i][1]-allTimes[i-1][2]
         }
-        timingGraph.push(item)
+        if (item.hesitation <1.5){
+          timingGraph.push(item)
+        }
+        item.word = allTimes[i][0]
       }
       this.setState({timings: timingGraph})
       console.log(JSON.stringify(this.state.timings))

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import {Card, Row, Col, Button,Accordion} from 'react-bootstrap';
-import {RadarChart, Radar, Line, Label, LineChart, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Area,AreaChart, Tooltip, Legend} from 'recharts';
+import {RadarChart, AreaChart, Area, Bar, BarChart, Radar, Line, Label, LineChart, PolarGrid, PolarRadiusAxis, PolarAngleAxis, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
@@ -259,6 +259,12 @@ class Report extends Component {
     //   res+="You are barely using any filler words. Good job! "
     // }
 
+  }
+
+  sortData(){
+    var times = this.props.timestamps
+    times.sort((a, b) => (a.speed < b.speed) ? 1 : -1)
+    return times
   }
 
   getPosFeedback(){
@@ -605,33 +611,7 @@ class Report extends Component {
                     </Card.Text>
                   </Card.Body>
                 </Card>
-                <Card className = "shadow" style={{marginBottom: "10px"}}>
-                  <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Word Timings</Card.Header>
-                  <Card.Body>
-                    <LineChart
-                      width={500}
-                      height={300}
-                      data={this.props.timestamps}
-                      margin={{
-                        top: 15, right: 20, left: 20, bottom: 5,
-                      }}
-                    >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis height={50} label="Time" dataKey="time" />
-                      <YAxis >
-                      <Label
-                        value="Word Hesitation"
-                        position="insideLeft"
-                        angle={-90}
-                        style={{ textAnchor: 'middle' }}
-                        />
-                      </YAxis>
-                      <Tooltip />
-                      <Legend />
-                      <Line dataKey="hesitation" stroke="#8884d8" activeDot={{stroke:"#8884d8", r: 8 }} />
-                    </LineChart>
-                  </Card.Body>
-                </Card>
+
               </Col>
 
               {/* Right Column */}
@@ -698,6 +678,36 @@ class Report extends Component {
                     </Card.Body>
                   </Card>
                   </Row>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Card className = "shadow" style={{marginBottom: "10px"}}>
+                    <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Word Timings</Card.Header>
+                      <Card.Body>
+                        <BarChart
+                          width={1000}
+                          height={400}
+                          data={this.sortData()}
+                          margin={{
+                            top: 15, right: 20, left: 20, bottom: 5,
+                          }}
+                        >
+                          <XAxis height={50} label="Time" dataKey="time" />
+                          <YAxis >
+                          <Label
+                            value="Word Hesitation"
+                            position="insideLeft"
+                            angle={-90}
+                            style={{ textAnchor: 'middle' }}
+                            />
+                          </YAxis>
+                          <Tooltip />
+                          <Legend />
+                          <Bar dataKey="hesitation" stroke="#8884d8" />
+                        </BarChart>
+                    </Card.Body>
+                  </Card>
                 </Col>
               </Row>
             </Col>
