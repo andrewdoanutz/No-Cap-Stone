@@ -747,7 +747,6 @@ class Report extends Component {
                               <img src={this.props.img} alt = "face"/>
                               <button className = "butt"><FontAwesomeIcon icon={faPlayCircle} size="3x" style={{color: "rgba(0,0,0,0.8)"}}/></button>
                             </div>
-                            {/* <Card.Img src={this.props.img} /> */}
                         </Card.Body>
                       </Card>
                     </Row>: null}
