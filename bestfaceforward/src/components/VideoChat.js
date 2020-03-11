@@ -26,7 +26,7 @@ const VideoChat = (props) => {
         <Row className="centered" style={{marginBottom:"5%"}}>
           <Card className = "shadow centered" style={{width:"30%", borderRadius: "1px", borderColor: "#F74356"}}>
             <Card.Body>
-              <h1>Meeting {props.roomName}</h1>
+              <h1>Interview {props.roomName}</h1>
             </Card.Body>
           </Card>
         </Row>

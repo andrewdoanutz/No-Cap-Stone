@@ -12,7 +12,7 @@ function useAsyncHook(){
         var names = [];
 
         for (const user in res["data"]["Items"]){
-          if (res["data"]["Items"][user]["username"]!="practice"){
+          if (res["data"]["Items"][user]["username"]!="practice" && res["data"]["Items"][user]["username"]!="Practice"){
             var currentUser = {};
             currentUser.name = res["data"]["Items"][user]["username"]
             currentUser.id = res["data"]["Items"][user]["id"]

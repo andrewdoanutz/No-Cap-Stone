@@ -76,12 +76,15 @@ export default class Practice extends Component {
       sorrowScores:[],
       surpriseScores:[],
       finalScores:[],
-      hesCount: 0
+      hesitation: 0,
+      hesitations: [],
+      timings: []
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
     this.getCurrentInterimResult = this.getCurrentInterimResult.bind(this);
     this.getFinalAndLatestInterimResult = this.getFinalAndLatestInterimResult.bind(this);
+    this.updateHesitation = this.updateHesitation.bind(this);
   }
   //speech stuff
   componentDidMount(){
@@ -180,8 +183,8 @@ export default class Practice extends Component {
       smart_formatting: true,
       format: true, // adds capitals, periods, and a few other things (client-side)
       objectMode: true,
-      interim_results: false,
-      word_alternatives_threshold: 0.01,
+      interim_results: true,
+      word_alternatives_threshold: 0.1,
       timestamps: true,
       url: this.state.serviceUrl
     });
@@ -238,12 +241,41 @@ export default class Practice extends Component {
     }
 
   }
-  async storeData(data,timestamps,Qs){
-    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:timestamps})
+  async storeData(data,timestamps,Qs,hesitations){
+    console.log(this.state.finalScores)
+    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "Practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:this.state.timings, hesitations: hesitations})
     console.log(response)
-    response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "practice"})
+    response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "Practice"})
     console.log(response)
   };
+
+  updateHesitation (messages) {
+    var timings
+    var allTimes = []
+    var count = 0
+    if (!(Object.keys(messages).length == 0)){
+      timings = messages.map(msg => msg.results.map(
+        (result) => (result.alternatives[0].timestamps).map(
+          (times) => (times))))
+      for (const elems of timings){
+        for (const j of elems){
+          for (const i of j){
+            allTimes.push(i)
+          }
+        }
+      }
+
+
+      this.setState({timings: allTimes})
+      // console.log(JSON.stringify(this.state.timings))
+      for (var i = 1; i< allTimes.length; i++){
+        if ((allTimes[i][1]-allTimes[i-1][2])>0.8){
+          count++
+        }
+      }
+    }
+    return count
+  }
 
   decodeTranscript(transcript) {
     try {
@@ -280,7 +312,6 @@ export default class Practice extends Component {
       let results = []
       transcript.forEach((result)=>{
         const temp=result.results[0].alternatives[0]['timestamps']
-        console.log(temp)
         if(!temp || temp===[] || temp==='undefined' || temp===""){
           return [1,1]
         } else {
@@ -316,13 +347,20 @@ export default class Practice extends Component {
     Qs.push(questions[this.state.inds[0]])
     Qs.push(questions[this.state.inds[1]])
     Qs.push(questions[this.state.inds[2]])
-    this.storeData(transcriptText,timestamps,Qs).then(()=>{
+
+    let hes = []
+    hes.push(this.state.hesitations[0]+this.state.hesitations[1]+this.state.hesitations[2])
+    hes.push(this.state.hesitations[0])
+    hes.push(this.state.hesitations[1]-this.state.hesitations[0])
+    hes.push(this.state.hesitations[2]-this.state.hesitations[1])
+
+    this.storeData(transcriptText,timestamps,Qs, hes).then(()=>{
       console.log("stored")
       setTimeout(()=>{
         return(
           this.props.history.push({
             pathname: "/postAnalysis",
-            state: { username: "practice", source:"practice" }
+            state: { username: "Practice", source:"practice" }
           })
         )
       },500)
@@ -331,7 +369,6 @@ export default class Practice extends Component {
   }
   //video analysis
   async callBackendAPI(){
-    console.log();
     const response = await fetch('/face/analysis',{method: 'POST',headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -449,7 +486,7 @@ scoreVideoAnalysis(score){
     return 0
   } else if (score==="UNLIKELY"){
     return 1
-  } else if (score=="POSSIBLE"){
+  } else if (score==="POSSIBLE"){
     return 2
   } else if (score==="LIKELY"){
     return 3
@@ -462,7 +499,7 @@ scoreVideoAnalysis(score){
 
 render() {
   const messages = this.getFinalAndLatestInterimResult();
-  console.log(messages)
+  console.log(this.state.hesitations)
   let buttonText="Next Question"
   if(this.state.inds.length===4){
     buttonText="Generate Report"
@@ -482,11 +519,11 @@ render() {
   }
 
   let emoji;
-  if (this.state.status== "neutral"){
+  if (this.state.status=== "neutral"){
     emoji = <h5 style={{ color: "#fdd835" }}> <FontAwesomeIcon icon={faMehBlank} size='4x'/> </h5>
-  } else if (this.state.status == "positive"){
+  } else if (this.state.status === "positive"){
     emoji = <h5 style={{ color: "#00c853" }}> <FontAwesomeIcon icon={faGrinBeam} size='4x' /> </h5>
-  } else if (this.state.status == "negative"){
+  } else if (this.state.status === "negative"){
     emoji = <h5 style={{ color: "#d32f2f" }}> <FontAwesomeIcon icon={faFrown} size='4x' /> </h5>
   }
 
@@ -565,21 +602,24 @@ render() {
                 <Row>
                   <div className="homeBox-practice centered" style = {{width: "78%"}}>
                     <Button variant= "flat" size = "xxl" onClick={()=> {
+
                         if(this.state.recording===false){
                           startRecording()
                           this.onClickListener()
+                          var hesitate = this.updateHesitation(messages)
                           this.setState({
                             recording: true
                           })
                         } else {
                           stopRecording()
                           this.onClickListener()
+                          var hesitate = this.updateHesitation(messages)
                           setTimeout(()=>{
                             this.setState({
                               transcripts:this.state.transcripts.concat([this.getFinalAndLatestInterimResult()]),
                               videos: this.state.videos.concat([mediaBlobUrl]),
                               finalScores: this.state.finalScores.concat([[this.state.joyScores,this.state.sorrowScores,this.state.angerScores,this.state.surpriseScores]]),
-
+                              hesitations: this.state.hesitations.concat([hesitate])
                             }, () => {
                               // console.log(this.state.finalScores)
                               this.setState({
@@ -591,6 +631,7 @@ render() {
                               // console.log(this.state.videos)
                               startRecording()
                               this.onClickListener()
+
                             })
                           },500)
                         }

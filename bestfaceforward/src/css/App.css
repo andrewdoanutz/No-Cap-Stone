@@ -33,19 +33,34 @@ body{
   background-size: cover;
 }
 
+.background-img-2{
+  /* Location of the image */
+  background-image: url(../images/conf.jpg);
+
+  /* Background image is centered vertically and horizontally at all times */
+  background-position: center center;
+
+  /* Background image doesn't tile */
+  background-repeat: no-repeat;
+
+  /* Background image is fixed in the viewport so that it doesn't move when
+     the content's height is greater than the image's height */
+  background-attachment: fixed;
+
+  /* This is what makes the background image rescale based
+     on the container's size */
+  background-size: cover;
+}
+
 .analysisText{
   text-align: left;
-  font-size: large;
+  font-size: 2.7em;
 }
 .accordionButton:hover{
   cursor: pointer;
   color: #08AEEA;
 }
-.analysisButton:hover{
-  cursor: pointer;
-  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
-  color: black !important;
-}
+
 
 /* BUTTONS */
 .blue-button{
@@ -70,6 +85,21 @@ body{
   cursor: pointer;
   background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
   color: black !important;
+}
+.btn-flat-homepage {
+  background-color: #08AEEA !important;
+  color: white !important;
+}
+.btn-flat-homepage:hover{
+  cursor: pointer;
+  background-image: linear-gradient(90deg, #00bcd4 0%, #08AEEA 100%) !important;
+  color: black !important;
+}
+
+.btn-xxl-homepage {
+  padding: 1rem 1.5rem;
+  font-size: x-large !important;
+  font-weight: bold;
 }
 .btn-xxl {
   padding: 1rem 1.5rem !important;
@@ -169,6 +199,7 @@ body{
 
 .left-border {
   border-left: 2px solid #333;
+  border-color: white;
 }
 
 .fill {
@@ -179,6 +210,31 @@ body{
   margin: auto;
   width: 50%;
   text-align: center;
+}
+
+.homepage-card{
+  margin: auto;
+  width: 45%;
+  text-align: center;
+  background-color: rgba(41, 43, 44, 0.5) !important;
+}
+
+.cand-card{
+  margin: auto;
+  width: 80%;
+  text-align: center;
+  background-color: rgba(41, 43, 44, 0.5) !important;
+}
+
+.cand-card-2{
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  background-color: rgba(41, 43, 44, 0.5) !important;
+}
+
+.large-text{
+  font-size: xx-large;
 }
 
 .small-vertical-space{
@@ -195,8 +251,6 @@ body{
 }
 
 .vertical-center {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
 }
 
