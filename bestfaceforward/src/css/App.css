@@ -85,6 +85,7 @@ body{
   font-size: 2em;
   border: none;
   cursor: pointer;
+  border-radius: 10%;
 }
 
 .button img{
