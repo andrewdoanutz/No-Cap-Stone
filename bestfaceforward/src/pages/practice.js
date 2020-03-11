@@ -80,6 +80,7 @@ export default class Practice extends Component {
       hesitations: [],
       timings: [],
       qcount: 1,
+      img: null,
     }
     this.handleFormattedMessage = this.handleFormattedMessage.bind(this);
     this.getFinalResults = this.getFinalResults.bind(this);
@@ -245,7 +246,7 @@ export default class Practice extends Component {
   }
   async storeData(data,timestamps,Qs,hesitations){
     console.log(this.state.finalScores)
-    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "Practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:this.state.timings, hesitations: hesitations})
+    let response = axios.post('http://localhost:3001/db/writeUserInfo', {username: "Practice",transcript:data,questions:Qs,videos:this.state.videos,scores:this.state.finalScores,timestamps:this.state.timings, img: this.state.img, hesitations: hesitations})
     console.log(response)
     response = await axios.post('http://localhost:3001/db/readUserInfo', {username: "Practice"})
     console.log(response)
@@ -430,12 +431,16 @@ takePicture(){
         if (err) {
           throw err;
         }
-        // console.log(`File uploaded successfully. ${data.Location}`);
+        console.log(`File uploaded successfully. ${data.Location}`);
+
+
       });
 
 
     }
     prevTime = time;
+    this.setState({img: "https://nocapstone.s3.us-east-2.amazonaws.com/"+prevTime+".jpg"})
+    console.log(this.state.img)
     this.img.src = URL.createObjectURL(blob);
     this.img.onload = () => { URL.revokeObjectURL(this.src); }
   }).then(setTimeout(() => {

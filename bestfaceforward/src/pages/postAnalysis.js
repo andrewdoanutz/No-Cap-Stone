@@ -12,6 +12,7 @@ function useAsyncHook(name){
   const [timestamps,setTimestamps]=useState([])
   const [questions,setQuestions]=useState([])
   const [hesitations,setHesitations]=useState([])
+  const [img, setImg] = useState(null)
   useEffect(() => {
     async function getDBInfo(){
       const res = await axios.post('http://localhost:3001/db/readUserInfo', {username: name})
@@ -22,12 +23,13 @@ function useAsyncHook(name){
       setTimestamps(res["data"]["Items"]["0"]["wordtimings"])
       setQuestions(res["data"]["Items"]["0"]["questions"])
       setHesitations(res["data"]["Items"]["0"]["hesitations"])
+      setImg(res["data"]["Items"]["0"]["img"])
       setLoading(false)
     }
 
     getDBInfo(name)
   }, [name])
-  return [transcript,loading,videoScores,videos,timestamps,questions,hesitations]
+  return [transcript,loading,videoScores,videos,timestamps,questions,hesitations, img]
 }
 
 function combineScores(scores){
@@ -54,7 +56,7 @@ function combineScores(scores){
 }
 const postAnalysis = (props) => {
   console.log(props)
-  let [transcript,loading,videoScores,videos,timestamps,questions,hesitations]=useAsyncHook(props.location.state.username)
+  let [transcript,loading,videoScores,videos,timestamps,questions,hesitations,img]=useAsyncHook(props.location.state.username)
   if(questions.length===0){
     let temp=[]
     transcript.map((val, index)=>{
@@ -125,7 +127,7 @@ const postAnalysis = (props) => {
                         </Card.Header>
                         <Accordion.Collapse eventKey={-1}>
                           <Card.Body>
-                            <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} timestamps={timestamps} username={props.location.state.username} hesitations={hesitations}/>
+                            <Report overall={true} responses={overallTranscript} videoScore={overallVideoScores} timestamps={timestamps} username={props.location.state.username} hesitations={hesitations} img={img}/>
                           </Card.Body>
                         </Accordion.Collapse>
                       </Card>
@@ -139,7 +141,7 @@ const postAnalysis = (props) => {
                             </Card.Header>
                             <Accordion.Collapse eventKey={index}>
                               <Card.Body>
-                                <Report source={props.location.state.source} responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={props.location.state.username} index = {index} hesitations={hesitations}/>
+                                <Report source={props.location.state.source} responses={text} videoURL={videos[index]} videoScore={videoScores[index]} username={props.location.state.username} index = {index} hesitations={hesitations} img={img}/>
                               </Card.Body>
                             </Accordion.Collapse>
                           </Card>

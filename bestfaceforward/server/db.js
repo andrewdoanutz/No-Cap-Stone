@@ -217,14 +217,14 @@ module.exports = {
 
 
 
-      writeUserEntry(username,transcript,questions,videos,scores,timestamps, hesitations){
+      writeUserEntry(username,transcript,questions,videos,scores,timestamps, hesitations, img){
         var params = {
           TableName:table,
           Key:{
             "username": username,
           },
           KeyConditionExpression: "username = :uname ",
-          UpdateExpression: "set info = :uname, videos = :videos, questions = :questions, transcripts = :transcripts, videoscores = :videoscores, wordtimings = :wordtimings, hesitations = :hesitations",
+          UpdateExpression: "set info = :uname, videos = :videos, questions = :questions, transcripts = :transcripts, videoscores = :videoscores, wordtimings = :wordtimings, hesitations = :hesitations, img = :img",
 
           ExpressionAttributeValues:{
               ":uname": username,
@@ -233,7 +233,8 @@ module.exports = {
               ":transcripts": transcript,
               ":videoscores": scores,
               ":wordtimings": timestamps,
-              ":hesitations": hesitations
+              ":hesitations": hesitations,
+              ":img": img
             }
           };
 

@@ -11,6 +11,7 @@ class Report extends Component {
       txt: this.props.responses,
       videoURL:this.props.videoURL,
       videoScore:this.props.videoScore,
+      img: this.props.img,
       analysis: [
                   {
                     tone_name: 'Anger', score: 0
@@ -740,9 +741,7 @@ class Report extends Component {
                       <Card className = "shadow" style={{marginBottom: "10px"}}>
                         <Card.Header as="h3" style={{backgroundColor:"#08AEEA", color:"white"}}>Video Response</Card.Header>
                         <Card.Body>
-                          <Card.Text>
-                            <iframe width="600px" height="300px" src={this.state.videoURL}/>
-                          </Card.Text>
+                            <Card.Img src={this.props.img} />
                         </Card.Body>
                       </Card>
                     </Row>: null}

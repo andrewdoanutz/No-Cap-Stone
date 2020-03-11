@@ -178,7 +178,8 @@ app.post('/db/writeUserInfo', (req,res) =>{
   const scores = req.body.scores;
   const timestamps = req.body.timestamps
   const hesitations = req.body.hesitations
-  database.writeUserEntry(username,transcript,questions,videos,scores,timestamps,hesitations)
+  const img = req.body.img
+  database.writeUserEntry(username,transcript,questions,videos,scores,timestamps,hesitations, img)
 })
 
 app.get('/db/writeUserInfo', (req,res) =>{
