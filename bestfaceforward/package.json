@@ -24,7 +24,7 @@
     "google-auth-library": "^5.5.0",
     "google-translate": "^2.3.0",
     "ibm-watson": "^5.3.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "mdbreact": "^4.25.0",
     "moment": "^2.24.0",
     "node-webcam": "^0.5.0",
